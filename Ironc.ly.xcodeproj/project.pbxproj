@@ -10,6 +10,13 @@
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
+		37BA70321E36E9870093EAE5 /* IROTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA70311E36E9870093EAE5 /* IROTabBarController.swift */; };
+		37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA70331E36F2AE0093EAE5 /* IROFeedViewController.swift */; };
+		37BA70371E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA70361E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift */; };
+		37BA70391E36F60F0093EAE5 /* IROCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA70381E36F60F0093EAE5 /* IROCameraViewController.swift */; };
+		37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */; };
+		37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */; };
+		37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +25,13 @@
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37BA70251E36E6070093EAE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37BA70271E36E6070093EAE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37BA70311E36E9870093EAE5 /* IROTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTabBarController.swift; path = Controllers/IROTabBarController.swift; sourceTree = "<group>"; };
+		37BA70331E36F2AE0093EAE5 /* IROFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedViewController.swift; path = Controllers/IROFeedViewController.swift; sourceTree = "<group>"; };
+		37BA70361E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedCollectionViewCell.swift; path = Cells/IROFeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		37BA70381E36F60F0093EAE5 /* IROCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCameraViewController.swift; path = Controllers/IROCameraViewController.swift; sourceTree = "<group>"; };
+		37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMessagesViewController.swift; path = Controllers/IROMessagesViewController.swift; sourceTree = "<group>"; };
+		37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = Controllers/IROProfileViewController.swift; sourceTree = "<group>"; };
+		37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = Controllers/IROPlaceholderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +64,8 @@
 		37BA701A1E36E6070093EAE5 /* Ironc.ly */ = {
 			isa = PBXGroup;
 			children = (
+				37BA70351E36F3AF0093EAE5 /* Cells */,
+				37BA702E1E36E8EF0093EAE5 /* Controllers */,
 				37BA702D1E36E86A0093EAE5 /* Supporting Files */,
 			);
 			path = Ironc.ly;
@@ -64,6 +80,27 @@
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37BA702E1E36E8EF0093EAE5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				37BA70381E36F60F0093EAE5 /* IROCameraViewController.swift */,
+				37BA70331E36F2AE0093EAE5 /* IROFeedViewController.swift */,
+				37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */,
+				37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */,
+				37BA70311E36E9870093EAE5 /* IROTabBarController.swift */,
+				37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		37BA70351E36F3AF0093EAE5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				37BA70361E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +175,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37BA70321E36E9870093EAE5 /* IROTabBarController.swift in Sources */,
+				37BA70391E36F60F0093EAE5 /* IROCameraViewController.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
+				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
+				37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */,
+				37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */,
+				37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */,
+				37BA70371E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
