@@ -17,8 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let tabBarController: IROTabBarController = IROTabBarController()
+        let navigationController: UINavigationController = UINavigationController(rootViewController: tabBarController)
+        navigationController.navigationBar.isTranslucent = false
         
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
         return true

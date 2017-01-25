@@ -9,6 +9,9 @@
 import UIKit
 
 class IROFeedViewController: UIViewController {
+    
+    // MARK: - Properties
+    var columns: Int = 1
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -17,6 +20,8 @@ class IROFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(self.feedCollectionView)
         
+        self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Switch", style: .plain, target: self, action: #selector(self.changeLayout))
+        
         self.setUpConstraints()
     }
 
@@ -24,7 +29,7 @@ class IROFeedViewController: UIViewController {
     lazy var feedCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.red
+        collectionView.backgroundColor = UIColor.white
         collectionView.register(IROFeedCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -39,6 +44,15 @@ class IROFeedViewController: UIViewController {
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    }
+    
+    func changeLayout() {
+        if self.columns == 1 {
+            self.columns = 2
+        } else {
+            self.columns = 1
+        }
+        self.feedCollectionView.reloadData()
     }
     
 }
@@ -59,7 +73,7 @@ extension IROFeedViewController: UICollectionViewDataSource {
 extension IROFeedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size: CGFloat = collectionView.bounds.width
+        let size: CGFloat = collectionView.bounds.width / CGFloat(self.columns)
         return CGSize(width: size, height: size)
     }
     
