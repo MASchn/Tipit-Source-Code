@@ -22,18 +22,23 @@ class IROTabBarController: UITabBarController {
         
         let homeViewController: IROFeedViewController = IROFeedViewController()
         homeViewController.tabBarItem = UITabBarItem(title: nil, image: homeImage, selectedImage: nil)
+        homeViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         
         let searchViewController: IROSearchViewController = IROSearchViewController()
         searchViewController.tabBarItem = UITabBarItem(title: nil, image: searchImage, selectedImage: nil)
+        searchViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
 
         let cameraViewController: IROCameraViewController = IROCameraViewController()
         cameraViewController.tabBarItem = UITabBarItem(title: nil, image: nil, selectedImage: nil)
+        cameraViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
 
         let messagesViewController: IROMessagesViewController = IROMessagesViewController()
         messagesViewController.tabBarItem = UITabBarItem(title: nil, image: messageImage, selectedImage: nil)
+        messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         
-        let profileViewController: IROMessagesViewController = IROMessagesViewController()
+        let profileViewController: IROProfileViewController = IROProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: profileImage, selectedImage: nil)
+        profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         
         self.viewControllers = [homeViewController, searchViewController, cameraViewController, messagesViewController, profileViewController]
         

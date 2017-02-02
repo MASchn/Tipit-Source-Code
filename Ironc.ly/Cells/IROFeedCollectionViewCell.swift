@@ -15,6 +15,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
                 
         self.contentView.addSubview(self.postImageView)
+        self.contentView.addSubview(self.userNameLabel)
         self.contentView.addSubview(self.userImageView)
         
         self.setUpConstraints()
@@ -37,7 +38,24 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         self.postImageView.image = nil
     }
     
+    // MARK: - Layout
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.gradient.frame = self.postImageView.frame
+        self.postImageView.layer.insertSublayer(self.gradient, at: 0)
+    }
+    
     // MARK: - Lazy Initialization
+    lazy var userNameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = UIColor.white
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
+        label.text = "Sample User"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var userImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = UIColor.green
@@ -53,6 +71,14 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var gradient: CAGradientLayer = {
+        let layer: CAGradientLayer = CAGradientLayer()
+        let black: UIColor = UIColor(white: 0.0, alpha: 0.5)
+        layer.colors = [black.cgColor, UIColor.clear.cgColor]
+        layer.locations = [0.0, 0.2]
+        return layer
     }()
     
     lazy var favoriteImageView: UIImageView = {
@@ -86,7 +112,12 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
-        self.userImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15.0).isActive = true
+        self.userNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 18.0).isActive = true
+        self.userNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
+        self.userNameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        self.userNameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
+        
+        self.userImageView.topAnchor.constraint(equalTo: self.userNameLabel.bottomAnchor, constant: 12.0).isActive = true
         self.userImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
         self.userImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.userImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true

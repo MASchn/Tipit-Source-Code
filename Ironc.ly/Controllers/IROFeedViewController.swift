@@ -33,7 +33,11 @@ class IROFeedViewController: UIViewController {
         let post2: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 1)
         let post3: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 2)
         let post4: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 3)
-        self.posts = [post1, post2, post3, post4]
+        let post5: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 4)
+        let post6: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 5)
+        let post7: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 6)
+        let post8: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 7)
+        self.posts = [post1, post2, post3, post4, post5, post6, post7, post8]
         
         self.tabBarController!.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: #selector(self.changeLayout))
         self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
