@@ -15,6 +15,10 @@ class IROFeedViewController: UIViewController {
     
     // TODO: The data source should be "stories" not "posts"
     var posts: [IROPost] = []
+    
+    let notificationImage: UIImage = UIImage(cgImage: UIImage(named: "notification")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
+    let gridImage = UIImage(cgImage: UIImage(named: "grid")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
+    let listImage = UIImage(cgImage: UIImage(named: "list")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -31,7 +35,8 @@ class IROFeedViewController: UIViewController {
         let post4: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 3)
         self.posts = [post1, post2, post3, post4]
         
-        self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Switch", style: .plain, target: self, action: #selector(self.changeLayout))
+        self.tabBarController!.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: #selector(self.changeLayout))
+        self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
         
         self.setUpConstraints()
     }
@@ -51,10 +56,8 @@ class IROFeedViewController: UIViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        let margins: UILayoutGuide = self.view.layoutMarginsGuide
-        
-        self.feedCollectionView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        self.feedCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
@@ -62,8 +65,10 @@ class IROFeedViewController: UIViewController {
     func changeLayout() {
         if self.columns == 1 {
             self.columns = 2
+            self.tabBarController!.navigationItem.rightBarButtonItem?.image = self.listImage
         } else {
             self.columns = 1
+            self.tabBarController!.navigationItem.rightBarButtonItem?.image = self.gridImage
         }
         self.feedCollectionView.reloadData()
     }

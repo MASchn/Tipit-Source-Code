@@ -29,6 +29,11 @@ class IROStoryViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.dismissStory))
+        swipeDown.direction = .down
+        swipeDown.delegate = self
+        self.view.addGestureRecognizer(swipeDown)
+        
         self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(self.pageControl)
@@ -58,4 +63,12 @@ class IROStoryViewController: UIPageViewController {
         self.pageControl.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
     }
     
+    // MARK: - Actions
+    func dismissStory() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension IROStoryViewController: UIGestureRecognizerDelegate {
 }

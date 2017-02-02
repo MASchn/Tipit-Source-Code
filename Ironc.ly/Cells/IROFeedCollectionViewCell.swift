@@ -32,6 +32,11 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         self.postImageView.image = post.contentImage
     }
     
+    override func prepareForReuse() {
+        self.userImageView.image = nil
+        self.postImageView.image = nil
+    }
+    
     // MARK: - Lazy Initialization
     lazy var userImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
