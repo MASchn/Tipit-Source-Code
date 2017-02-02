@@ -108,6 +108,7 @@ extension IROFeedViewController: UICollectionViewDelegate {
         // Page view controller
         let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
         storyViewController.dataSource = self
+        storyViewController.delegate = self
         
         self.present(storyViewController, animated: true, completion: nil)
     }
@@ -153,5 +154,16 @@ extension IROFeedViewController: UIPageViewControllerDataSource {
 }
 
 extension IROFeedViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        let firstPendingViewController: IROPostViewController = pendingViewControllers.first! as! IROPostViewController
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        storyViewController.currentIndex = firstPendingViewController.post.index
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        storyViewController.pageControl.currentPage = storyViewController.currentIndex
+    }
     
 }
