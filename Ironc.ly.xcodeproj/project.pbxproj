@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370E36661E43B22900F8FF9E /* IROPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* IROPost.swift */; };
+		370E36681E43B24500F8FF9E /* IROUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* IROUser.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
+		370E36671E43B24400F8FF9E /* IROUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUser.swift; path = Models/IROUser.swift; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		370E36641E43B21100F8FF9E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				370E36651E43B22900F8FF9E /* IROPost.swift */,
+				370E36671E43B24400F8FF9E /* IROUser.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		37BA700F1E36E6070093EAE5 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +79,7 @@
 		37BA701A1E36E6070093EAE5 /* Ironc.ly */ = {
 			isa = PBXGroup;
 			children = (
+				370E36641E43B21100F8FF9E /* Models */,
 				37BA70351E36F3AF0093EAE5 /* Cells */,
 				37BA702E1E36E8EF0093EAE5 /* Controllers */,
 				37BA702D1E36E86A0093EAE5 /* Supporting Files */,
@@ -180,6 +194,7 @@
 			files = (
 				37BA70321E36E9870093EAE5 /* IROTabBarController.swift in Sources */,
 				37BA70391E36F60F0093EAE5 /* IROCameraViewController.swift in Sources */,
+				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
 				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
@@ -187,6 +202,7 @@
 				37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */,
 				37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */,
 				37BA70371E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift in Sources */,
+				370E36681E43B24500F8FF9E /* IROUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

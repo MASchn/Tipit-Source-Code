@@ -31,10 +31,16 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
+    func configure(with post: IROPost) {
+        self.userImageView.image = post.user.profileImage
+        self.postImageView.image = post.contentImage
+    }
+    
     // MARK: - Lazy Initialization
     lazy var userImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = UIColor.green
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -42,7 +48,8 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     
     lazy var postImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = UIColor.blue
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -74,6 +81,11 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     // MARK: - Autolayout
     func setUpConstraints() {
         let margins: UILayoutGuide = self.contentView.layoutMarginsGuide
+        
+        self.postImageView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        self.postImageView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        self.postImageView.leftAnchor.constraint(equalTo: margins.leftAnchor).isActive = true
+        self.postImageView.rightAnchor.constraint(equalTo: margins.rightAnchor).isActive = true
         
         self.userImageView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 15.0).isActive = true
         self.userImageView.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 15.0).isActive = true

@@ -12,6 +12,7 @@ class IROFeedViewController: UIViewController {
     
     // MARK: - Properties
     var columns: Int = 1
+    var posts: [IROPost] = []
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -19,6 +20,12 @@ class IROFeedViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(self.feedCollectionView)
+        
+        // Fake data
+        let user1: IROUser = IROUser(profileImage: nil, name: "Rich McAteer")
+        let post1: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!)
+        let post2: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!)
+        self.posts = [post1, post2, post1, post2]
         
         self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Switch", style: .plain, target: self, action: #selector(self.changeLayout))
         
@@ -60,11 +67,13 @@ class IROFeedViewController: UIViewController {
 extension IROFeedViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return self.posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROFeedCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! IROFeedCollectionViewCell
+        let post: IROPost = self.posts[indexPath.item]
+        cell.configure(with: post)
         return cell
     }
     
