@@ -29,6 +29,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with post: IROPost) {
+        self.userNameLabel.text = post.user.name
         self.userImageView.image = post.user.profileImage
         self.postImageView.image = post.contentImage
     }
@@ -51,14 +52,12 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         let label: UILabel = UILabel()
         label.textColor = UIColor.white
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
-        label.text = "Sample User"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var userImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = UIColor.green
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false

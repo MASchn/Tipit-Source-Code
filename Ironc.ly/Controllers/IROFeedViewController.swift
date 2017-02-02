@@ -28,15 +28,16 @@ class IROFeedViewController: UIViewController {
         self.view.addSubview(self.feedCollectionView)
         
         // Fake data
-        let user1: IROUser = IROUser(profileImage: nil, name: "Rich McAteer")
+        let user1: IROUser = IROUser(profileImage: UIImage(named: "user1"), name: "Hanna Julie Marie")
+        let user2: IROUser = IROUser(profileImage: UIImage(named: "user2"), name: "Silvia Marie Ann")
         let post1: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 0)
-        let post2: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 1)
+        let post2: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 1)
         let post3: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 2)
-        let post4: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 3)
+        let post4: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 3)
         let post5: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 4)
-        let post6: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 5)
+        let post6: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 5)
         let post7: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 6)
-        let post8: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_2")!, index: 7)
+        let post8: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 7)
         self.posts = [post1, post2, post3, post4, post5, post6, post7, post8]
         
         self.tabBarController!.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: #selector(self.changeLayout))
