@@ -19,7 +19,7 @@ class IROFeedViewController: UIViewController {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(self.feedCollectionView)
         
@@ -51,8 +51,10 @@ class IROFeedViewController: UIViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        let margins: UILayoutGuide = self.view.layoutMarginsGuide
+        
+        self.feedCollectionView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        self.feedCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }

@@ -13,6 +13,8 @@ class IROTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBar.isTranslucent = false
+        
         let feedViewController: IROFeedViewController = IROFeedViewController()
         feedViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "icon_search"), selectedImage: nil)
         

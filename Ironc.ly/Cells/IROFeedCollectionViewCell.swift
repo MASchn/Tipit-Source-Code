@@ -13,11 +13,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.contentView.layer.borderColor = UIColor.white.cgColor
-        self.contentView.layer.borderWidth = 5.0
-        self.contentView.backgroundColor = UIColor.blue
-        
+                
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.userImageView)
         
@@ -80,15 +76,13 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        let margins: UILayoutGuide = self.contentView.layoutMarginsGuide
+        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
-        self.postImageView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        self.postImageView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
-        self.postImageView.leftAnchor.constraint(equalTo: margins.leftAnchor).isActive = true
-        self.postImageView.rightAnchor.constraint(equalTo: margins.rightAnchor).isActive = true
-        
-        self.userImageView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 15.0).isActive = true
-        self.userImageView.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 15.0).isActive = true
+        self.userImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15.0).isActive = true
+        self.userImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
         self.userImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.userImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
