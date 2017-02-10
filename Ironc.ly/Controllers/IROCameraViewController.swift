@@ -19,7 +19,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         cameraButton.isEnabled = false
         recordButton.isEnabled = false
         photoButton.isEnabled = false
-        livePhotoModeButton.isEnabled = false
         
         // Set up the video preview view.
         previewView.session = session
@@ -371,7 +370,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         cameraButton.isEnabled = false
         recordButton.isEnabled = false
         photoButton.isEnabled = false
-        livePhotoModeButton.isEnabled = false
         
         sessionQueue.async { [unowned self] in
             let currentVideoDevice = self.videoDeviceInput.device
@@ -447,7 +445,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                 self.cameraButton.isEnabled = true
                 self.recordButton.isEnabled = self.movieFileOutput != nil
                 self.photoButton.isEnabled = true
-                self.livePhotoModeButton.isEnabled = true
             }
         }
     }
@@ -536,27 +533,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                  number of in progress Live Photo captures to ensure that the
                  Live Photo label stays visible during these captures.
                  */
-                self.sessionQueue.async { [unowned self] in
-                    if capturing {
-                        self.inProgressLivePhotoCapturesCount += 1
-                    }
-                    else {
-                        self.inProgressLivePhotoCapturesCount -= 1
-                    }
-                    
-                    let inProgressLivePhotoCapturesCount = self.inProgressLivePhotoCapturesCount
-                    DispatchQueue.main.async { [unowned self] in
-                        if inProgressLivePhotoCapturesCount > 0 {
-                            self.capturingLivePhotoLabel.isHidden = false
-                        }
-                        else if inProgressLivePhotoCapturesCount == 0 {
-                            self.capturingLivePhotoLabel.isHidden = true
-                        }
-                        else {
-                            print("Error: In progress live photo capture count is less than 0");
-                        }
-                    }
-                }
             }, completed: { [unowned self] photoCaptureDelegate in
                 // When the capture is complete, remove a reference to the photo capture delegate so it can be deallocated.
                 self.sessionQueue.async { [unowned self] in
@@ -582,27 +558,24 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     private var livePhotoMode: LivePhotoMode = .off
     
-    @IBOutlet private weak var livePhotoModeButton: UIButton!
-    
-    @IBAction private func toggleLivePhotoMode(_ livePhotoModeButton: UIButton) {
-        sessionQueue.async { [unowned self] in
-            self.livePhotoMode = (self.livePhotoMode == .on) ? .off : .on
-            let livePhotoMode = self.livePhotoMode
-            
-            DispatchQueue.main.async { [unowned self] in
-                if livePhotoMode == .on {
-                    self.livePhotoModeButton.setTitle(NSLocalizedString("Live Photo Mode: On", comment: "Live photo mode button on title"), for: [])
-                }
-                else {
-                    self.livePhotoModeButton.setTitle(NSLocalizedString("Live Photo Mode: Off", comment: "Live photo mode button off title"), for: [])
-                }
-            }
-        }
-    }
+    // TODO: Remove
+//    @IBAction private func toggleLivePhotoMode(_ livePhotoModeButton: UIButton) {
+//        sessionQueue.async { [unowned self] in
+//            self.livePhotoMode = (self.livePhotoMode == .on) ? .off : .on
+//            let livePhotoMode = self.livePhotoMode
+//            
+//            DispatchQueue.main.async { [unowned self] in
+//                if livePhotoMode == .on {
+//                    self.livePhotoModeButton.setTitle(NSLocalizedString("Live Photo Mode: On", comment: "Live photo mode button on title"), for: [])
+//                }
+//                else {
+//                    self.livePhotoModeButton.setTitle(NSLocalizedString("Live Photo Mode: Off", comment: "Live photo mode button off title"), for: [])
+//                }
+//            }
+//        }
+//    }
     
     private var inProgressLivePhotoCapturesCount = 0
-    
-    @IBOutlet var capturingLivePhotoLabel: UILabel!
     
     // MARK: Recording Movies
     
@@ -785,8 +758,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                 self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.uniqueDevicePositionsCount() > 1
                 self.recordButton.isEnabled = isSessionRunning && self.movieFileOutput != nil
                 self.photoButton.isEnabled = isSessionRunning
-                self.livePhotoModeButton.isEnabled = isSessionRunning && isLivePhotoCaptureEnabled
-                self.livePhotoModeButton.isHidden = !(isSessionRunning && isLivePhotoCaptureSupported)
             }
         }
         else {
