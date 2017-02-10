@@ -31,7 +31,6 @@ class IROStoryViewController: UIPageViewController {
         
         let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.dismissStory))
         swipeDown.direction = .down
-        swipeDown.delegate = self
         self.view.addGestureRecognizer(swipeDown)
         
         self.view.backgroundColor = UIColor.white
@@ -68,7 +67,4 @@ class IROStoryViewController: UIPageViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-}
-
-extension IROStoryViewController: UIGestureRecognizerDelegate {
 }

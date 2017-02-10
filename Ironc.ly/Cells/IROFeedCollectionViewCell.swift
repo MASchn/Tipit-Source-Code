@@ -43,7 +43,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.gradient.frame = self.postImageView.frame
+        self.gradient.frame = self.bounds
         self.postImageView.layer.insertSublayer(self.gradient, at: 0)
     }
     

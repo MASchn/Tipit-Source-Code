@@ -40,7 +40,7 @@ class IROFeedViewController: UIViewController {
         let post8: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 7)
         self.posts = [post1, post2, post3, post4, post5, post6, post7, post8]
         
-        self.tabBarController!.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: #selector(self.changeLayout))
+        self.tabBarController!.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
         self.tabBarController!.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
         
         self.setUpConstraints()

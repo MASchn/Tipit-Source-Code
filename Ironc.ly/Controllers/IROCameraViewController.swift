@@ -200,7 +200,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         button.layer.borderColor = UIColor(red: 170 / 255.0, green: 229 / 255.0, blue: 0, alpha: 1).cgColor
         button.layer.borderWidth = 5.0
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(self.toggleMovieRecording), for: .touchDown)
+//        button.addTarget(self, action: #selector(self.toggleMovieRecording), for: .touchDown)
         button.addTarget(self, action: #selector(self.capturePhoto), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
