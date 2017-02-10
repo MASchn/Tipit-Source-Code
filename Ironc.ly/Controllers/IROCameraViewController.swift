@@ -8,13 +8,15 @@
 
 import UIKit
 
-class IROCameraViewController: IROPlaceholderViewController {
+class IROCameraViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.purple
-        // Do any additional setup after loading the view.
+        
+        let vc: UIViewController = UIViewController()
+        vc.view.backgroundColor = UIColor.green
+        
+        self.navigationController?.present(vc, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
