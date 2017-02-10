@@ -13,7 +13,9 @@
 		370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */; };
 		370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
-		373238831E4A877000E787C9 /* IROCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373238821E4A877000E787C9 /* IROCaptureViewController.swift */; };
+		373238DE1E4E29A300E787C9 /* IROPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373238DD1E4E29A300E787C9 /* IROPreviewView.swift */; };
+		373238E21E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373238E11E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift */; };
+		373238E41E4E2E2700E787C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373238E31E4E2E2700E787C9 /* Main.storyboard */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -33,7 +35,9 @@
 		370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStoryViewController.swift; path = Controllers/IROStoryViewController.swift; sourceTree = "<group>"; };
 		370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPostViewController.swift; path = Controllers/IROPostViewController.swift; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
-		373238821E4A877000E787C9 /* IROCaptureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCaptureViewController.swift; path = Controllers/IROCaptureViewController.swift; sourceTree = "<group>"; };
+		373238DD1E4E29A300E787C9 /* IROPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPreviewView.swift; path = Views/IROPreviewView.swift; sourceTree = "<group>"; };
+		373238E11E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPhotoCaptureDelegate.swift; path = Protocols/IROPhotoCaptureDelegate.swift; sourceTree = "<group>"; };
+		373238E31E4E2E2700E787C9 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -69,6 +73,22 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		373238DF1E4E29A800E787C9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				373238DD1E4E29A300E787C9 /* IROPreviewView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		373238E01E4E2A1200E787C9 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				373238E11E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		37BA700F1E36E6070093EAE5 = {
 			isa = PBXGroup;
 			children = (
@@ -88,10 +108,12 @@
 		37BA701A1E36E6070093EAE5 /* Ironc.ly */ = {
 			isa = PBXGroup;
 			children = (
-				370E36641E43B21100F8FF9E /* Models */,
+				373238E01E4E2A1200E787C9 /* Protocols */,
 				37BA70351E36F3AF0093EAE5 /* Cells */,
 				37BA702E1E36E8EF0093EAE5 /* Controllers */,
+				370E36641E43B21100F8FF9E /* Models */,
 				37BA702D1E36E86A0093EAE5 /* Supporting Files */,
+				373238DF1E4E29A800E787C9 /* Views */,
 			);
 			path = Ironc.ly;
 			sourceTree = "<group>";
@@ -102,6 +124,7 @@
 				37BA701B1E36E6070093EAE5 /* AppDelegate.swift */,
 				37BA70221E36E6070093EAE5 /* Assets.xcassets */,
 				37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */,
+				373238E31E4E2E2700E787C9 /* Main.storyboard */,
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -111,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				37BA70381E36F60F0093EAE5 /* IROCameraViewController.swift */,
-				373238821E4A877000E787C9 /* IROCaptureViewController.swift */,
 				37BA70331E36F2AE0093EAE5 /* IROFeedViewController.swift */,
 				37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */,
 				37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */,
@@ -192,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				373238E41E4E2E2700E787C9 /* Main.storyboard in Resources */,
 				37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */,
 				37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */,
 			);
@@ -210,10 +233,11 @@
 				370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */,
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
 				370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */,
+				373238DE1E4E29A300E787C9 /* IROPreviewView.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
 				370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */,
 				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
-				373238831E4A877000E787C9 /* IROCaptureViewController.swift in Sources */,
+				373238E21E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift in Sources */,
 				37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */,
 				37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */,
 				37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */,
@@ -335,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.premiumsnap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -349,7 +373,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.premiumsnap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
