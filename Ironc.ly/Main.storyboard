@@ -98,16 +98,6 @@
                                     <action selector="changeCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3W0-h3-6fc"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FAC-co-10c">
-                                <rect key="frame" x="136" y="569" width="103" height="29"/>
-                                <segments>
-                                    <segment title="Photo"/>
-                                    <segment title="Movie"/>
-                                </segments>
-                                <connections>
-                                    <action selector="toggleCaptureMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="SKd-67-ZHh"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eI6-gV-W7d">
                                 <rect key="frame" x="87.5" y="8" width="200" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
@@ -150,10 +140,8 @@
                             <constraint firstItem="3eR-Rn-XpZ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Ice-47-M9N"/>
                             <constraint firstItem="uCj-6P-mHF" firstAttribute="top" secondItem="rUJ-G6-RPv" secondAttribute="top" id="NFm-e8-abT"/>
                             <constraint firstItem="FZr-Ip-7WL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OaZ-uO-vXY"/>
-                            <constraint firstItem="FAC-co-10c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Oow-A6-mDp"/>
                             <constraint firstItem="Pii-2r-R2l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Upd-h8-1dL"/>
                             <constraint firstItem="uCj-6P-mHF" firstAttribute="height" secondItem="rUJ-G6-RPv" secondAttribute="height" id="aQi-F7-E2b"/>
-                            <constraint firstItem="uCj-6P-mHF" firstAttribute="top" secondItem="FAC-co-10c" secondAttribute="bottom" constant="20" id="aSR-Je-0lW"/>
                             <constraint firstItem="uCj-6P-mHF" firstAttribute="top" secondItem="eRT-dK-6dM" secondAttribute="top" id="bQd-ro-0Hw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uCj-6P-mHF" secondAttribute="bottom" constant="20" id="eWs-co-Aaz"/>
                             <constraint firstItem="3eR-Rn-XpZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="igk-MQ-CGt"/>
@@ -172,7 +160,6 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="cameraButton" destination="rUJ-G6-RPv" id="nyn-2W-Mff"/>
-                        <outlet property="captureModeControl" destination="FAC-co-10c" id="KXj-wg-BvS"/>
                         <outlet property="capturingLivePhotoLabel" destination="Pii-2r-R2l" id="JAa-4l-5SD"/>
                         <outlet property="livePhotoModeButton" destination="eI6-gV-W7d" id="r9f-cN-YSH"/>
                         <outlet property="photoButton" destination="uCj-6P-mHF" id="Ha8-ua-hxy"/>

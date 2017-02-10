@@ -20,7 +20,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         recordButton.isEnabled = false
         photoButton.isEnabled = false
         livePhotoModeButton.isEnabled = false
-        captureModeControl.isEnabled = false
         
         // Set up the video preview view.
         previewView.session = session
@@ -306,62 +305,61 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         case movie = 1
     }
     
-    @IBOutlet private weak var captureModeControl: UISegmentedControl!
-    
-    @IBAction private func toggleCaptureMode(_ captureModeControl: UISegmentedControl) {
-        if captureModeControl.selectedSegmentIndex == CaptureMode.photo.rawValue {
-            recordButton.isEnabled = false
-            
-            sessionQueue.async { [unowned self] in
-                /*
-                 Remove the AVCaptureMovieFileOutput from the session because movie recording is
-                 not supported with AVCaptureSessionPresetPhoto. Additionally, Live Photo
-                 capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
-                 */
-                self.session.beginConfiguration()
-                self.session.removeOutput(self.movieFileOutput)
-                self.session.sessionPreset = AVCaptureSessionPresetPhoto
-                self.session.commitConfiguration()
-                
-                self.movieFileOutput = nil
-                
-                if self.photoOutput.isLivePhotoCaptureSupported {
-                    self.photoOutput.isLivePhotoCaptureEnabled = true
-                    
-                    DispatchQueue.main.async {
-                        self.livePhotoModeButton.isEnabled = true
-                        self.livePhotoModeButton.isHidden = false
-                    }
-                }
-            }
-        }
-        else if captureModeControl.selectedSegmentIndex == CaptureMode.movie.rawValue
-        {
-            livePhotoModeButton.isHidden = true
-            
-            sessionQueue.async { [unowned self] in
-                let movieFileOutput = AVCaptureMovieFileOutput()
-                
-                if self.session.canAddOutput(movieFileOutput) {
-                    self.session.beginConfiguration()
-                    self.session.addOutput(movieFileOutput)
-                    self.session.sessionPreset = AVCaptureSessionPresetHigh
-                    if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
-                        if connection.isVideoStabilizationSupported {
-                            connection.preferredVideoStabilizationMode = .auto
-                        }
-                    }
-                    self.session.commitConfiguration()
-                    
-                    self.movieFileOutput = movieFileOutput
-                    
-                    DispatchQueue.main.async { [unowned self] in
-                        self.recordButton.isEnabled = true
-                    }
-                }
-            }
-        }
-    }
+    // TODO: Add back without toggle control
+//    @IBAction private func toggleCaptureMode(_ captureModeControl: UISegmentedControl) {
+//        if captureModeControl.selectedSegmentIndex == CaptureMode.photo.rawValue {
+//            recordButton.isEnabled = false
+//            
+//            sessionQueue.async { [unowned self] in
+//                /*
+//                 Remove the AVCaptureMovieFileOutput from the session because movie recording is
+//                 not supported with AVCaptureSessionPresetPhoto. Additionally, Live Photo
+//                 capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
+//                 */
+//                self.session.beginConfiguration()
+//                self.session.removeOutput(self.movieFileOutput)
+//                self.session.sessionPreset = AVCaptureSessionPresetPhoto
+//                self.session.commitConfiguration()
+//                
+//                self.movieFileOutput = nil
+//                
+//                if self.photoOutput.isLivePhotoCaptureSupported {
+//                    self.photoOutput.isLivePhotoCaptureEnabled = true
+//                    
+//                    DispatchQueue.main.async {
+//                        self.livePhotoModeButton.isEnabled = true
+//                        self.livePhotoModeButton.isHidden = false
+//                    }
+//                }
+//            }
+//        }
+//        else if captureModeControl.selectedSegmentIndex == CaptureMode.movie.rawValue
+//        {
+//            livePhotoModeButton.isHidden = true
+//            
+//            sessionQueue.async { [unowned self] in
+//                let movieFileOutput = AVCaptureMovieFileOutput()
+//                
+//                if self.session.canAddOutput(movieFileOutput) {
+//                    self.session.beginConfiguration()
+//                    self.session.addOutput(movieFileOutput)
+//                    self.session.sessionPreset = AVCaptureSessionPresetHigh
+//                    if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
+//                        if connection.isVideoStabilizationSupported {
+//                            connection.preferredVideoStabilizationMode = .auto
+//                        }
+//                    }
+//                    self.session.commitConfiguration()
+//                    
+//                    self.movieFileOutput = movieFileOutput
+//                    
+//                    DispatchQueue.main.async { [unowned self] in
+//                        self.recordButton.isEnabled = true
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     // MARK: Device Configuration
     
@@ -374,7 +372,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         recordButton.isEnabled = false
         photoButton.isEnabled = false
         livePhotoModeButton.isEnabled = false
-        captureModeControl.isEnabled = false
         
         sessionQueue.async { [unowned self] in
             let currentVideoDevice = self.videoDeviceInput.device
@@ -451,7 +448,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                 self.recordButton.isEnabled = self.movieFileOutput != nil
                 self.photoButton.isEnabled = true
                 self.livePhotoModeButton.isEnabled = true
-                self.captureModeControl.isEnabled = true
             }
         }
     }
@@ -631,7 +627,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
          */
         cameraButton.isEnabled = false
         recordButton.isEnabled = false
-        captureModeControl.isEnabled = false
         
         /*
          Retrieve the video preview layer's video orientation on the main queue
@@ -747,7 +742,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
             // Only enable the ability to change camera if the device has more than one camera.
             self.cameraButton.isEnabled = self.videoDeviceDiscoverySession.uniqueDevicePositionsCount() > 1
             self.recordButton.isEnabled = true
-            self.captureModeControl.isEnabled = true
             self.recordButton.setTitle(NSLocalizedString("Record", comment: "Recording button record title"), for: [])
         }
     }
@@ -791,7 +785,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                 self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.uniqueDevicePositionsCount() > 1
                 self.recordButton.isEnabled = isSessionRunning && self.movieFileOutput != nil
                 self.photoButton.isEnabled = isSessionRunning
-                self.captureModeControl.isEnabled = isSessionRunning
                 self.livePhotoModeButton.isEnabled = isSessionRunning && isLivePhotoCaptureEnabled
                 self.livePhotoModeButton.isHidden = !(isSessionRunning && isLivePhotoCaptureSupported)
             }
