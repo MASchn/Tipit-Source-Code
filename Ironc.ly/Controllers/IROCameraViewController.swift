@@ -23,6 +23,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         super.viewDidLoad()
         
         self.view.addSubview(self.previewView)
+        self.previewView.backgroundColor = UIColor.green
         self.setUpConstraints()
         
         self.view.bringSubview(toFront: cameraButton)
@@ -80,6 +81,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
          that the main queue isn't blocked, which keeps the UI responsive.
          */
         sessionQueue.async { [unowned self] in
+//            self.showFullScreen()
             self.configureSession()
         }
     }
@@ -286,6 +288,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         }
         
         session.commitConfiguration()
+        self.showFullScreen()
     }
     
     @IBAction private func resumeInterruptedSession(_ resumeButton: UIButton)
@@ -322,63 +325,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         case movie = 1
     }
     
-    // TODO: Add back without toggle control
-//    @IBAction private func toggleCaptureMode(_ captureModeControl: UISegmentedControl) {
-//        if captureModeControl.selectedSegmentIndex == CaptureMode.photo.rawValue {
-//            recordButton.isEnabled = false
-//            
-//            sessionQueue.async { [unowned self] in
-//                /*
-//                 Remove the AVCaptureMovieFileOutput from the session because movie recording is
-//                 not supported with AVCaptureSessionPresetPhoto. Additionally, Live Photo
-//                 capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
-//                 */
-//                self.session.beginConfiguration()
-//                self.session.removeOutput(self.movieFileOutput)
-//                self.session.sessionPreset = AVCaptureSessionPresetPhoto
-//                self.session.commitConfiguration()
-//                
-//                self.movieFileOutput = nil
-//                
-//                if self.photoOutput.isLivePhotoCaptureSupported {
-//                    self.photoOutput.isLivePhotoCaptureEnabled = true
-//                    
-//                    DispatchQueue.main.async {
-//                        self.livePhotoModeButton.isEnabled = true
-//                        self.livePhotoModeButton.isHidden = false
-//                    }
-//                }
-//            }
-//        }
-//        else if captureModeControl.selectedSegmentIndex == CaptureMode.movie.rawValue
-//        {
-//            livePhotoModeButton.isHidden = true
-//            
-//            sessionQueue.async { [unowned self] in
-//                let movieFileOutput = AVCaptureMovieFileOutput()
-//                
-//                if self.session.canAddOutput(movieFileOutput) {
-//                    self.session.beginConfiguration()
-//                    self.session.addOutput(movieFileOutput)
-//                    self.session.sessionPreset = AVCaptureSessionPresetHigh
-//                    if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
-//                        if connection.isVideoStabilizationSupported {
-//                            connection.preferredVideoStabilizationMode = .auto
-//                        }
-//                    }
-//                    self.session.commitConfiguration()
-//                    
-//                    self.movieFileOutput = movieFileOutput
-//                    
-//                    DispatchQueue.main.async { [unowned self] in
-//                        self.recordButton.isEnabled = true
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    func enableRecordButton() {
+    func showFullScreen() {
         self.sessionQueue.async { [unowned self] in
             let movieFileOutput = AVCaptureMovieFileOutput()
             
@@ -792,8 +739,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         if context == &sessionRunningObserveContext {
             let newValue = change?[.newKey] as AnyObject?
             guard let isSessionRunning = newValue?.boolValue else { return }
-            let isLivePhotoCaptureSupported = photoOutput.isLivePhotoCaptureSupported
-            let isLivePhotoCaptureEnabled = photoOutput.isLivePhotoCaptureEnabled
             
             DispatchQueue.main.async { [unowned self] in
                 // Only enable the ability to change camera if the device has more than one camera.

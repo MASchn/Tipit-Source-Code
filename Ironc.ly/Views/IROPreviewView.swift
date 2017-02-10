@@ -25,8 +25,14 @@ class IROPreviewView: UIView {
         }
     }
     
-    // MARK: UIView
+    // MARK: - Layout
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.videoPreviewLayer.frame = self.bounds
+    }
     
+    // MARK: UIView
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
