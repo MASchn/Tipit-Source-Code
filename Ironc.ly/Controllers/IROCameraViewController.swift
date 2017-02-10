@@ -18,6 +18,9 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         
         self.view.backgroundColor = UIColor.black
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.focusAndExposeTap(gestureRecognizer:)))
+        self.view.addGestureRecognizer(tap)
+        
         self.view.addSubview(self.previewView)
         self.view.addSubview(self.photoButton)
         self.view.addSubview(self.cancelButton)
@@ -197,6 +200,8 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         button.layer.borderColor = UIColor(red: 170 / 255.0, green: 229 / 255.0, blue: 0, alpha: 1).cgColor
         button.layer.borderWidth = 5.0
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(self.toggleMovieRecording), for: .touchDown)
+        button.addTarget(self, action: #selector(self.capturePhoto), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -226,7 +231,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         let image: UIImage = #imageLiteral(resourceName: "flash").withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.white
-        button.addTarget(self, action: #selector(self.tappedFlashButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.toggleFlash), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -385,7 +390,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     private let videoDeviceDiscoverySession = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDuoCamera], mediaType: AVMediaTypeVideo, position: .unspecified)!
     
-    @IBAction private func tappedSwitchButton() {
+    func tappedSwitchButton() {
         cameraButton.isEnabled = false
         recordButton.isEnabled = false
         photoButton.isEnabled = false
@@ -472,17 +477,27 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         self.dismiss(animated: true, completion: nil)
     }
     
-    func tappedFlashButton() {
-        
+    func toggleFlash() {
+        if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo), device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                let torchOn = !device.isTorchActive
+                try device.setTorchModeOnWithLevel(1.0)
+                device.torchMode = torchOn ? .on : .off
+                device.unlockForConfiguration()
+            } catch {
+                print("Error occured while toggling flash")
+            }
+        }
     }
     
-//    @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
-//        let devicePoint = self.previewView.videoPreviewLayer.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
-//        focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint, monitorSubjectAreaChange: true)
-//    }
+    func focusAndExposeTap(gestureRecognizer: UITapGestureRecognizer) {
+        let devicePoint = self.previewView.videoPreviewLayer.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
+        self.focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint, monitorSubjectAreaChange: true)
+    }
     
     private func focus(with focusMode: AVCaptureFocusMode, exposureMode: AVCaptureExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
-        sessionQueue.async { [unowned self] in
+        self.sessionQueue.async { [unowned self] in
             if let device = self.videoDeviceInput.device {
                 do {
                     try device.lockForConfiguration()
@@ -517,7 +532,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     private var inProgressPhotoCaptureDelegates = [Int64 : IROPhotoCaptureDelegate]()
     
-    @IBAction private func capturePhoto(_ photoButton: UIButton) {
+    func capturePhoto() {
         /*
          Retrieve the video preview layer's video orientation on the main queue before
          entering the session queue. We do this to ensure UI elements are accessed on
@@ -525,7 +540,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
          */
         let videoPreviewLayerOrientation = previewView.videoPreviewLayer.connection.videoOrientation
         
-        sessionQueue.async {
+        self.sessionQueue.async {
             // Update the photo output's connection to match the video orientation of the video preview layer.
             if let photoOutputConnection = self.photoOutput.connection(withMediaType: AVMediaTypeVideo) {
                 photoOutputConnection.videoOrientation = videoPreviewLayerOrientation
@@ -608,7 +623,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     private var backgroundRecordingID: UIBackgroundTaskIdentifier? = nil
         
-    @IBAction private func toggleMovieRecording(_ recordButton: UIButton) {
+    func toggleMovieRecording() {
         guard let movieFileOutput = self.movieFileOutput else {
             return
         }
