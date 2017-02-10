@@ -367,8 +367,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     @IBOutlet private weak var cameraButton: UIButton!
     
-    @IBOutlet private weak var cameraUnavailableLabel: UILabel!
-    
     private let videoDeviceDiscoverySession = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDuoCamera], mediaType: AVMediaTypeVideo, position: .unspecified)!
     
     @IBAction private func changeCamera(_ cameraButton: UIButton) {
@@ -857,12 +855,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                 showResumeButton = true
             }
             else if reason == AVCaptureSessionInterruptionReason.videoDeviceNotAvailableWithMultipleForegroundApps {
-                // Simply fade-in a label to inform the user that the camera is unavailable.
-                cameraUnavailableLabel.alpha = 0
-                cameraUnavailableLabel.isHidden = false
-                UIView.animate(withDuration: 0.25) { [unowned self] in
-                    self.cameraUnavailableLabel.alpha = 1
-                }
             }
             
             if showResumeButton {
@@ -885,15 +877,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
                             self.resumeButton.alpha = 0
                 }, completion: { [unowned self] finished in
                     self.resumeButton.isHidden = true
-                }
-            )
-        }
-        if !cameraUnavailableLabel.isHidden {
-            UIView.animate(withDuration: 0.25,
-                           animations: { [unowned self] in
-                            self.cameraUnavailableLabel.alpha = 0
-                }, completion: { [unowned self] finished in
-                    self.cameraUnavailableLabel.isHidden = true
                 }
             )
         }
