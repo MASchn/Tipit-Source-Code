@@ -12,8 +12,22 @@ import Photos
 
 class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     
+    func setUpConstraints() {
+        self.previewView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.previewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.previewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.previewView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(self.previewView)
+        self.setUpConstraints()
+        
+        self.view.bringSubview(toFront: cameraButton)
+        self.view.bringSubview(toFront: recordButton)
+        self.view.bringSubview(toFront: photoButton)
         
         // Disable UI. The UI is enabled if and only if the session starts running.
         cameraButton.isEnabled = false
@@ -160,7 +174,11 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     var videoDeviceInput: AVCaptureDeviceInput!
     
-    @IBOutlet private weak var previewView: IROPreviewView!
+    lazy var previewView: IROPreviewView = {
+        let view: IROPreviewView = IROPreviewView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     // Call this on the session queue.
     private func configureSession() {
@@ -360,6 +378,30 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
 //        }
 //    }
     
+    func enableRecordButton() {
+        self.sessionQueue.async { [unowned self] in
+            let movieFileOutput = AVCaptureMovieFileOutput()
+            
+            if self.session.canAddOutput(movieFileOutput) {
+                self.session.beginConfiguration()
+                self.session.addOutput(movieFileOutput)
+                self.session.sessionPreset = AVCaptureSessionPresetHigh
+                if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
+                    if connection.isVideoStabilizationSupported {
+                        connection.preferredVideoStabilizationMode = .auto
+                    }
+                }
+                self.session.commitConfiguration()
+                
+                self.movieFileOutput = movieFileOutput
+                
+                DispatchQueue.main.async { [unowned self] in
+                    self.recordButton.isEnabled = true
+                }
+            }
+        }
+    }
+    
     // MARK: Device Configuration
     
     @IBOutlet private weak var cameraButton: UIButton!
@@ -449,10 +491,10 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         }
     }
     
-    @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
-        let devicePoint = self.previewView.videoPreviewLayer.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
-        focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint, monitorSubjectAreaChange: true)
-    }
+//    @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
+//        let devicePoint = self.previewView.videoPreviewLayer.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
+//        focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint, monitorSubjectAreaChange: true)
+//    }
     
     private func focus(with focusMode: AVCaptureFocusMode, exposureMode: AVCaptureExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
         sessionQueue.async { [unowned self] in
