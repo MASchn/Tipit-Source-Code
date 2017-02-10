@@ -15,7 +15,6 @@
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
 		373238DE1E4E29A300E787C9 /* IROPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373238DD1E4E29A300E787C9 /* IROPreviewView.swift */; };
 		373238E21E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373238E11E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift */; };
-		373238E41E4E2E2700E787C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373238E31E4E2E2700E787C9 /* Main.storyboard */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -37,7 +36,6 @@
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
 		373238DD1E4E29A300E787C9 /* IROPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPreviewView.swift; path = Views/IROPreviewView.swift; sourceTree = "<group>"; };
 		373238E11E4E2A2900E787C9 /* IROPhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPhotoCaptureDelegate.swift; path = Protocols/IROPhotoCaptureDelegate.swift; sourceTree = "<group>"; };
-		373238E31E4E2E2700E787C9 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 				37BA701B1E36E6070093EAE5 /* AppDelegate.swift */,
 				37BA70221E36E6070093EAE5 /* Assets.xcassets */,
 				37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */,
-				373238E31E4E2E2700E787C9 /* Main.storyboard */,
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -214,7 +211,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				373238E41E4E2E2700E787C9 /* Main.storyboard in Resources */,
 				37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */,
 				37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */,
 			);

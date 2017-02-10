@@ -16,12 +16,15 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.addSubview(self.previewView)
-        self.setUpConstraints()
+        self.view.backgroundColor = UIColor.black
         
-        self.view.bringSubview(toFront: self.cameraButton)
-        self.view.bringSubview(toFront: self.recordButton)
-        self.view.bringSubview(toFront: self.photoButton)
+        self.view.addSubview(self.previewView)
+        self.view.addSubview(self.photoButton)
+        self.view.addSubview(self.cancelButton)
+        self.view.addSubview(self.switchButton)
+        self.view.addSubview(self.flashButton)
+        
+        self.setUpConstraints()
         
         // Disable UI. The UI is enabled if and only if the session starts running.
         self.cameraButton.isEnabled = false
@@ -102,6 +105,12 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         super.viewWillDisappear(animated)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.photoButton.layer.cornerRadius = self.photoButton.frame.size.width / 2.0
+    }
+    
     override var shouldAutorotate: Bool {
         // Disable autorotation of the interface when recording is in progress.
         if let movieFileOutput = movieFileOutput {
@@ -112,6 +121,10 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -133,6 +146,26 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         self.previewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.previewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.previewView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.photoButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60.0).isActive = true
+        self.photoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.photoButton.heightAnchor.constraint(equalToConstant: 55.0).isActive = true
+        self.photoButton.widthAnchor.constraint(equalToConstant: 55.0).isActive = true
+        
+        self.cancelButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+        self.cancelButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10.0).isActive = true
+        self.cancelButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        
+        self.switchButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+        self.switchButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.switchButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.switchButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.flashButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+        self.flashButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
+        self.flashButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.flashButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
     }
     
     // MARK: Session Management
@@ -156,6 +189,58 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         let view: IROPreviewView = IROPreviewView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    // MARK: - Lazy Initialization
+    lazy var photoButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.layer.borderColor = UIColor(red: 170 / 255.0, green: 229 / 255.0, blue: 0, alpha: 1).cgColor
+        button.layer.borderWidth = 5.0
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    lazy var cancelButton: UIButton = {
+        let button: UIButton = UIButton()
+        let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.tappedCancelButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var switchButton: UIButton = {
+        let button: UIButton = UIButton()
+        let image: UIImage = #imageLiteral(resourceName: "switch").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.tappedSwitchButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var flashButton: UIButton = {
+        let button: UIButton = UIButton()
+        let image: UIImage = #imageLiteral(resourceName: "flash").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.tappedFlashButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    // Move to top right
+    lazy var cameraButton: UIButton = {
+        let button: UIButton = UIButton()
+        return button
+    }()
+    
+    // Delete
+    lazy var recordButton: UIButton = {
+        let button: UIButton = UIButton()
+        return button
     }()
     
     // Call this on the session queue.
@@ -298,11 +383,9 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     
     // MARK: Device Configuration
     
-    @IBOutlet private weak var cameraButton: UIButton!
-    
     private let videoDeviceDiscoverySession = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDuoCamera], mediaType: AVMediaTypeVideo, position: .unspecified)!
     
-    @IBAction private func changeCamera(_ cameraButton: UIButton) {
+    @IBAction private func tappedSwitchButton() {
         cameraButton.isEnabled = false
         recordButton.isEnabled = false
         photoButton.isEnabled = false
@@ -385,6 +468,14 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
         }
     }
     
+    func tappedCancelButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func tappedFlashButton() {
+        
+    }
+    
 //    @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
 //        let devicePoint = self.previewView.videoPreviewLayer.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
 //        focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint, monitorSubjectAreaChange: true)
@@ -425,8 +516,6 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     private let photoOutput = AVCapturePhotoOutput()
     
     private var inProgressPhotoCaptureDelegates = [Int64 : IROPhotoCaptureDelegate]()
-    
-    @IBOutlet private weak var photoButton: UIButton!
     
     @IBAction private func capturePhoto(_ photoButton: UIButton) {
         /*
@@ -518,9 +607,7 @@ class IROCameraViewController: UIViewController, AVCaptureFileOutputRecordingDel
     private var movieFileOutput: AVCaptureMovieFileOutput? = nil
     
     private var backgroundRecordingID: UIBackgroundTaskIdentifier? = nil
-    
-    @IBOutlet private weak var recordButton: UIButton!
-    
+        
     @IBAction private func toggleMovieRecording(_ recordButton: UIButton) {
         guard let movieFileOutput = self.movieFileOutput else {
             return
