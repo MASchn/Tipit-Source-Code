@@ -133,7 +133,7 @@ extension IROFeedViewController: UIPageViewControllerDataSource {
         
         let postViewController: IROPostViewController = viewController as! IROPostViewController
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
-        let index: Int = postViewController.post.index
+        let index: Int = postViewController.post.index!
         
         if index == 0 {
             return nil // This is the first post in the story
@@ -150,7 +150,7 @@ extension IROFeedViewController: UIPageViewControllerDataSource {
         
         let postViewController: IROPostViewController = viewController as! IROPostViewController
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
-        let index: Int = postViewController.post.index
+        let index: Int = postViewController.post.index!
 
         if index == storyViewController.story.posts.count - 1 {
             return nil // This is the last post in the story
@@ -170,7 +170,7 @@ extension IROFeedViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         let firstPendingViewController: IROPostViewController = pendingViewControllers.first! as! IROPostViewController
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
-        storyViewController.currentIndex = firstPendingViewController.post.index
+        storyViewController.currentIndex = firstPendingViewController.post.index!
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {

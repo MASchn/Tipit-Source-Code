@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
+        let user: IROUser = IROUser(profileImage: nil, name: "Rich")
+        let post: IROPost = IROPost(
+            user: user,
+            contentImage: #imageLiteral(resourceName: "grid"),
+            index: nil
+        )
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = self
         self.navigationController = UINavigationController(rootViewController: tabBarController)
@@ -35,7 +41,7 @@ extension AppDelegate: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.tabBarItem.tag == 2 {
-            let cameraViewController: IROCameraViewController = IROCameraViewController()
+            let cameraViewController: IROCamViewController = IROCamViewController()
             self.navigationController.present(cameraViewController, animated: true, completion: nil)
             return false
         }
