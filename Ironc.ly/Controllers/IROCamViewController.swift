@@ -61,6 +61,29 @@ class IROCamViewController: SwiftyCamViewController {
             flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
         }
     }
+    
+    // MARK: - Autolayout
+    func setUpConstraints() {
+//        self.photoButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60.0).isActive = true
+//        self.photoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.photoButton.heightAnchor.constraint(equalToConstant: 55.0).isActive = true
+//        self.photoButton.widthAnchor.constraint(equalToConstant: 55.0).isActive = true
+//        
+//        self.cancelButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+//        self.cancelButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10.0).isActive = true
+//        self.cancelButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+//        self.cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+//        
+//        self.switchButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+//        self.switchButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+//        self.switchButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+//        self.switchButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.flashButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+        self.flashButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
+        self.flashButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.flashButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+    }
 
 }
 
