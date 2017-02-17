@@ -33,10 +33,10 @@ class SwiftyRecordButton: SwiftyCamButton {
     private func drawButton() {
         self.backgroundColor = UIColor.clear
         
-       circleBorder = CALayer()
+        circleBorder = CALayer()
         circleBorder.backgroundColor = UIColor.clear.cgColor
         circleBorder.borderWidth = 6.0
-        circleBorder.borderColor = UIColor.white.cgColor
+        circleBorder.borderColor = IROConstants.green.cgColor
         circleBorder.bounds = self.bounds
         circleBorder.position = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         circleBorder.cornerRadius = self.frame.size.width / 2
@@ -44,7 +44,7 @@ class SwiftyRecordButton: SwiftyCamButton {
 
     }
     
-    public  func growButton() {
+    public func growButton() {
         innerCircle = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         innerCircle.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         innerCircle.backgroundColor = UIColor.red

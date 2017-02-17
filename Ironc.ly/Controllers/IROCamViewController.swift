@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import AVFoundation
 
 class IROCamViewController: SwiftyCamViewController {
+    
+    var captureButton: SwiftyRecordButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.cameraDelegate = self
         self.maximumVideoDuration = 10.0
+        
+        self.captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 30.0, y: view.frame.height - 100.0, width: 60.0, height: 60.0))
+        self.captureButton.delegate = self
         
         self.view.addSubview(self.captureButton)
         self.view.addSubview(self.cancelButton)
@@ -29,13 +35,6 @@ class IROCamViewController: SwiftyCamViewController {
     }
     
     // MARK: - Lazy Initialization
-    lazy var captureButton: SwiftyRecordButton = {
-        let button: SwiftyRecordButton = SwiftyRecordButton()
-        button.delegate = self
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     lazy var cancelButton: UIButton = {
         let button: UIButton = UIButton()
         let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
@@ -68,25 +67,22 @@ class IROCamViewController: SwiftyCamViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.captureButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60.0).isActive = true
-        self.captureButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.captureButton.heightAnchor.constraint(equalToConstant: 55.0).isActive = true
-        self.captureButton.widthAnchor.constraint(equalToConstant: 55.0).isActive = true
+        let buttonSize: CGFloat = 44.0
         
         self.cancelButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
         self.cancelButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10.0).isActive = true
-        self.cancelButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.cancelButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         self.cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
 
         self.switchCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
-        self.switchCameraButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
-        self.switchCameraButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.switchCameraButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        self.switchCameraButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
         self.switchCameraButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         self.flashButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
         self.flashButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
-        self.flashButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
-        self.flashButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.flashButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        self.flashButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
     }
     
     // MARK: - Actions
@@ -99,7 +95,17 @@ class IROCamViewController: SwiftyCamViewController {
     }
     
     func tappedFlashButton() {
-        self.flashEnabled = !self.flashEnabled
+        if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo), device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                let torchOn = !device.isTorchActive
+                try device.setTorchModeOnWithLevel(1.0)
+                device.torchMode = torchOn ? .on : .off
+                device.unlockForConfiguration()
+            } catch {
+                print("Error occured while toggling flash")
+            }
+        }
     }
 
 }
@@ -115,6 +121,7 @@ extension IROCamViewController: SwiftyCamViewControllerDelegate {
         print("Did Begin Recording")
         captureButton.growButton()
         UIView.animate(withDuration: 0.25, animations: {
+            self.cancelButton.alpha = 0.0
             self.flashButton.alpha = 0.0
             self.switchCameraButton.alpha = 0.0
         })
@@ -124,6 +131,7 @@ extension IROCamViewController: SwiftyCamViewControllerDelegate {
         print("Did finish Recording")
         captureButton.shrinkButton()
         UIView.animate(withDuration: 0.25, animations: {
+            self.cancelButton.alpha = 1.0
             self.flashButton.alpha = 1.0
             self.switchCameraButton.alpha = 1.0
         })
