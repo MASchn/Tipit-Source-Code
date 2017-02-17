@@ -17,7 +17,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class VideoViewController: UIViewController {
+class VideoViewController: IROPreviewViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -60,6 +60,12 @@ class VideoViewController: UIViewController {
         cancelButton.tintColor = UIColor.white
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
+        
+        self.view.bringSubview(toFront: self.publicButton)
+        self.view.bringSubview(toFront: self.privateButton)
+        self.view.bringSubview(toFront: self.sendToFriendButton)
+        
+        self.sendToFriendButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,5 +82,12 @@ class VideoViewController: UIViewController {
             self.player!.seek(to: kCMTimeZero)
             self.player!.play()
         }
+    }
+    
+    func share() {
+        let shareText: String = "Sent with PremiumSnap"
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [self.videoURL, shareText], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

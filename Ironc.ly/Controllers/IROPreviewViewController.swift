@@ -10,19 +10,7 @@ import UIKit
 
 class IROPreviewViewController: UIViewController {
     
-    var post: IROPost
-
     // MARK: - View Lifecycle
-    init(post: IROPost) {
-        self.post = post
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +34,7 @@ class IROPreviewViewController: UIViewController {
     lazy var privateButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = IROConstants.green
+        button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("Private", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +44,7 @@ class IROPreviewViewController: UIViewController {
     lazy var publicButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = IROConstants.green
+        button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("Public", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +53,6 @@ class IROPreviewViewController: UIViewController {
     
     lazy var sendToFriendButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = IROConstants.green
         button.setTitle("Send to a friend", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false

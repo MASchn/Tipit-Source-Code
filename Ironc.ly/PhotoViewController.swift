@@ -15,7 +15,7 @@
 
 import UIKit
 
-class PhotoViewController: UIViewController {
+class PhotoViewController: IROPreviewViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -43,11 +43,24 @@ class PhotoViewController: UIViewController {
         let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
         cancelButton.setImage(image, for: UIControlState())
         cancelButton.tintColor = UIColor.white
-        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
+        
+        self.view.bringSubview(toFront: self.publicButton)
+        self.view.bringSubview(toFront: self.privateButton)
+        self.view.bringSubview(toFront: self.sendToFriendButton)
+        
+        self.sendToFriendButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
     }
     
     func cancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func share() {
+        let shareText: String = "Sent with PremiumSnap"
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [self.backgroundImage, shareText], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
