@@ -828,7 +828,7 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
     
     /// Sets the maximum duration of the SwiftyCamButton
     
-    public func setMaxiumVideoDuration() -> Double {
+    public func setMaximumVideoDuration() -> Double {
         return maximumVideoDuration
     }
     

@@ -40,7 +40,7 @@ public protocol SwiftyCamButtonDelegate {
     
     /// Sets the maximum duration of the video recording
     
-    func setMaxiumVideoDuration() -> Double
+    func setMaximumVideoDuration() -> Double
 }
 
 // MARK: Public View Declaration
@@ -101,7 +101,7 @@ open class SwiftyCamButton: UIButton {
     /// Start Maximum Duration Timer
     
     fileprivate func startTimer() {
-        if let duration = delegate?.setMaxiumVideoDuration() {
+        if let duration = delegate?.setMaximumVideoDuration() {
             //Check if duration is set, and greater than zero
             if duration != 0.0 && duration > 0.0 {
                 timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector:  #selector(SwiftyCamButton.timerFinished), userInfo: nil, repeats: false)
