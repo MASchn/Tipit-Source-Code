@@ -114,16 +114,12 @@ class IROCamViewController: SwiftyCamViewController {
     }
     
     func tappedFlashButton() {
-        if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo), device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                let torchOn = !device.isTorchActive
-                try device.setTorchModeOnWithLevel(1.0)
-                device.torchMode = torchOn ? .on : .off
-                device.unlockForConfiguration()
-            } catch {
-                print("Error occured while toggling flash")
-            }
+        self.flashEnabled = !self.flashEnabled
+        
+        if flashEnabled == true {
+            self.flashButton.tintColor = IROConstants.green
+        } else {
+            self.flashButton.tintColor = UIColor.white
         }
     }
     
