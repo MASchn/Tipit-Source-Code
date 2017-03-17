@@ -41,7 +41,7 @@ class IROCamViewController: SwiftyCamViewController {
     lazy var timerLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = UIColor.white
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 30.0)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 22.0)
         label.textAlignment = .center
         label.text = "00:00"
         label.alpha = 0.0 // Unhide when video starts recording

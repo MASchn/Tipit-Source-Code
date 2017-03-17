@@ -39,6 +39,9 @@ class VideoViewController: IROPreviewViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.contentType = .video
+        
         self.view.backgroundColor = UIColor.gray
         player = AVPlayer(url: videoURL)
         playerController = AVPlayerViewController()
