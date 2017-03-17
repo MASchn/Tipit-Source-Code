@@ -32,6 +32,7 @@
 		37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */; };
 		37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */; };
 		37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */; };
+		37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMessagesViewController.swift; path = Controllers/IROMessagesViewController.swift; sourceTree = "<group>"; };
 		37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = Controllers/IROProfileViewController.swift; sourceTree = "<group>"; };
 		37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = Controllers/IROPlaceholderViewController.swift; sourceTree = "<group>"; };
+		37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchCollectionViewCell.swift; path = Cells/IROSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				37BA70361E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift */,
+				37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37BA70321E36E9870093EAE5 /* IROTabBarController.swift in Sources */,
+				37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */,
 				37875DA51E54C3A700C86290 /* IROCamViewController.swift in Sources */,
 				37875DA21E54C2E500C86290 /* SwiftyCamViewController.swift in Sources */,
 				37875DA11E54C2E500C86290 /* SwiftyCamButton.swift in Sources */,

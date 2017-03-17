@@ -15,5 +15,11 @@ class IROProfileViewController: IROPlaceholderViewController {
 
         self.view.backgroundColor = UIColor.green
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationController?.isNavigationBarHidden = true
+    }
 
 }

@@ -46,9 +46,17 @@ class IROFeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tabBarController?.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
         self.tabBarController?.navigationItem.title = nil
+    }
+    
+    // MARK: - Layout
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
     }
 
     // MARK: - Lazy Initialization
