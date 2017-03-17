@@ -12,12 +12,14 @@ import AVFoundation
 class IROCamViewController: SwiftyCamViewController {
     
     var captureButton: SwiftyRecordButton!
+    var videoTimer: Timer?
+    var videoTimerSeconds: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.cameraDelegate = self
-        self.maximumVideoDuration = 10.0
+        self.maximumVideoDuration = 11.0
         
         self.captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 30.0, y: view.frame.height - 100.0, width: 60.0, height: 60.0))
         self.captureButton.delegate = self
@@ -26,6 +28,7 @@ class IROCamViewController: SwiftyCamViewController {
         self.view.addSubview(self.cancelButton)
         self.view.addSubview(self.switchCameraButton)
         self.view.addSubview(self.flashButton)
+        self.view.addSubview(self.timerLabel)
         
         self.setUpConstraints()
     }
@@ -35,6 +38,17 @@ class IROCamViewController: SwiftyCamViewController {
     }
     
     // MARK: - Lazy Initialization
+    lazy var timerLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = UIColor.white
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 30.0)
+        label.textAlignment = .center
+        label.text = "00:00"
+        label.alpha = 0.0 // Unhide when video starts recording
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var cancelButton: UIButton = {
         let button: UIButton = UIButton()
         let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
@@ -83,6 +97,11 @@ class IROCamViewController: SwiftyCamViewController {
         self.flashButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
         self.flashButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         self.flashButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        
+        self.timerLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30.0).isActive = true
+        self.timerLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.timerLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.timerLabel.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
     // MARK: - Actions
@@ -107,6 +126,11 @@ class IROCamViewController: SwiftyCamViewController {
             }
         }
     }
+    
+    func incrementVideoTimerSeconds() {
+        self.videoTimerSeconds += 1
+        self.timerLabel.text = String(format: "00:%02d", self.videoTimerSeconds)
+    }
 
 }
 
@@ -120,20 +144,31 @@ extension IROCamViewController: SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         print("Did Begin Recording")
         captureButton.growButton()
+        
+        // Start incrementing video timer
+        self.videoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.incrementVideoTimerSeconds), userInfo: nil, repeats: true)
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.cancelButton.alpha = 0.0
             self.flashButton.alpha = 0.0
             self.switchCameraButton.alpha = 0.0
+            self.timerLabel.alpha = 1.0
         })
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         print("Did finish Recording")
         captureButton.shrinkButton()
+        
+        self.videoTimer?.invalidate()
+        self.videoTimer = nil
+        self.videoTimerSeconds = 0
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.cancelButton.alpha = 1.0
             self.flashButton.alpha = 1.0
             self.switchCameraButton.alpha = 1.0
+            self.timerLabel.alpha = 0.0
         })
     }
     
