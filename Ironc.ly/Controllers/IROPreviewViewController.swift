@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class IROPreviewViewController: UIViewController {
     
@@ -100,7 +101,7 @@ class IROPreviewViewController: UIViewController {
         self.postContent(privacy: .private)
     }
     
-    func tappedPublicButton(sender: UIButton) {
+    open func tappedPublicButton(sender: UIButton) {
         self.postContent(privacy: .public)
     }
     

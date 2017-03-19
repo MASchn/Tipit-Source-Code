@@ -33,9 +33,11 @@
 		37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */; };
 		37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */; };
 		37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */; };
+		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.release.xcconfig"; sourceTree = "<group>"; };
 		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
 		370E36671E43B24400F8FF9E /* IROUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUser.swift; path = Models/IROUser.swift; sourceTree = "<group>"; };
 		370E36691E43BBC600F8FF9E /* IROStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStory.swift; sourceTree = "<group>"; };
@@ -64,6 +66,8 @@
 		37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = Controllers/IROProfileViewController.swift; sourceTree = "<group>"; };
 		37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = Controllers/IROPlaceholderViewController.swift; sourceTree = "<group>"; };
 		37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchCollectionViewCell.swift; path = Cells/IROSearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
+		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,12 +75,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270C6098F805173B72EF8442 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */,
+				2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		370E36641E43B21100F8FF9E /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +142,8 @@
 			children = (
 				37BA701A1E36E6070093EAE5 /* Ironc.ly */,
 				37BA70191E36E6070093EAE5 /* Products */,
+				270C6098F805173B72EF8442 /* Pods */,
+				D8650C89371D34FFD109B1DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +207,14 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		D8650C89371D34FFD109B1DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,9 +222,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37BA702A1E36E6070093EAE5 /* Build configuration list for PBXNativeTarget "Ironc.ly" */;
 			buildPhases = (
+				1AFDE1CE8B2C1AF3310E65B6 /* [CP] Check Pods Manifest.lock */,
 				37BA70141E36E6070093EAE5 /* Sources */,
 				37BA70151E36E6070093EAE5 /* Frameworks */,
 				37BA70161E36E6070093EAE5 /* Resources */,
+				D957A6E141BB0EADFF5357C5 /* [CP] Embed Pods Frameworks */,
+				95E8F94A39987C284E9983EE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -257,6 +284,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AFDE1CE8B2C1AF3310E65B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		95E8F94A39987C284E9983EE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D957A6E141BB0EADFF5357C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		37BA70141E36E6070093EAE5 /* Sources */ = {
@@ -399,6 +474,7 @@
 		};
 		37BA702B1E36E6070093EAE5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;
@@ -413,6 +489,7 @@
 		};
 		37BA702C1E36E6070093EAE5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;

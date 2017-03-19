@@ -14,6 +14,7 @@
  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 import UIKit
+import Alamofire
 
 class PhotoViewController: IROPreviewViewController {
     
@@ -62,5 +63,15 @@ class PhotoViewController: IROPreviewViewController {
         let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [self.backgroundImage, shareText], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    override func tappedPublicButton(sender: UIButton) {
+        let imageData: Data = UIImagePNGRepresentation(self.backgroundImage)!
+        let headers: HTTPHeaders = [
+            "x-auth" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGNiNGEzMmFjZjA5MTAwMTFiYTUyYzciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNDg5NzE3ODEwfQ.ITrZ3K26S6fRiSWw82lIp67uM8BoIC_DGzHnzUDhGz8"
+        ]
+        Alamofire.upload(imageData, to: "https://powerful-reef-30384.herokuapp.com/media_items?&filetype=png", method: .post, headers: headers).response { (response) in
+            print(response)
+        }
     }
 }
