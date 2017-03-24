@@ -35,6 +35,17 @@ class PhotoViewController: IROPreviewViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // let headers: HTTPHeaders = [
+        //    "x-auth" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGNiNGEzMmFjZjA5MTAwMTFiYTUyYzciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNDg5NzE3ODEwfQ.ITrZ3K26S6fRiSWw82lIp67uM8BoIC_DGzHnzUDhGz8",
+        //    "content-type" : "application/json"
+        // ]
+        // Alamofire.request("https://powerful-reef-30384.herokuapp.com/users/me/media_items", headers: headers).responseJSON { (response) in
+        //    if let json = response.result.value {
+        //        print(json)
+        //    }
+        // }
+        
         self.view.backgroundColor = UIColor.gray
         let backgroundImageView = UIImageView(frame: view.frame)
         backgroundImageView.image = backgroundImage
@@ -66,12 +77,12 @@ class PhotoViewController: IROPreviewViewController {
     }
     
     override func tappedPublicButton(sender: UIButton) {
-        let imageData: Data = UIImagePNGRepresentation(self.backgroundImage)!
-        let headers: HTTPHeaders = [
-            "x-auth" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGNiNGEzMmFjZjA5MTAwMTFiYTUyYzciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNDg5NzE3ODEwfQ.ITrZ3K26S6fRiSWw82lIp67uM8BoIC_DGzHnzUDhGz8"
-        ]
-        Alamofire.upload(imageData, to: "https://powerful-reef-30384.herokuapp.com/media_items?&filetype=png", method: .post, headers: headers).response { (response) in
-            print(response)
-        }
+        // let imageData: Data = UIImageJPEGRepresentation(self.backgroundImage, 1.0)!
+        // let headers: HTTPHeaders = [
+        //     "x-auth" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGNlZWEzOGQzZjU5YTAwMTEzZWY3MzEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNDg5OTU1Mzg0fQ.W9-ftuMRf1Uk7VmTUkVVAm3U20SRIgkP9RUxJSzz5JM"
+        // ]
+        // Alamofire.upload(imageData, to: "https://powerful-reef-30384.herokuapp.com/media_items?file_type=jpg", method: .post, headers: headers).responseJSON { (response) in
+        // }
+        
     }
 }
