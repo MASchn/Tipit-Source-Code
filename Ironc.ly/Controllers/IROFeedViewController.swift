@@ -28,8 +28,8 @@ class IROFeedViewController: UIViewController {
         self.view.addSubview(self.feedCollectionView)
         
         // Fake data
-        let user1: IROUser = IROUser(profileImage: UIImage(named: "user1"), name: "Hanna Julie Marie")
-        let user2: IROUser = IROUser(profileImage: UIImage(named: "user2"), name: "Silvia Marie Ann")
+        let user1: IROUser = IROUser(username: "Hanna Julie Marie", email: "user1@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user1"))
+        let user2: IROUser = IROUser(username: "Silvia Marie Ann", email: "user2@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user2"))
         let post1: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 0)
         let post2: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 1)
         let post3: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 2)

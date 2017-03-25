@@ -65,6 +65,7 @@ class IRORegisterViewController: UIViewController {
         textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
         textField.autocapitalizationType = .none
         textField.returnKeyType = .next
+        textField.autocorrectionType = .no
         let placeholder: NSAttributedString = NSAttributedString(string: "username", attributes: [NSForegroundColorAttributeName : UIColor.white])
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
@@ -78,12 +79,12 @@ class IRORegisterViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
+        textField.autocorrectionType = .no
         textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
         let placeholder: NSAttributedString = NSAttributedString(string: "email", attributes: [NSForegroundColorAttributeName : UIColor.white])
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = "rmcateer1@gmail.com"
         return textField
     }()
     
@@ -93,12 +94,12 @@ class IRORegisterViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
         textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
         let placeholder: NSAttributedString = NSAttributedString(string: "password", attributes: [NSForegroundColorAttributeName : UIColor.white])
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = "password"
         return textField
     }()
     
@@ -112,6 +113,11 @@ class IRORegisterViewController: UIViewController {
         button.addTarget(self, action: #selector(self.tappedSignUpButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var facebookButton: UIButton = {
+        let button: UIButton = UIButton()
         return button
     }()
     
@@ -171,6 +177,7 @@ class IRORegisterViewController: UIViewController {
     // MARK: - Actions
     func tappedSignUpButton() {
         let parameters: Parameters = [
+            "username" : "\(self.usernameTextField.text!)",
             "email" : "\(self.emailTextField.text!)",
             "password" : "\(self.passwordTextField.text!)"
         ]
@@ -184,7 +191,13 @@ class IRORegisterViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         ).responseJSON { (response) in
-            print(response)
+            switch response.result {
+            case .success(let JSON):
+                let response: [String : Any] = JSON as! [String : Any]
+                print(response["email"])
+            case .failure(let error):
+                print("Sign up request failed with error \(error)")
+            }
         }
     }
     

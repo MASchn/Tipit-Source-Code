@@ -18,12 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let user: IROUser = IROUser(profileImage: nil, name: "Rich")
-        let post: IROPost = IROPost(
-            user: user,
-            contentImage: #imageLiteral(resourceName: "grid"),
-            index: nil
-        )
+        // let user: IROUser = IROUser(profileImage: nil, username: "Rich", email: "test@gmail.com")
+        // let post: IROPost = IROPost(
+        //    user: user,
+        //    contentImage: #imageLiteral(resourceName: "grid"),
+        //    index: nil
+        // )
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = self
         self.navigationController = UINavigationController(rootViewController: tabBarController)

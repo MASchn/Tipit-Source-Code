@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 struct IROUser {
+    let username: String
+    let email: String
+    let token: String
     let profileImage: UIImage?
-    let name: String
 }

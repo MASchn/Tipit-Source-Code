@@ -29,7 +29,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with post: IROPost) {
-        self.userNameLabel.text = post.user.name
+        self.userNameLabel.text = post.user.username
         self.userImageView.image = post.user.profileImage
         self.postImageView.image = post.contentImage
     }
