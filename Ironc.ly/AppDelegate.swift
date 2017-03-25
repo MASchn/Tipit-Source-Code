@@ -28,7 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.delegate = self
         self.navigationController = UINavigationController(rootViewController: tabBarController)
         self.navigationController.navigationBar.isTranslucent = false
-        self.window?.rootViewController = self.navigationController
+        
+        let registerViewController: IRORegisterViewController = IRORegisterViewController()
+        self.window?.rootViewController = registerViewController
         
         self.window?.makeKeyAndVisible()
         

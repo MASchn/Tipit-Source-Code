@@ -13,6 +13,7 @@
 		370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */; };
 		370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
+		37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */; };
 		37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875D961E54B6CE00C86290 /* IROPreviewViewController.swift */; };
 		37875D9A1E54BB7300C86290 /* IROConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875D991E54BB7300C86290 /* IROConstants.swift */; };
 		37875DA01E54C2E500C86290 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875D9C1E54C2E500C86290 /* PreviewView.swift */; };
@@ -44,6 +45,7 @@
 		370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStoryViewController.swift; path = Controllers/IROStoryViewController.swift; sourceTree = "<group>"; };
 		370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPostViewController.swift; path = Controllers/IROPostViewController.swift; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
+		37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRORegisterViewController.swift; path = Controllers/IRORegisterViewController.swift; sourceTree = "<group>"; };
 		37875D961E54B6CE00C86290 /* IROPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPreviewViewController.swift; path = Controllers/IROPreviewViewController.swift; sourceTree = "<group>"; };
 		37875D991E54BB7300C86290 /* IROConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROConstants.swift; path = Config/IROConstants.swift; sourceTree = "<group>"; };
 		37875D9C1E54C2E500C86290 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				3717AD241E395A75005EE969 /* IROSearchViewController.swift */,
 				370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */,
 				37BA70311E36E9870093EAE5 /* IROTabBarController.swift */,
+				37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				37875DA51E54C3A700C86290 /* IROCamViewController.swift in Sources */,
 				37875DA21E54C2E500C86290 /* SwiftyCamViewController.swift in Sources */,
 				37875DA11E54C2E500C86290 /* SwiftyCamButton.swift in Sources */,
+				37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
 				37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */,
 				370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */,
