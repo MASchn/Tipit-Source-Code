@@ -16,6 +16,8 @@ class IROSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationItem.hidesBackButton = true
+        
         self.view.addSubview(self.searchCollectionView)
         
         self.setUpConstraints()
@@ -24,6 +26,7 @@ class IROSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.navigationItem.title = "Private"
         self.tabBarController?.navigationItem.leftBarButtonItem = nil

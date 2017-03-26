@@ -21,6 +21,7 @@ class IRORegisterViewController: UIViewController {
         self.view.addSubview(self.emailTextField)
         self.view.addSubview(self.passwordTextField)
         self.view.addSubview(self.signUpButton)
+        self.view.addSubview(self.facebookButton)
         
         self.setUpConstraints()
     }
@@ -42,6 +43,7 @@ class IRORegisterViewController: UIViewController {
         self.passwordTextField.layer.masksToBounds = true
         
         self.signUpButton.layer.cornerRadius = self.signUpButton.frame.size.height / 2.0
+        self.facebookButton.layer.cornerRadius = self.facebookButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
@@ -139,6 +141,14 @@ class IRORegisterViewController: UIViewController {
     
     lazy var facebookButton: UIButton = {
         let button: UIButton = UIButton()
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.black, for: .highlighted)
+        button.setTitle("Skip", for: .normal)
+        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
+        button.backgroundColor = UIColor(red: 26/255.0, green: 106/255.0, blue: 199/255.0, alpha: 1.0)
+        button.addTarget(self, action: #selector(self.pushMainScreen), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -156,6 +166,7 @@ class IRORegisterViewController: UIViewController {
         
         let hMargin: CGFloat = 35.0
         let textFieldHeight: CGFloat = 50.0
+        let buttonHeight: CGFloat = 50.0
         
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -185,7 +196,12 @@ class IRORegisterViewController: UIViewController {
         self.signUpButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 38.0).isActive = true
         self.signUpButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.signUpButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
-        self.signUpButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.signUpButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        
+        self.facebookButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40.0).isActive = true
+        self.facebookButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+        self.facebookButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+        self.facebookButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
     }
     
     // MARK: - Keyboard
@@ -216,7 +232,7 @@ class IRORegisterViewController: UIViewController {
                     switch response.result {
                     case .success(let JSON):
                         let response: [String : Any] = JSON as! [String : Any]
-                        print(response["email"])
+                        self.pushMainScreen()
                     case .failure(let error):
                         print("Sign up request failed with error \(error)")
                     }
@@ -271,6 +287,13 @@ class IRORegisterViewController: UIViewController {
         }
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func pushMainScreen() {
+        let tabBarController: IROTabBarController = IROTabBarController()
+        tabBarController.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.pushViewController(tabBarController, animated: true)
     }
     
 }

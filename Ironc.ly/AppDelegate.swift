@@ -17,20 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
-        // let user: IROUser = IROUser(profileImage: nil, username: "Rich", email: "test@gmail.com")
-        // let post: IROPost = IROPost(
-        //    user: user,
-        //    contentImage: #imageLiteral(resourceName: "grid"),
-        //    index: nil
-        // )
-        let tabBarController: IROTabBarController = IROTabBarController()
-        tabBarController.delegate = self
-        self.navigationController = UINavigationController(rootViewController: tabBarController)
-        self.navigationController.navigationBar.isTranslucent = false
-        
+                
         let registerViewController: IRORegisterViewController = IRORegisterViewController()
-        self.window?.rootViewController = registerViewController
+        self.navigationController = UINavigationController(rootViewController: registerViewController)
+        self.navigationController.navigationBar.isTranslucent = true
+        self.navigationController.isNavigationBarHidden = true
+        self.window?.rootViewController = self.navigationController
         
         self.window?.makeKeyAndVisible()
         
