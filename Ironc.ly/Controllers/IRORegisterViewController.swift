@@ -62,11 +62,18 @@ class IRORegisterViewController: UIViewController {
     lazy var usernameTextField: UITextField = {
         let textField: UITextField = UITextField()
         textField.textColor = UIColor.white
-        textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
+        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
         textField.autocapitalizationType = .none
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        let placeholder: NSAttributedString = NSAttributedString(string: "username", attributes: [NSForegroundColorAttributeName : UIColor.white])
+        let placeholder: NSAttributedString = NSAttributedString(
+            string: "username",
+            attributes:
+            [
+                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
+                NSForegroundColorAttributeName : UIColor.white
+            ]
+        )
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -80,8 +87,15 @@ class IRORegisterViewController: UIViewController {
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(string: "email", attributes: [NSForegroundColorAttributeName : UIColor.white])
+        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
+        let placeholder: NSAttributedString = NSAttributedString(
+            string: "email",
+            attributes:
+            [
+                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
+                NSForegroundColorAttributeName : UIColor.white
+            ]
+        )
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -95,8 +109,14 @@ class IRORegisterViewController: UIViewController {
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "Helvetica-LightOblique", size: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(string: "password", attributes: [NSForegroundColorAttributeName : UIColor.white])
+        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
+        let placeholder: NSAttributedString = NSAttributedString(
+            string: "password",
+            attributes: [
+                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
+                NSForegroundColorAttributeName : UIColor.white
+            ]
+        )
         textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -106,6 +126,7 @@ class IRORegisterViewController: UIViewController {
     lazy var signUpButton: UIButton = {
         let button: UIButton = UIButton()
         button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.black, for: .highlighted)
         button.setTitle("Sign up", for: .normal)
         button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
         button.layer.borderColor = UIColor.white.cgColor
@@ -176,29 +197,80 @@ class IRORegisterViewController: UIViewController {
     
     // MARK: - Actions
     func tappedSignUpButton() {
-        let parameters: Parameters = [
-            "username" : "\(self.usernameTextField.text!)",
-            "email" : "\(self.emailTextField.text!)",
-            "password" : "\(self.passwordTextField.text!)"
-        ]
-        let header: HTTPHeaders = [
-            "Content-Type" : "application/json"
-        ]
-        Alamofire.request(
-            "https://powerful-reef-30384.herokuapp.com/users",
-            method: .post,
-            parameters: parameters,
-            encoding: JSONEncoding.default,
-            headers: header
-        ).responseJSON { (response) in
-            switch response.result {
-            case .success(let JSON):
-                let response: [String : Any] = JSON as! [String : Any]
-                print(response["email"])
-            case .failure(let error):
-                print("Sign up request failed with error \(error)")
+        if self.validateInputs() == true {
+            let parameters: Parameters = [
+                "username" : "\(self.usernameTextField.text!)",
+                "email" : "\(self.emailTextField.text!)",
+                "password" : "\(self.passwordTextField.text!)"
+            ]
+            let header: HTTPHeaders = [
+                "Content-Type" : "application/json"
+            ]
+            Alamofire.request(
+                "https://powerful-reef-30384.herokuapp.com/users",
+                method: .post,
+                parameters: parameters,
+                encoding: JSONEncoding.default,
+                headers: header
+                ).responseJSON { (response) in
+                    switch response.result {
+                    case .success(let JSON):
+                        let response: [String : Any] = JSON as! [String : Any]
+                        print(response["email"])
+                    case .failure(let error):
+                        print("Sign up request failed with error \(error)")
+                    }
             }
         }
+    }
+    
+    // MARK: - Validation
+    func validateInputs() -> Bool {
+        if self.isValidUsername() == false {
+            self.presentAlert(title: "Invalid Username", message: "Try a new username")
+            return false
+        }
+        else if self.isValidEmail() == false {
+            self.presentAlert(title: "Invalid Email", message: "Make sure you entered your email correctly")
+            return false
+        }
+        else if self.isValidPassword() == false {
+            self.presentAlert(title: "Invalid Password", message: "Try a new password")
+            return false
+        }
+        else {
+            // Everything is valid
+            return true
+        }
+    }
+    
+    func isValidUsername() -> Bool {
+        // Alphanumeric between 1 and 18 characters
+        let regEx: String = "\\A\\w{1,18}\\z"
+        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return test.evaluate(with: self.usernameTextField.text)
+    }
+    
+    func isValidEmail() -> Bool {
+        let regEx: String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return test.evaluate(with: self.emailTextField.text)
+    }
+    
+    func isValidPassword() -> Bool {
+        let regEx: String = "^(?=.*?[A-Z])(?=.*?[a-z]).{6,}$"
+        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return test.evaluate(with: self.passwordTextField.text)
+    }
+    
+    // MARK: - Alert
+    func presentAlert(title: String, message: String) {
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
