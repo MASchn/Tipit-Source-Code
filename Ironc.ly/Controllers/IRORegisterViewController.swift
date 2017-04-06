@@ -223,48 +223,17 @@ class IRORegisterViewController: UIViewController {
     
     // MARK: - Actions
     func tappedSignUpButton() {
-            let parameters: Parameters = [
-                "username" : "\(self.usernameTextField.text!)",
-                "email" : "\(self.emailTextField.text!)",
-                "password" : "\(self.passwordTextField.text!)"
-            ]
-            let header: HTTPHeaders = [
-                "Content-Type" : "application/json"
-            ]
-            Alamofire.request(
-                "https://powerful-reef-30384.herokuapp.com/users",
-                method: .post,
-                parameters: parameters,
-                encoding: JSONEncoding.default,
-                headers: header
-                ).responseJSON { (response) in
-                    switch response.result {
-                    case .success(let JSONDictionary):
-                        if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                            if
-                                let username: String = JSON["username"] as? String,
-                                let email: String = JSON["email"] as? String,
-                                let token: String = JSON["token"] as? String
-                            {
-                                let user: IROUser = IROUser(
-                                    username: username,
-                                    email: email,
-                                    token: token,
-                                    profileImage: nil
-                                )
-                                user.save()
-                                IROUser.currentUser = user
-                                self.pushMainScreen()
-                            }
-                            else
-                            {
-                                print("Error parsing user response")
-                            }
-                        }
-                    case .failure(let error):
-                        print("Sign up request failed with error \(error)")
-                    }
+        IROAPIClient.registerNewUser(
+            username: self.usernameTextField.text!,
+            email: self.emailTextField.text!,
+            password: self.passwordTextField.text!
+        ) { (success: Bool) in
+            if success == true {
+                self.pushMainScreen()
+            } else {
+                print("Could not register new user")
             }
+        }
     }
     
     func tappedSignInButton() {

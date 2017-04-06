@@ -24,21 +24,10 @@ class IROFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.posts = IROStory.mockStory().posts
+        
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(self.feedCollectionView)
-        
-        // Fake data
-        let user1: IROUser = IROUser(username: "Hanna Julie Marie", email: "user1@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user1"))
-        let user2: IROUser = IROUser(username: "Silvia Marie Ann", email: "user2@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user2"))
-        let post1: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 0)
-        let post2: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 1)
-        let post3: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 2)
-        let post4: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 3)
-        let post5: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 4)
-        let post6: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 5)
-        let post7: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 6)
-        let post8: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 7)
-        self.posts = [post1, post2, post3, post4, post5, post6, post7, post8]
         
         self.setUpConstraints()
     }
@@ -128,11 +117,8 @@ extension IROFeedViewController: UICollectionViewDelegateFlowLayout {
 extension IROFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let story: IROStory = IROStory(posts: self.posts)
-        
-        // Page view controller
+        let story = IROStory.mockStory()
         let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
- 
         self.present(storyViewController, animated: true, completion: nil)
     }
     

@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Alamofire
 
 class IROProfileViewController: UIViewController {
+    
+    // MARK: - Properties
+    var story: IROStory?
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -20,6 +24,25 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.storyPreviewButton)
         
         self.setUpConstraints()
+        
+        IROAPIClient.getPersonalStory { (mediaItems: [IROMediaItem]?) in
+            if let mediaItems: [IROMediaItem] = mediaItems {
+                IROStory.story(with: IROUser.currentUser!, mediaItems: mediaItems, completion: { (story: IROStory?) in
+                    if let story: IROStory = story {
+                        self.story = story
+                        if let firstPost: IROPost = story.posts.first {
+                            self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                            self.storyPreviewButton.layer.borderColor = IROConstants.green.cgColor
+                            self.storyPreviewButton.layer.borderWidth = 10.0
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
+    func downloadAllContent(mediaItems: [IROMediaItem], completion: ([IROPost?]) -> Void) {
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,8 +62,6 @@ class IROProfileViewController: UIViewController {
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = UIColor.lightGray
-        button.layer.borderColor = IROConstants.green.cgColor
-        button.layer.borderWidth = 10.0
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +90,10 @@ class IROProfileViewController: UIViewController {
     
     // MARK: - Actions
     func tappedStoryPreviewButton() {
-        print("Tapped Story Preview Button")
+        if let story: IROStory = self.story {
+            let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
+            self.present(storyViewController, animated: true, completion: nil)
+        }
     }
 
 }
