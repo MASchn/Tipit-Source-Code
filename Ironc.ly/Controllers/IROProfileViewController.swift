@@ -82,10 +82,10 @@ class IROProfileViewController: UIViewController {
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.storyPreviewButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 60.0).isActive = true
+        self.storyPreviewButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -60.0).isActive = true
+        self.storyPreviewButton.heightAnchor.constraint(equalTo: self.storyPreviewButton.widthAnchor).isActive = true
         self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
-        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
     }
     
     // MARK: - Actions
