@@ -17,16 +17,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-                
+        
+        if let user: IROUser = IROUser.fetchUserFromDefaults() {
+            IROUser.currentUser = user
+            self.showFeed()
+        } else {
+            self.showSignIn()
+        }
+        
+        self.window?.makeKeyAndVisible()
+        
+        return true
+    }
+    
+    func showFeed() {
+        let tabBarController: IROTabBarController = IROTabBarController()
+        tabBarController.delegate = self
+        self.navigationController = UINavigationController(rootViewController: tabBarController)
+        self.navigationController.navigationBar.isTranslucent = false
+        self.window?.rootViewController = self.navigationController
+    }
+    
+    func showSignIn() {
         let registerViewController: IROLoginViewController = IROLoginViewController()
         self.navigationController = UINavigationController(rootViewController: registerViewController)
         self.navigationController.navigationBar.isTranslucent = true
         self.navigationController.isNavigationBarHidden = true
         self.window?.rootViewController = self.navigationController
-        
-        self.window?.makeKeyAndVisible()
-        
-        return true
     }
 
 }
