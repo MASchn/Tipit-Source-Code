@@ -21,6 +21,7 @@ class IRORegisterViewController: UIViewController {
         self.view.addSubview(self.emailTextField)
         self.view.addSubview(self.passwordTextField)
         self.view.addSubview(self.signUpButton)
+        self.view.addSubview(self.signInButton)
         self.view.addSubview(self.facebookButton)
         
         self.setUpConstraints()
@@ -64,7 +65,7 @@ class IRORegisterViewController: UIViewController {
     lazy var usernameTextField: UITextField = {
         let textField: UITextField = UITextField()
         textField.textColor = UIColor.white
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
+        textField.font = UIFont.systemFont(ofSize: 15.0)
         textField.autocapitalizationType = .none
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
@@ -89,7 +90,7 @@ class IRORegisterViewController: UIViewController {
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
+        textField.font = UIFont.systemFont(ofSize: 15.0)
         let placeholder: NSAttributedString = NSAttributedString(
             string: "email",
             attributes:
@@ -111,7 +112,7 @@ class IRORegisterViewController: UIViewController {
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
+        textField.font = UIFont.systemFont(ofSize: 15.0)
         let placeholder: NSAttributedString = NSAttributedString(
             string: "password",
             attributes: [
@@ -130,7 +131,7 @@ class IRORegisterViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.setTitleColor(UIColor.black, for: .highlighted)
         button.setTitle("Sign up", for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1.0
         button.addTarget(self, action: #selector(self.tappedSignUpButton), for: .touchUpInside)
@@ -139,12 +140,25 @@ class IRORegisterViewController: UIViewController {
         return button
     }()
     
+    lazy var signInButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.black, for: .highlighted)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
+        button.setTitle("Already have an account?\nSign in", for: .normal)
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .center
+        button.addTarget(self, action: #selector(self.tappedSignInButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     lazy var facebookButton: UIButton = {
         let button: UIButton = UIButton()
         button.setTitleColor(UIColor.white, for: .normal)
         button.setTitleColor(UIColor.black, for: .highlighted)
-        button.setTitle("Skip", for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
+        button.setTitle("Sign up with Facebook", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
         button.backgroundColor = UIColor(red: 26/255.0, green: 106/255.0, blue: 199/255.0, alpha: 1.0)
         button.addTarget(self, action: #selector(self.pushMainScreen), for: .touchUpInside)
         button.clipsToBounds = true
@@ -189,6 +203,11 @@ class IRORegisterViewController: UIViewController {
         self.signUpButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.signUpButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         
+        self.signInButton.topAnchor.constraint(equalTo: self.signUpButton.bottomAnchor, constant: 50.0).isActive = true
+        self.signInButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+        self.signInButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+        self.signInButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        
         self.facebookButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40.0).isActive = true
         self.facebookButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.facebookButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
@@ -220,13 +239,36 @@ class IRORegisterViewController: UIViewController {
                 headers: header
                 ).responseJSON { (response) in
                     switch response.result {
-                    case .success(let JSON):
-                        let response: [String : Any] = JSON as! [String : Any]
-                        self.pushMainScreen()
+                    case .success(let JSONDictionary):
+                        if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                            if
+                                let username: String = JSON["username"] as? String,
+                                let email: String = JSON["email"] as? String,
+                                let token: String = JSON["token"] as? String
+                            {
+                                let user: IROUser = IROUser(
+                                    username: username,
+                                    email: email,
+                                    token: token,
+                                    profileImage: nil
+                                )
+                                user.save()
+                                IROUser.currentUser = user
+                                self.pushMainScreen()
+                            }
+                            else
+                            {
+                                print("Error parsing user response")
+                            }
+                        }
                     case .failure(let error):
                         print("Sign up request failed with error \(error)")
                     }
             }
+    }
+    
+    func tappedSignInButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Alert
