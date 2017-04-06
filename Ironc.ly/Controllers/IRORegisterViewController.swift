@@ -30,15 +30,15 @@ class IRORegisterViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let usernameBorder: CALayer = self.createTextFieldBorder(textField: self.usernameTextField)
+        let usernameBorder: CALayer = CALayer.createTextFieldBorder(textField: self.usernameTextField)
         self.usernameTextField.layer.addSublayer(usernameBorder)
         self.usernameTextField.layer.masksToBounds = true
         
-        let emailBorder: CALayer = self.createTextFieldBorder(textField: self.emailTextField)
+        let emailBorder: CALayer = CALayer.createTextFieldBorder(textField: self.emailTextField)
         self.emailTextField.layer.addSublayer(emailBorder)
         self.emailTextField.layer.masksToBounds = true
         
-        let passwordBorder: CALayer = self.createTextFieldBorder(textField: self.passwordTextField)
+        let passwordBorder: CALayer = CALayer.createTextFieldBorder(textField: self.passwordTextField)
         self.passwordTextField.layer.addSublayer(passwordBorder)
         self.passwordTextField.layer.masksToBounds = true
         
@@ -152,15 +152,6 @@ class IRORegisterViewController: UIViewController {
         return button
     }()
     
-    func createTextFieldBorder(textField: UITextField) -> CALayer {
-        let width: CGFloat = 1.0
-        let border: CALayer = CALayer()
-        border.frame = CGRect(x: 0, y: textField.frame.size.height - width, width: textField.frame.size.width, height: textField.frame.size.height)
-        border.borderColor = UIColor.white.cgColor
-        border.borderWidth = width
-        return border
-    }
-    
     // MARK: - Autolayout
     func setUpConstraints() {
         
@@ -213,7 +204,6 @@ class IRORegisterViewController: UIViewController {
     
     // MARK: - Actions
     func tappedSignUpButton() {
-        if self.validateInputs() == true {
             let parameters: Parameters = [
                 "username" : "\(self.usernameTextField.text!)",
                 "email" : "\(self.emailTextField.text!)",
@@ -237,46 +227,6 @@ class IRORegisterViewController: UIViewController {
                         print("Sign up request failed with error \(error)")
                     }
             }
-        }
-    }
-    
-    // MARK: - Validation
-    func validateInputs() -> Bool {
-        if self.isValidUsername() == false {
-            self.presentAlert(title: "Invalid Username", message: "Try a new username")
-            return false
-        }
-        else if self.isValidEmail() == false {
-            self.presentAlert(title: "Invalid Email", message: "Make sure you entered your email correctly")
-            return false
-        }
-        else if self.isValidPassword() == false {
-            self.presentAlert(title: "Invalid Password", message: "Try a new password")
-            return false
-        }
-        else {
-            // Everything is valid
-            return true
-        }
-    }
-    
-    func isValidUsername() -> Bool {
-        // Alphanumeric between 1 and 18 characters
-        let regEx: String = "\\A\\w{1,18}\\z"
-        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
-        return test.evaluate(with: self.usernameTextField.text)
-    }
-    
-    func isValidEmail() -> Bool {
-        let regEx: String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
-        return test.evaluate(with: self.emailTextField.text)
-    }
-    
-    func isValidPassword() -> Bool {
-        let regEx: String = "^(?=.*?[A-Z])(?=.*?[a-z]).{6,}$"
-        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
-        return test.evaluate(with: self.passwordTextField.text)
     }
     
     // MARK: - Alert

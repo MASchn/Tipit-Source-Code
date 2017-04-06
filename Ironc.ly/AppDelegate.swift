@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
                 
-        let registerViewController: IRORegisterViewController = IRORegisterViewController()
+        let registerViewController: IROLoginViewController = IROLoginViewController()
         self.navigationController = UINavigationController(rootViewController: registerViewController)
         self.navigationController.navigationBar.isTranslucent = true
         self.navigationController.isNavigationBarHidden = true
