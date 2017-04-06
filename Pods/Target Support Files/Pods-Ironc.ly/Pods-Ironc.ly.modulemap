@@ -1,0 +1,6 @@
+framework module Pods_Ironc_ly {
+  umbrella header "Pods-Ironc.ly-umbrella.h"
+
+  export *
+  module * { export * }
+}
