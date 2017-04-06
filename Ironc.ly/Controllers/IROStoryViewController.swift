@@ -20,6 +20,9 @@ class IROStoryViewController: UIPageViewController {
     init(story: IROStory) {
         self.story = story
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
+        
+        self.dataSource = self
+        self.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +68,59 @@ class IROStoryViewController: UIPageViewController {
     // MARK: - Actions
     func dismissStory() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension IROStoryViewController: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        
+        let postViewController: IROPostViewController = viewController as! IROPostViewController
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        let index: Int = postViewController.post.index!
+        
+        if index == 0 {
+            return nil // This is the first post in the story
+        } else {
+            let beforeIndex: Int = index - 1
+            let beforePost: IROPost = storyViewController.story.posts[beforeIndex]
+            let beforePostViewController: IROPostViewController = IROPostViewController(post: beforePost)
+            return beforePostViewController
+        }
+        
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        
+        let postViewController: IROPostViewController = viewController as! IROPostViewController
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        let index: Int = postViewController.post.index!
+        
+        if index == storyViewController.story.posts.count - 1 {
+            return nil // This is the last post in the story
+        } else {
+            let afterIndex: Int = index + 1
+            let afterPost: IROPost = storyViewController.story.posts[afterIndex]
+            let afterPostViewController: IROPostViewController = IROPostViewController(post: afterPost)
+            return afterPostViewController
+        }
+        
+    }
+    
+}
+
+extension IROStoryViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        let firstPendingViewController: IROPostViewController = pendingViewControllers.first! as! IROPostViewController
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        storyViewController.currentIndex = firstPendingViewController.post.index!
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
+        storyViewController.pageControl.currentPage = storyViewController.currentIndex
     }
     
 }
