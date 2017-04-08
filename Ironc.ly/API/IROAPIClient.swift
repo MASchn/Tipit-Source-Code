@@ -121,5 +121,19 @@ class IROAPIClient: NSObject {
             completionHandler(false)
         }
     }
-
+    
+    enum IROContentType: String {
+        case image = "image"
+        case video = "video"
+    }
+    
+    class func post(user: IROUser, content: Data, type: IROContentType, private: Bool, completionHandler: (Bool) -> Void) {
+        let headers: HTTPHeaders = [
+            "x-auth" : user.token
+        ]
+        Alamofire.upload(content, to: "https://powerful-reef-30384.herokuapp.com/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
+            //
+        }
+    }
+    
 }

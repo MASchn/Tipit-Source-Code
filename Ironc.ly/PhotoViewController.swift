@@ -63,6 +63,9 @@ class PhotoViewController: IROPreviewViewController {
         self.view.bringSubview(toFront: self.sendToFriendButton)
         
         self.sendToFriendButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
+        
+        self.publicButton.addTarget(self, action: #selector(self.tappedPublicButton), for: .touchUpInside)
+        self.privateButton.addTarget(self, action: #selector(self.tappedPrivateButton), for: .touchUpInside)
     }
     
     func cancel() {
@@ -76,13 +79,24 @@ class PhotoViewController: IROPreviewViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    override func tappedPublicButton(sender: UIButton) {
-        // let imageData: Data = UIImageJPEGRepresentation(self.backgroundImage, 1.0)!
-        // let headers: HTTPHeaders = [
-        //     "x-auth" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGNlZWEzOGQzZjU5YTAwMTEzZWY3MzEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNDg5OTU1Mzg0fQ.W9-ftuMRf1Uk7VmTUkVVAm3U20SRIgkP9RUxJSzz5JM"
-        // ]
-        // Alamofire.upload(imageData, to: "https://powerful-reef-30384.herokuapp.com/media_items?file_type=jpg", method: .post, headers: headers).responseJSON { (response) in
-        // }
-        
+    // MARK: - Actions
+    func tappedPublicButton(sender: UIButton) {
+        if let user: IROUser = IROUser.currentUser {
+            if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 1.0) {
+                IROAPIClient.post(
+                    user: user,
+                    content: data,
+                    type: .image,
+                    private: false,
+                    completionHandler: {
+                        (success: Bool) in
+                        //
+                })
+            }
+        }
+    }
+    
+    func tappedPrivateButton(sender: UIButton) {
+        self.tappedPublicButton(sender: sender)
     }
 }

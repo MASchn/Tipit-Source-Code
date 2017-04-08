@@ -69,6 +69,9 @@ class VideoViewController: IROPreviewViewController {
         self.view.bringSubview(toFront: self.sendToFriendButton)
         
         self.sendToFriendButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
+        
+        self.publicButton.addTarget(self, action: #selector(self.tappedPublicButton), for: .touchUpInside)
+        self.privateButton.addTarget(self, action: #selector(self.tappedPrivateButton), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,5 +95,29 @@ class VideoViewController: IROPreviewViewController {
         let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [self.videoURL, shareText], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Actions
+    func tappedPublicButton(sender: UIButton) {
+        if let user: IROUser = IROUser.currentUser {
+            do {
+                let data: Data = try Data(contentsOf: self.videoURL)
+                IROAPIClient.post(
+                    user: user,
+                    content: data,
+                    type: .video,
+                    private: false,
+                    completionHandler: {
+                        (success: Bool) in
+                        //
+                })
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    func tappedPrivateButton(sender: UIButton) {
+        self.tappedPublicButton(sender: sender)
     }
 }

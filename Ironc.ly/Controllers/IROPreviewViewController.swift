@@ -49,7 +49,6 @@ class IROPreviewViewController: UIViewController {
         button.backgroundColor = IROConstants.green
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("Private", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedPrivateButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -60,7 +59,6 @@ class IROPreviewViewController: UIViewController {
         button.backgroundColor = IROConstants.green
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("Public", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedPublicButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -94,26 +92,6 @@ class IROPreviewViewController: UIViewController {
         self.privateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.privateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.privateButton.heightAnchor.constraint(equalToConstant: height).isActive = true
-    }
-    
-    // MARK: - Actions
-    func tappedPrivateButton(sender: UIButton) {
-        self.postContent(privacy: .private)
-    }
-    
-    open func tappedPublicButton(sender: UIButton) {
-        self.postContent(privacy: .public)
-    }
-    
-    func postContent(privacy: IROContentPrivacy) {
-        let alert: UIAlertController = UIAlertController(title: "Congrats!", message: "You posted a \(self.contentType.rawValue) to your \(privacy.rawValue) story", preferredStyle: .alert)
-        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-        })
     }
     
 }
