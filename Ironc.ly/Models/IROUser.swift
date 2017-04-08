@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 struct IROUser {
-    let username: String
-    let email: String
+    let username: String?
+    let email: String?
     let token: String
     let profileImage: UIImage?
     static var currentUser: IROUser?
@@ -21,6 +21,12 @@ struct IROUser {
         UserDefaults.standard.set(self.email, forKey: "email")
         UserDefaults.standard.set(self.token, forKey: "token")
         UserDefaults.standard.set(self.profileImage, forKey: "image")
+    }
+    
+    static func logOut() {
+        UserDefaults.standard.removeObject(forKey: "email")
+        UserDefaults.standard.removeObject(forKey: "token")
+        self.currentUser = nil
     }
     
     static func fetchUserFromDefaults() -> IROUser? {

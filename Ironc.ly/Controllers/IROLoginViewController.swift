@@ -183,9 +183,22 @@ class IROLoginViewController: UIViewController {
     
     func tappedSignInButton() {
         if self.emailTextField.text?.isEmpty == true || self.passwordTextField.text?.isEmpty == true {
-
+            let alert: UIAlertController = UIAlertController(title: "Error", message: "Please fill in email and password fields", preferredStyle: .alert)
+            let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            })
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
         } else {
-
+            let email: String = self.emailTextField.text!
+            let password: String = self.passwordTextField.text!
+            IROAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
+                if success == true {
+                    self.pushMainScreen()
+                } else {
+                    print("Log in error")
+                }
+            })
         }
     }
     

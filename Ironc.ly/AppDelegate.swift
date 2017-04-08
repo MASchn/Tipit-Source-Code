@@ -45,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.navigationController.isNavigationBarHidden = true
         self.window?.rootViewController = self.navigationController
     }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return true
+    }
 
 }
 

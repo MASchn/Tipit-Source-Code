@@ -22,6 +22,7 @@ class IROProfileViewController: UIViewController {
         
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.storyPreviewButton)
+        self.view.addSubview(self.logOutButton)
         
         self.setUpConstraints()
         
@@ -41,10 +42,6 @@ class IROProfileViewController: UIViewController {
         }
     }
     
-    func downloadAllContent(mediaItems: [IROMediaItem], completion: ([IROPost?]) -> Void) {
-        
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -56,9 +53,17 @@ class IROProfileViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         self.storyPreviewButton.layer.cornerRadius = self.storyPreviewButton.frame.size.height / 2.0
+        self.logOutButton.layer.cornerRadius = self.logOutButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
+    lazy var backgroundImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "register_background")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = UIColor.lightGray
@@ -68,11 +73,17 @@ class IROProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var backgroundImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "register_background")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    lazy var logOutButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .red
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .highlighted)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
+        button.setTitle("Log out", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedLogOutButton), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     // MARK: - Autolayout
@@ -86,6 +97,11 @@ class IROProfileViewController: UIViewController {
         self.storyPreviewButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -60.0).isActive = true
         self.storyPreviewButton.heightAnchor.constraint(equalTo: self.storyPreviewButton.widthAnchor).isActive = true
         self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        
+        self.logOutButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 50.0).isActive = true
+        self.logOutButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30.0).isActive = true
+        self.logOutButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30.0).isActive = true
+        self.logOutButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
     }
     
     // MARK: - Actions
@@ -94,6 +110,12 @@ class IROProfileViewController: UIViewController {
             let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
             self.present(storyViewController, animated: true, completion: nil)
         }
+    }
+    
+    func tappedLogOutButton() {
+        IROUser.logOut()
+        let logInViewController: IROLoginViewController = IROLoginViewController()
+        self.navigationController?.present(logInViewController, animated: true, completion: nil)
     }
 
 }

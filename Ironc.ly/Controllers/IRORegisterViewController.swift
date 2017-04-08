@@ -160,7 +160,7 @@ class IRORegisterViewController: UIViewController {
         button.setTitle("Sign up with Facebook", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
         button.backgroundColor = UIColor(red: 26/255.0, green: 106/255.0, blue: 199/255.0, alpha: 1.0)
-        button.addTarget(self, action: #selector(self.pushMainScreen), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.tappedFacebookButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -250,7 +250,14 @@ class IRORegisterViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func tappedFacebookButton() {
+        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
+        UIApplication.shared.openURL(url)
+    }
+    
     func pushMainScreen() {
+        
+        
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         self.navigationController?.navigationBar.isTranslucent = false

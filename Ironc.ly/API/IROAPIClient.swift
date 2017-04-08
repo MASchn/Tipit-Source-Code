@@ -62,31 +62,63 @@ class IROAPIClient: NSObject {
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                        if
-                            let username: String = JSON["username"] as? String,
-                            let email: String = JSON["email"] as? String,
-                            let token: String = JSON["token"] as? String
-                        {
-                            let user: IROUser = IROUser(
-                                username: username,
-                                email: email,
-                                token: token,
-                                profileImage: nil
-                            )
-                            user.save()
-                            IROUser.currentUser = user
-                            completionHandler(true)
-                        }
-                        else
-                        {
-                            print("Error parsing user response")
-                            completionHandler(false)
-                        }
+                        self.parseLogInJSON(JSON: JSON, completionHandler: completionHandler)
                     }
                 case .failure(let error):
                     print("Sign up request failed with error \(error)")
                     completionHandler(false)
                 }
+        }
+    }
+    
+    class func logInUser(email: String, password: String, completionHandler: @escaping (Bool) -> Void) {
+        let parameters: Parameters = [
+            "email" : email,
+            "password" : password
+        ]
+        let headers: HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+        Alamofire.request(
+            "https://powerful-reef-30384.herokuapp.com/users/login",
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSONDictionary):
+                if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                    self.parseLogInJSON(JSON: JSON, completionHandler: completionHandler)
+                }
+            case .failure(let error):
+                print("Log in request failed with error \(error)")
+                completionHandler(false)
+            }
+        }
+    }
+    
+    // Helper method
+    class func parseLogInJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
+        if
+            let email: String = JSON["email"] as? String,
+            let token: String = JSON["token"] as? String
+        {
+            let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
+            let user: IROUser = IROUser(
+                username: username,
+                email: email,
+                token: token,
+                profileImage: nil
+            )
+            user.save()
+            IROUser.currentUser = user
+            completionHandler(true)
+        }
+        else
+        {
+            print("Error parsing user response")
+            completionHandler(false)
         }
     }
 
