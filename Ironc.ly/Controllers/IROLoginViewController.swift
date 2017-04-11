@@ -43,7 +43,7 @@ class IROLoginViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "register_background")
+        imageView.image = #imageLiteral(resourceName: "login_background")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

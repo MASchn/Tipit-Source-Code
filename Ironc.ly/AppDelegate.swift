@@ -18,12 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        if let user: IROUser = IROUser.fetchUserFromDefaults() {
-            IROUser.currentUser = user
-            self.showFeed()
-        } else {
-            self.showSignIn()
-        }
+//        if let user: IROUser = IROUser.fetchUserFromDefaults() {
+//            IROUser.currentUser = user
+//            self.showFeed()
+//        } else {
+//            self.showSignIn()
+//        }
+        
+        let forgotPasswordViewController: IROForgotPasswordViewController = IROForgotPasswordViewController()
+        self.window?.rootViewController = forgotPasswordViewController
         
         self.window?.makeKeyAndVisible()
         

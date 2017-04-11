@@ -12,6 +12,7 @@
 		370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36691E43BBC600F8FF9E /* IROStory.swift */; };
 		370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */; };
 		370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */; };
+		3715BFD51E9C74F300C29D9E /* IROForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
 		37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */; };
 		37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */; };
@@ -49,6 +50,7 @@
 		370E36691E43BBC600F8FF9E /* IROStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStory.swift; sourceTree = "<group>"; };
 		370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStoryViewController.swift; path = Controllers/IROStoryViewController.swift; sourceTree = "<group>"; };
 		370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPostViewController.swift; path = Controllers/IROPostViewController.swift; sourceTree = "<group>"; };
+		3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROForgotPasswordViewController.swift; path = Controllers/IROForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
 		37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRORegisterViewController.swift; path = Controllers/IRORegisterViewController.swift; sourceTree = "<group>"; };
 		37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROLoginViewController.swift; path = Controllers/IROLoginViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				37BA70311E36E9870093EAE5 /* IROTabBarController.swift */,
 				37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */,
 				37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */,
+				3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */,
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
 				370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */,
+				3715BFD51E9C74F300C29D9E /* IROForgotPasswordViewController.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
 				37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */,
 				37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */,
