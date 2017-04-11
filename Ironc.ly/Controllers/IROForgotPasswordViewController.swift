@@ -142,9 +142,16 @@ class IROForgotPasswordViewController: UIViewController {
             return
         }
         
-        self.showAlert(title: "Reset request submitted", message: "Please follow the instructions sent to your email") { 
-            self.navigationController?.popToRootViewController(animated: true)
+        IROAPIClient.forgotPassword(email: self.emailTextField.text!) { (success: Bool) in
+            if success == true {
+                self.showAlert(title: "Reset request submitted", message: "Please follow the instructions sent to your email") {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            } else {
+                print("Forgot password error")
+            }
         }
+        
     }
 
 }

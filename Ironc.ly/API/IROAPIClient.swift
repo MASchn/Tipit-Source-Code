@@ -11,6 +11,8 @@ import Alamofire
 
 class IROAPIClient: NSObject {
     
+    static let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
+    
     class func getPersonalStory(completionHandler: @escaping ([IROMediaItem]?) -> Void) {
         print("Requesting story")
         guard let user: IROUser = IROUser.currentUser else {
@@ -22,7 +24,7 @@ class IROAPIClient: NSObject {
             "x-auth" : user.token,
             "content-type" : "application/json"
         ]
-        Alamofire.request("https://powerful-reef-30384.herokuapp.com/users/me/media_items", headers: headers).responseJSON { (response) in
+        Alamofire.request(self.baseURL + "/users/me/media_items", headers: headers).responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -53,7 +55,7 @@ class IROAPIClient: NSObject {
             "Content-Type" : "application/json"
         ]
         Alamofire.request(
-            "https://powerful-reef-30384.herokuapp.com/users",
+            self.baseURL + "/users",
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default,
@@ -80,7 +82,7 @@ class IROAPIClient: NSObject {
             "Content-Type" : "application/json"
         ]
         Alamofire.request(
-            "https://powerful-reef-30384.herokuapp.com/users/login",
+            self.baseURL + "/users/login",
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default,
@@ -127,12 +129,35 @@ class IROAPIClient: NSObject {
         case video = "video"
     }
     
-    class func post(user: IROUser, content: Data, type: IROContentType, private: Bool, completionHandler: (Bool) -> Void) {
+    class func post(user: IROUser, content: Data, type: IROContentType, private: Bool, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
             "x-auth" : user.token
         ]
-        Alamofire.upload(content, to: "https://powerful-reef-30384.herokuapp.com/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
-            //
+        Alamofire.upload(content, to: self.baseURL + "/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
+            completionHandler(true)
+        }
+    }
+    
+    class func forgotPassword(email: String, completionHandler: @escaping (Bool) -> Void) {
+        let parameters: Parameters = [
+            "email" : email,
+            ]
+        let headers: HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+        Alamofire.request(
+            self.baseURL + "/forgot_password",
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSONDictionary):
+                completionHandler(true)
+            case .failure(let error):
+                completionHandler(false)
+            }
         }
     }
     

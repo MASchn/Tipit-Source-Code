@@ -22,9 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let registerViewController: IROLoginViewController = IROLoginViewController()
-        self.navigationController = IRONavigationController(rootViewController: registerViewController)
-        self.window?.rootViewController = self.navigationController
+        self.showSignIn()
         
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
             IROUser.currentUser = user
@@ -37,13 +35,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func showFeed(animated: Bool) {
+        if self.navigationController == nil {
+            self.showSignIn()
+        }
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = self
         self.navigationController?.configureForTabBar()
         self.navigationController?.pushViewController(tabBarController, animated: animated)
     }
     
+    func showSignIn() {
+        let registerViewController: IROLoginViewController = IROLoginViewController()
+        self.navigationController = IRONavigationController(rootViewController: registerViewController)
+        self.window?.rootViewController = self.navigationController
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let token: String = url.query?.components(separatedBy: "=").last {
+            let user: IROUser = IROUser(
+                username: nil,
+                email: nil,
+                token: token,
+                profileImage: nil
+            )
+            user.save()
+            IROUser.currentUser = user
+            self.showFeed(animated: true)
+        }
         return true
     }
 
