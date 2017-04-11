@@ -33,8 +33,6 @@ class IROProfileViewController: UIViewController {
                         self.story = story
                         if let firstPost: IROPost = story.posts.first {
                             self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                            self.storyPreviewButton.layer.borderColor = IROConstants.green.cgColor
-                            self.storyPreviewButton.layer.borderWidth = 10.0
                         }
                     }
                 })
@@ -59,17 +57,53 @@ class IROProfileViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "register_background")
+        imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
+    lazy var profileImageButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .lightGray
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var nameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = UIColor.lightGray
+        button.backgroundColor = .lightGray
+        button.layer.borderColor = IROConstants.green.cgColor
+        button.layer.borderWidth = 10.0
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var followersButton: IROButton = {
+        let button: IROButton = IROButton(style: .text)
+        button.setTitle("Followers", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var addFriendsButton: IROButton = {
+        let button: IROButton = IROButton(style: .text)
+        button.setTitle("Add Friends", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var myFriendsButton: IROButton = {
+        let button: IROButton = IROButton(style: .text)
+        button.setTitle("My Friends", for: .normal)
         return button
     }()
     
@@ -89,9 +123,9 @@ class IROProfileViewController: UIViewController {
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.storyPreviewButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 60.0).isActive = true
-        self.storyPreviewButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -60.0).isActive = true
-        self.storyPreviewButton.heightAnchor.constraint(equalTo: self.storyPreviewButton.widthAnchor).isActive = true
+        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
+        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
+        self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
         self.logOutButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 50.0).isActive = true
