@@ -69,7 +69,7 @@ class PhotoViewController: IROPreviewViewController {
     }
     
     func cancel() {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func share() {
@@ -82,7 +82,7 @@ class PhotoViewController: IROPreviewViewController {
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
         if let user: IROUser = IROUser.currentUser {
-            if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 1.0) {
+            if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
                 IROAPIClient.post(
                     user: user,
                     content: data,
@@ -90,7 +90,9 @@ class PhotoViewController: IROPreviewViewController {
                     private: false,
                     completionHandler: {
                         (success: Bool) in
-                        //
+                        if success == true {
+                            self.presentingViewController?.dismiss(animated: true, completion: nil)
+                        }
                 })
             }
         }

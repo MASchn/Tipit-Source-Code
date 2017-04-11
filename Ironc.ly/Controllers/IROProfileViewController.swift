@@ -25,6 +25,12 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.logOutButton)
         
         self.setUpConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationController?.isNavigationBarHidden = true
         
         IROAPIClient.getPersonalStory { (mediaItems: [IROMediaItem]?) in
             if let mediaItems: [IROMediaItem] = mediaItems {
@@ -38,12 +44,6 @@ class IROProfileViewController: UIViewController {
                 })
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.tabBarController?.navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - Layout

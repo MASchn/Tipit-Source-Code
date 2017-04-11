@@ -22,7 +22,7 @@ class IROAPIClient: NSObject {
         
         let headers: HTTPHeaders = [
             "x-auth" : user.token,
-            "content-type" : "application/json"
+            "Content-Type" : "application/json"
         ]
         Alamofire.request(self.baseURL + "/users/me/media_items", headers: headers).responseJSON { (response) in
             switch response.result {
@@ -134,6 +134,7 @@ class IROAPIClient: NSObject {
             "x-auth" : user.token
         ]
         Alamofire.upload(content, to: self.baseURL + "/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
+            print(response)
             completionHandler(true)
         }
     }

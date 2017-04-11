@@ -30,11 +30,9 @@ struct IROUser {
     }
     
     static func fetchUserFromDefaults() -> IROUser? {
-        if
-            let username: String = UserDefaults.standard.object(forKey: "username") as? String,
-            let email: String = UserDefaults.standard.object(forKey: "email") as? String,
-            let token: String = UserDefaults.standard.object(forKey: "token") as? String
-        {
+        if let token: String = UserDefaults.standard.object(forKey: "token") as? String {
+            let username: String? = UserDefaults.standard.object(forKey: "username") as? String
+            let email: String? = UserDefaults.standard.object(forKey: "email") as? String
             let image: UIImage? = UserDefaults.standard.object(forKey: "image") as? UIImage
             return IROUser(
                 username: username,
