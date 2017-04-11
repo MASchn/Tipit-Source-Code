@@ -44,28 +44,24 @@ class IROPreviewViewController: UIViewController {
     }
     
     // MARK: - Lazy Initialization
-    lazy var privateButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.backgroundColor = IROConstants.green
-        button.setTitleColor(UIColor.black, for: .normal)
+    lazy var privateButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
         button.setTitle("Private", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    lazy var publicButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.backgroundColor = IROConstants.green
-        button.setTitleColor(UIColor.black, for: .normal)
+    lazy var publicButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
         button.setTitle("Public", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    lazy var sendToFriendButton: UIButton = {
-        let button: UIButton = UIButton()
+    lazy var sendToFriendButton: IROButton = {
+        let button: IROButton = IROButton(style: .text)
         button.setTitle("Send to a friend", for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false

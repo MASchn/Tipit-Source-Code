@@ -24,9 +24,10 @@ class IROValidator: NSObject {
     }
     
     class func isValidPassword(input: String) -> Bool {
-        let regEx: String = "^(?=.*?[A-Z])(?=.*?[a-z]).{6,}$"
-        let test: NSPredicate = NSPredicate(format:"SELF MATCHES %@", regEx)
-        return test.evaluate(with: input)
+        if input.characters.count > 6 {
+            return true
+        }
+        return false
     }
 
 }

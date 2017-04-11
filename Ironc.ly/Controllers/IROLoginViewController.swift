@@ -78,7 +78,7 @@ class IROLoginViewController: UIViewController {
     lazy var signInButton: IROButton = {
         let button: IROButton = IROButton(style: .green)
         button.setTitle("Sign in", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedSignInButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.signIn), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -165,14 +165,7 @@ class IROLoginViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    func pushMainScreen() {
-        let tabBarController: IROTabBarController = IROTabBarController()
-        tabBarController.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.pushViewController(tabBarController, animated: true)
-    }
-    
-    func tappedSignInButton() {
+    func signIn() {
         if self.emailTextField.text?.isEmpty == true || self.passwordTextField.text?.isEmpty == true {
             self.showAlert(title: "Please fill in all fields", message: nil, completion: nil)
         } else {
@@ -180,7 +173,9 @@ class IROLoginViewController: UIViewController {
             let password: String = self.passwordTextField.text!
             IROAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
                 if success == true {
-                    self.pushMainScreen()
+                    self.emailTextField.text = ""
+                    self.passwordTextField.text = ""
+                    AppDelegate.shared.showFeed(animated: true)
                 } else {
                     self.showAlert(title: "Incorrect email or password", message: "Please try again", completion: nil)
                 }
@@ -214,6 +209,7 @@ extension IROLoginViewController: UITextFieldDelegate {
             return false
         case self.passwordTextField:
             self.passwordTextField.resignFirstResponder()
+            self.signIn()
             return false
         default:
             break

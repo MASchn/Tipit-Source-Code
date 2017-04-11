@@ -11,6 +11,7 @@ import UIKit
 enum IROButtonStyle {
     case green
     case white
+    case red
     case clear
     case text
     case facebook
@@ -31,6 +32,10 @@ class IROButton: UIButton {
             self.setTitleColor(.black, for: .normal)
             self.setTitleColor(.lightGray, for: .highlighted)
             self.backgroundColor = .white
+        case .red:
+            self.setTitleColor(.white, for: .normal)
+            self.setTitleColor(.lightGray, for: .highlighted)
+            self.backgroundColor = .red
         case .clear:
             self.setTitleColor(.white, for: .normal)
             self.setTitleColor(.lightGray, for: .highlighted)

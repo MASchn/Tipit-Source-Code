@@ -73,12 +73,8 @@ class IROProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var logOutButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.backgroundColor = .red
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.black, for: .highlighted)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
+    lazy var logOutButton: IROButton = {
+        let button: IROButton = IROButton(style: .red)
         button.setTitle("Log out", for: .normal)
         button.addTarget(self, action: #selector(self.tappedLogOutButton), for: .touchUpInside)
         button.clipsToBounds = true
@@ -101,7 +97,7 @@ class IROProfileViewController: UIViewController {
         self.logOutButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 50.0).isActive = true
         self.logOutButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30.0).isActive = true
         self.logOutButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30.0).isActive = true
-        self.logOutButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.logOutButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
     // MARK: - Actions
@@ -114,8 +110,8 @@ class IROProfileViewController: UIViewController {
     
     func tappedLogOutButton() {
         IROUser.logOut()
-        let logInViewController: IROLoginViewController = IROLoginViewController()
-        self.navigationController?.present(logInViewController, animated: true, completion: nil)
+        AppDelegate.shared.navigationController?.configureForSignIn()
+        AppDelegate.shared.navigationController?.popToRootViewController(animated: true)
     }
 
 }

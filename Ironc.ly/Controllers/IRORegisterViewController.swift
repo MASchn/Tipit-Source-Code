@@ -151,13 +151,42 @@ class IRORegisterViewController: UIViewController {
     
     // MARK: - Actions
     func tappedSignUpButton() {
+        guard
+            self.usernameTextField.hasText == true,
+            self.emailTextField.hasText == true,
+            self.passwordTextField.hasText == true
+        else
+        {
+            self.showAlert(title: "Please fill in all fields", message: nil, completion: nil)
+            return
+        }
+        
+        let username: String = self.usernameTextField.text!
+        let email: String = self.emailTextField.text!
+        let password: String = self.passwordTextField.text!
+        
+        guard IROValidator.isValidUsername(input: username) else {
+            self.showAlert(title: "Invalid username", message: nil, completion: nil)
+            return
+        }
+        
+        guard IROValidator.isValidEmail(input: email) else {
+            self.showAlert(title: "Invalid email", message: nil, completion: nil)
+            return
+        }
+        
+        guard IROValidator.isValidPassword(input: password) else {
+            self.showAlert(title: "Invalid password", message: nil, completion: nil)
+            return
+        }
+        
         IROAPIClient.registerNewUser(
             username: self.usernameTextField.text!,
             email: self.emailTextField.text!,
             password: self.passwordTextField.text!
         ) { (success: Bool) in
             if success == true {
-                self.pushMainScreen()
+                AppDelegate.shared.showFeed(animated: true)
             } else {
                 print("Could not register new user")
             }
@@ -171,13 +200,6 @@ class IRORegisterViewController: UIViewController {
     func tappedFacebookButton() {
         let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
         UIApplication.shared.openURL(url)
-    }
-    
-    func pushMainScreen() {
-        let tabBarController: IROTabBarController = IROTabBarController()
-        tabBarController.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.pushViewController(tabBarController, animated: true)
     }
     
 }
