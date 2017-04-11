@@ -30,7 +30,7 @@ class IROButton: UIButton {
             self.setTitleColor(.lightGray, for: .highlighted)
             self.backgroundColor = .white
         case .clear:
-            self.setTitleColor(.black, for: .normal)
+            self.setTitleColor(.white, for: .normal)
             self.setTitleColor(.lightGray, for: .highlighted)
             self.layer.borderColor = UIColor.white.cgColor
             self.layer.borderWidth = 1.0

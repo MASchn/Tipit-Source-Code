@@ -61,65 +61,33 @@ class IRORegisterViewController: UIViewController {
         return view
     }()
     
-    lazy var usernameTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.textColor = UIColor.white
-        textField.font = UIFont.systemFont(ofSize: 15.0)
+    lazy var usernameTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "username")
         textField.autocapitalizationType = .none
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "username",
-            attributes:
-            [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var emailTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.textColor = UIColor.white
+    lazy var emailTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "email")
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        textField.font = UIFont.systemFont(ofSize: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "email",
-            attributes:
-            [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var passwordTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.textColor = UIColor.white
+    lazy var passwordTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "password")
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
-        textField.font = UIFont.systemFont(ofSize: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "password",
-            attributes: [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -134,12 +102,11 @@ class IRORegisterViewController: UIViewController {
         return button
     }()
     
-    lazy var facebookButton: UIButton = {
-        let button: UIButton = UIButton()
+    lazy var facebookButton: IROButton = {
+        let button: IROButton = IROButton()
         button.setTitleColor(UIColor.white, for: .normal)
         button.setTitleColor(UIColor.black, for: .highlighted)
         button.setTitle("Sign up with Facebook", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
         button.backgroundColor = UIColor(red: 26/255.0, green: 106/255.0, blue: 199/255.0, alpha: 1.0)
         button.addTarget(self, action: #selector(self.tappedFacebookButton), for: .touchUpInside)
         button.clipsToBounds = true

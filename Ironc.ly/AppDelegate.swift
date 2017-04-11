@@ -40,9 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showSignIn() {
         let registerViewController: IROLoginViewController = IROLoginViewController()
-        self.navigationController = UINavigationController(rootViewController: registerViewController)
+        self.navigationController = IRONavigationController(rootViewController: registerViewController)
         self.navigationController.navigationBar.isTranslucent = true
-        self.navigationController.isNavigationBarHidden = true
+        self.navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController.navigationBar.shadowImage = UIImage()
+        self.navigationController.navigationBar.tintColor = .white
         self.window?.rootViewController = self.navigationController
     }
     
@@ -61,6 +63,14 @@ extension AppDelegate: UITabBarControllerDelegate {
             return false
         }
         return true
+    }
+    
+}
+
+class IRONavigationController: UINavigationController {
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
 }

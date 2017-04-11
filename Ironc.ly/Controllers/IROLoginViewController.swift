@@ -23,12 +23,7 @@ class IROLoginViewController: UIViewController {
         
         self.setUpConstraints()
     }
-    
-    // MARK: - Status Bar
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
+        
     // MARK: - Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
