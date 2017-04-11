@@ -21,7 +21,6 @@ class IRORegisterViewController: UIViewController {
         self.view.addSubview(self.emailTextField)
         self.view.addSubview(self.passwordTextField)
         self.view.addSubview(self.signUpButton)
-        self.view.addSubview(self.signInButton)
         self.view.addSubview(self.facebookButton)
         
         self.setUpConstraints()
@@ -126,29 +125,11 @@ class IRORegisterViewController: UIViewController {
         return textField
     }()
     
-    lazy var signUpButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.setTitleColor(UIColor.black, for: .highlighted)
+    lazy var signUpButton: IROButton = {
+        let button: IROButton = IROButton(style: .clear)
         button.setTitle("Sign up", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightMedium)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1.0
         button.addTarget(self, action: #selector(self.tappedSignUpButton), for: .touchUpInside)
         button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var signInButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.setTitleColor(UIColor.black, for: .highlighted)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
-        button.setTitle("Already have an account?\nSign in", for: .normal)
-        button.titleLabel?.numberOfLines = 2
-        button.titleLabel?.textAlignment = .center
-        button.addTarget(self, action: #selector(self.tappedSignInButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -202,12 +183,7 @@ class IRORegisterViewController: UIViewController {
         self.signUpButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.signUpButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.signUpButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        
-        self.signInButton.topAnchor.constraint(equalTo: self.signUpButton.bottomAnchor, constant: 50.0).isActive = true
-        self.signInButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
-        self.signInButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
-        self.signInButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        
+                
         self.facebookButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40.0).isActive = true
         self.facebookButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.facebookButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true

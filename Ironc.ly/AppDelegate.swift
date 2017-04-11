@@ -22,11 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            IROUser.currentUser = user
 //            self.showFeed()
 //        } else {
-//            self.showSignIn()
+            self.showSignIn()
 //        }
-        
-        let forgotPasswordViewController: IROForgotPasswordViewController = IROForgotPasswordViewController()
-        self.window?.rootViewController = forgotPasswordViewController
         
         self.window?.makeKeyAndVisible()
         

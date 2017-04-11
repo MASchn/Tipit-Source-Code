@@ -24,17 +24,14 @@ class IROLoginViewController: UIViewController {
         self.setUpConstraints()
     }
     
+    // MARK: - Status Bar
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     // MARK: - Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        let emailBorder: CALayer = CALayer.createTextFieldBorder(textField: self.emailTextField)
-        self.emailTextField.layer.addSublayer(emailBorder)
-        self.emailTextField.layer.masksToBounds = true
-        
-        let passwordBorder: CALayer = CALayer.createTextFieldBorder(textField: self.passwordTextField)
-        self.passwordTextField.layer.addSublayer(passwordBorder)
-        self.passwordTextField.layer.masksToBounds = true
         
         self.signInButton.layer.cornerRadius = self.signInButton.frame.size.height / 2.0
         self.signUpButton.layer.cornerRadius = self.signUpButton.frame.size.height / 2.0
@@ -55,56 +52,33 @@ class IROLoginViewController: UIViewController {
         return view
     }()
     
-    lazy var emailTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.textColor = UIColor.white
+    lazy var emailTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "email")
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "email",
-            attributes:
-            [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var passwordTextField: UITextField = {
-        let textField: UITextField = UITextField()
+    lazy var passwordTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "password")
         textField.textColor = UIColor.white
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "password",
-            attributes: [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var signInButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitleColor(IROConstants.darkGray, for: .normal)
-        button.setTitleColor(UIColor.white, for: .highlighted)
-        button.backgroundColor = IROConstants.green
+    lazy var signInButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
         button.setTitle("Sign in", for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
+        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedSignInButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -116,13 +90,10 @@ class IROLoginViewController: UIViewController {
         return button
     }()
     
-    lazy var signUpButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitleColor(IROConstants.darkGray, for: .normal)
-        button.setTitleColor(UIColor.white, for: .highlighted)
-        button.backgroundColor = UIColor.white
+    lazy var signUpButton: IROButton = {
+        let button: IROButton = IROButton(style: .white)
         button.setTitle("Sign up", for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
+        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedSignUpButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -146,7 +117,7 @@ class IROLoginViewController: UIViewController {
         self.shadeView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.shadeView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        self.emailTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100.0).isActive = true
+        self.emailTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 200.0).isActive = true
         self.emailTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.emailTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.emailTextField.heightAnchor.constraint(equalToConstant: textFieldHeight).isActive = true
