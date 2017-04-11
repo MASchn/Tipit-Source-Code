@@ -28,10 +28,6 @@ class IROForgotPasswordViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let emailBorder: CALayer = CALayer.createTextFieldBorder(textField: self.emailTextField)
-        self.emailTextField.layer.addSublayer(emailBorder)
-        self.emailTextField.layer.masksToBounds = true
-        
         self.submitButton.layer.cornerRadius = self.submitButton.frame.size.height / 2.0
     }
     
@@ -45,7 +41,7 @@ class IROForgotPasswordViewController: UIViewController {
     
     lazy var shadeView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -72,34 +68,20 @@ class IROForgotPasswordViewController: UIViewController {
         return label
     }()
     
-    lazy var emailTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.textColor = UIColor.white
+    lazy var emailTextField: IROTextField = {
+        let textField: IROTextField = IROTextField(placeholder: "email")
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
-        textField.returnKeyType = .next
+        textField.returnKeyType = .done
         textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue", size: 15.0)
-        let placeholder: NSAttributedString = NSAttributedString(
-            string: "email",
-            attributes:
-            [
-                NSFontAttributeName : UIFont(name: "Helvetica-LightOblique", size: 15.0)!,
-                NSForegroundColorAttributeName : UIColor.white
-            ]
-        )
-        textField.attributedPlaceholder = placeholder
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var submitButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitleColor(IROConstants.darkGray, for: .normal)
-        button.setTitleColor(UIColor.white, for: .highlighted)
-        button.backgroundColor = IROConstants.green
+    lazy var submitButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
         button.setTitle("Submit", for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14.0)
         button.addTarget(self, action: #selector(self.tappedSubmitButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +123,27 @@ class IROForgotPasswordViewController: UIViewController {
         self.submitButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
+    // MARK: - Keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        self.view.endEditing(true)
+    }
+    
     // MARK: - Actions
-    func tappedSubmitButton() {}
+    func tappedSubmitButton() {
+        self.showAlert(title: "Reset request submitted", message: "Please follow the instructions sent to your email") { 
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+    }
 
+}
+
+extension IROForgotPasswordViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }

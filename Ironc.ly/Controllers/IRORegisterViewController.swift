@@ -30,18 +30,6 @@ class IRORegisterViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let usernameBorder: CALayer = CALayer.createTextFieldBorder(textField: self.usernameTextField)
-        self.usernameTextField.layer.addSublayer(usernameBorder)
-        self.usernameTextField.layer.masksToBounds = true
-        
-        let emailBorder: CALayer = CALayer.createTextFieldBorder(textField: self.emailTextField)
-        self.emailTextField.layer.addSublayer(emailBorder)
-        self.emailTextField.layer.masksToBounds = true
-        
-        let passwordBorder: CALayer = CALayer.createTextFieldBorder(textField: self.passwordTextField)
-        self.passwordTextField.layer.addSublayer(passwordBorder)
-        self.passwordTextField.layer.masksToBounds = true
-        
         self.signUpButton.layer.cornerRadius = self.signUpButton.frame.size.height / 2.0
         self.facebookButton.layer.cornerRadius = self.facebookButton.frame.size.height / 2.0
     }
@@ -56,7 +44,7 @@ class IRORegisterViewController: UIViewController {
     
     lazy var shadeView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -103,11 +91,8 @@ class IRORegisterViewController: UIViewController {
     }()
     
     lazy var facebookButton: IROButton = {
-        let button: IROButton = IROButton()
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.setTitleColor(UIColor.black, for: .highlighted)
+        let button: IROButton = IROButton(style: .facebook)
         button.setTitle("Sign up with Facebook", for: .normal)
-        button.backgroundColor = UIColor(red: 26/255.0, green: 106/255.0, blue: 199/255.0, alpha: 1.0)
         button.addTarget(self, action: #selector(self.tappedFacebookButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -131,7 +116,7 @@ class IRORegisterViewController: UIViewController {
         self.shadeView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.shadeView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        self.usernameTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100.0).isActive = true
+        self.usernameTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 140.0).isActive = true
         self.usernameTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.usernameTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.usernameTextField.heightAnchor.constraint(equalToConstant: textFieldHeight).isActive = true
@@ -183,24 +168,12 @@ class IRORegisterViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    // MARK: - Alert
-    func presentAlert(title: String, message: String) {
-        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     func tappedFacebookButton() {
         let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
         UIApplication.shared.openURL(url)
     }
     
     func pushMainScreen() {
-        
-        
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         self.navigationController?.navigationBar.isTranslucent = false

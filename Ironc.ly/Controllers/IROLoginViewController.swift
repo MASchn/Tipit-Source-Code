@@ -13,12 +13,16 @@ class IROLoginViewController: UIViewController {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
 
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.emailTextField)
         self.view.addSubview(self.passwordTextField)
         self.view.addSubview(self.signInButton)
+        self.view.addSubview(self.facebookButton)
+        self.view.addSubview(self.forgotPasswordButton)
         self.view.addSubview(self.signUpButton)
         
         self.setUpConstraints()
@@ -30,6 +34,7 @@ class IROLoginViewController: UIViewController {
         
         self.signInButton.layer.cornerRadius = self.signInButton.frame.size.height / 2.0
         self.signUpButton.layer.cornerRadius = self.signUpButton.frame.size.height / 2.0
+        self.facebookButton.layer.cornerRadius = self.facebookButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
@@ -42,7 +47,7 @@ class IROLoginViewController: UIViewController {
     
     lazy var shadeView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -73,22 +78,32 @@ class IROLoginViewController: UIViewController {
     lazy var signInButton: IROButton = {
         let button: IROButton = IROButton(style: .green)
         button.setTitle("Sign in", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedSignInButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    lazy var forgotPasswordButton: UIButton = {
-        let button: UIButton = UIButton()
+    lazy var facebookButton: IROButton = {
+        let button: IROButton = IROButton(style: .facebook)
+        button.setTitle("Sign in with Facebook", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedFacebookButton), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var forgotPasswordButton: IROButton = {
+        let button: IROButton = IROButton(style: .text)
+        button.setTitle("Forgot password?", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedForgotPasswordButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     lazy var signUpButton: IROButton = {
         let button: IROButton = IROButton(style: .white)
         button.setTitle("Sign up", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedSignUpButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +127,7 @@ class IROLoginViewController: UIViewController {
         self.shadeView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.shadeView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        self.emailTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 200.0).isActive = true
+        self.emailTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 140.0).isActive = true
         self.emailTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.emailTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.emailTextField.heightAnchor.constraint(equalToConstant: textFieldHeight).isActive = true
@@ -122,10 +137,20 @@ class IROLoginViewController: UIViewController {
         self.passwordTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.passwordTextField.heightAnchor.constraint(equalToConstant: textFieldHeight).isActive = true
         
-        self.signInButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 38.0).isActive = true
+        self.signInButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 35.0).isActive = true
         self.signInButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
         self.signInButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
         self.signInButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        
+        self.facebookButton.topAnchor.constraint(equalTo: self.signInButton.bottomAnchor, constant: 20.0).isActive = true
+        self.facebookButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+        self.facebookButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+        self.facebookButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        
+        self.forgotPasswordButton.topAnchor.constraint(equalTo: self.facebookButton.bottomAnchor, constant: 12.0).isActive = true
+        self.forgotPasswordButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+        self.forgotPasswordButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+        self.forgotPasswordButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         
         self.signUpButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40.0).isActive = true
         self.signUpButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
@@ -149,12 +174,7 @@ class IROLoginViewController: UIViewController {
     
     func tappedSignInButton() {
         if self.emailTextField.text?.isEmpty == true || self.passwordTextField.text?.isEmpty == true {
-            let alert: UIAlertController = UIAlertController(title: "Error", message: "Please fill in email and password fields", preferredStyle: .alert)
-            let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                alert.dismiss(animated: true, completion: nil)
-            })
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
+            self.showAlert(title: "Please fill in all fields", message: nil, completion: nil)
         } else {
             let email: String = self.emailTextField.text!
             let password: String = self.passwordTextField.text!
@@ -162,10 +182,20 @@ class IROLoginViewController: UIViewController {
                 if success == true {
                     self.pushMainScreen()
                 } else {
-                    print("Log in error")
+                    self.showAlert(title: "Incorrect email or password", message: "Please try again", completion: nil)
                 }
             })
         }
+    }
+    
+    func tappedFacebookButton() {
+        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
+        UIApplication.shared.openURL(url)
+    }
+    
+    func tappedForgotPasswordButton() {
+        let forgotPasswordViewController: IROForgotPasswordViewController = IROForgotPasswordViewController()
+        self.navigationController?.pushViewController(forgotPasswordViewController, animated: true)
     }
     
     func tappedSignUpButton() {
