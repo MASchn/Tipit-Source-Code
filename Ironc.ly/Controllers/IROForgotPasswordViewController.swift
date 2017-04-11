@@ -132,6 +132,16 @@ class IROForgotPasswordViewController: UIViewController {
     
     // MARK: - Actions
     func tappedSubmitButton() {
+        guard self.emailTextField.hasText == true else {
+            self.showAlert(title: "Please fill in email field", message: nil, completion: nil)
+            return
+        }
+        
+        guard IROValidator.isValidEmail(input: self.emailTextField.text!) == true else {
+            self.showAlert(title: "Invalid email", message: nil, completion: nil)
+            return
+        }
+        
         self.showAlert(title: "Reset request submitted", message: "Please follow the instructions sent to your email") { 
             self.navigationController?.popToRootViewController(animated: true)
         }
