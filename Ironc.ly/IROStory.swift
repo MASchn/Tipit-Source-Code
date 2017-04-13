@@ -47,12 +47,13 @@ struct IROStory {
                     firstGroup.leave()
                 })
             } else {
-                let post: IROPost = IROPost(
+                var post: IROPost = IROPost(
                     user: user,
                     contentURL: item.url,
-                    contentImage: #imageLiteral(resourceName: "register_background"),
+                    contentImage: nil,
                     index: index
                 )
+                post.type = .video
                 posts.append(post)
                 firstGroup.leave()
             }

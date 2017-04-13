@@ -9,14 +9,14 @@
 import UIKit
 import Alamofire
 
+enum IROContentType: String {
+    case photo = "photo"
+    case video = "video"
+}
+
 class IROPreviewViewController: UIViewController {
     
     var contentType: IROContentType = .photo
-    
-    enum IROContentType: String {
-        case photo = "photo"
-        case video = "video"
-    }
     
     enum IROContentPrivacy: String {
         case `public` = "public"
