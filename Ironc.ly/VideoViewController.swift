@@ -109,7 +109,7 @@ class VideoViewController: IROPreviewViewController {
                     private: false,
                     completionHandler: {
                         (success: Bool) in
-                        //
+                        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
                 })
             } catch let error {
                 print(error)

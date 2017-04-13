@@ -30,6 +30,7 @@ class IROAPIClient: NSObject {
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                     var mediaItems: [IROMediaItem] = []
                     if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
+                        print("Story with \(mediaItemsJSON.count) posts successfully requested")
                         for mediaItemJSON: [String : Any] in mediaItemsJSON {
                             if let mediaItem: IROMediaItem = IROMediaItem(JSON: mediaItemJSON) {
                                 mediaItems.append(mediaItem)

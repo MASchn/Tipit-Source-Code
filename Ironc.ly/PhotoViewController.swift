@@ -91,7 +91,7 @@ class PhotoViewController: IROPreviewViewController {
                     completionHandler: {
                         (success: Bool) in
                         if success == true {
-                            self.presentingViewController?.dismiss(animated: true, completion: nil)
+                            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
                         }
                 })
             }

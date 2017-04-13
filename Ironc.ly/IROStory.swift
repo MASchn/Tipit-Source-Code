@@ -16,14 +16,14 @@ struct IROStory {
         let user1: IROUser = IROUser(username: "Hanna Julie Marie", email: "user1@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user1"))
         let user2: IROUser = IROUser(username: "Silvia Marie Ann", email: "user2@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user2"))
         
-        let post1: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 0)
-        let post2: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 1)
-        let post3: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 2)
-        let post4: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 3)
-        let post5: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 4)
-        let post6: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 5)
-        let post7: IROPost = IROPost(user: user1, contentImage: UIImage(named: "feed_image_1")!, index: 6)
-        let post8: IROPost = IROPost(user: user2, contentImage: UIImage(named: "feed_image_2")!, index: 7)
+        let post1: IROPost = IROPost(user: user1, contentURL: nil, contentImage: UIImage(named: "feed_image_1")!, index: 0)
+        let post2: IROPost = IROPost(user: user2, contentURL: nil, contentImage: UIImage(named: "feed_image_2")!, index: 1)
+        let post3: IROPost = IROPost(user: user1, contentURL: nil, contentImage: UIImage(named: "feed_image_1")!, index: 2)
+        let post4: IROPost = IROPost(user: user2, contentURL: nil, contentImage: UIImage(named: "feed_image_2")!, index: 3)
+        let post5: IROPost = IROPost(user: user1, contentURL: nil, contentImage: UIImage(named: "feed_image_1")!, index: 4)
+        let post6: IROPost = IROPost(user: user2, contentURL: nil, contentImage: UIImage(named: "feed_image_2")!, index: 5)
+        let post7: IROPost = IROPost(user: user1, contentURL: nil, contentImage: UIImage(named: "feed_image_1")!, index: 6)
+        let post8: IROPost = IROPost(user: user2, contentURL: nil, contentImage: UIImage(named: "feed_image_2")!, index: 7)
         return IROStory(posts: [post1, post2, post3, post4, post5, post6, post7, post8])
     }
     
@@ -33,21 +33,34 @@ struct IROStory {
         for index: Int in 0..<mediaItems.count {
             let item: IROMediaItem = mediaItems[index]
             firstGroup.enter()
-            self.downloadImage(urlString: item.url, completion: { (image: UIImage?) in
-                if let image: UIImage = image {
-                    let post: IROPost = IROPost(
-                        user: user,
-                        contentImage: image,
-                        index: index
-                    )
-                    posts.append(post)
-                }
+            if item.type == .photo {
+                self.downloadImage(urlString: item.url, completion: { (image: UIImage?) in
+                    if let image: UIImage = image {
+                        let post: IROPost = IROPost(
+                            user: user,
+                            contentURL: item.url,
+                            contentImage: image,
+                            index: index
+                        )
+                        posts.append(post)
+                    }
+                    firstGroup.leave()
+                })
+            } else {
+                let post: IROPost = IROPost(
+                    user: user,
+                    contentURL: item.url,
+                    contentImage: #imageLiteral(resourceName: "register_background"),
+                    index: index
+                )
+                posts.append(post)
                 firstGroup.leave()
-            })
+            }
         }
         // Called when all posts have finished loading
         firstGroup.notify(queue: DispatchQueue.main) {
             posts.sort(by: {$0.index! < $1.index!})
+            print("Posts: \(posts)")
             let story: IROStory = IROStory(posts: posts)
             completion(story)
         }

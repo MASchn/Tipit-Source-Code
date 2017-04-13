@@ -11,6 +11,7 @@ import UIKit
 
 struct IROPost {
     let user: IROUser
-    let contentImage: UIImage
+    let contentURL: String?
+    var contentImage: UIImage?
     let index: Int? // The index of a post in a story
 }

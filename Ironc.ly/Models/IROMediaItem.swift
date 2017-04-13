@@ -21,8 +21,16 @@ struct IROMediaItem {
             return nil
         }
         self.url = baseURLString + "/" + url
+        
+        // Hacky way of doing this for now
+        if String(url.characters.suffix(3)) == "mp4" {
+            self.type = .video
+        } else {
+            self.type = .photo
+        }
+        
     }
     
     let url: String
-    let type: IROMediaItemType = .photo
+    let type: IROMediaItemType
 }
