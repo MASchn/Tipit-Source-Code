@@ -50,6 +50,10 @@ class IROStoryViewController: UIPageViewController {
         self.setUpConstraints()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -59,8 +63,8 @@ class IROStoryViewController: UIPageViewController {
     // MARK: - Lazy Initialization
     lazy var pageControl: UIPageControl = {
         let control: UIPageControl = UIPageControl()
-        control.pageIndicatorTintColor = UIColor.blue
-        control.currentPageIndicatorTintColor = UIColor.red
+        control.pageIndicatorTintColor = UIColor(white: 0.0, alpha: 0.3)
+        control.currentPageIndicatorTintColor = IROConstants.green
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -79,10 +83,9 @@ class IROStoryViewController: UIPageViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.pageControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20.0).isActive = true
-        self.pageControl.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.pageControl.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.pageControl.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.pageControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10.0).isActive = true
+        self.pageControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
+        self.pageControl.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
         
         self.tipButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50.0).isActive = true
         self.tipButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true

@@ -49,15 +49,28 @@ class IROPostViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.addSubview(self.postImageView)
         self.view.addSubview(self.blurView)
+        self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.profileImageView)
+        self.view.addSubview(self.lockButton)
         
         self.setUpConstraints()
 
         self.postImageView.image = self.post.contentImage
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height / 2.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,6 +93,32 @@ class IROPostViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    lazy var nameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
+        label.text = "Hannah Julie Marie"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var profileImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "user1")
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 1.0
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var lockButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "lock"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     // MARK: - Autolayout
     func setUpConstraints() {
@@ -92,6 +131,21 @@ class IROPostViewController: UIViewController {
         self.blurView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.blurView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.blurView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.nameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32.0).isActive = true
+        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
+        self.nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200.0).isActive = true
+        self.nameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
+        
+        self.profileImageView.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
+        self.profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
+        self.profileImageView.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        self.profileImageView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        
+        self.lockButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.lockButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.lockButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.lockButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
     // MARK: - Video
