@@ -53,6 +53,8 @@ class IROPostViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.addSubview(self.postImageView)
+        self.view.addSubview(self.blurView)
+        
         self.setUpConstraints()
 
         self.postImageView.image = self.post.contentImage
@@ -71,6 +73,13 @@ class IROPostViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    lazy var blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // MARK: - Autolayout
     func setUpConstraints() {
@@ -78,6 +87,11 @@ class IROPostViewController: UIViewController {
         self.postImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.postImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.postImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.blurView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.blurView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.blurView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.blurView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
     // MARK: - Video
