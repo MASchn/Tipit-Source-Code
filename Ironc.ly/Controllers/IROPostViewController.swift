@@ -116,6 +116,7 @@ class IROPostViewController: UIViewController {
     lazy var lockButton: UIButton = {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "lock"), for: .normal)
+        button.addTarget(self, action: #selector(self.tappedLockButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -154,6 +155,31 @@ class IROPostViewController: UIViewController {
             self.player!.seek(to: kCMTimeZero)
             self.player!.play()
         }
+    }
+    
+    // MARK: - Actions
+    func tappedLockButton(sender: UIButton) {
+        let name: String = self.nameLabel.text ?? "this user"
+        let alert: UIAlertController = UIAlertController(
+            title: "Subscribe",
+            message: "Unlock this content by subscribing to \(name) for 100 coins per month?",
+            preferredStyle: .alert
+        )
+        let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+            UIView.animate(withDuration: 0.4, animations: { 
+                self.blurView.alpha = 0.0
+                self.lockButton.alpha = 0.0
+            }, completion: { (success) in
+                self.blurView.isHidden = true
+                self.lockButton.isHidden = true
+            })
+        }
+        let noAction: UIAlertAction = UIAlertAction(title: "No", style: .cancel) { (action) in
+            //
+        }
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
