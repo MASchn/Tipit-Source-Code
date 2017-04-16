@@ -43,6 +43,7 @@ class IROPostViewController: UIViewController {
                 }
             }
         }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,6 +62,11 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
+        
+        if self.post.isPrivate == true {
+            self.blurView.isHidden = true
+            self.lockButton.isHidden = true
+        }
         
         self.setUpConstraints()
 

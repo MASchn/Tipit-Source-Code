@@ -15,11 +15,13 @@ struct IROPost {
     var contentImage: UIImage?
     var index: Int? // The index of a post in a story
     var type: IROContentType = .photo
+    var isPrivate: Bool
     
-    init(user: IROUser, contentURL: String?, contentImage: UIImage?, index: Int?) {
+    init(user: IROUser, contentURL: String?, contentImage: UIImage?, index: Int?, isPrivate: Bool) {
         self.user = user
         self.contentURL = contentURL
         self.contentImage = contentImage
         self.index = index
+        self.isPrivate = isPrivate
     }
 }
