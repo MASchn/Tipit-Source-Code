@@ -118,7 +118,7 @@ extension IROFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let story = IROStory.mockStory()
-        let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
+        let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
         self.present(storyViewController, animated: true, completion: nil)
     }
     

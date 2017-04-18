@@ -15,10 +15,13 @@ class IROStoryViewController: UIPageViewController {
     // MARK: - Properties
     let story: IROStory
     var currentIndex: Int = 0
+    var isProfile: Bool = false
     
     // MARK: - View Lifecycle
-    init(story: IROStory) {
+    init(story: IROStory, isProfile: Bool) {
         self.story = story
+        self.isProfile = isProfile
+        
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
         
         self.dataSource = self
@@ -41,10 +44,14 @@ class IROStoryViewController: UIPageViewController {
         self.view.addSubview(self.pageControl)
         self.view.addSubview(self.tipButton)
 
+        if self.isProfile == true {
+            self.tipButton.isHidden = true
+        }
+
         self.pageControl.numberOfPages = self.story.posts.count
         
         let firstPost: IROPost = self.story.posts.first!
-        let postViewController: IROPostViewController = IROPostViewController(post: firstPost)
+        let postViewController: IROPostViewController = IROPostViewController(post: firstPost, isProfile: self.isProfile)
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         
         self.setUpConstraints()
@@ -113,7 +120,7 @@ extension IROStoryViewController: UIPageViewControllerDataSource {
         } else {
             let beforeIndex: Int = index - 1
             let beforePost: IROPost = storyViewController.story.posts[beforeIndex]
-            let beforePostViewController: IROPostViewController = IROPostViewController(post: beforePost)
+            let beforePostViewController: IROPostViewController = IROPostViewController(post: beforePost, isProfile: self.isProfile)
             return beforePostViewController
         }
         
@@ -130,7 +137,7 @@ extension IROStoryViewController: UIPageViewControllerDataSource {
         } else {
             let afterIndex: Int = index + 1
             let afterPost: IROPost = storyViewController.story.posts[afterIndex]
-            let afterPostViewController: IROPostViewController = IROPostViewController(post: afterPost)
+            let afterPostViewController: IROPostViewController = IROPostViewController(post: afterPost, isProfile: self.isProfile)
             return afterPostViewController
         }
         

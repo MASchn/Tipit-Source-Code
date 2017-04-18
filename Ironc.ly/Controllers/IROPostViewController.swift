@@ -16,10 +16,12 @@ class IROPostViewController: UIViewController {
     var videoURL: URL?
     var player: AVPlayer?
     var playerController : AVPlayerViewController?
+    var isProfile: Bool = false // Set this so we don't add blur when you're viewing your own story
     
     // MARK: - View Lifecycle
-    init(post: IROPost) {
+    init(post: IROPost, isProfile: Bool) {
         self.post = post
+        self.isProfile = isProfile
     
         super.init(nibName: nil, bundle: nil)
         
@@ -63,7 +65,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
         
-        if self.post.isPrivate == true {
+        if self.post.isPrivate == false || self.isProfile == true {
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -71,6 +73,12 @@ class IROPostViewController: UIViewController {
         self.setUpConstraints()
 
         self.postImageView.image = self.post.contentImage
+        self.nameLabel.text = self.post.user.username
+        self.profileImageView.image = self.post.user.profileImage
+        
+        if self.post.user.profileImage == nil {
+            self.profileImageView.isHidden = true
+        }
     }
     
     override func viewDidLayoutSubviews() {

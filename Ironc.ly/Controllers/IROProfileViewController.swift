@@ -192,6 +192,7 @@ class IROProfileViewController: UIViewController {
     
     lazy var followersButton: IROButton = {
         let button: IROButton = IROButton(style: .text)
+        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("Followers", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -199,6 +200,7 @@ class IROProfileViewController: UIViewController {
     
     lazy var addFriendsButton: IROButton = {
         let button: IROButton = IROButton(style: .text)
+        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("Add Friends", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -206,6 +208,7 @@ class IROProfileViewController: UIViewController {
     
     lazy var myFriendsButton: IROButton = {
         let button: IROButton = IROButton(style: .text)
+        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("My Friends", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -300,7 +303,7 @@ class IROProfileViewController: UIViewController {
     // MARK: - Actions
     func tappedStoryPreviewButton() {
         if let story: IROStory = self.story {
-            let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
+            let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: true)
             self.present(storyViewController, animated: true, completion: nil)
         }
     }
