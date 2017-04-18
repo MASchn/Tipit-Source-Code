@@ -18,9 +18,12 @@ class IROProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = .white
         
         self.view.addSubview(self.backgroundImageView)
+        self.view.addSubview(self.profileImageButton)
+        self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.editButton)
         self.view.addSubview(self.storyPreviewButton)
         self.view.addSubview(self.logOutButton)
         
@@ -51,13 +54,15 @@ class IROProfileViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         self.storyPreviewButton.layer.cornerRadius = self.storyPreviewButton.frame.size.height / 2.0
+        self.profileImageButton.layer.cornerRadius = self.profileImageButton.frame.size.height / 2.0
+        self.editButton.layer.cornerRadius = self.editButton.frame.size.height / 2.0
         self.logOutButton.layer.cornerRadius = self.logOutButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .blue
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -65,6 +70,7 @@ class IROProfileViewController: UIViewController {
     lazy var profileImageButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = .lightGray
+        button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -72,8 +78,20 @@ class IROProfileViewController: UIViewController {
     lazy var nameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
+        label.text = "Sylvia Marie Ann"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var editButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
+        button.setTitle("Edit", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedEditButton), for: .touchUpInside)
+        button.clipsToBounds = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var storyPreviewButton: UIButton = {
@@ -123,6 +141,19 @@ class IROProfileViewController: UIViewController {
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
+        self.profileImageButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20.0).isActive = true
+        self.profileImageButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.profileImageButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.profileImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.nameLabel.topAnchor.constraint(equalTo: self.profileImageButton.bottomAnchor, constant: 10.0).isActive = true
+        self.nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.editButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 15.0).isActive = true
+        self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
         self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
         self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -140,6 +171,28 @@ class IROProfileViewController: UIViewController {
             let storyViewController: IROStoryViewController = IROStoryViewController(story: story)
             self.present(storyViewController, animated: true, completion: nil)
         }
+    }
+    
+    func tappedProfileButton() {
+        let actionSheet: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cameraAction: UIAlertAction = UIAlertAction(title: "Take picture", style: .default) { (action) in
+            //
+        }
+        let photoRollAction: UIAlertAction = UIAlertAction(title: "Choose from mobile", style: .default) { (action) in
+            //
+        }
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            //
+        }
+        actionSheet.addAction(cameraAction)
+        actionSheet.addAction(photoRollAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func tappedEditButton() {
+        let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController()
+        self.navigationController?.pushViewController(editProfileViewController, animated: true)
     }
     
     func tappedLogOutButton() {

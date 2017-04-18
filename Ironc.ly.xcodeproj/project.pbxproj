@@ -33,6 +33,7 @@
 		37875DA91E54C41900C86290 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875DA61E54C41900C86290 /* SwiftyRecordButton.swift */; };
 		37875DAA1E54C41900C86290 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875DA71E54C41900C86290 /* VideoViewController.swift */; };
 		37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875DA81E54C41900C86290 /* PhotoViewController.swift */; };
+		378CD25B1EA5A5C6008FF66D /* IROEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -74,6 +75,7 @@
 		37875DA61E54C41900C86290 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
 		37875DA71E54C41900C86290 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		37875DA81E54C41900C86290 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileViewController.swift; path = Controllers/IROEditProfileViewController.swift; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */,
 				37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */,
 				3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */,
+				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				37875DA91E54C41900C86290 /* SwiftyRecordButton.swift in Sources */,
 				3762A5381E96B879007FDD51 /* IROAPIClient.swift in Sources */,
 				370E36681E43B24500F8FF9E /* IROUser.swift in Sources */,
+				378CD25B1EA5A5C6008FF66D /* IROEditProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
