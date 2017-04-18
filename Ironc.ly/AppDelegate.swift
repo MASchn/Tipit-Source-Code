@@ -22,10 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
+        
         self.showSignIn()
         
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
             IROUser.currentUser = user
+            
+//            let editProfile: IROEditProfileViewController = IROEditProfileViewController()
+//            let editNav: UINavigationController = UINavigationController(rootViewController: editProfile)
+//            self.window?.rootViewController = editNav
             self.showFeed(animated: false)
         }
         

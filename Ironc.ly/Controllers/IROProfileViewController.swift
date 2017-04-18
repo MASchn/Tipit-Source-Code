@@ -23,9 +23,19 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.profileImageButton)
         self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.usernameLabel)
+        self.view.addSubview(self.followersCountLabel)
+        self.view.addSubview(self.followersSubtitleLabel)
+        self.view.addSubview(self.followingCountLabel)
+        self.view.addSubview(self.followingSubtitleLabel)
+        self.view.addSubview(self.coinsCountLabel)
+        self.view.addSubview(self.coinsSubtitleLabel)
         self.view.addSubview(self.editButton)
         self.view.addSubview(self.storyPreviewButton)
-        self.view.addSubview(self.logOutButton)
+        self.view.addSubview(self.followersButton)
+        self.view.addSubview(self.addFriendsButton)
+        self.view.addSubview(self.myFriendsButton)
+        self.view.addSubview(self.bioLabel)
         
         self.setUpConstraints()
     }
@@ -49,6 +59,10 @@ class IROProfileViewController: UIViewController {
         }
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     // MARK: - Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -62,14 +76,14 @@ class IROProfileViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = .blue
+        imageView.backgroundColor = .darkGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     lazy var profileImageButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = .lightGray
+        button.setImage(#imageLiteral(resourceName: "user2"), for: .normal)
         button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -85,13 +99,84 @@ class IROProfileViewController: UIViewController {
         return label
     }()
     
+    lazy var usernameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightRegular)
+        label.text = "sylviamarieann"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var editButton: IROButton = {
         let button: IROButton = IROButton(style: .green)
         button.setTitle("Edit", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedEditButton), for: .touchUpInside)
         button.clipsToBounds = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    lazy var followersCountLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        label.textAlignment = .center
+        label.text = "100"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var followersSubtitleLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+        label.textAlignment = .center
+        label.text = "followers"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var followingCountLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        label.textAlignment = .center
+        label.text = "100"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var followingSubtitleLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+        label.textAlignment = .center
+        label.text = "following"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var coinsCountLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        label.textAlignment = .center
+        label.text = "1K"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var coinsSubtitleLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+        label.textAlignment = .center
+        label.text = "coins"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     lazy var storyPreviewButton: UIButton = {
@@ -122,7 +207,19 @@ class IROProfileViewController: UIViewController {
     lazy var myFriendsButton: IROButton = {
         let button: IROButton = IROButton(style: .text)
         button.setTitle("My Friends", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    lazy var bioLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+        label.numberOfLines = 3
+        label.text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.Lorem ipsum dolor sit amet, consetetur Lorem ipsum dolor sit amet"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     lazy var logOutButton: IROButton = {
@@ -149,20 +246,55 @@ class IROProfileViewController: UIViewController {
         self.nameLabel.topAnchor.constraint(equalTo: self.profileImageButton.bottomAnchor, constant: 10.0).isActive = true
         self.nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.editButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 15.0).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
+        self.usernameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.followingCountLabel.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 20.0).isActive = true
+        self.followingCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.followersCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+        self.followersCountLabel.rightAnchor.constraint(equalTo: self.followingCountLabel.leftAnchor, constant: -60.0).isActive = true
+        
+        self.coinsCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+        self.coinsCountLabel.leftAnchor.constraint(equalTo: self.followingCountLabel.rightAnchor, constant: 60.0).isActive = true
+        
+        self.followersSubtitleLabel.topAnchor.constraint(equalTo: self.followersCountLabel.bottomAnchor).isActive = true
+        self.followersSubtitleLabel.centerXAnchor.constraint(equalTo: self.followersCountLabel.centerXAnchor).isActive = true
+        
+        self.followingSubtitleLabel.topAnchor.constraint(equalTo: self.followingCountLabel.bottomAnchor).isActive = true
+        self.followingSubtitleLabel.centerXAnchor.constraint(equalTo: self.followingCountLabel.centerXAnchor).isActive = true
+        
+        self.coinsSubtitleLabel.topAnchor.constraint(equalTo: self.coinsCountLabel.bottomAnchor).isActive = true
+        self.coinsSubtitleLabel.centerXAnchor.constraint(equalTo: self.coinsCountLabel.centerXAnchor).isActive = true
+        
+        self.editButton.topAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor, constant: 15.0).isActive = true
         self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
         self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
+        self.storyPreviewButton.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 42.0).isActive = true
         self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
         self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
-        self.logOutButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 50.0).isActive = true
-        self.logOutButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30.0).isActive = true
-        self.logOutButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30.0).isActive = true
-        self.logOutButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.followersButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 25.0).isActive = true
+        self.followersButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        self.followersButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        self.followersButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.addFriendsButton.topAnchor.constraint(equalTo: self.followersButton.bottomAnchor).isActive = true
+        self.addFriendsButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        self.addFriendsButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        self.addFriendsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.myFriendsButton.topAnchor.constraint(equalTo: self.addFriendsButton.bottomAnchor).isActive = true
+        self.myFriendsButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        self.myFriendsButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        self.myFriendsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.bioLabel.topAnchor.constraint(equalTo: self.myFriendsButton.bottomAnchor, constant: 35.0).isActive = true
+        self.bioLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20.0).isActive = true
+        self.bioLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20.0).isActive = true
     }
     
     // MARK: - Actions
@@ -192,7 +324,8 @@ class IROProfileViewController: UIViewController {
     
     func tappedEditButton() {
         let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController()
-        self.navigationController?.pushViewController(editProfileViewController, animated: true)
+        let editNavController: UINavigationController = UINavigationController(rootViewController: editProfileViewController)
+        self.present(editNavController, animated: true, completion: nil)
     }
     
     func tappedLogOutButton() {
