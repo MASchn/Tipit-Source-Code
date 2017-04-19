@@ -325,6 +325,21 @@ class IROProfileViewController: UIViewController {
         self.present(actionSheet, animated: true, completion: nil)
     }
     
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let alert: UIAlertController = UIAlertController(title: "Log Out?", message: nil, preferredStyle: .alert)
+            let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+                self.tappedLogOutButton()
+            }
+            let noAction: UIAlertAction = UIAlertAction(title: "No", style: .cancel, handler: { (action) in
+                //
+            })
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func tappedEditButton() {
         let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController()
         let editNavController: UINavigationController = UINavigationController(rootViewController: editProfileViewController)
