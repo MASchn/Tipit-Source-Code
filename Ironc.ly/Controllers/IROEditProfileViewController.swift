@@ -84,6 +84,8 @@ extension IROEditProfileViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: IROEditProfileTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.editReuseId) as! IROEditProfileTableViewCell
+        cell.delegate = self
+        cell.indexPath = indexPath
         cell.titleLabel.text = self.titles[indexPath.row]
         return cell
     }
@@ -94,7 +96,7 @@ extension IROEditProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: IROEditProfileTableViewCell = tableView.cellForRow(at: indexPath) as! IROEditProfileTableViewCell
-        cell.textView.becomeFirstResponder()
+        cell.textField.becomeFirstResponder()
     }
     
 }
@@ -107,6 +109,25 @@ extension IROEditProfileViewController: IROEditProfileHeaderViewDelegate {
     
     func tappedChangeBackgroundButton() {
         self.showPhotoActionSheet()
+    }
+    
+}
+
+extension IROEditProfileViewController: IROEditProfileCellDelegate {
+    
+    func finishedTyping(cell: IROEditProfileTableViewCell) {
+        
+        if let row: Int = cell.indexPath?.row {
+            // If it's not the last row, get the next row and make that cell's text field become first responder
+            if row < self.settingsTableView.numberOfRows(inSection: 0) - 1 {
+                let nextRow = row + 1
+                let cell: IROEditProfileTableViewCell = self.settingsTableView.cellForRow(at: IndexPath(row: nextRow, section: 0)) as! IROEditProfileTableViewCell
+                cell.textField.becomeFirstResponder()
+            } else {
+                cell.textField.resignFirstResponder()
+            }
+        }
+        
     }
     
 }
