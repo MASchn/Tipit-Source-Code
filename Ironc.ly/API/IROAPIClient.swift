@@ -14,7 +14,7 @@ class IROAPIClient: NSObject {
     static let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
     
     class func getPersonalStory(completionHandler: @escaping ([IROMediaItem]?) -> Void) {
-        print("Requesting story")
+//        print("Requesting story")
         guard let user: IROUser = IROUser.currentUser else {
             print("No current user")
             return
@@ -30,7 +30,7 @@ class IROAPIClient: NSObject {
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                     var mediaItems: [IROMediaItem] = []
                     if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
-                        print("Story with \(mediaItemsJSON.count) posts successfully requested")
+//                        print("Story with \(mediaItemsJSON.count) posts successfully requested")
                         for mediaItemJSON: [String : Any] in mediaItemsJSON {
                             if let mediaItem: IROMediaItem = IROMediaItem(JSON: mediaItemJSON) {
                                 mediaItems.append(mediaItem)

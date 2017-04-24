@@ -18,6 +18,7 @@
 		3715BFDE1E9D301200C29D9E /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
 		3723026F1EA6959700E8447F /* IROEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */; };
+		372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */; };
 		37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */; };
 		37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */; };
 		37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E011E8EB16C00E1AF62 /* CALayer+TextField.swift */; };
@@ -61,6 +62,7 @@
 		3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
 		3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileTableViewCell.swift; path = Cells/IROEditProfileTableViewCell.swift; sourceTree = "<group>"; };
+		372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileHeaderView.swift; path = Views/IROEditProfileHeaderView.swift; sourceTree = "<group>"; };
 		37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRORegisterViewController.swift; path = Controllers/IRORegisterViewController.swift; sourceTree = "<group>"; };
 		37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROLoginViewController.swift; path = Controllers/IROLoginViewController.swift; sourceTree = "<group>"; };
 		37417E011E8EB16C00E1AF62 /* CALayer+TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+TextField.swift"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		373238DF1E4E29A800E787C9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				37875DA11E54C2E500C86290 /* SwiftyCamButton.swift in Sources */,
 				37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */,
 				3762A53A1E96C1F4007FDD51 /* IROMediaItem.swift in Sources */,
+				372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
 				37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */,
 				37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */,

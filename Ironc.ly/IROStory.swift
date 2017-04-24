@@ -63,7 +63,7 @@ struct IROStory {
         // Called when all posts have finished loading
         firstGroup.notify(queue: DispatchQueue.main) {
             posts.sort(by: {$0.index! < $1.index!})
-            print("Posts: \(posts)")
+//            print("Posts: \(posts)")
             let story: IROStory = IROStory(posts: posts)
             completion(story)
         }

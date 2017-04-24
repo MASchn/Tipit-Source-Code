@@ -35,13 +35,21 @@ class IROEditProfileViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.tappedDoneButton))
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
+        let editProfileHeaderView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
+        editProfileHeaderView.delegate = self
+        self.settingsTableView.tableHeaderView = editProfileHeaderView
+    }
+    
     // MARK: - Lazy Initialization
     lazy var settingsTableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
         tableView.rowHeight = 64.0
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .groupTableViewBackground
         tableView.register(IROEditProfileTableViewCell.self, forCellReuseIdentifier: self.editReuseId)
-//        tableView.register(UIView.self, forHeaderFooterViewReuseIdentifier: "header")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,13 +88,6 @@ extension IROEditProfileViewController: UITableViewDataSource {
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view: UIView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")!
-//        view.frame = CGRect(x: 0.0, y: 0.0, width: 375.0, height: 120.0)
-//        view.backgroundColor = .lightGray
-//        return view
-//    }
-    
 }
 
 extension IROEditProfileViewController: UITableViewDelegate {
@@ -96,8 +97,16 @@ extension IROEditProfileViewController: UITableViewDelegate {
         cell.textView.becomeFirstResponder()
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 120.0
+}
+
+extension IROEditProfileViewController: IROEditProfileHeaderViewDelegate {
+    
+    func tappedChangeProfileButton() {
+        self.showPhotoActionSheet()
+    }
+    
+    func tappedChangeBackgroundButton() {
+        self.showPhotoActionSheet()
     }
     
 }

@@ -309,20 +309,7 @@ class IROProfileViewController: UIViewController {
     }
     
     func tappedProfileButton() {
-        let actionSheet: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cameraAction: UIAlertAction = UIAlertAction(title: "Take picture", style: .default) { (action) in
-            //
-        }
-        let photoRollAction: UIAlertAction = UIAlertAction(title: "Choose from mobile", style: .default) { (action) in
-            //
-        }
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            //
-        }
-        actionSheet.addAction(cameraAction)
-        actionSheet.addAction(photoRollAction)
-        actionSheet.addAction(cancelAction)
-        self.present(actionSheet, animated: true, completion: nil)
+        self.showPhotoActionSheet()
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
