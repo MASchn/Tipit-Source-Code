@@ -168,8 +168,12 @@ class IROAPIClient: NSObject {
             IROUser.currentUser?.fullName = fullName
             IROUser.currentUser?.website = website
             IROUser.currentUser?.bio = bio
-            IROUser.currentUser?.profileImageURL = profileImageURL
-            IROUser.currentUser?.backgroundImageURL = backgroundImageURL
+            if let profileImageURL: String = profileImageURL {
+                IROUser.currentUser?.profileImageURL = baseURLString + "/" + profileImageURL
+            }
+            if let backgroundImageURL: String = backgroundImageURL {
+                IROUser.currentUser?.backgroundImageURL = baseURLString + "/" + backgroundImageURL
+            }
             IROUser.currentUser?.save()
             completionHandler(true)
         }
