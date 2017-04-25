@@ -102,19 +102,20 @@ class IROAPIClient: NSObject {
     }
     
     class func updateUser(username: String?, fullname: String?, website: String?, bio: String?, completionHandler: @escaping (Bool) -> Void) {
-        
+        let headers: HTTPHeaders = [
+            "x-auth" : IROUser.currentUser!.token,
+            "Content-Type" : "application/json"
+        ]
         let parameters: Parameters = [
             "username" : username ?? "",
             "first_name" : fullname ?? "",
             "website" : website ?? "",
             "bio" : bio ?? ""
         ]
-        let headers: HTTPHeaders = [
-            "Content-Type" : "application/json"
-        ]
         Alamofire.request(self.baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
+                print(JSONDictionary)
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                     self.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
                         completionHandler(success)
@@ -129,9 +130,11 @@ class IROAPIClient: NSObject {
     
     class func updateProfileImage(data: Data, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
+            "x-auth" : IROUser.currentUser!.token,
             "Content-Type" : "image"
         ]
-        Alamofire.upload(data, to: self.baseURL + "users?image_type=profile_image", method: .patch, headers: headers).responseJSON { (response) in
+        Alamofire.upload(data, to: self.baseURL + "/users?image_type=profile_image", method: .patch, headers: headers).responseJSON { (response) in
+            print(response)
             switch response.result {
             case .success(let JSONDictionary):
                 print(JSONDictionary)

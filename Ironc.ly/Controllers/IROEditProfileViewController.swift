@@ -43,6 +43,7 @@ class IROEditProfileViewController: UITableViewController {
     lazy var editProfileHeaderView: IROEditProfileHeaderView = {
         let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
         let headerView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
+        headerView.delegate = self
         return headerView
     }()
     
