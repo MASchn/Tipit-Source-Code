@@ -34,7 +34,7 @@ struct IROStory {
             let item: IROMediaItem = mediaItems[index]
             firstGroup.enter()
             if item.type == .photo {
-                UIImage.download(urlString: baseURLString, completion: { (image) in
+                UIImage.download(urlString: item.url, completion: { (image) in
                     if let image: UIImage = image {
                         let post: IROPost = IROPost(
                             user: user,
