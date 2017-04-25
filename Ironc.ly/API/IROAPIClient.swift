@@ -127,6 +127,21 @@ class IROAPIClient: NSObject {
         }
     }
     
+    class func updateProfileImage(data: Data, completionHandler: @escaping (Bool) -> Void) {
+        let headers: HTTPHeaders = [
+            "Content-Type" : "image"
+        ]
+        Alamofire.upload(data, to: self.baseURL + "users?image_type=profile_image", method: .patch, headers: headers).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSONDictionary):
+                print(JSONDictionary)
+            case .failure(let error):
+                completionHandler(false)
+                print("Update user request failed with error \(error)")
+            }
+        }
+    }
+    
     // Helper method
     class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
         let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in

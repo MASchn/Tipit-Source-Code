@@ -14,7 +14,9 @@ struct IROUser {
     var email: String?
     let token: String
     var fullName: String?
+    var profileImageURL: String?
     var profileImage: UIImage?
+    var backgroundImageURL: String?
     var backgroundImage: UIImage?
     var website: String?
     var bio: String?
@@ -52,8 +54,16 @@ struct IROUser {
         defaults.set(self.email, forKey: "email")
         defaults.set(self.token, forKey: "token")
         defaults.set(self.fullName, forKey: "full_name")
-        defaults.set(self.profileImage, forKey: "image")
-        defaults.set(self.backgroundImage, forKey: "background")
+        if let profileImage: UIImage = self.profileImage {
+            if let profileData: Data = UIImageJPEGRepresentation(profileImage, 0.5) {
+                defaults.set(profileData, forKey: "image")
+            }
+        }
+        if let backgroundImage: UIImage = self.backgroundImage {
+            if let backgroundData: Data = UIImageJPEGRepresentation(backgroundImage, 0.5) {
+                defaults.set(backgroundData, forKey: "background")
+            }
+        }
         defaults.set(self.website, forKey: "website")
         defaults.set(self.bio, forKey: "bio")
         defaults.synchronize()
@@ -71,8 +81,14 @@ struct IROUser {
             let username: String? = defaults.object(forKey: "username") as? String
             let email: String? = defaults.object(forKey: "email") as? String
             let fullName: String? = defaults.object(forKey: "full_name") as? String
-            let image: UIImage? = defaults.object(forKey: "image") as? UIImage
-            let background: UIImage? = defaults.object(forKey: "background") as? UIImage
+            var image: UIImage?
+            if let profileData: Data = defaults.object(forKey: "image") as? Data {
+                image = UIImage(data: profileData)
+            }
+            var background: UIImage?
+            if let backgroundData: Data = defaults.object(forKey: "background") as? Data {
+                background = UIImage(data: backgroundData)
+            }
             let website: String? = defaults.object(forKey: "website") as? String
             let bio: String? = defaults.object(forKey: "bio") as? String
             return IROUser(

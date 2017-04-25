@@ -21,10 +21,7 @@ class IROEditProfileViewController: UITableViewController {
         
         self.title = "Edit Profile"
         
-        let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
-        let editProfileHeaderView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
-        editProfileHeaderView.delegate = self
-        self.tableView.tableHeaderView = editProfileHeaderView
+        self.tableView.tableHeaderView = self.editProfileHeaderView
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,6 +31,7 @@ class IROEditProfileViewController: UITableViewController {
         self.usernameCell.textField.text = IROUser.currentUser?.username
         self.websiteCell.textField.text = IROUser.currentUser?.website
         self.bioCell.textField.text = IROUser.currentUser?.bio
+        self.editProfileHeaderView.profileImageView.image = IROUser.currentUser?.profileImage
         
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.tintColor = .black
@@ -42,6 +40,12 @@ class IROEditProfileViewController: UITableViewController {
     }
     
     // MARK: - Lazy Initialization
+    lazy var editProfileHeaderView: IROEditProfileHeaderView = {
+        let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
+        let headerView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
+        return headerView
+    }()
+    
     lazy var nameCell: IROEditProfileTableViewCell = {
         let cell: IROEditProfileTableViewCell = IROEditProfileTableViewCell()
         cell.titleLabel.text = "Name"

@@ -42,6 +42,9 @@ class IROPostViewController: UIViewController {
                     self.view.addSubview(playerController!.view)
                     playerController!.view.frame = view.frame
                     NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
+                    
+                    self.view.bringSubview(toFront: self.profileImageView)
+                    self.view.bringSubview(toFront: self.nameLabel)
                 }
             }
         }
@@ -112,16 +115,15 @@ class IROPostViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        label.text = "Hannah Julie Marie"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var profileImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "user1")
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 1.0
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

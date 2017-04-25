@@ -90,6 +90,8 @@ class IROProfileViewController: UIViewController {
         let button: UIButton = UIButton()
         button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -312,6 +314,17 @@ class IROProfileViewController: UIViewController {
     
     func tappedProfileButton() {
         self.showPhotoActionSheet()
+    }
+    
+    override func imagePickerSelectedImage(image: UIImage) {
+        IROUser.currentUser?.profileImage = image
+        IROUser.currentUser?.save()
+        self.profileImageButton.setImage(image, for: .normal)
+        if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
+            IROAPIClient.updateProfileImage(data: data) { (success: Bool) in
+                //
+            }
+        }
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
