@@ -27,10 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
             IROUser.currentUser = user
-            
-//            let editProfile: IROEditProfileViewController = IROEditProfileViewController()
-//            let editNav: UINavigationController = UINavigationController(rootViewController: editProfile)
-//            self.window?.rootViewController = editNav
             self.showFeed(animated: false)
         }
         

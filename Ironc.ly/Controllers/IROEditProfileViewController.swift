@@ -8,26 +8,32 @@
 
 import UIKit
 
-class IROEditProfileViewController: UIViewController {
+class IROEditProfileViewController: UITableViewController {
     
-    let editReuseId: String = "iro.reuseId.edit"
-    let titles: [String] = ["Name", "Username", "Website", "Information"]
-
     // MARK: - View Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
         
         self.view.backgroundColor = .white
         
-        self.view.addSubview(self.settingsTableView)
+        self.tableView.rowHeight = 70.0
+        self.tableView.backgroundColor = .groupTableViewBackground
         
-        self.setUpConstraints()
+        self.title = "Edit Profile"
+        
+        let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
+        let editProfileHeaderView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
+        editProfileHeaderView.delegate = self
+        self.tableView.tableHeaderView = editProfileHeaderView
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.title = "Edit Profile"
+        self.nameCell.textField.text = IROUser.currentUser?.fullName
+        self.usernameCell.textField.text = IROUser.currentUser?.username
+        self.websiteCell.textField.text = IROUser.currentUser?.website
+        self.bioCell.textField.text = IROUser.currentUser?.bio
         
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.tintColor = .black
@@ -35,33 +41,45 @@ class IROEditProfileViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.tappedDoneButton))
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        let editProfileFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 120.0)
-        let editProfileHeaderView: IROEditProfileHeaderView = IROEditProfileHeaderView(frame: editProfileFrame)
-        editProfileHeaderView.delegate = self
-        self.settingsTableView.tableHeaderView = editProfileHeaderView
-    }
-    
     // MARK: - Lazy Initialization
-    lazy var settingsTableView: UITableView = {
-        let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
-        tableView.rowHeight = 64.0
-        tableView.backgroundColor = .groupTableViewBackground
-        tableView.register(IROEditProfileTableViewCell.self, forCellReuseIdentifier: self.editReuseId)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    lazy var nameCell: IROEditProfileTableViewCell = {
+        let cell: IROEditProfileTableViewCell = IROEditProfileTableViewCell()
+        cell.titleLabel.text = "Name"
+        cell.delegate = self
+        return cell
     }()
     
-    // MARK: - Autolayout
-    func setUpConstraints() {
-        self.settingsTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.settingsTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.settingsTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.settingsTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    lazy var usernameCell: IROEditProfileTableViewCell = {
+        let cell: IROEditProfileTableViewCell = IROEditProfileTableViewCell()
+        cell.titleLabel.text = "Username"
+        cell.textField.autocapitalizationType = .none
+        cell.textField.autocorrectionType = .no
+        cell.textField.returnKeyType = .next
+        cell.delegate = self
+        return cell
+    }()
+    
+    lazy var websiteCell: IROEditProfileTableViewCell = {
+        let cell: IROEditProfileTableViewCell = IROEditProfileTableViewCell()
+        cell.titleLabel.text = "Website"
+        cell.textField.keyboardType = .URL
+        cell.textField.autocapitalizationType = .none
+        cell.textField.autocorrectionType = .no
+        cell.textField.returnKeyType = .next
+        cell.delegate = self
+        return cell
+    }()
+    
+    lazy var bioCell: IROEditProfileTableViewCell = {
+        let cell: IROEditProfileTableViewCell = IROEditProfileTableViewCell()
+        cell.titleLabel.text = "Information"
+        cell.textField.returnKeyType = .done
+        cell.delegate = self
+        return cell
+    }()
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Actions
@@ -70,44 +88,55 @@ class IROEditProfileViewController: UIViewController {
     }
     
     func tappedDoneButton() {
-        // TODO: Save
-        self.dismiss(animated: true, completion: nil)
+        IROAPIClient.updateUser(
+            username: self.usernameCell.textField.text,
+            fullname: self.nameCell.textField.text,
+            website: self.websiteCell.textField.text,
+            bio: self.bioCell.textField.text)
+        { (success: Bool) in
+            if success == true {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.showAlert(title: "Could not save", message: "An error occurred", completion: nil)
+            }
+        }
     }
-
-}
-
-extension IROEditProfileViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: IROEditProfileTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.editReuseId) as! IROEditProfileTableViewCell
-        cell.delegate = self
-        cell.indexPath = indexPath
-        cell.titleLabel.text = self.titles[indexPath.row]
-        return cell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            return self.nameCell
+        case 1:
+            return self.usernameCell
+        case 2:
+            return self.websiteCell
+        case 3:
+            return self.bioCell
+        default:
+            return UITableViewCell()
+        }
     }
     
-}
-
-extension IROEditProfileViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: IROEditProfileTableViewCell = tableView.cellForRow(at: indexPath) as! IROEditProfileTableViewCell
         cell.textField.becomeFirstResponder()
     }
-    
+
 }
 
 extension IROEditProfileViewController: IROEditProfileHeaderViewDelegate {
     
     func tappedChangeProfileButton() {
+        self.view.endEditing(true)
         self.showPhotoActionSheet()
     }
     
     func tappedChangeBackgroundButton() {
+        self.view.endEditing(true)
         self.showPhotoActionSheet()
     }
     
@@ -116,18 +145,18 @@ extension IROEditProfileViewController: IROEditProfileHeaderViewDelegate {
 extension IROEditProfileViewController: IROEditProfileCellDelegate {
     
     func finishedTyping(cell: IROEditProfileTableViewCell) {
-        
-        if let row: Int = cell.indexPath?.row {
-            // If it's not the last row, get the next row and make that cell's text field become first responder
-            if row < self.settingsTableView.numberOfRows(inSection: 0) - 1 {
-                let nextRow = row + 1
-                let cell: IROEditProfileTableViewCell = self.settingsTableView.cellForRow(at: IndexPath(row: nextRow, section: 0)) as! IROEditProfileTableViewCell
-                cell.textField.becomeFirstResponder()
-            } else {
-                cell.textField.resignFirstResponder()
-            }
+        switch cell {
+        case self.nameCell:
+            self.usernameCell.textField.becomeFirstResponder()
+        case self.usernameCell:
+            self.websiteCell.textField.becomeFirstResponder()
+        case self.websiteCell:
+            self.bioCell.textField.becomeFirstResponder()
+        case self.bioCell:
+            self.bioCell.textField.resignFirstResponder()
+        default:
+            break
         }
-        
     }
     
 }

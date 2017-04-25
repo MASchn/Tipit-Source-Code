@@ -11,10 +11,9 @@ import UIKit
 
 struct IROUser {
     var username: String?
-    let email: String?
+    var email: String?
     let token: String
-    var firstName: String?
-    var lastName: String?
+    var fullName: String?
     var profileImage: UIImage?
     var backgroundImage: UIImage?
     var website: String?
@@ -36,13 +35,15 @@ struct IROUser {
         self.profileImage = profileImage
     }
     
-    init(username: String?, email: String?, token: String, firstName: String?, lastName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?) {
+    init(username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?) {
         self.username = username
         self.email = email
         self.token = token
-        self.firstName = firstName
-        self.lastName = lastName
+        self.fullName = fullName
         self.profileImage = profileImage
+        self.backgroundImage = backgroundImage
+        self.website = website
+        self.bio = bio
     }
     
     func save() {
@@ -50,12 +51,12 @@ struct IROUser {
         defaults.set(self.username, forKey: "username")
         defaults.set(self.email, forKey: "email")
         defaults.set(self.token, forKey: "token")
-        defaults.set(self.firstName, forKey: "first_name")
-        defaults.set(self.lastName, forKey: "last_name")
+        defaults.set(self.fullName, forKey: "full_name")
         defaults.set(self.profileImage, forKey: "image")
         defaults.set(self.backgroundImage, forKey: "background")
         defaults.set(self.website, forKey: "website")
         defaults.set(self.bio, forKey: "bio")
+        defaults.synchronize()
     }
     
     static func logOut() {
@@ -69,8 +70,7 @@ struct IROUser {
         {
             let username: String? = defaults.object(forKey: "username") as? String
             let email: String? = defaults.object(forKey: "email") as? String
-            let firstName: String? = defaults.object(forKey: "first_name") as? String
-            let lastName: String? = defaults.object(forKey: "last_name") as? String
+            let fullName: String? = defaults.object(forKey: "full_name") as? String
             let image: UIImage? = defaults.object(forKey: "image") as? UIImage
             let background: UIImage? = defaults.object(forKey: "background") as? UIImage
             let website: String? = defaults.object(forKey: "website") as? String
@@ -79,8 +79,7 @@ struct IROUser {
                 username: username,
                 email: email,
                 token: token,
-                firstName: firstName,
-                lastName: lastName,
+                fullName: fullName,
                 profileImage: image,
                 backgroundImage: background,
                 website: website,

@@ -65,7 +65,7 @@ class IROAPIClient: NSObject {
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                        self.parseLogInJSON(JSON: JSON, completionHandler: completionHandler)
+                        self.parseUserJSON(JSON: JSON, completionHandler: completionHandler)
                     }
                 case .failure(let error):
                     print("Sign up request failed with error \(error)")
@@ -92,7 +92,7 @@ class IROAPIClient: NSObject {
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                    self.parseLogInJSON(JSON: JSON, completionHandler: completionHandler)
+                    self.parseUserJSON(JSON: JSON, completionHandler: completionHandler)
                 }
             case .failure(let error):
                 print("Log in request failed with error \(error)")
@@ -101,18 +101,60 @@ class IROAPIClient: NSObject {
         }
     }
     
+    class func updateUser(username: String?, fullname: String?, website: String?, bio: String?, completionHandler: @escaping (Bool) -> Void) {
+        
+        let parameters: Parameters = [
+            "username" : username ?? "",
+            "first_name" : fullname ?? "",
+            "website" : website ?? "",
+            "bio" : bio ?? ""
+        ]
+        let headers: HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+        Alamofire.request(self.baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSONDictionary):
+                if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                    self.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
+                        completionHandler(success)
+                    })
+                }
+            case .failure(let error):
+                completionHandler(false)
+                print("Update user request failed with error \(error)")
+            }
+        }
+    }
+    
     // Helper method
-    class func parseLogInJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
-        if
+    class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
+        let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
+        let fullName: String? = JSON["first_name"] as? String
+        let website: String? = JSON["website"] as? String
+        let bio: String? = JSON["bio"] as? String
+        
+        if let _: IROUser = IROUser.currentUser {
+            IROUser.currentUser?.username = username
+            IROUser.currentUser?.fullName = fullName
+            IROUser.currentUser?.website = website
+            IROUser.currentUser?.bio = bio
+            IROUser.currentUser?.save()
+            completionHandler(true)
+        }
+        else if
             let email: String = JSON["email"] as? String,
             let token: String = JSON["token"] as? String
         {
-            let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
             let user: IROUser = IROUser(
                 username: username,
                 email: email,
                 token: token,
-                profileImage: nil
+                fullName: fullName,
+                profileImage: nil,
+                backgroundImage: nil,
+                website: website,
+                bio: bio
             )
             user.save()
             IROUser.currentUser = user

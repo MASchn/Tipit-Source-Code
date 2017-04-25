@@ -57,6 +57,11 @@ class IROProfileViewController: UIViewController {
                 })
             }
         }
+        
+        self.profileImageButton.setImage(IROUser.currentUser?.profileImage, for: .normal)
+        self.nameLabel.text = IROUser.currentUser?.fullName
+        self.usernameLabel.text = IROUser.currentUser?.username
+        self.bioLabel.text = IROUser.currentUser?.bio
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -83,7 +88,7 @@ class IROProfileViewController: UIViewController {
     
     lazy var profileImageButton: UIButton = {
         let button: UIButton = UIButton()
-        button.setImage(#imageLiteral(resourceName: "user2"), for: .normal)
+        button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -94,7 +99,6 @@ class IROProfileViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
-        label.text = "Sylvia Marie Ann"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -104,7 +108,6 @@ class IROProfileViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightRegular)
-        label.text = "sylviamarieann"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -220,7 +223,6 @@ class IROProfileViewController: UIViewController {
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
         label.numberOfLines = 3
-        label.text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.Lorem ipsum dolor sit amet, consetetur Lorem ipsum dolor sit amet"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -328,7 +330,7 @@ class IROProfileViewController: UIViewController {
     }
     
     func tappedEditButton() {
-        let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController()
+        let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController(style: .grouped)
         let editNavController: UINavigationController = UINavigationController(rootViewController: editProfileViewController)
         self.present(editNavController, animated: true, completion: nil)
     }

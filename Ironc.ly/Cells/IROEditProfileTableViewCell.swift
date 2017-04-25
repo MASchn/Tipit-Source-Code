@@ -16,7 +16,6 @@ class IROEditProfileTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     weak var delegate: IROEditProfileCellDelegate?
-    var indexPath: IndexPath?
     
     // MARK: - View Lifecycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -52,14 +51,14 @@ class IROEditProfileTableViewCell: UITableViewCell {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15.0).isActive = true
+        self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10.0).isActive = true
         self.titleLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 20.0).isActive = true
         self.titleLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
         self.textField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor).isActive = true
         self.textField.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 20.0).isActive = true
         self.textField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-        self.textField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        self.textField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10.0).isActive = true
     }
 
 }
