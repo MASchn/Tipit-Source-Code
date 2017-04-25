@@ -321,7 +321,7 @@ class IROProfileViewController: UIViewController {
         IROUser.currentUser?.save()
         self.profileImageButton.setImage(image, for: .normal)
         if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
-            IROAPIClient.updateProfileImage(data: data) { (success: Bool) in
+            IROAPIClient.updateUserImage(data: data, type: .profile) { (success: Bool) in
                 //
             }
         }

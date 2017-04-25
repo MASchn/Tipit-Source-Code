@@ -9,12 +9,23 @@
 import Foundation
 import UIKit
 
-struct IROUser {
+class IROUser: NSObject {
+    
     var username: String?
     var email: String?
     let token: String
     var fullName: String?
-    var profileImageURL: String?
+    var profileImageURL: String? {
+        didSet {
+            if let url: String = profileImageURL, url.isEmpty == false {
+                UIImage.download(urlString: url, completion: { (image) in
+                    self.profileImage = image
+                    self.save()
+                })
+            }
+        }
+    }
+    
     var profileImage: UIImage?
     var backgroundImageURL: String?
     var backgroundImage: UIImage?
@@ -44,6 +55,17 @@ struct IROUser {
         self.fullName = fullName
         self.profileImage = profileImage
         self.backgroundImage = backgroundImage
+        self.website = website
+        self.bio = bio
+    }
+    
+    init(username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?) {
+        self.username = username
+        self.email = email
+        self.token = token
+        self.fullName = fullName
+        self.profileImageURL = profileImageURL
+        self.backgroundImageURL = backgroundImageURL
         self.website = website
         self.bio = bio
     }

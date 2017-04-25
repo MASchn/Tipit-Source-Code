@@ -115,7 +115,6 @@ class IROAPIClient: NSObject {
         Alamofire.request(self.baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
-                print(JSONDictionary)
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                     self.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
                         completionHandler(success)
@@ -128,16 +127,26 @@ class IROAPIClient: NSObject {
         }
     }
     
-    class func updateProfileImage(data: Data, completionHandler: @escaping (Bool) -> Void) {
+    enum IROUserImageType: String  {
+        case profile = "profile_image"
+        case background = "background_image"
+    }
+    
+    class func updateUserImage(data: Data, type: IROUserImageType, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
             "x-auth" : IROUser.currentUser!.token,
-            "Content-Type" : "image"
+            "content" : "image"
         ]
-        Alamofire.upload(data, to: self.baseURL + "/users?image_type=profile_image", method: .patch, headers: headers).responseJSON { (response) in
+        
+        Alamofire.upload(data, to: self.baseURL + "/users?image_type=" + type.rawValue, method: .patch, headers: headers).responseJSON { (response) in
             print(response)
             switch response.result {
             case .success(let JSONDictionary):
-                print(JSONDictionary)
+                if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                    self.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
+                        completionHandler(success)
+                    })
+                }
             case .failure(let error):
                 completionHandler(false)
                 print("Update user request failed with error \(error)")
@@ -151,12 +160,16 @@ class IROAPIClient: NSObject {
         let fullName: String? = JSON["first_name"] as? String
         let website: String? = JSON["website"] as? String
         let bio: String? = JSON["bio"] as? String
+        let profileImageURL: String? = JSON["profile_image"] as? String
+        let backgroundImageURL: String? = JSON["background_image"] as? String
         
         if let _: IROUser = IROUser.currentUser {
             IROUser.currentUser?.username = username
             IROUser.currentUser?.fullName = fullName
             IROUser.currentUser?.website = website
             IROUser.currentUser?.bio = bio
+            IROUser.currentUser?.profileImageURL = profileImageURL
+            IROUser.currentUser?.backgroundImageURL = backgroundImageURL
             IROUser.currentUser?.save()
             completionHandler(true)
         }
@@ -169,8 +182,8 @@ class IROAPIClient: NSObject {
                 email: email,
                 token: token,
                 fullName: fullName,
-                profileImage: nil,
-                backgroundImage: nil,
+                profileImageURL: profileImageURL,
+                backgroundImageURL: backgroundImageURL,
                 website: website,
                 bio: bio
             )
