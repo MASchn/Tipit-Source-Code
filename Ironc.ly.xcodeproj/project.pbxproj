@@ -37,6 +37,7 @@
 		37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875DA81E54C41900C86290 /* PhotoViewController.swift */; };
 		378CD25B1EA5A5C6008FF66D /* IROEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */; };
 		37A282F41EAF91D000702AF4 /* UIImage+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F31EAF91D000702AF4 /* UIImage+Download.swift */; };
+		37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -82,6 +83,7 @@
 		37875DA81E54C41900C86290 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileViewController.swift; path = Controllers/IROEditProfileViewController.swift; sourceTree = "<group>"; };
 		37A282F31EAF91D000702AF4 /* UIImage+Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Download.swift"; sourceTree = "<group>"; };
+		37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = Controllers/IROSettingsViewController.swift; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -135,7 +137,10 @@
 		3715BFD61E9D1C4800C29D9E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37BA70351E36F3AF0093EAE5 /* Cells */,
 				3715BFD71E9D1C4D00C29D9E /* Controls */,
+				37BA702E1E36E8EF0093EAE5 /* View Controllers */,
+				373238DF1E4E29A800E787C9 /* Views */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -230,11 +235,8 @@
 				37875D9B1E54C2D600C86290 /* SwiftyCam */,
 				37875D981E54BB5D00C86290 /* Config */,
 				373238E01E4E2A1200E787C9 /* Protocols */,
-				37BA70351E36F3AF0093EAE5 /* Cells */,
-				37BA702E1E36E8EF0093EAE5 /* Controllers */,
 				370E36641E43B21100F8FF9E /* Models */,
 				37BA702D1E36E86A0093EAE5 /* Supporting Files */,
-				373238DF1E4E29A800E787C9 /* Views */,
 			);
 			path = Ironc.ly;
 			sourceTree = "<group>";
@@ -250,7 +252,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		37BA702E1E36E8EF0093EAE5 /* Controllers */ = {
+		37BA702E1E36E8EF0093EAE5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				37875DA41E54C3A700C86290 /* IROCamViewController.swift */,
@@ -267,8 +269,9 @@
 				37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */,
 				3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */,
 				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
+				37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */,
 			);
-			name = Controllers;
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 		37BA70351E36F3AF0093EAE5 /* Cells */ = {
@@ -441,6 +444,7 @@
 				37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */,
 				37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */,
 				37BA70371E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift in Sources */,
+				37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */,
 				3723026F1EA6959700E8447F /* IROEditProfileTableViewCell.swift in Sources */,
 				37875DAA1E54C41900C86290 /* VideoViewController.swift in Sources */,
 				37875D9A1E54BB7300C86290 /* IROConstants.swift in Sources */,

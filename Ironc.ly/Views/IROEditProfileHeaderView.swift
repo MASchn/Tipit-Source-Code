@@ -73,6 +73,8 @@ class IROEditProfileHeaderView: UIView {
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = .lightGray
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

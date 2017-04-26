@@ -9,6 +9,11 @@
 import Foundation
 import Alamofire
 
+enum IROUserImageType: String  {
+    case profile = "profile_image"
+    case background = "background_image"
+}
+
 class IROAPIClient: NSObject {
     
     static let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
@@ -125,11 +130,6 @@ class IROAPIClient: NSObject {
                 print("Update user request failed with error \(error)")
             }
         }
-    }
-    
-    enum IROUserImageType: String  {
-        case profile = "profile_image"
-        case background = "background_image"
     }
     
     class func updateUserImage(data: Data, type: IROUserImageType, completionHandler: @escaping (Bool) -> Void) {

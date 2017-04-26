@@ -10,6 +10,9 @@ import UIKit
 
 class IROEditProfileViewController: UITableViewController {
     
+    // MARK: - Properties
+    var uploadImageType: IROUserImageType = .profile
+    
     // MARK: - View Lifecycle
     override init(style: UITableViewStyle) {
         super.init(style: style)
@@ -18,8 +21,6 @@ class IROEditProfileViewController: UITableViewController {
         
         self.tableView.rowHeight = 70.0
         self.tableView.backgroundColor = .groupTableViewBackground
-        
-        self.title = "Edit Profile"
         
         self.tableView.tableHeaderView = self.editProfileHeaderView
     }
@@ -32,7 +33,9 @@ class IROEditProfileViewController: UITableViewController {
         self.websiteCell.textField.text = IROUser.currentUser?.website
         self.bioCell.textField.text = IROUser.currentUser?.bio
         self.editProfileHeaderView.profileImageView.image = IROUser.currentUser?.profileImage
+        self.editProfileHeaderView.backgroundImageView.image = IROUser.currentUser?.backgroundImage
         
+        self.title = "Edit Profile"
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedDismissButton))
@@ -131,6 +134,30 @@ class IROEditProfileViewController: UITableViewController {
         let cell: IROEditProfileTableViewCell = tableView.cellForRow(at: indexPath) as! IROEditProfileTableViewCell
         cell.textField.becomeFirstResponder()
     }
+    
+    // MARK: - Image Picker
+    override func imagePickerSelectedImage(image: UIImage) {
+        if self.uploadImageType == .profile {
+            IROUser.currentUser?.profileImage = image
+            IROUser.currentUser?.save()
+            self.editProfileHeaderView.profileImageView.image = image
+            if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
+                IROAPIClient.updateUserImage(data: data, type: .profile) { (success: Bool) in
+                    //
+                }
+            }
+        } else {
+            IROUser.currentUser?.backgroundImage = image
+            IROUser.currentUser?.save()
+            self.editProfileHeaderView.backgroundImageView.image = image
+            if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
+                IROAPIClient.updateUserImage(data: data, type: .profile) { (success: Bool) in
+                    //
+                }
+            }
+        }
+
+    }
 
 }
 
@@ -138,11 +165,13 @@ extension IROEditProfileViewController: IROEditProfileHeaderViewDelegate {
     
     func tappedChangeProfileButton() {
         self.view.endEditing(true)
+        self.uploadImageType = .profile
         self.showPhotoActionSheet()
     }
     
     func tappedChangeBackgroundButton() {
         self.view.endEditing(true)
+        self.uploadImageType = .background
         self.showPhotoActionSheet()
     }
     

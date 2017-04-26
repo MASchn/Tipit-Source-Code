@@ -13,6 +13,8 @@ class IROProfileViewController: UIViewController {
     
     // MARK: - Properties
     var story: IROStory?
+    lazy var storyPreviewWidth: NSLayoutConstraint = self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 0.0)
+    lazy var storyPreviewHeight: NSLayoutConstraint = self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 0.0)
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -21,7 +23,9 @@ class IROProfileViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.view.addSubview(self.backgroundImageView)
+        self.backgroundImageView.addSubview(self.shadeView)
         self.view.addSubview(self.profileImageButton)
+        self.view.addSubview(self.settingsButton)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.followersCountLabel)
@@ -52,13 +56,20 @@ class IROProfileViewController: UIViewController {
                         self.story = story
                         if let firstPost: IROPost = story.posts.first {
                             self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                            self.storyPreviewWidth.constant = 120.0
+                            self.storyPreviewHeight.constant = 120.0
                         }
                     }
                 })
             }
         }
         
-        self.profileImageButton.setImage(IROUser.currentUser?.profileImage, for: .normal)
+        let backgroundImage: UIImage = IROUser.currentUser?.backgroundImage ?? #imageLiteral(resourceName: "empty_background")
+        self.backgroundImageView.image = backgroundImage
+        
+        let profileImage: UIImage = IROUser.currentUser?.profileImage ?? #imageLiteral(resourceName: "empty_profile")
+        self.profileImageButton.setImage(profileImage, for: .normal)
+        
         self.nameLabel.text = IROUser.currentUser?.fullName
         self.usernameLabel.text = IROUser.currentUser?.username
         self.bioLabel.text = IROUser.currentUser?.bio
@@ -75,15 +86,20 @@ class IROProfileViewController: UIViewController {
         self.storyPreviewButton.layer.cornerRadius = self.storyPreviewButton.frame.size.height / 2.0
         self.profileImageButton.layer.cornerRadius = self.profileImageButton.frame.size.height / 2.0
         self.editButton.layer.cornerRadius = self.editButton.frame.size.height / 2.0
-        self.logOutButton.layer.cornerRadius = self.logOutButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = .darkGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var shadeView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var profileImageButton: UIButton = {
@@ -92,6 +108,14 @@ class IROProfileViewController: UIViewController {
         button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFit
         button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var settingsButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
+        button.addTarget(self, action: #selector(self.tappedSettingsButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -199,6 +223,7 @@ class IROProfileViewController: UIViewController {
         let button: IROButton = IROButton(style: .text)
         button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("Followers", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -207,6 +232,7 @@ class IROProfileViewController: UIViewController {
         let button: IROButton = IROButton(style: .text)
         button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("Add Friends", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -215,6 +241,7 @@ class IROProfileViewController: UIViewController {
         let button: IROButton = IROButton(style: .text)
         button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
         button.setTitle("My Friends", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -229,15 +256,6 @@ class IROProfileViewController: UIViewController {
         return label
     }()
     
-    lazy var logOutButton: IROButton = {
-        let button: IROButton = IROButton(style: .red)
-        button.setTitle("Log out", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedLogOutButton), for: .touchUpInside)
-        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     // MARK: - Autolayout
     func setUpConstraints() {
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
@@ -245,10 +263,20 @@ class IROProfileViewController: UIViewController {
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
+        self.shadeView.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor).isActive = true
+        self.shadeView.bottomAnchor.constraint(equalTo: self.backgroundImageView.bottomAnchor).isActive = true
+        self.shadeView.leftAnchor.constraint(equalTo: self.backgroundImageView.leftAnchor).isActive = true
+        self.shadeView.rightAnchor.constraint(equalTo: self.backgroundImageView.rightAnchor).isActive = true
+        
         self.profileImageButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20.0).isActive = true
         self.profileImageButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.profileImageButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.profileImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.settingsButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10.0).isActive = true
+        self.settingsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
+        self.settingsButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        self.settingsButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         
         self.nameLabel.topAnchor.constraint(equalTo: self.profileImageButton.bottomAnchor, constant: 10.0).isActive = true
         self.nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -280,9 +308,9 @@ class IROProfileViewController: UIViewController {
         self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         self.storyPreviewButton.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 42.0).isActive = true
-        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
-        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.storyPreviewWidth.isActive = true
+        self.storyPreviewHeight.isActive = true
         
         self.followersButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 25.0).isActive = true
         self.followersButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
@@ -316,6 +344,17 @@ class IROProfileViewController: UIViewController {
         self.showPhotoActionSheet()
     }
     
+    func tappedSettingsButton() {
+        let settingsViewController: IROSettingsViewController = IROSettingsViewController()
+        let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
+        self.present(settingsNavController, animated: true, completion: nil)
+    }
+    
+    func tappedNonsenseButton() {
+        // Go to the followers tab
+        self.tabBarController?.selectedIndex = 1
+    }
+    
     override func imagePickerSelectedImage(image: UIImage) {
         IROUser.currentUser?.profileImage = image
         IROUser.currentUser?.save()
@@ -326,32 +365,11 @@ class IROProfileViewController: UIViewController {
             }
         }
     }
-    
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            let alert: UIAlertController = UIAlertController(title: "Log Out?", message: nil, preferredStyle: .alert)
-            let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
-                self.tappedLogOutButton()
-            }
-            let noAction: UIAlertAction = UIAlertAction(title: "No", style: .cancel, handler: { (action) in
-                //
-            })
-            alert.addAction(yesAction)
-            alert.addAction(noAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
+        
     func tappedEditButton() {
         let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController(style: .grouped)
         let editNavController: UINavigationController = UINavigationController(rootViewController: editProfileViewController)
         self.present(editNavController, animated: true, completion: nil)
-    }
-    
-    func tappedLogOutButton() {
-        IROUser.logOut()
-        AppDelegate.shared.navigationController?.configureForSignIn()
-        AppDelegate.shared.navigationController?.popToRootViewController(animated: true)
     }
 
 }

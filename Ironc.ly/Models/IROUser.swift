@@ -15,16 +15,17 @@ class IROUser: NSObject {
     var email: String?
     let token: String
     var fullName: String?
-    var profileImageURL: String? {
-        didSet {
-            if let url: String = profileImageURL, url.isEmpty == false {
-                UIImage.download(urlString: url, completion: { (image) in
-                    self.profileImage = image
-                    self.save()
-                })
-            }
-        }
-    }
+    var profileImageURL: String?
+//    {
+//        didSet {
+//            if let url: String = profileImageURL, url.isEmpty == false {
+//                UIImage.download(urlString: url, completion: { (image) in
+//                    self.profileImage = image
+//                    self.save()
+//                })
+//            }
+//        }
+//    }
     
     var profileImage: UIImage?
     var backgroundImageURL: String?
@@ -94,6 +95,8 @@ class IROUser: NSObject {
     static func logOut() {
         defaults.removeObject(forKey: "email")
         defaults.removeObject(forKey: "token")
+        defaults.removeObject(forKey: "image")
+        defaults.removeObject(forKey: "background")
         self.currentUser = nil
     }
     
