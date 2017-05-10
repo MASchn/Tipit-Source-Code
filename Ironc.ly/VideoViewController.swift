@@ -102,7 +102,7 @@ class VideoViewController: IROPreviewViewController {
         if let user: IROUser = IROUser.currentUser {
             do {
                 let data: Data = try Data(contentsOf: self.videoURL)
-                IROAPIClient.post(
+                IROAPIClient.postContent(
                     user: user,
                     content: data,
                     type: .video,

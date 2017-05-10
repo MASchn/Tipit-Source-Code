@@ -83,7 +83,7 @@ class PhotoViewController: IROPreviewViewController {
     func tappedPublicButton(sender: UIButton) {
         if let user: IROUser = IROUser.currentUser {
             if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
-                IROAPIClient.post(
+                IROAPIClient.postContent(
                     user: user,
                     content: data,
                     type: .image,

@@ -71,7 +71,7 @@ class IROStoryViewController: UIPageViewController {
     lazy var pageControl: UIPageControl = {
         let control: UIPageControl = UIPageControl()
         control.pageIndicatorTintColor = UIColor(white: 0.0, alpha: 0.3)
-        control.currentPageIndicatorTintColor = IROConstants.green
+        control.currentPageIndicatorTintColor = .iroGreen
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -79,9 +79,9 @@ class IROStoryViewController: UIPageViewController {
     lazy var tipButton: UIButton = {
         let button: UIButton = UIButton()
         button.setTitle("TIPP", for: .normal)
-        button.setTitleColor(IROConstants.green, for: .normal)
+        button.setTitleColor(.iroGreen, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        button.layer.borderColor = IROConstants.green.cgColor
+        button.layer.borderColor = UIColor.iroGreen.cgColor
         button.layer.borderWidth = 2.0
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false

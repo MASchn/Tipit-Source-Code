@@ -26,6 +26,26 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.profileImageView.image = nil
+    }
+    
+    func configure(with searchItem: IROSearchItem) {
+        self.usernameLabel.text = searchItem.username
+        self.nameLabel.text = searchItem.name
+        
+        if let url: String = searchItem.profileImageURL {
+            UIImage.download(urlString: url, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+                self.profileImageView.image = image
+            })
+        } else {
+            self.profileImageView.image = #imageLiteral(resourceName: "empty_profile")
+        }
+        
+    }
+    
     // MARK: - Layout
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -37,7 +57,8 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
     // MARK: - Lazy Initialization
     lazy var profileImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "user1")
+        imageView.backgroundColor = .lightGray
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -47,7 +68,6 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         label.textColor = .black
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
         label.textAlignment = .center
-        label.text = "hannajmarie"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,14 +77,13 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         label.textColor = .gray
         label.font = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
         label.textAlignment = .center
-        label.text = "Hanna Julie Marie"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var subscribeButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = IROConstants.green
+        button.backgroundColor = .iroGreen
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
         button.setTitle("Subscribe", for: .normal)

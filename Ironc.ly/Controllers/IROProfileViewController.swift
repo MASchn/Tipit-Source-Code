@@ -211,7 +211,7 @@ class IROProfileViewController: UIViewController {
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = .lightGray
-        button.layer.borderColor = IROConstants.green.cgColor
+        button.layer.borderColor = UIColor.iroGreen.cgColor
         button.layer.borderWidth = 10.0
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.clipsToBounds = true

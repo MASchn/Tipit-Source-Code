@@ -8,8 +8,6 @@
 
 import Foundation
 
-let baseURLString: String = "https://s3-us-west-2.amazonaws.com/moneyshot-cosmo"
-
 struct IROMediaItem {
     enum IROMediaItemType {
         case photo
@@ -20,7 +18,7 @@ struct IROMediaItem {
         guard let url: String = JSON["url"] as? String else {
             return nil
         }
-        self.url = baseURLString + "/" + url
+        self.url = amazons3 + "/" + url
         
         // Hacky way of doing this for now
         if String(url.characters.suffix(3)) == "mp4" {

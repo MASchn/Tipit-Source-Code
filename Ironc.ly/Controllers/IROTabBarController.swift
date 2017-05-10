@@ -19,7 +19,7 @@ class IROTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBar.tintColor = IROConstants.green
+        self.tabBar.tintColor = .iroGreen
         self.tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
         
         let homeViewController: IROFeedViewController = IROFeedViewController()

@@ -117,7 +117,7 @@ class IROCamViewController: SwiftyCamViewController {
         self.flashEnabled = !self.flashEnabled
         
         if flashEnabled == true {
-            self.flashButton.tintColor = IROConstants.green
+            self.flashButton.tintColor = .iroGreen
         } else {
             self.flashButton.tintColor = UIColor.white
         }

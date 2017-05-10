@@ -40,7 +40,7 @@ class IROEditProfileViewController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedDismissButton))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.tappedDoneButton))
-        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)]
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
     }
     
     // MARK: - Lazy Initialization

@@ -16,17 +16,6 @@ class IROUser: NSObject {
     let token: String
     var fullName: String?
     var profileImageURL: String?
-//    {
-//        didSet {
-//            if let url: String = profileImageURL, url.isEmpty == false {
-//                UIImage.download(urlString: url, completion: { (image) in
-//                    self.profileImage = image
-//                    self.save()
-//                })
-//            }
-//        }
-//    }
-    
     var profileImage: UIImage?
     var backgroundImageURL: String?
     var backgroundImage: UIImage?
@@ -37,6 +26,53 @@ class IROUser: NSObject {
     static let defaults = UserDefaults.standard
     
     // MARK: - Initialization
+    class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
+        let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
+        let fullName: String? = JSON["first_name"] as? String
+        let website: String? = JSON["website"] as? String
+        let bio: String? = JSON["bio"] as? String
+        let profileImageURL: String? = JSON["profile_image"] as? String
+        let backgroundImageURL: String? = JSON["background_image"] as? String
+        
+        if let _: IROUser = IROUser.currentUser {
+            IROUser.currentUser?.username = username
+            IROUser.currentUser?.fullName = fullName
+            IROUser.currentUser?.website = website
+            IROUser.currentUser?.bio = bio
+            if let profileImageURL: String = profileImageURL {
+                IROUser.currentUser?.profileImageURL = amazons3 + "/" + profileImageURL
+            }
+            if let backgroundImageURL: String = backgroundImageURL {
+                IROUser.currentUser?.backgroundImageURL = amazons3 + "/" + backgroundImageURL
+            }
+            IROUser.currentUser?.save()
+            completionHandler(true)
+        }
+        else if
+            let email: String = JSON["email"] as? String,
+            let token: String = JSON["token"] as? String
+        {
+            let user: IROUser = IROUser(
+                username: username,
+                email: email,
+                token: token,
+                fullName: fullName,
+                profileImageURL: profileImageURL,
+                backgroundImageURL: backgroundImageURL,
+                website: website,
+                bio: bio
+            )
+            user.save()
+            IROUser.currentUser = user
+            completionHandler(true)
+        }
+        else
+        {
+            print("Error parsing user response")
+            completionHandler(false)
+        }
+    }
+    
     init(token: String) {
         self.token = token
         self.email = nil
