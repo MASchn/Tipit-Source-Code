@@ -169,7 +169,7 @@ class IROAPIClient: NSObject {
     class func forgotPassword(email: String, completionHandler: @escaping (Bool) -> Void) {
         let parameters: Parameters = [
             "email" : email,
-            ]
+        ]
         let headers: HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
@@ -186,6 +186,51 @@ class IROAPIClient: NSObject {
             case .failure(let error):
                 completionHandler(false)
             }
+        }
+    }
+    
+    class func getAllUsers(completionHandler: @escaping ([IROSearchUser]?) -> Void) {
+        let headers: HTTPHeaders = [
+            "x-auth" : IROUser.currentUser!.token,
+            "Content-Type" : "application/json"
+        ]
+        Alamofire.request(baseURL + "/users", headers: headers).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSONDictionary):
+                if let JSONArray: [[String : Any]] = JSONDictionary as? [[String : Any]] {
+                    var searchItems: [IROSearchUser] = [IROSearchUser]()
+                    for JSON: [String : Any] in JSONArray {
+                        if let searchItem: IROSearchUser = IROSearchUser(JSON: JSON) {
+                            searchItems.append(searchItem)
+                        }
+                    }
+                    completionHandler(searchItems)
+                } else {
+                    completionHandler(nil)
+                }
+            case .failure(let error):
+                print(error)
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    class func follow(userId: String, completionHandler: @escaping (Bool) -> Void) {
+        let headers: HTTPHeaders = [
+            "x-auth" : IROUser.currentUser!.token,
+            "Content-Type" : "application/json"
+        ]
+        let parameters: Parameters = [
+            "_id" : userId
+        ]
+        Alamofire.request(
+            baseURL + "/follow",
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+            ).responseString { (response) in
+                //
         }
     }
     

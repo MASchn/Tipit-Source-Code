@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D01EC3744800A8D0AB /* IROSearch.swift */; };
-		3702E6D31EC3770000A8D0AB /* IROSearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* IROSearchItem.swift */; };
+		3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */; };
 		3702E6D71EC380BB00A8D0AB /* UIColor+PremiumSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */; };
 		3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D81EC3848700A8D0AB /* IROStyle.swift */; };
 		370E36661E43B22900F8FF9E /* IROPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* IROPost.swift */; };
@@ -57,7 +57,7 @@
 /* Begin PBXFileReference section */
 		2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.release.xcconfig"; sourceTree = "<group>"; };
 		3702E6D01EC3744800A8D0AB /* IROSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearch.swift; path = Networking/IROSearch.swift; sourceTree = "<group>"; };
-		3702E6D21EC3770000A8D0AB /* IROSearchItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchItem.swift; path = Models/IROSearchItem.swift; sourceTree = "<group>"; };
+		3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchUser.swift; path = Models/IROSearchUser.swift; sourceTree = "<group>"; };
 		3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+PremiumSnap.swift"; sourceTree = "<group>"; };
 		3702E6D81EC3848700A8D0AB /* IROStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStyle.swift; sourceTree = "<group>"; };
 		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 				37417E011E8EB16C00E1AF62 /* CALayer+TextField.swift */,
 				37417E031E8EB6A200E1AF62 /* IROValidator.swift */,
 				3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */,
-				3702E6D21EC3770000A8D0AB /* IROSearchItem.swift */,
+				3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -419,7 +419,7 @@
 				37BA70321E36E9870093EAE5 /* IROTabBarController.swift in Sources */,
 				37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */,
 				3715BFDB1E9D1F0600C29D9E /* IROTextField.swift in Sources */,
-				3702E6D31EC3770000A8D0AB /* IROSearchItem.swift in Sources */,
+				3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */,
 				3715BFDE1E9D301200C29D9E /* UIViewController+Alert.swift in Sources */,
 				37875DA51E54C3A700C86290 /* IROCamViewController.swift in Sources */,
 				37875DA21E54C2E500C86290 /* SwiftyCamViewController.swift in Sources */,

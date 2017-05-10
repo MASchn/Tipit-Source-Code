@@ -8,7 +8,21 @@
 
 import UIKit
 
+protocol IROSearchCollectionViewCellDelegate: class {
+    func tappedFollowButton(with userId: String)
+    func tappedSubscribeButton(with userId: String)
+}
+
+enum IROSearchSection: Int {
+    case follow = 0
+    case subscribe = 1
+}
+
 class IROSearchCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    var userId: String?
+    weak var delegate: IROSearchCollectionViewCellDelegate?
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
@@ -17,6 +31,7 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.profileImageView)
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.nameLabel)
+        self.contentView.addSubview(self.followButton)
         self.contentView.addSubview(self.subscribeButton)
         
         self.setUpConstraints()
@@ -30,13 +45,20 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         self.profileImageView.image = nil
+        self.subscribeButton.isHidden = true
+        self.followButton.isHidden = true
     }
     
-    func configure(with searchItem: IROSearchItem) {
-        self.usernameLabel.text = searchItem.username
-        self.nameLabel.text = searchItem.name
+    func configure(with searchUser: IROSearchUser, section: IROSearchSection) {
+        self.userId = searchUser.userId
         
-        if let url: String = searchItem.profileImageURL {
+        self.usernameLabel.text = searchUser.username
+        self.nameLabel.text = searchUser.name
+        
+        self.followButton.isHidden = section == .subscribe
+        self.subscribeButton.isHidden = section == .follow
+        
+        if let url: String = searchUser.profileImageURL {
             UIImage.download(urlString: url, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
                 self.profileImageView.image = image
             })
@@ -51,6 +73,7 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height / 2.0
+        self.followButton.layer.cornerRadius = self.followButton.frame.size.height / 2.0
         self.subscribeButton.layer.cornerRadius = self.subscribeButton.frame.size.height / 2.0
     }
     
@@ -66,7 +89,7 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
     lazy var usernameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightBold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -75,21 +98,37 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .gray
-        label.font = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var followButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .iroGreen
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        button.setTitle("Follow", for: .normal)
+        button.setTitle("Unfollow", for: .selected)
+        button.addTarget(self, action: #selector(self.tappedFollowButton), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
     }()
     
     lazy var subscribeButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = .iroGreen
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
         button.setTitle("Subscribe", for: .normal)
         button.setTitle("Unsubscribe", for: .selected)
+        button.addTarget(self, action: #selector(self.tappedSubscribeButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
     
@@ -112,10 +151,28 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         self.nameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         self.nameLabel.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
         
+        self.followButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: verticalMargin).isActive = true
+        self.followButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.followButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        self.followButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        
         self.subscribeButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: verticalMargin).isActive = true
         self.subscribeButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.subscribeButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         self.subscribeButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+    }
+    
+    // MARK: - Actions
+    func tappedFollowButton() {
+        if let userId: String = self.userId {
+            self.delegate?.tappedFollowButton(with: userId)
+        }
+    }
+    
+    func tappedSubscribeButton() {
+        if let userId: String = self.userId {
+            self.delegate?.tappedSubscribeButton(with: userId)
+        }
     }
     
 }
