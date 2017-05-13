@@ -21,7 +21,7 @@ class IROSearchViewController: UIViewController {
         
         self.navigationController?.navigationItem.hidesBackButton = true
         
-//        self.view.addSubview(self.searchBar)
+        self.view.addSubview(self.searchTextField)
         self.view.addSubview(self.searchCollectionView)
         
         IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
@@ -50,15 +50,14 @@ class IROSearchViewController: UIViewController {
     }
 
     // MARK: - Lazy Initialization
-    lazy var searchBar: UISearchBar = {
-        let searchBar: UISearchBar = UISearchBar()
-        searchBar.searchBarStyle = .minimal
-        searchBar.backgroundColor = .white
-        searchBar.backgroundImage = UIImage()
-        searchBar.isTranslucent = false
-        searchBar.placeholder = "Search"
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
+    lazy var searchTextField: UITextField = {
+        let textField: UITextField = UITextField()
+        textField.backgroundColor = .white
+        textField.leftViewMode = .always
+        textField.leftView = UIImageView(image: #imageLiteral(resourceName: "search_bar"))
+        textField.placeholder = "Search"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
     
     lazy var searchCollectionView: UICollectionView = {
@@ -68,18 +67,19 @@ class IROSearchViewController: UIViewController {
         collectionView.register(IROSearchCollectionViewCell.self, forCellWithReuseIdentifier: self.searchReuseId)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.alwaysBounceVertical = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     // MARK: - Autolayout
     func setUpConstraints() {
-//        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-//        self.searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//        self.searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-//        self.searchBar.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+        self.searchTextField.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.searchTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.searchTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.searchTextField.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
         
-        self.searchCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.searchCollectionView.topAnchor.constraint(equalTo: self.searchTextField.bottomAnchor).isActive = true
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
