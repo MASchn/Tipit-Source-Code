@@ -10,7 +10,6 @@ import Foundation
 import Alamofire
 
 let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
-let amazons3: String = "https://s3-us-west-2.amazonaws.com/moneyshot-cosmo"
 
 enum IROUserImageType: String  {
     case profile = "profile_image"
@@ -161,7 +160,6 @@ class IROAPIClient: NSObject {
             "x-auth" : user.token
         ]
         Alamofire.upload(content, to: baseURL + "/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
-            print(response)
             completionHandler(true)
         }
     }
@@ -215,7 +213,14 @@ class IROAPIClient: NSObject {
         }
     }
     
-    class func follow(userId: String, completionHandler: @escaping (Bool) -> Void) {
+    enum IROUserAction: String {
+        case follow = "/follow"
+        case unfollow = "/unfollow"
+        case subscribe = "/subscribe"
+        case unsubscribe = "/unsubscribe"
+    }
+    
+    class func userAction(action: IROUserAction, userId: String, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
             "x-auth" : IROUser.currentUser!.token,
             "Content-Type" : "application/json"
@@ -224,7 +229,7 @@ class IROAPIClient: NSObject {
             "_id" : userId
         ]
         Alamofire.request(
-            baseURL + "/follow",
+            baseURL + action.rawValue,
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default,
@@ -232,6 +237,59 @@ class IROAPIClient: NSObject {
             ).responseString { (response) in
                 //
         }
+    }
+    
+    class func getFeed(completionHandler: @escaping ([IROFeedItem]?) -> Void) {
+        let headers: HTTPHeaders = [
+            "x-auth" : IROUser.currentUser!.token,
+            "Content-Type" : "application/json"
+        ]
+        Alamofire.request(
+            baseURL + "/feed",
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.default,
+            headers: headers
+            ).responseJSON { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        if let feedItemsJSON: [[String : Any]] = JSON["feed_items"] as? [[String : Any]] {
+                            var feedItems: [IROFeedItem] = [IROFeedItem]()
+                            for feedItemJSON in feedItemsJSON {
+                                if let feedItem: IROFeedItem = IROFeedItem(JSON: feedItemJSON) {
+                                    feedItems.append(feedItem)
+                                }
+                            }
+                            completionHandler(feedItems)
+                        }
+                    }
+                case .failure(let error):
+                    completionHandler(nil)
+                }
+        }
+    }
+    
+    class func get<T>(endpoint: String, authentication: Bool = false, contentType: String = "application/json", completionHandler: ([T]?) -> Void) {
+        
+        var headers: HTTPHeaders = [
+            "Content-Type" : contentType
+        ]
+        
+        if authentication == true {
+            headers["x-auth"] = IROUser.currentUser!.token
+        }
+        
+//        Alamofire.request(
+//            baseURL + endpoint,
+//            method: .get,
+//            parameters: nil,
+//            encoding: JSONEncoding.default,
+//            headers: headers
+//            ).responseJSON { (response) in
+//                //
+//        }
+        
     }
     
 }

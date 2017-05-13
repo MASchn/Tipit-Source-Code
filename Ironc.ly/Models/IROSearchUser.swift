@@ -23,12 +23,12 @@ class IROSearchUser: NSObject {
         self.userId = userId
         
         if let mediaItem: String = (JSON["media_item"] as? [String : Any])?["url"] as? String {
-            self.mediaItemURL = amazons3 + "/" + mediaItem
+            self.mediaItemURL = mediaItem
         }
         self.username = JSON["username"] as? String
         self.name = JSON["name"] as? String
         if let profileImage: String = JSON["profile_image"] as? String {
-            self.profileImageURL = amazons3 + "/" + profileImage
+            self.profileImageURL = profileImage
         }
     }
 

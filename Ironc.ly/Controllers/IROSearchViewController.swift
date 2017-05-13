@@ -133,11 +133,15 @@ extension IROSearchViewController: UICollectionViewDelegateFlowLayout {
 extension IROSearchViewController: IROSearchCollectionViewCellDelegate {
     
     func tappedFollowButton(with userId: String) {
-        IROAPIClient.follow(userId: userId) { (success: Bool) in
+        IROAPIClient.userAction(action: .follow, userId: userId) { (success: Bool) in
             //
         }
     }
     
-    func tappedSubscribeButton(with userId: String) {}
+    func tappedSubscribeButton(with userId: String) {
+        IROAPIClient.userAction(action: .subscribe, userId: userId) { (success: Bool) in
+            //
+        }
+    }
     
 }

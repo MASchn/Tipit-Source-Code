@@ -11,10 +11,8 @@ import UIKit
 class IROFeedViewController: UIViewController {
     
     // MARK: - Properties
+    var feedItems: [IROFeedItem] = [IROFeedItem]()
     var columns: Int = 1
-    
-    // TODO: The data source should be "stories" not "posts"
-    var posts: [IROPost] = []
     
     let notificationImage: UIImage = UIImage(cgImage: UIImage(named: "notification")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
     let gridImage = UIImage(cgImage: UIImage(named: "grid")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
@@ -24,32 +22,52 @@ class IROFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.posts = IROStory.mockStory().posts
-        
         self.view.backgroundColor = UIColor.white
+        self.view.addSubview(self.emptyView)
         self.view.addSubview(self.feedCollectionView)
         
         self.setUpConstraints()
+        
+        IROAPIClient.getFeed { (feedItems: [IROFeedItem]?) in
+            if let feedItems: [IROFeedItem] = feedItems, feedItems.count > 0 {
+                self.feedItems = feedItems
+                self.feedCollectionView.reloadData()
+                self.feedCollectionView.isHidden = false
+                self.emptyView.isHidden = true
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "Name"
-        self.tabBarController?.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
-        self.tabBarController?.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
-        self.tabBarController?.navigationItem.title = nil
+        self.navigationItem.title = IROUser.currentUser?.fullName
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
         
         self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
     }
     
+    // MARK: - Status Bar
     override var prefersStatusBarHidden: Bool {
         return false
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
     // MARK: - Lazy Initialization
+    lazy var emptyView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = .groupTableViewBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var feedCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
@@ -57,13 +75,19 @@ class IROFeedViewController: UIViewController {
         collectionView.register(IROFeedCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceVertical = true
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isHidden = true
         return collectionView
     }()
     
     // MARK: - Autolayout
     func setUpConstraints() {
+        self.emptyView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.emptyView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.emptyView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.emptyView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
         self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -86,13 +110,13 @@ class IROFeedViewController: UIViewController {
 extension IROFeedViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.posts.count
+        return self.feedItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROFeedCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! IROFeedCollectionViewCell
-        let post: IROPost = self.posts[indexPath.item]
-        cell.configure(with: post)
+        let feedItem: IROFeedItem = self.feedItems[indexPath.item]
+        cell.configure(with: feedItem)
         return cell
     }
     

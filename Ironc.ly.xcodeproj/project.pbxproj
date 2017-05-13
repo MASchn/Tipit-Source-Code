@@ -50,6 +50,7 @@
 		37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */; };
 		37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */; };
 		37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */; };
+		37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* IROFeedItem.swift */; };
 		37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
 /* End PBXBuildFile section */
@@ -101,6 +102,7 @@
 		37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMessagesViewController.swift; path = Controllers/IROMessagesViewController.swift; sourceTree = "<group>"; };
 		37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = Controllers/IROProfileViewController.swift; sourceTree = "<group>"; };
 		37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = Controllers/IROPlaceholderViewController.swift; sourceTree = "<group>"; };
+		37C49C361EC68BB500187EBE /* IROFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedItem.swift; path = Models/IROFeedItem.swift; sourceTree = "<group>"; };
 		37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchCollectionViewCell.swift; path = Cells/IROSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 				37417E031E8EB6A200E1AF62 /* IROValidator.swift */,
 				3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */,
 				3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */,
+				37C49C361EC68BB500187EBE /* IROFeedItem.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -323,7 +326,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Richard McAteer";
 				TargetAttributes = {
 					37BA70171E36E6070093EAE5 = {
@@ -426,6 +429,7 @@
 				37875DA11E54C2E500C86290 /* SwiftyCamButton.swift in Sources */,
 				37417DDA1E85B96D00E1AF62 /* IRORegisterViewController.swift in Sources */,
 				3762A53A1E96C1F4007FDD51 /* IROMediaItem.swift in Sources */,
+				37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */,
 				372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */,
 				3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
@@ -572,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
@@ -587,6 +592,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;

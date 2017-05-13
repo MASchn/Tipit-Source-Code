@@ -18,7 +18,7 @@ struct IROMediaItem {
         guard let url: String = JSON["url"] as? String else {
             return nil
         }
-        self.url = amazons3 + "/" + url
+        self.url = url
         
         // Hacky way of doing this for now
         if String(url.characters.suffix(3)) == "mp4" {

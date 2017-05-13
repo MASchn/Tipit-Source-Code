@@ -13,7 +13,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.userNameLabel)
         self.contentView.addSubview(self.userImageView)
@@ -28,10 +28,24 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with post: IROPost) {
-        self.userNameLabel.text = post.user.username
-        self.userImageView.image = post.user.profileImage
-        self.postImageView.image = post.contentImage
+    func configure(with feedItem: IROFeedItem) {
+        self.userNameLabel.text = feedItem.username
+        
+        self.postImageView.alpha = 0.0
+        UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
+            self.postImageView.image = image
+            UIView.animate(withDuration: 0.4, animations: {
+                self.postImageView.alpha = 1.0
+            })
+        }
+        
+        if let profileImage: String = feedItem.profileImage {
+            UIImage.download(urlString: profileImage, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+                self.userImageView.image = image
+            })
+        } else {
+            self.userImageView.image = #imageLiteral(resourceName: "empty_profile")
+        }
     }
     
     override func prepareForReuse() {
@@ -66,6 +80,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     
     lazy var postImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
+        imageView.backgroundColor = .groupTableViewBackground
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false

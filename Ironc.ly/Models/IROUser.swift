@@ -40,10 +40,10 @@ class IROUser: NSObject {
             IROUser.currentUser?.website = website
             IROUser.currentUser?.bio = bio
             if let profileImageURL: String = profileImageURL {
-                IROUser.currentUser?.profileImageURL = amazons3 + "/" + profileImageURL
+                IROUser.currentUser?.profileImageURL = profileImageURL
             }
             if let backgroundImageURL: String = backgroundImageURL {
-                IROUser.currentUser?.backgroundImageURL = amazons3 + "/" + backgroundImageURL
+                IROUser.currentUser?.backgroundImageURL = backgroundImageURL
             }
             IROUser.currentUser?.save()
             completionHandler(true)

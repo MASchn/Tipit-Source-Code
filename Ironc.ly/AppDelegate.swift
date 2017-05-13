@@ -42,7 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let tabBarController: IROTabBarController = IROTabBarController()
         tabBarController.delegate = self
-        self.navigationController?.configureForTabBar()
         self.navigationController?.pushViewController(tabBarController, animated: animated)
     }
     
@@ -100,20 +99,12 @@ class IRONavigationController: UINavigationController {
     }
     
     func configureForSignIn() {
-        self.isNavigationBarHidden = false // Need this because some of the tab bar view controllers set it true
+        self.isNavigationBarHidden = false
         self.navigationBar.isTranslucent = true
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage = UIImage()
         self.navigationBar.tintColor = .white
         self.navigationBar.barStyle = .black
-    }
-    
-    func configureForTabBar() {
-        self.isNavigationBarHidden = false // Need this because some of the tab bar view controllers set it true
-        self.navigationBar.isTranslucent = false
-        self.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationBar.shadowImage = nil
-        self.navigationBar.barStyle = .default
     }
     
 }
