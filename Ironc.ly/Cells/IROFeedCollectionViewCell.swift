@@ -10,6 +10,8 @@ import UIKit
 
 class IROFeedCollectionViewCell: UICollectionViewCell {
     
+    var userId: String?
+    
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +31,7 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with feedItem: IROFeedItem) {
+        self.userId = feedItem.userId
         self.userNameLabel.text = feedItem.username
         
         self.postImageView.alpha = 0.0

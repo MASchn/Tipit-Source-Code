@@ -21,7 +21,7 @@ class IROSearchViewController: UIViewController {
         
         self.navigationController?.navigationItem.hidesBackButton = true
         
-        self.view.addSubview(self.searchBar)
+//        self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
         
         IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
@@ -37,11 +37,10 @@ class IROSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "Private"
-        self.tabBarController?.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
-        self.tabBarController?.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.title = "Private"
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.barTintColor = .white
         
         self.searchCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
     }
@@ -75,12 +74,12 @@ class IROSearchViewController: UIViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.searchBar.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+//        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+//        self.searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+//        self.searchBar.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
         
-        self.searchCollectionView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor).isActive = true
+        self.searchCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -100,9 +99,9 @@ extension IROSearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.searchReuseId, for: indexPath) as! IROSearchCollectionViewCell
-        let searchItem: IROSearchUser = self.searchUsers[indexPath.item]
+        let searchUser: IROSearchUser = self.searchUsers[indexPath.item]
         let section: IROSearchSection = IROSearchSection(rawValue: indexPath.section)!
-        cell.configure(with: searchItem, section: section)
+        cell.configure(with: searchUser, section: section)
         cell.delegate = self
         return cell
     }
@@ -117,7 +116,7 @@ extension IROSearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0.0, left: 15.0, bottom: 0.0, right: 15.0)
+        return UIEdgeInsets(top: 20.0, left: 15.0, bottom: 0.0, right: 15.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

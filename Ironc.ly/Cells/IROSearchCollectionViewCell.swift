@@ -81,6 +81,7 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
     lazy var profileImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = .lightGray
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

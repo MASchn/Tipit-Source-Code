@@ -33,6 +33,8 @@ class IROTabBarController: UITabBarController {
         searchViewController.tabBarItem = UITabBarItem(title: nil, image: self.privateImage.withRenderingMode(.alwaysOriginal), selectedImage: self.privateImage)
         searchViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         searchViewController.tabBarItem.tag = 1
+        let searchNavController: UINavigationController = UINavigationController(rootViewController: searchViewController)
+        searchNavController.navigationBar.isTranslucent = false
 
         let cameraViewController: UIViewController = UIViewController()
         cameraViewController.tabBarItem = UITabBarItem(title: nil, image: self.cameraImage.withRenderingMode(.alwaysOriginal), selectedImage: self.cameraImage)
@@ -49,7 +51,7 @@ class IROTabBarController: UITabBarController {
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         profileViewController.tabBarItem.tag = 4
         
-        self.viewControllers = [homeNavController, searchViewController, cameraViewController, messagesViewController, profileViewController]
+        self.viewControllers = [homeNavController, searchNavController, cameraViewController, messagesViewController, profileViewController]
         
     }
 

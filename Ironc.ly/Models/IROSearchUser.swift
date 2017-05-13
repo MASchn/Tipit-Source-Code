@@ -19,6 +19,8 @@ class IROSearchUser: NSObject {
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
         guard let userId: String = JSON["id"] as? String else { return nil }
+        guard let profileImage: String = JSON["profile_image"] as? String else { return nil }
+        guard Array(profileImage.characters).first == "h" else { return nil }
         
         self.userId = userId
         
@@ -27,9 +29,7 @@ class IROSearchUser: NSObject {
         }
         self.username = JSON["username"] as? String
         self.name = JSON["name"] as? String
-        if let profileImage: String = JSON["profile_image"] as? String {
-            self.profileImageURL = profileImage
-        }
+        self.profileImageURL = profileImage
     }
 
 }

@@ -25,9 +25,15 @@ class IROFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.feedCollectionView)
+                
+        self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
         
         self.setUpConstraints()
         
+        self.getFeed()
+    }
+    
+    func getFeed() {
         IROAPIClient.getFeed { (feedItems: [IROFeedItem]?) in
             if let feedItems: [IROFeedItem] = feedItems, feedItems.count > 0 {
                 self.feedItems = feedItems
@@ -41,14 +47,19 @@ class IROFeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if self.feedItems.count == 0 {
+            self.getFeed()
+        }
+        
         self.navigationItem.title = IROUser.currentUser?.fullName
         self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.barTintColor = .white
         
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(true, animated: false)
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
-        
-        self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
     }
     
     // MARK: - Status Bar
@@ -142,9 +153,16 @@ extension IROFeedViewController: UICollectionViewDelegateFlowLayout {
 extension IROFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let story = IROStory.mockStory()
-        let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
-        self.present(storyViewController, animated: true, completion: nil)
+        let cell: IROFeedCollectionViewCell = self.feedCollectionView.cellForItem(at: indexPath) as! IROFeedCollectionViewCell
+        if let userId: String = cell.userId {
+            IROAPIClient.getStory(userId: userId, completionHandler: { (story: IROStory?) in
+                if let story: IROStory = story {
+                    let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
+                    self.present(storyViewController, animated: true, completion: nil)
+                }
+            })
+        }
+        
     }
     
 }

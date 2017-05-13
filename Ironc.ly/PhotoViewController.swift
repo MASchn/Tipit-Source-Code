@@ -81,21 +81,18 @@ class PhotoViewController: IROPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
-        if let user: IROUser = IROUser.currentUser {
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
                 IROAPIClient.postContent(
-                    user: user,
+                    user: IROUser.currentUser!,
                     content: data,
                     type: .image,
                     private: false,
-                    completionHandler: {
-                        (success: Bool) in
-                        if success == true {
-                            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
-                        }
+                    completionHandler: { (success: Bool) in
+                      print("Successfully uploaded content")
                 })
             }
-        }
+        })
     }
     
     func tappedPrivateButton(sender: UIButton) {

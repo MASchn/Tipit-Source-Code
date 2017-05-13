@@ -49,18 +49,14 @@ class IROProfileViewController: UIViewController {
         
         self.tabBarController?.navigationController?.isNavigationBarHidden = true
         
-        IROAPIClient.getPersonalStory { (mediaItems: [IROMediaItem]?) in
-            if let mediaItems: [IROMediaItem] = mediaItems {
-                IROStory.story(with: IROUser.currentUser!, mediaItems: mediaItems, completion: { (story: IROStory?) in
-                    if let story: IROStory = story {
-                        self.story = story
-                        if let firstPost: IROPost = story.posts.first {
-                            self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                            self.storyPreviewWidth.constant = 120.0
-                            self.storyPreviewHeight.constant = 120.0
-                        }
-                    }
-                })
+        IROAPIClient.getPersonalStory { (story: IROStory?) in
+            if let story: IROStory = story {
+                self.story = story
+                if let firstPost: IROPost = story.posts.first {
+                    self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                    self.storyPreviewWidth.constant = 120.0
+                    self.storyPreviewHeight.constant = 120.0
+                }
             }
         }
         

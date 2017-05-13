@@ -18,33 +18,53 @@ enum IROUserImageType: String  {
 
 class IROAPIClient: NSObject {
     
-    
-    class func getPersonalStory(completionHandler: @escaping ([IROMediaItem]?) -> Void) {
+    class func getStory(userId: String, completionHandler: @escaping (IROStory?) -> Void) {
         guard let user: IROUser = IROUser.currentUser else { return }
-        
         let headers: HTTPHeaders = [
             "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
-        
+        Alamofire.request(baseURL + "/story?id=\(userId)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+            self.parseStoryResponse(response: response, completionHandler: { (story: IROStory?) in
+                completionHandler(story)
+            })
+        }
+    }
+    
+    
+    class func getPersonalStory(completionHandler: @escaping (IROStory?) -> Void) {
+        guard let user: IROUser = IROUser.currentUser else { return }
+        let headers: HTTPHeaders = [
+            "x-auth" : user.token,
+            "Content-Type" : "application/json"
+        ]
         Alamofire.request(baseURL + "/users/me/media_items", headers: headers).responseJSON { (response) in
-            switch response.result {
-            case .success(let JSONDictionary):
-                if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                    var mediaItems: [IROMediaItem] = []
-                    if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
-                        for mediaItemJSON: [String : Any] in mediaItemsJSON {
-                            if let mediaItem: IROMediaItem = IROMediaItem(JSON: mediaItemJSON) {
-                                mediaItems.append(mediaItem)
-                            }
+            self.parseStoryResponse(response: response, completionHandler: { (story: IROStory?) in
+                completionHandler(story)
+            })
+        }
+    }
+    
+    // Helper method
+    private class func parseStoryResponse(response: DataResponse<Any>, completionHandler: @escaping (IROStory?) -> Void) {
+        switch response.result {
+        case .success(let JSONDictionary):
+            if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                var mediaItems: [IROMediaItem] = []
+                if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
+                    for mediaItemJSON: [String : Any] in mediaItemsJSON {
+                        if let mediaItem: IROMediaItem = IROMediaItem(JSON: mediaItemJSON) {
+                            mediaItems.append(mediaItem)
                         }
-                        completionHandler(mediaItems)
                     }
+                    IROStory.story(with: IROUser.currentUser!, mediaItems: mediaItems, completion: { (story: IROStory?) in
+                        completionHandler(story)
+                    })
                 }
-            case .failure(let error):
-                print(error)
-                completionHandler(nil)
             }
+        case .failure(let error):
+            print(error)
+            completionHandler(nil)
         }
     }
     

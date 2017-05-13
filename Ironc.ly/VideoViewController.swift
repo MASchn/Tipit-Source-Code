@@ -99,22 +99,22 @@ class VideoViewController: IROPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
-        if let user: IROUser = IROUser.currentUser {
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: { 
             do {
                 let data: Data = try Data(contentsOf: self.videoURL)
                 IROAPIClient.postContent(
-                    user: user,
+                    user: IROUser.currentUser!,
                     content: data,
                     type: .video,
                     private: false,
                     completionHandler: {
                         (success: Bool) in
-                        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                        //
                 })
             } catch let error {
                 print(error)
             }
-        }
+        })
     }
     
     func tappedPrivateButton(sender: UIButton) {
