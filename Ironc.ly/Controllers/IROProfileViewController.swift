@@ -93,7 +93,7 @@ class IROProfileViewController: UIViewController {
     
     lazy var shadeView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -269,7 +269,7 @@ class IROProfileViewController: UIViewController {
         self.profileImageButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.profileImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.settingsButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10.0).isActive = true
+        self.settingsButton.centerYAnchor.constraint(equalTo: self.profileImageButton.centerYAnchor).isActive = true
         self.settingsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
         self.settingsButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
         self.settingsButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -280,7 +280,12 @@ class IROProfileViewController: UIViewController {
         self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
         self.usernameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.followingCountLabel.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 20.0).isActive = true
+        self.editButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
+        self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.followingCountLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 20.0).isActive = true
         self.followingCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         self.followersCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
@@ -298,12 +303,7 @@ class IROProfileViewController: UIViewController {
         self.coinsSubtitleLabel.topAnchor.constraint(equalTo: self.coinsCountLabel.bottomAnchor).isActive = true
         self.coinsSubtitleLabel.centerXAnchor.constraint(equalTo: self.coinsCountLabel.centerXAnchor).isActive = true
         
-        self.editButton.topAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor, constant: 15.0).isActive = true
-        self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
-        self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.storyPreviewButton.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 42.0).isActive = true
+        self.storyPreviewButton.topAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor, constant: 42.0).isActive = true
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.storyPreviewWidth.isActive = true
         self.storyPreviewHeight.isActive = true

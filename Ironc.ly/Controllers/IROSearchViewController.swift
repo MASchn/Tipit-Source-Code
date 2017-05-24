@@ -22,14 +22,8 @@ class IROSearchViewController: UIViewController {
         self.navigationController?.navigationItem.hidesBackButton = true
         
         self.view.addSubview(self.searchTextField)
+        self.view.addSubview(self.cancelSearchButton)
         self.view.addSubview(self.searchCollectionView)
-        
-        IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
-            if let searchUsers: [IROSearchUser] = searchUsers {
-                self.searchUsers = searchUsers
-                self.searchCollectionView.reloadData()
-            }
-        }
         
         self.setUpConstraints()
     }
@@ -43,6 +37,13 @@ class IROSearchViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .white
         
         self.searchCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
+        
+        IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
+            if let searchUsers: [IROSearchUser] = searchUsers {
+                self.searchUsers = searchUsers
+                self.searchCollectionView.reloadData()
+            }
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -54,10 +55,26 @@ class IROSearchViewController: UIViewController {
         let textField: UITextField = UITextField()
         textField.backgroundColor = .white
         textField.leftViewMode = .always
-        textField.leftView = UIImageView(image: #imageLiteral(resourceName: "search_bar"))
+        let button: UIButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 54.0, height: 45.0))
+        button.setImage(#imageLiteral(resourceName: "search_bar"), for: .normal)
+        textField.leftView = button
         textField.placeholder = "Search"
+        textField.returnKeyType = .search
+        textField.autocorrectionType = .no
+        textField.clearButtonMode = .whileEditing
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }()
+    
+    lazy var cancelSearchButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .white
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Cancel", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        button.addTarget(self, action: #selector(self.tappedCancelSearchButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var searchCollectionView: UICollectionView = {
@@ -76,13 +93,24 @@ class IROSearchViewController: UIViewController {
     func setUpConstraints() {
         self.searchTextField.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.searchTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.searchTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.searchTextField.rightAnchor.constraint(equalTo: self.cancelSearchButton.leftAnchor).isActive = true
         self.searchTextField.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+        
+        self.cancelSearchButton.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.cancelSearchButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.cancelSearchButton.bottomAnchor.constraint(equalTo: self.searchTextField.bottomAnchor).isActive = true
+        self.cancelSearchButton.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
         
         self.searchCollectionView.topAnchor.constraint(equalTo: self.searchTextField.bottomAnchor).isActive = true
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    }
+    
+    // MARK: - Actions
+    func tappedCancelSearchButton(sender: UIButton) {
+        self.searchTextField.text = ""
+        self.searchTextField.resignFirstResponder()
     }
 
 }

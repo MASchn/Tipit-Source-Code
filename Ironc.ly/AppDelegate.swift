@@ -86,7 +86,7 @@ class IRONavigationController: UINavigationController {
     // MARK: - View Lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
+                
         self.configureForSignIn()
     }
     

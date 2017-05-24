@@ -14,10 +14,6 @@ class IROFeedViewController: UIViewController {
     var feedItems: [IROFeedItem] = [IROFeedItem]()
     var columns: Int = 1
     
-    let notificationImage: UIImage = UIImage(cgImage: UIImage(named: "notification")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
-    let gridImage = UIImage(cgImage: UIImage(named: "grid")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
-    let listImage = UIImage(cgImage: UIImage(named: "list")!.cgImage!, scale: 3.0, orientation: .up).withRenderingMode(.alwaysOriginal)
-
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,15 +47,15 @@ class IROFeedViewController: UIViewController {
             self.getFeed()
         }
         
+        self.tabBarController?.navigationItem.setHidesBackButton(true, animated: false)
+        
         self.navigationItem.title = IROUser.currentUser?.fullName
         self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationController?.navigationBar.barTintColor = .white
-        
-        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(true, animated: false)
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: nil)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.gridImage, style: .plain, target: self, action: #selector(self.changeLayout))
+                
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "notification").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.changeLayout))
     }
     
     // MARK: - Status Bar
@@ -108,10 +104,10 @@ class IROFeedViewController: UIViewController {
     func changeLayout() {
         if self.columns == 1 {
             self.columns = 2
-            self.tabBarController!.navigationItem.rightBarButtonItem?.image = self.listImage
+            self.tabBarController!.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "list").withRenderingMode(.alwaysOriginal)
         } else {
             self.columns = 1
-            self.tabBarController!.navigationItem.rightBarButtonItem?.image = self.gridImage
+            self.tabBarController!.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal)
         }
         self.feedCollectionView.reloadData()
     }

@@ -10,11 +10,11 @@ import UIKit
 
 class IROTabBarController: UITabBarController {
     
-    let homeImage: UIImage = UIImage(cgImage: #imageLiteral(resourceName: "home").cgImage!, scale: 3.0, orientation: .up)
-    let privateImage: UIImage = UIImage(cgImage: #imageLiteral(resourceName: "private").cgImage!, scale: 3.0, orientation: .up)
-    let cameraImage: UIImage = UIImage(cgImage: #imageLiteral(resourceName: "camera").cgImage!, scale: 4.0, orientation: .up).withRenderingMode(.alwaysOriginal)
-    let messageImage: UIImage = UIImage(cgImage: #imageLiteral(resourceName: "message").cgImage!, scale: 3.0, orientation: .up)
-    let profileImage: UIImage = UIImage(cgImage: #imageLiteral(resourceName: "profile").cgImage!, scale: 3.0, orientation: .up)
+    let homeImage: UIImage = #imageLiteral(resourceName: "home")
+    let privateImage: UIImage = #imageLiteral(resourceName: "private")
+    let cameraImage: UIImage = #imageLiteral(resourceName: "camera")
+    let messageImage: UIImage = #imageLiteral(resourceName: "message")
+    let profileImage: UIImage = #imageLiteral(resourceName: "profile")
     
     override func viewDidLoad() {
         super.viewDidLoad()
