@@ -22,14 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
+        self.window?.rootViewController = IROBuyCoinsViewController()
         
-        self.showSignIn()
+//        self.showSignIn()
         
-        if let user: IROUser = IROUser.fetchUserFromDefaults() {
-            print("USER TOKEN: \(user.token)")
-            IROUser.currentUser = user
-            self.showFeed(animated: false)
-        }
+//        if let user: IROUser = IROUser.fetchUserFromDefaults() {
+//            print("USER TOKEN: \(user.token)")
+//            IROUser.currentUser = user
+//            self.showFeed(animated: false)
+//        }
         
         self.window?.makeKeyAndVisible()
         
@@ -86,7 +87,7 @@ class IRONavigationController: UINavigationController {
     // MARK: - View Lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-                
+        
         self.configureForSignIn()
     }
     
