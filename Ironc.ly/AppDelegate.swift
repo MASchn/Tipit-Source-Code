@@ -22,10 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        self.window?.rootViewController = IROBuyCoinsViewController()
+        let testVC: IROTestViewController = IROTestViewController()
+        self.window?.rootViewController = testVC
         
 //        self.showSignIn()
-        
+//        
 //        if let user: IROUser = IROUser.fetchUserFromDefaults() {
 //            print("USER TOKEN: \(user.token)")
 //            IROUser.currentUser = user

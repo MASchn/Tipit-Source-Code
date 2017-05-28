@@ -18,6 +18,8 @@ class IROPostViewController: UIViewController {
     var playerController : AVPlayerViewController?
     var isProfile: Bool = false // Set this so we don't add blur when you're viewing your own story
     
+    lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
+    
     // MARK: - View Lifecycle
     init(post: IROPost, isProfile: Bool) {
         self.post = post
@@ -67,6 +69,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
+        self.view.addSubview(self.tipView)
         
         if self.post.isPrivate == false || self.isProfile == true {
             self.blurView.isHidden = true
@@ -136,6 +139,13 @@ class IROPostViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    lazy var tipView: IROTipView = {
+        let view: IROTipView = IROTipView()
+        view.delegate = self
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // MARK: - Autolayout
     func setUpConstraints() {
@@ -163,6 +173,12 @@ class IROPostViewController: UIViewController {
         self.lockButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         self.lockButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.lockButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        
+        // Off screen to begin
+        self.tipViewTopAnchor.isActive = true
+        self.tipView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.tipView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.tipView.heightAnchor.constraint(equalToConstant: self.view.frame.size.height).isActive = true
     }
     
     // MARK: - Video
@@ -197,5 +213,28 @@ class IROPostViewController: UIViewController {
         alert.addAction(noAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: - Animations
+    func showTipView() {
+        self.tipViewTopAnchor.constant = 0.0
+        UIView.animate(withDuration: 0.4) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func dismissTipView() {
+        self.tipViewTopAnchor.constant = self.view.frame.size.height
+        UIView.animate(withDuration: 0.4) { 
+            self.view.layoutIfNeeded()
+        }
+    }
 
+}
+
+extension IROPostViewController: IROTipViewDelegate {
+    
+    func tipView(view: IROTipView, didSelectCloseButton button: UIButton) {
+        self.dismissTipView()
+    }
+    
 }

@@ -21,6 +21,8 @@
 		3715BFDB1E9D1F0600C29D9E /* IROTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFDA1E9D1F0600C29D9E /* IROTextField.swift */; };
 		3715BFDE1E9D301200C29D9E /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
+		371B05281ED9ECE6001D1CC5 /* IROTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */; };
+		371B052A1ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */; };
 		3723026F1EA6959700E8447F /* IROEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */; };
 		372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */; };
 		373F57331ED7D35200F1BD64 /* IROBuyCoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */; };
@@ -51,6 +53,8 @@
 		37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */; };
 		37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */; };
 		37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */; };
+		37C066791ED89D72009D17E4 /* IROTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C066781ED89D72009D17E4 /* IROTipView.swift */; };
+		37C0667B1ED9E218009D17E4 /* IROTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C0667A1ED9E218009D17E4 /* IROTip.swift */; };
 		37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* IROFeedItem.swift */; };
 		37D8D50B1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
@@ -72,6 +76,8 @@
 		3715BFDA1E9D1F0600C29D9E /* IROTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTextField.swift; path = Controls/IROTextField.swift; sourceTree = "<group>"; };
 		3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
+		371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTestViewController.swift; path = Controllers/IROTestViewController.swift; sourceTree = "<group>"; };
+		371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROShapeCollectionViewCell.swift; path = Cells/IROShapeCollectionViewCell.swift; sourceTree = "<group>"; };
 		3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileTableViewCell.swift; path = Cells/IROEditProfileTableViewCell.swift; sourceTree = "<group>"; };
 		372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileHeaderView.swift; path = Views/IROEditProfileHeaderView.swift; sourceTree = "<group>"; };
 		373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROBuyCoinsViewController.swift; path = Controllers/IROBuyCoinsViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +110,8 @@
 		37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMessagesViewController.swift; path = Controllers/IROMessagesViewController.swift; sourceTree = "<group>"; };
 		37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = Controllers/IROProfileViewController.swift; sourceTree = "<group>"; };
 		37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = Controllers/IROPlaceholderViewController.swift; sourceTree = "<group>"; };
+		37C066781ED89D72009D17E4 /* IROTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTipView.swift; path = Views/IROTipView.swift; sourceTree = "<group>"; };
+		37C0667A1ED9E218009D17E4 /* IROTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTip.swift; path = Models/IROTip.swift; sourceTree = "<group>"; };
 		37C49C361EC68BB500187EBE /* IROFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedItem.swift; path = Models/IROFeedItem.swift; sourceTree = "<group>"; };
 		37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchCollectionViewCell.swift; path = Cells/IROSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +181,7 @@
 				37A282F31EAF91D000702AF4 /* UIImage+URL.swift */,
 				3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */,
 				3702E6D81EC3848700A8D0AB /* IROStyle.swift */,
+				37C0667A1ED9E218009D17E4 /* IROTip.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -181,15 +190,9 @@
 			isa = PBXGroup;
 			children = (
 				372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */,
+				37C066781ED89D72009D17E4 /* IROTipView.swift */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		373238E01E4E2A1200E787C9 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Protocols;
 			sourceTree = "<group>";
 		};
 		3762A5361E96B863007FDD51 /* Networking */ = {
@@ -240,7 +243,6 @@
 				3715BFD61E9D1C4800C29D9E /* UI */,
 				3762A5361E96B863007FDD51 /* Networking */,
 				37875D9B1E54C2D600C86290 /* SwiftyCam */,
-				373238E01E4E2A1200E787C9 /* Protocols */,
 				370E36641E43B21100F8FF9E /* Models */,
 				37BA702D1E36E86A0093EAE5 /* Supporting Files */,
 			);
@@ -277,6 +279,7 @@
 				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
 				37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */,
 				373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */,
+				371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				37BA70361E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift */,
 				37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */,
 				3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */,
+				371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -382,7 +386,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		95E8F94A39987C284E9983EE /* [CP] Copy Pods Resources */ = {
@@ -436,8 +440,10 @@
 				372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */,
 				3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
+				37C0667B1ED9E218009D17E4 /* IROTip.swift in Sources */,
 				37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */,
 				373F57331ED7D35200F1BD64 /* IROBuyCoinsViewController.swift in Sources */,
+				371B05281ED9ECE6001D1CC5 /* IROTestViewController.swift in Sources */,
 				37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */,
 				370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */,
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
@@ -446,9 +452,11 @@
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
 				37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */,
 				3715BFD91E9D1C7B00C29D9E /* IROButton.swift in Sources */,
+				371B052A1ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift in Sources */,
 				37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */,
 				37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */,
 				370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */,
+				37C066791ED89D72009D17E4 /* IROTipView.swift in Sources */,
 				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
 				3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */,
 				37875DA01E54C2E500C86290 /* PreviewView.swift in Sources */,

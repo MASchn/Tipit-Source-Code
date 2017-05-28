@@ -26,7 +26,16 @@ class IROFeedViewController: UIViewController {
         
         self.setUpConstraints()
         
-        self.getFeed()
+//        self.getFeed()
+        
+        // TODO: Delete
+        let feedItem: IROFeedItem = IROFeedItem(JSON: [
+                "story_image" : ""
+            ])!
+        self.feedItems = [feedItem]
+        self.feedCollectionView.reloadData()
+        self.feedCollectionView.isHidden = false
+        self.emptyView.isHidden = true
     }
     
     func getFeed() {
@@ -150,14 +159,17 @@ extension IROFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell: IROFeedCollectionViewCell = self.feedCollectionView.cellForItem(at: indexPath) as! IROFeedCollectionViewCell
-        if let userId: String = cell.userId {
-            IROAPIClient.getStory(userId: userId, completionHandler: { (story: IROStory?) in
-                if let story: IROStory = story {
-                    let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
-                    self.present(storyViewController, animated: true, completion: nil)
-                }
-            })
-        }
+//        if let userId: String = cell.userId {
+//            IROAPIClient.getStory(userId: userId, completionHandler: { (story: IROStory?) in
+//                if let story: IROStory = story {
+//                    let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
+//                    self.present(storyViewController, animated: true, completion: nil)
+//                }
+//            })
+            let story: IROStory = IROStory.mockStory()
+            let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
+            self.present(storyViewController, animated: true, completion: nil)
+//        }
         
     }
     

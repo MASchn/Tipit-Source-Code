@@ -8,15 +8,14 @@
 
 import UIKit
 
-// This will contain multiple view controller "IRO Posts"
-
 class IROStoryViewController: UIPageViewController {
     
     // MARK: - Properties
     let story: IROStory
     var currentIndex: Int = 0
     var isProfile: Bool = false
-    
+    var currentViewController: IROPostViewController?
+        
     // MARK: - View Lifecycle
     init(story: IROStory, isProfile: Bool) {
         self.story = story
@@ -53,6 +52,7 @@ class IROStoryViewController: UIPageViewController {
         let firstPost: IROPost = self.story.posts.first!
         let postViewController: IROPostViewController = IROPostViewController(post: firstPost, isProfile: self.isProfile)
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
+        self.currentViewController = postViewController
         
         self.setUpConstraints()
     }
@@ -78,11 +78,12 @@ class IROStoryViewController: UIPageViewController {
     
     lazy var tipButton: UIButton = {
         let button: UIButton = UIButton()
-        button.setTitle("TIPP", for: .normal)
+        button.setTitle("TIP", for: .normal)
         button.setTitleColor(.iroGreen, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
         button.layer.borderColor = UIColor.iroGreen.cgColor
         button.layer.borderWidth = 2.0
+        button.addTarget(self, action: #selector(self.tappedTipButton(sender:)), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -103,6 +104,10 @@ class IROStoryViewController: UIPageViewController {
     // MARK: - Actions
     func dismissStory() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func tappedTipButton(sender: UIButton) {
+        self.currentViewController?.showTipView()
     }
     
 }
@@ -151,6 +156,7 @@ extension IROStoryViewController: UIPageViewControllerDelegate {
         let firstPendingViewController: IROPostViewController = pendingViewControllers.first! as! IROPostViewController
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
         storyViewController.currentIndex = firstPendingViewController.post.index!
+        self.currentViewController = firstPendingViewController
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
