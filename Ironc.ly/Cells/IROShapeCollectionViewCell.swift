@@ -32,6 +32,7 @@ class IROShapeCollectionViewCell: UICollectionViewCell {
     // MARK: - Lazy Initialization
     lazy var shapeImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

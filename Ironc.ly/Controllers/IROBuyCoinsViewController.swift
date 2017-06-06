@@ -41,6 +41,15 @@ class IROBuyCoinsViewController: UIViewController {
         self.getAvailableProducts()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.title = "My Coins"
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedDismissButton))
+    }
+    
     // MARK: - Lazy Initialization
     lazy var coinsLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -97,6 +106,10 @@ class IROBuyCoinsViewController: UIViewController {
         
 //        let payment: SKPayment = SKPayment(product: product)
 //        SKPaymentQueue.default().add(payment)
+    }
+    
+    func tappedDismissButton() {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

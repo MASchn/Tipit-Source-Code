@@ -10,20 +10,23 @@ import UIKit
 import AVFoundation
 import AVKit
 
+protocol IROPostViewControllerDelegate: class {
+    func postViewController(viewController: IROPostViewController, isShowingTipScreen: Bool)
+}
+
 class IROPostViewController: UIViewController {
     
     let post: IROPost
     var videoURL: URL?
     var player: AVPlayer?
     var playerController : AVPlayerViewController?
-    var isProfile: Bool = false // Set this so we don't add blur when you're viewing your own story
+    var delegate: IROPostViewControllerDelegate?
     
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
     init(post: IROPost, isProfile: Bool) {
         self.post = post
-        self.isProfile = isProfile
     
         super.init(nibName: nil, bundle: nil)
         
@@ -72,7 +75,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.tipButton)
         self.view.addSubview(self.tipView)
         
-        if self.post.isPrivate == false || self.isProfile == true {
+        if self.post.isPrivate == false {
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -253,23 +256,33 @@ class IROPostViewController: UIViewController {
     
     func showTipView() {
         self.tipViewTopAnchor.constant = 0.0
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutIfNeeded()
             self.hidePostDetails()
+        }) { (completed: Bool) in
+            self.delegate?.postViewController(viewController: self, isShowingTipScreen: true)
         }
     }
     
     func dismissTipView() {
         self.tipViewTopAnchor.constant = self.view.frame.size.height
-        UIView.animate(withDuration: 0.4) { 
+        UIView.animate(withDuration: 0.4, animations: { 
             self.view.layoutIfNeeded()
             self.showPostDetails()
+        }) { (completed: Bool) in
+            self.delegate?.postViewController(viewController: self, isShowingTipScreen: false)
         }
     }
 
 }
 
 extension IROPostViewController: IROTipViewDelegate {
+    
+    func tipView(view: IROTipView, didSelectBuyCoinsButton button: UIButton) {
+        let buyCoinsViewController: IROBuyCoinsViewController = IROBuyCoinsViewController()
+        let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
+        self.present(navigationController, animated: true, completion: nil)
+    }
     
     func tipView(view: IROTipView, didSelectCloseButton button: UIButton) {
         self.dismissTipView()

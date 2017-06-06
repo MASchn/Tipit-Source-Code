@@ -10,6 +10,7 @@ import UIKit
 
 protocol IROTipViewDelegate: class {
     func tipView(view: IROTipView, didSelectCloseButton button: UIButton)
+    func tipView(view: IROTipView, didSelectBuyCoinsButton button: UIButton)
 }
 
 class IROTipView: UIView {
@@ -17,7 +18,8 @@ class IROTipView: UIView {
     // MARK: - Properties
     weak var delegate: IROTipViewDelegate?
     let shapeReuseId: String = "iro.reuseId.shape"
-    let images: [UIImage] = [#imageLiteral(resourceName: "crown"), #imageLiteral(resourceName: "diamond"), #imageLiteral(resourceName: "flame"), #imageLiteral(resourceName: "heart"), #imageLiteral(resourceName: "lips"), #imageLiteral(resourceName: "smile"), #imageLiteral(resourceName: "star"), #imageLiteral(resourceName: "sun")]
+    // Add buffer space to front and back by adding blank images
+    let images: [UIImage] = [UIImage(), #imageLiteral(resourceName: "crown"), #imageLiteral(resourceName: "diamond"), #imageLiteral(resourceName: "flame"), #imageLiteral(resourceName: "heart"), #imageLiteral(resourceName: "lips"), #imageLiteral(resourceName: "smile"), #imageLiteral(resourceName: "star"), #imageLiteral(resourceName: "sun"), UIImage()]
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
@@ -28,12 +30,20 @@ class IROTipView: UIView {
         self.addSubview(self.timeLabel)
         self.addSubview(self.coinsLabel)
         self.addSubview(self.shapesCollectionView)
+        self.addSubview(self.buyCoinsButton)
         
         self.setUpConstraints()
+        self.layoutIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.buyCoinsButton.layer.cornerRadius = self.buyCoinsButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
@@ -73,8 +83,18 @@ class IROTipView: UIView {
         return label
     }()
     
+    lazy var buyCoinsButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
+        let coins: String = "buy coins (\(IROUser.currentUser!.coins) coins)"
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        button.setTitle(coins, for: .normal)
+        button.addTarget(self, action: #selector(self.tappedBuyCoinsButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     lazy var shapesCollectionView: UICollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout: IROShapesCollectionViewFlowLayout = IROShapesCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(IROShapeCollectionViewCell.self, forCellWithReuseIdentifier: self.shapeReuseId)
@@ -110,6 +130,11 @@ class IROTipView: UIView {
         self.shapesCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         self.shapesCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.shapesCollectionView.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
+        
+        self.buyCoinsButton.topAnchor.constraint(equalTo: self.shapesCollectionView.bottomAnchor, constant: 60.0).isActive = true
+        self.buyCoinsButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        self.buyCoinsButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        self.buyCoinsButton.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -139,6 +164,10 @@ class IROTipView: UIView {
     }
 
     // MARK: - Actions
+    func tappedBuyCoinsButton(sender: UIButton) {
+        self.delegate?.tipView(view: self, didSelectBuyCoinsButton: sender)
+    }
+    
     func tappedCloseButton(sender: UIButton) {
         self.delegate?.tipView(view: self, didSelectCloseButton: sender)
     }
@@ -148,7 +177,7 @@ class IROTipView: UIView {
 extension IROTipView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return self.images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -163,7 +192,35 @@ extension IROTipView: UICollectionViewDataSource {
 extension IROTipView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150.0, height: 150.0)
+        let width: CGFloat = UIScreen.main.bounds.width / 3.0 // Hack
+        return CGSize(width: width, height: 150.0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+}
+
+class IROShapesCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        var offsetAdjustment = CGFloat.greatestFiniteMagnitude
+        let horizontalOffset = proposedContentOffset.x
+        let targetRect = CGRect(origin: CGPoint(x: proposedContentOffset.x, y: 0), size: self.collectionView!.bounds.size)
+        
+        for layoutAttributes in super.layoutAttributesForElements(in: targetRect)! {
+            let itemOffset = layoutAttributes.frame.origin.x
+            if (abs(itemOffset - horizontalOffset) < abs(offsetAdjustment)) {
+                offsetAdjustment = itemOffset - horizontalOffset
+            }
+        }
+        
+        return CGPoint(x: proposedContentOffset.x + offsetAdjustment, y: proposedContentOffset.y)
     }
     
 }

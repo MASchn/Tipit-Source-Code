@@ -46,6 +46,7 @@ class IROStoryViewController: UIPageViewController {
         
         let firstPost: IROPost = self.story.posts.first!
         let postViewController: IROPostViewController = IROPostViewController(post: firstPost, isProfile: self.isProfile)
+        postViewController.delegate = self
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         self.currentViewController = postViewController
         
@@ -88,6 +89,7 @@ extension IROStoryViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         let postViewController: IROPostViewController = viewController as! IROPostViewController
+        postViewController.delegate = self
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
         let index: Int = postViewController.post.index!
         
@@ -105,6 +107,7 @@ extension IROStoryViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         let postViewController: IROPostViewController = viewController as! IROPostViewController
+        postViewController.delegate = self
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
         let index: Int = postViewController.post.index!
         
@@ -133,6 +136,19 @@ extension IROStoryViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let storyViewController: IROStoryViewController = pageViewController as! IROStoryViewController
         storyViewController.pageControl.currentPage = storyViewController.currentIndex
+    }
+    
+}
+
+extension IROStoryViewController: IROPostViewControllerDelegate {
+    
+    func postViewController(viewController: IROPostViewController, isShowingTipScreen: Bool) {
+        // Disable paging when a post view controller is showing the tip screen
+        if isShowingTipScreen == true {
+            self.dataSource = nil
+        } else {
+            self.dataSource = self
+        }
     }
     
 }
