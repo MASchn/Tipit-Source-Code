@@ -22,8 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let testVC: IROTestViewController = IROTestViewController()
-        self.window?.rootViewController = testVC
+//        let testVC: IROTestViewController = IROTestViewController()
+//        self.window?.rootViewController = testVC
+        
+        let buyVC: IROBuyCoinsViewController = IROBuyCoinsViewController()
+        self.window?.rootViewController = buyVC
         
 //        self.showSignIn()
 //        

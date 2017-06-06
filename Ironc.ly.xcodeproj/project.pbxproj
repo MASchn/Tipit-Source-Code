@@ -44,6 +44,7 @@
 		378CD25B1EA5A5C6008FF66D /* IROEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */; };
 		37A282F41EAF91D000702AF4 /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F31EAF91D000702AF4 /* UIImage+URL.swift */; };
 		37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */; };
+		37B192C31EE7044D00D07F53 /* IROCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -99,6 +100,7 @@
 		378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileViewController.swift; path = Controllers/IROEditProfileViewController.swift; sourceTree = "<group>"; };
 		37A282F31EAF91D000702AF4 /* UIImage+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+URL.swift"; sourceTree = "<group>"; };
 		37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = Controllers/IROSettingsViewController.swift; sourceTree = "<group>"; };
+		37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCoinTableViewCell.swift; path = Cells/IROCoinTableViewCell.swift; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				37D8D50A1E7C5BA2008EEF11 /* IROSearchCollectionViewCell.swift */,
 				3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */,
 				371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */,
+				37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				37BA703D1E36F6330093EAE5 /* IROProfileViewController.swift in Sources */,
 				37BA703F1E36F6560093EAE5 /* IROPlaceholderViewController.swift in Sources */,
 				37BA70341E36F2AE0093EAE5 /* IROFeedViewController.swift in Sources */,
+				37B192C31EE7044D00D07F53 /* IROCoinTableViewCell.swift in Sources */,
 				37BA70371E36F3C50093EAE5 /* IROFeedCollectionViewCell.swift in Sources */,
 				37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */,
 				3723026F1EA6959700E8447F /* IROEditProfileTableViewCell.swift in Sources */,
