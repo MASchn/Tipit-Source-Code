@@ -20,7 +20,10 @@ class IROBuyCoinsViewController: UIViewController {
     var coins: Int = UserDefaults.standard.integer(forKey: "coins")
     var productsRequest = SKProductsRequest()
     let coinsReuseId: String = "iro.reuseId.coins"
-    var products: [IROProduct] = []
+    var products: [SKProduct] = []
+    
+    lazy var tableViewHeight: CGFloat = CGFloat(self.products.count) * self.coinsTableView.rowHeight
+    lazy var tableViewHeightConstraint: NSLayoutConstraint = self.coinsTableView.heightAnchor.constraint(equalToConstant: 0.0)
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -51,6 +54,7 @@ class IROBuyCoinsViewController: UIViewController {
         let tableView: UITableView = UITableView()
         tableView.backgroundColor = .white
         tableView.alwaysBounceVertical = true
+        tableView.rowHeight = 64.0
         tableView.register(IROCoinTableViewCell.self, forCellReuseIdentifier: self.coinsReuseId)
         tableView.dataSource = self
         tableView.delegate = self
@@ -58,25 +62,16 @@ class IROBuyCoinsViewController: UIViewController {
         return tableView
     }()
     
-    lazy var priceFormatter: NumberFormatter = {
-        let formatter: NumberFormatter = NumberFormatter()
-        formatter.formatterBehavior = .behavior10_4
-        formatter.numberStyle = .currency
-        return formatter
-    }()
-
-    
     // MARK: - Autolayout
     func setUpConstraints() {
-        
         self.coinsLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100.0).isActive = true
         self.coinsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.coinsLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.coinsTableView.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 50.0).isActive = true
-        self.coinsTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.coinsTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.coinsTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.tableViewHeightConstraint.isActive = true
     }
     
     func getAvailableProducts() {
@@ -94,7 +89,8 @@ class IROBuyCoinsViewController: UIViewController {
     }
     
     func purchase(product: SKProduct) {
-
+        let payment: SKPayment = SKPayment(product: product)
+        SKPaymentQueue.default().add(payment)
     }
 
 }
@@ -102,21 +98,12 @@ class IROBuyCoinsViewController: UIViewController {
 extension IROBuyCoinsViewController: SKProductsRequestDelegate {
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        var products: [IROProduct] = response.products.map { (product: SKProduct) -> IROProduct in
-            self.priceFormatter.locale = product.priceLocale
-            let id: NSString = product.productIdentifier as NSString
-            let coins: String = id.components(separatedBy: ".").last!
-            let coinsNumber: Int = Int(coins)!
-            let price: String = self.priceFormatter.string(from: product.price)!
-            return IROProduct(
-                coins: coinsNumber,
-                price: price
-            )
-        }
+        var products = response.products
         products.sort {
-            return $0.coins < $1.coins
+            CGFloat($0.price) < CGFloat($1.price)
         }
         self.products = products
+        self.tableViewHeightConstraint.constant = self.tableViewHeight
         self.coinsTableView.reloadData()
     }
     
@@ -154,7 +141,7 @@ extension IROBuyCoinsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: IROCoinTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.coinsReuseId) as! IROCoinTableViewCell
-        let product: IROProduct = self.products[indexPath.row]
+        let product: SKProduct = self.products[indexPath.row]
         cell.configure(with: product)
         return cell
     }
@@ -162,5 +149,12 @@ extension IROBuyCoinsViewController: UITableViewDataSource {
 }
 
 extension IROBuyCoinsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let product: SKProduct = self.products[indexPath.row]
+        self.purchase(product: product)
+    }
     
 }

@@ -45,6 +45,7 @@
 		37A282F41EAF91D000702AF4 /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F31EAF91D000702AF4 /* UIImage+URL.swift */; };
 		37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */; };
 		37B192C31EE7044D00D07F53 /* IROCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */; };
+		37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B192C41EE7148800D07F53 /* StoreKit.framework */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -101,6 +102,7 @@
 		37A282F31EAF91D000702AF4 /* UIImage+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+URL.swift"; sourceTree = "<group>"; };
 		37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = Controllers/IROSettingsViewController.swift; sourceTree = "<group>"; };
 		37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCoinTableViewCell.swift; path = Cells/IROCoinTableViewCell.swift; sourceTree = "<group>"; };
+		37B192C41EE7148800D07F53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */,
+				37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +304,7 @@
 		D8650C89371D34FFD109B1DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37B192C41EE7148800D07F53 /* StoreKit.framework */,
 				E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */,
 			);
 			name = Frameworks;
@@ -343,6 +347,11 @@
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = DLHM52DNV8;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

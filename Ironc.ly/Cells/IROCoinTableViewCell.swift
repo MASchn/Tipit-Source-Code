@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 class IROCoinTableViewCell: UITableViewCell {
 
@@ -25,9 +26,14 @@ class IROCoinTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with product: IROProduct) {
-        self.coinsLabel.text = "\(product.coins)"
-        self.priceButton.setTitle(product.price, for: .normal)
+    func configure(with product: SKProduct) {
+        self.priceFormatter.locale = product.priceLocale
+        let id: NSString = product.productIdentifier as NSString
+        let coins: String = id.components(separatedBy: ".").last!
+        let price: String = self.priceFormatter.string(from: product.price)!
+        
+        self.coinsLabel.text = coins
+        self.priceButton.setTitle(price, for: .normal)
     }
     
     // MARK: - Layout
@@ -40,7 +46,8 @@ class IROCoinTableViewCell: UITableViewCell {
     // MARK: - Lazy Initialization
     lazy var coinsLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.font = .systemFont(ofSize: 15.0, weight: UIFontWeightMedium)
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 15.0, weight: UIFontWeightBold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,10 +55,18 @@ class IROCoinTableViewCell: UITableViewCell {
     lazy var priceButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = .iroGreen
+        button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightMedium)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    lazy var priceFormatter: NumberFormatter = {
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.formatterBehavior = .behavior10_4
+        formatter.numberStyle = .currency
+        return formatter
     }()
     
     // MARK: - Autolayout
@@ -65,6 +80,7 @@ class IROCoinTableViewCell: UITableViewCell {
         self.priceButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         self.priceButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -hMargin).isActive = true
         self.priceButton.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
+        self.priceButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
     }
 
 }
