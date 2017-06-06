@@ -19,7 +19,50 @@ class IROTipView: UIView {
     weak var delegate: IROTipViewDelegate?
     let shapeReuseId: String = "iro.reuseId.shape"
     // Add buffer space to front and back by adding blank images
-    let images: [UIImage] = [UIImage(), #imageLiteral(resourceName: "crown"), #imageLiteral(resourceName: "diamond"), #imageLiteral(resourceName: "flame"), #imageLiteral(resourceName: "heart"), #imageLiteral(resourceName: "lips"), #imageLiteral(resourceName: "smile"), #imageLiteral(resourceName: "star"), #imageLiteral(resourceName: "sun"), UIImage()]
+    let startBuffer: IROShape = IROShape()
+    let crown: IROShape = IROShape(image: #imageLiteral(resourceName: "crown"), minutes: 20, coins: 50)
+    let diamond: IROShape = IROShape(image: #imageLiteral(resourceName: "diamond"), minutes: 40, coins: 100)
+    let flame: IROShape = IROShape(image: #imageLiteral(resourceName: "flame"), minutes: 60, coins: 150)
+    let heart: IROShape = IROShape(image: #imageLiteral(resourceName: "heart"), minutes: 80, coins: 200)
+    let lips: IROShape = IROShape(image: #imageLiteral(resourceName: "lips"), minutes: 100, coins: 250)
+    let smile: IROShape = IROShape(image: #imageLiteral(resourceName: "smile"), minutes: 120, coins: 300)
+    let sun: IROShape = IROShape(image: #imageLiteral(resourceName: "sun"), minutes: 140, coins: 350)
+    let endBuffer: IROShape = IROShape()
+    
+    lazy var shapes: [IROShape] = [self.startBuffer, self.crown, self.diamond, self.flame, self.heart, self.lips, self.smile, self.sun, self.endBuffer]
+    
+    var closestToCenterIndex: Int = 0 {
+        didSet {
+            let shape: IROShape = self.shapes[closestToCenterIndex]
+            if
+                let minutes: Int = shape.minutes,
+                let coins: Int = shape.coins
+            {
+                self.timeLabel.text = "\(minutes) minutes"
+                self.coinsLabel.text = "\(coins) coins"
+            }
+        }
+    }
+    
+//    lazy var images: [UIImage] = [UIImage(), #imageLiteral(resourceName: "crown"), #imageLiteral(resourceName: "diamond"), #imageLiteral(resourceName: "flame"), #imageLiteral(resourceName: "heart"), #imageLiteral(resourceName: "lips"), #imageLiteral(resourceName: "smile"), #imageLiteral(resourceName: "star"), #imageLiteral(resourceName: "sun"), UIImage()]
+    
+    struct IROShape {
+        let image: UIImage?
+        let minutes: Int?
+        let coins: Int?
+        
+        init() {
+            self.image = nil
+            self.minutes = nil
+            self.coins = nil
+        }
+        
+        init(image: UIImage, minutes: Int, coins: Int) {
+            self.image = image
+            self.minutes = minutes
+            self.coins = coins
+        }
+    }
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
@@ -145,8 +188,17 @@ class IROTipView: UIView {
     let maxScale: CGFloat = 1.0
     
     func scaleCells() {
+        
+        var closestToCenterIndex: Int = 0
+        var closestDistance: CGFloat = 1000000 // High number
+        
         for cell in self.shapesCollectionView.visibleCells {
             let distanceFromCenter: CGFloat = abs(self.shapesCollectionView.bounds.width / 2.0 - (cell.frame.midX - self.shapesCollectionView.contentOffset.x))
+            
+            if distanceFromCenter < closestDistance {
+                closestDistance = distanceFromCenter
+                closestToCenterIndex = self.shapesCollectionView.indexPath(for: cell)!.item
+            }
             
             let minBound: CGFloat = 50.0
             let maxBound: CGFloat = 200.0
@@ -161,6 +213,8 @@ class IROTipView: UIView {
             }
             
         }
+        
+        self.closestToCenterIndex = closestToCenterIndex
     }
 
     // MARK: - Actions
@@ -177,13 +231,13 @@ class IROTipView: UIView {
 extension IROTipView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.images.count
+        return self.shapes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROShapeCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.shapeReuseId, for: indexPath) as! IROShapeCollectionViewCell
-        let image: UIImage = self.images[indexPath.item]
-        cell.shapeImageView.image = image
+        let shape: IROShape = self.shapes[indexPath.item]
+        cell.shapeImageView.image = shape.image
         return cell
     }
     
