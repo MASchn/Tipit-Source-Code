@@ -9,6 +9,16 @@
 import UIKit
 import StoreKit
 
+class IROCoinsFormatter {
+    
+    class func coins(productIdentifier: String) -> String {
+        let id: NSString = productIdentifier as NSString
+        let coins: String = id.components(separatedBy: ".").last!
+        return coins
+    }
+    
+}
+
 class IROCoinTableViewCell: UITableViewCell {
 
     // MARK: - View Lifecycle
@@ -28,8 +38,7 @@ class IROCoinTableViewCell: UITableViewCell {
     
     func configure(with product: SKProduct) {
         self.priceFormatter.locale = product.priceLocale
-        let id: NSString = product.productIdentifier as NSString
-        let coins: String = id.components(separatedBy: ".").last!
+        let coins: String = IROCoinsFormatter.coins(productIdentifier: product.productIdentifier)
         let price: String = self.priceFormatter.string(from: product.price)!
         
         self.coinsLabel.text = coins

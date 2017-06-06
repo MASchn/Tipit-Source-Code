@@ -41,11 +41,6 @@ class IROStoryViewController: UIPageViewController {
         self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(self.pageControl)
-        self.view.addSubview(self.tipButton)
-
-        if self.isProfile == true {
-            self.tipButton.isHidden = true
-        }
 
         self.pageControl.numberOfPages = self.story.posts.count
         
@@ -61,12 +56,6 @@ class IROStoryViewController: UIPageViewController {
         return true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.tipButton.layer.cornerRadius = self.tipButton.frame.size.height / 2.0
-    }
-    
     // MARK: - Lazy Initialization
     lazy var pageControl: UIPageControl = {
         let control: UIPageControl = UIPageControl()
@@ -75,30 +64,12 @@ class IROStoryViewController: UIPageViewController {
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
-    
-    lazy var tipButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setTitle("TIP", for: .normal)
-        button.setTitleColor(.iroGreen, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        button.layer.borderColor = UIColor.iroGreen.cgColor
-        button.layer.borderWidth = 2.0
-        button.addTarget(self, action: #selector(self.tappedTipButton(sender:)), for: .touchUpInside)
-        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
+        
     // MARK: - Autolayout
     func setUpConstraints() {
         self.pageControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10.0).isActive = true
         self.pageControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
         self.pageControl.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
-        
-        self.tipButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50.0).isActive = true
-        self.tipButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
-        self.tipButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        self.tipButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
     // MARK: - Actions

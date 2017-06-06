@@ -13,7 +13,6 @@ class IROTabBarController: UITabBarController {
     let homeImage: UIImage = #imageLiteral(resourceName: "home")
     let privateImage: UIImage = #imageLiteral(resourceName: "private")
     let cameraImage: UIImage = #imageLiteral(resourceName: "camera")
-    let messageImage: UIImage = #imageLiteral(resourceName: "message")
     let profileImage: UIImage = #imageLiteral(resourceName: "profile")
     
     override func viewDidLoad() {
@@ -40,19 +39,13 @@ class IROTabBarController: UITabBarController {
         cameraViewController.tabBarItem = UITabBarItem(title: nil, image: self.cameraImage.withRenderingMode(.alwaysOriginal), selectedImage: self.cameraImage)
         cameraViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         cameraViewController.tabBarItem.tag = 2
-
-        let messagesViewController: IROMessagesViewController = IROMessagesViewController()
-        messagesViewController.tabBarItem = UITabBarItem(title: nil, image: self.messageImage.withRenderingMode(.alwaysOriginal), selectedImage: self.messageImage)
-        messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
-        messagesViewController.tabBarItem.tag = 3
         
         let profileViewController: IROProfileViewController = IROProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
-        profileViewController.tabBarItem.tag = 4
+        profileViewController.tabBarItem.tag = 3
         
-        self.viewControllers = [homeNavController, searchNavController, cameraViewController, messagesViewController, profileViewController]
-        
+        self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileViewController]
     }
 
 

@@ -22,19 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-//        let testVC: IROTestViewController = IROTestViewController()
-//        self.window?.rootViewController = testVC
+        self.showSignIn()
         
-        let buyVC: IROBuyCoinsViewController = IROBuyCoinsViewController()
-        self.window?.rootViewController = buyVC
-        
-//        self.showSignIn()
-//        
-//        if let user: IROUser = IROUser.fetchUserFromDefaults() {
-//            print("USER TOKEN: \(user.token)")
-//            IROUser.currentUser = user
-//            self.showFeed(animated: false)
-//        }
+        if let user: IROUser = IROUser.fetchUserFromDefaults() {
+            print("USER TOKEN: \(user.token)")
+            IROUser.currentUser = user
+            self.showFeed(animated: false)
+        }
         
         self.window?.makeKeyAndVisible()
         

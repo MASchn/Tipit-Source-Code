@@ -89,8 +89,14 @@ class IROBuyCoinsViewController: UIViewController {
     }
     
     func purchase(product: SKProduct) {
-        let payment: SKPayment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
+        self.showAlert(title: "Buy coins", message: product.productIdentifier) {
+            let coins: Int = Int(IROCoinsFormatter.coins(productIdentifier: product.productIdentifier))!
+            IROUser.currentUser!.coins += coins
+            self.coinsLabel.text = "\(IROUser.currentUser!.coins) coins"
+        }
+        
+//        let payment: SKPayment = SKPayment(product: product)
+//        SKPaymentQueue.default().add(payment)
     }
 
 }
@@ -111,24 +117,29 @@ extension IROBuyCoinsViewController: SKProductsRequestDelegate {
 
 extension IROBuyCoinsViewController: SKPaymentTransactionObserver {
     
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        //
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedDownloads downloads: [SKDownload]) {
-        //
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
-        //
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        //
-    }
-    
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        //
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchased:
+                self.complete(transaction: transaction)
+            case .failed:
+                break
+            case .restored:
+                break
+            case .deferred:
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    func complete(transaction: SKPaymentTransaction) {
+        let productId: String = transaction.payment.productIdentifier
+        let coinsString = IROCoinsFormatter.coins(productIdentifier: productId)
+        let coins: Int = Int(coinsString)!
+        IROUser.currentUser!.coins += coins
+        self.coinsLabel.text = "\(IROUser.currentUser!.coins) coins"
     }
     
 }

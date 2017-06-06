@@ -21,6 +21,7 @@ class IROUser: NSObject {
     var backgroundImage: UIImage?
     var website: String?
     var bio: String?
+    var coins: Int = 0
     
     static var currentUser: IROUser?
     static let defaults = UserDefaults.standard

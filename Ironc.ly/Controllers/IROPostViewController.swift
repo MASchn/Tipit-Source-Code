@@ -69,6 +69,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
+        self.view.addSubview(self.tipButton)
         self.view.addSubview(self.tipView)
         
         if self.post.isPrivate == false || self.isProfile == true {
@@ -91,6 +92,7 @@ class IROPostViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height / 2.0
+        self.tipButton.layer.cornerRadius = self.tipButton.frame.size.height / 2.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,6 +132,19 @@ class IROPostViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var tipButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setTitle("TIP", for: .normal)
+        button.setTitleColor(.iroGreen, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
+        button.layer.borderColor = UIColor.iroGreen.cgColor
+        button.layer.borderWidth = 2.0
+        button.addTarget(self, action: #selector(self.tappedTipButton(sender:)), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var lockButton: UIButton = {
@@ -174,6 +189,11 @@ class IROPostViewController: UIViewController {
         self.lockButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.lockButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         
+        self.tipButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50.0).isActive = true
+        self.tipButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.tipButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.tipButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
         // Off screen to begin
         self.tipViewTopAnchor.isActive = true
         self.tipView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -214,11 +234,28 @@ class IROPostViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func tappedTipButton(sender: UIButton) {
+        self.showTipView()
+    }
+    
     // MARK: - Animations
+    func hidePostDetails() {
+        self.tipButton.alpha = 0.0
+        self.nameLabel.alpha = 0.0
+        self.profileImageView.alpha = 0.0
+    }
+    
+    func showPostDetails() {
+        self.tipButton.alpha = 1.0
+        self.nameLabel.alpha = 1.0
+        self.profileImageView.alpha = 1.0
+    }
+    
     func showTipView() {
         self.tipViewTopAnchor.constant = 0.0
         UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
+            self.hidePostDetails()
         }
     }
     
@@ -226,6 +263,7 @@ class IROPostViewController: UIViewController {
         self.tipViewTopAnchor.constant = self.view.frame.size.height
         UIView.animate(withDuration: 0.4) { 
             self.view.layoutIfNeeded()
+            self.showPostDetails()
         }
     }
 
