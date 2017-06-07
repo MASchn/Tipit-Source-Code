@@ -4,6 +4,7 @@ use_frameworks!
 
 target 'Ironc.ly' do
     pod 'Alamofire'
+    pod 'lottie-ios'
 end
 
 post_install do |installer|

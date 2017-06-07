@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import Lottie
 
 protocol IROPostViewControllerDelegate: class {
     func postViewController(viewController: IROPostViewController, isShowingTipScreen: Bool)
@@ -21,6 +22,7 @@ class IROPostViewController: UIViewController {
     var player: AVPlayer?
     var playerController : AVPlayerViewController?
     var delegate: IROPostViewControllerDelegate?
+    var animationView: LOTAnimationView?
     
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
@@ -73,6 +75,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
         self.view.addSubview(self.tipButton)
+        self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
         if self.post.isPrivate == false {
@@ -115,6 +118,14 @@ class IROPostViewController: UIViewController {
     lazy var blurView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var shadeView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
+        view.alpha = 0.0 // Fade in when Tip is selected
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -176,6 +187,11 @@ class IROPostViewController: UIViewController {
         self.blurView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.blurView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.blurView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.shadeView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.shadeView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.shadeView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.shadeView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.nameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32.0).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
@@ -259,24 +275,45 @@ class IROPostViewController: UIViewController {
         UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutIfNeeded()
             self.hidePostDetails()
+            self.shadeView.alpha = 1.0
         }) { (completed: Bool) in
             self.delegate?.postViewController(viewController: self, isShowingTipScreen: true)
         }
     }
     
-    func dismissTipView() {
+    func dismissTipView(fadeShade: Bool = true, completionHandler: ((Bool) -> Void)?) {
         self.tipViewTopAnchor.constant = self.view.frame.size.height
         UIView.animate(withDuration: 0.4, animations: { 
             self.view.layoutIfNeeded()
             self.showPostDetails()
+            if fadeShade == true {
+                self.shadeView.alpha = 0.0
+            }
         }) { (completed: Bool) in
             self.delegate?.postViewController(viewController: self, isShowingTipScreen: false)
+            completionHandler?(completed)
         }
     }
 
 }
 
 extension IROPostViewController: IROTipViewDelegate {
+    
+    func tipView(view: IROTipView, didSelectShape shape: IROShape) {
+        self.dismissTipView(fadeShade: false) { (completed: Bool) in
+            self.animationView = LOTAnimationView(name: shape.name)
+            self.animationView?.contentMode = .scaleAspectFit
+            self.view.addSubview(self.animationView!)
+            self.animationView?.frame = self.view.bounds
+            self.animationView?.play(completion: { (completed: Bool) in
+                self.animationView?.removeFromSuperview()
+                self.animationView = nil
+                UIView.animate(withDuration: 0.4, animations: { 
+                    self.shadeView.alpha = 0.0
+                })
+            })
+        }
+    }
     
     func tipView(view: IROTipView, didSelectBuyCoinsButton button: UIButton) {
         let buyCoinsViewController: IROBuyCoinsViewController = IROBuyCoinsViewController()
@@ -285,7 +322,7 @@ extension IROPostViewController: IROTipViewDelegate {
     }
     
     func tipView(view: IROTipView, didSelectCloseButton button: UIButton) {
-        self.dismissTipView()
+        self.dismissTipView(completionHandler: nil)
     }
     
 }

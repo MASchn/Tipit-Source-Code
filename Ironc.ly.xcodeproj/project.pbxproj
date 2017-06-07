@@ -21,7 +21,6 @@
 		3715BFDB1E9D1F0600C29D9E /* IROTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFDA1E9D1F0600C29D9E /* IROTextField.swift */; };
 		3715BFDE1E9D301200C29D9E /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */; };
 		3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717AD241E395A75005EE969 /* IROSearchViewController.swift */; };
-		371B05281ED9ECE6001D1CC5 /* IROTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */; };
 		371B052A1ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */; };
 		3723026F1EA6959700E8447F /* IROEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */; };
 		372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */; };
@@ -30,6 +29,12 @@
 		37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */; };
 		37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E011E8EB16C00E1AF62 /* CALayer+TextField.swift */; };
 		37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E031E8EB6A200E1AF62 /* IROValidator.swift */; };
+		374E5B361EE77FC800A0CD75 /* IROShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374E5B351EE77FC800A0CD75 /* IROShape.swift */; };
+		374E5B3C1EE7853100A0CD75 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = 374E5B371EE7853100A0CD75 /* star.json */; };
+		374E5B3D1EE7853100A0CD75 /* diamond.json in Resources */ = {isa = PBXBuildFile; fileRef = 374E5B381EE7853100A0CD75 /* diamond.json */; };
+		374E5B3E1EE7853100A0CD75 /* kiss.json in Resources */ = {isa = PBXBuildFile; fileRef = 374E5B391EE7853100A0CD75 /* kiss.json */; };
+		374E5B3F1EE7853100A0CD75 /* heart.json in Resources */ = {isa = PBXBuildFile; fileRef = 374E5B3A1EE7853100A0CD75 /* heart.json */; };
+		374E5B401EE7853100A0CD75 /* sun.json in Resources */ = {isa = PBXBuildFile; fileRef = 374E5B3B1EE7853100A0CD75 /* sun.json */; };
 		3762A5381E96B879007FDD51 /* IROAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5371E96B879007FDD51 /* IROAPIClient.swift */; };
 		3762A53A1E96C1F4007FDD51 /* IROMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */; };
 		37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37875D961E54B6CE00C86290 /* IROPreviewViewController.swift */; };
@@ -46,6 +51,8 @@
 		37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */; };
 		37B192C31EE7044D00D07F53 /* IROCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */; };
 		37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B192C41EE7148800D07F53 /* StoreKit.framework */; };
+		37B192C91EE7792B00D07F53 /* IROAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */; };
+		37B192CB1EE779FA00D07F53 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B192CA1EE779FA00D07F53 /* smile.json */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -77,7 +84,6 @@
 		3715BFDA1E9D1F0600C29D9E /* IROTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTextField.swift; path = Controls/IROTextField.swift; sourceTree = "<group>"; };
 		3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		3717AD241E395A75005EE969 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = Controllers/IROSearchViewController.swift; sourceTree = "<group>"; };
-		371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTestViewController.swift; path = Controllers/IROTestViewController.swift; sourceTree = "<group>"; };
 		371B05291ED9ED6C001D1CC5 /* IROShapeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROShapeCollectionViewCell.swift; path = Cells/IROShapeCollectionViewCell.swift; sourceTree = "<group>"; };
 		3723026E1EA6959700E8447F /* IROEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileTableViewCell.swift; path = Cells/IROEditProfileTableViewCell.swift; sourceTree = "<group>"; };
 		372FB59F1EAE47950095AC7A /* IROEditProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileHeaderView.swift; path = Views/IROEditProfileHeaderView.swift; sourceTree = "<group>"; };
@@ -86,6 +92,12 @@
 		37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROLoginViewController.swift; path = Controllers/IROLoginViewController.swift; sourceTree = "<group>"; };
 		37417E011E8EB16C00E1AF62 /* CALayer+TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+TextField.swift"; sourceTree = "<group>"; };
 		37417E031E8EB6A200E1AF62 /* IROValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROValidator.swift; path = Models/IROValidator.swift; sourceTree = "<group>"; };
+		374E5B351EE77FC800A0CD75 /* IROShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROShape.swift; path = Models/IROShape.swift; sourceTree = "<group>"; };
+		374E5B371EE7853100A0CD75 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = star.json; sourceTree = "<group>"; };
+		374E5B381EE7853100A0CD75 /* diamond.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = diamond.json; sourceTree = "<group>"; };
+		374E5B391EE7853100A0CD75 /* kiss.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kiss.json; sourceTree = "<group>"; };
+		374E5B3A1EE7853100A0CD75 /* heart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = heart.json; sourceTree = "<group>"; };
+		374E5B3B1EE7853100A0CD75 /* sun.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sun.json; sourceTree = "<group>"; };
 		3762A5371E96B879007FDD51 /* IROAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROAPIClient.swift; path = API/IROAPIClient.swift; sourceTree = "<group>"; };
 		3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMediaItem.swift; path = Models/IROMediaItem.swift; sourceTree = "<group>"; };
 		37875D961E54B6CE00C86290 /* IROPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPreviewViewController.swift; path = Controllers/IROPreviewViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +114,8 @@
 		37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = Controllers/IROSettingsViewController.swift; sourceTree = "<group>"; };
 		37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCoinTableViewCell.swift; path = Cells/IROCoinTableViewCell.swift; sourceTree = "<group>"; };
 		37B192C41EE7148800D07F53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROAnimationViewController.swift; sourceTree = "<group>"; };
+		37B192CA1EE779FA00D07F53 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -152,6 +166,7 @@
 				3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */,
 				3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */,
 				37C49C361EC68BB500187EBE /* IROFeedItem.swift */,
+				374E5B351EE77FC800A0CD75 /* IROShape.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -227,6 +242,19 @@
 			name = Config;
 			sourceTree = "<group>";
 		};
+		37B192C71EE7789E00D07F53 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				37B192CA1EE779FA00D07F53 /* smile.json */,
+				374E5B371EE7853100A0CD75 /* star.json */,
+				374E5B381EE7853100A0CD75 /* diamond.json */,
+				374E5B391EE7853100A0CD75 /* kiss.json */,
+				374E5B3A1EE7853100A0CD75 /* heart.json */,
+				374E5B3B1EE7853100A0CD75 /* sun.json */,
+			);
+			name = Animations;
+			sourceTree = "<group>";
+		};
 		37BA700F1E36E6070093EAE5 = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +276,7 @@
 		37BA701A1E36E6070093EAE5 /* Ironc.ly */ = {
 			isa = PBXGroup;
 			children = (
+				37B192C71EE7789E00D07F53 /* Animations */,
 				37B192C61EE7316200D07F53 /* Config */,
 				3715BFDC1E9D300300C29D9E /* Extensions */,
 				3715BFD61E9D1C4800C29D9E /* UI */,
@@ -289,7 +318,7 @@
 				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
 				37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */,
 				373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */,
-				371B05271ED9ECE6001D1CC5 /* IROTestViewController.swift */,
+				37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -383,8 +412,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				374E5B3F1EE7853100A0CD75 /* heart.json in Resources */,
 				37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */,
+				374E5B3E1EE7853100A0CD75 /* kiss.json in Resources */,
+				37B192CB1EE779FA00D07F53 /* smile.json in Resources */,
+				374E5B3D1EE7853100A0CD75 /* diamond.json in Resources */,
 				37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */,
+				374E5B401EE7853100A0CD75 /* sun.json in Resources */,
+				374E5B3C1EE7853100A0CD75 /* star.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,10 +494,10 @@
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
 				37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */,
 				373F57331ED7D35200F1BD64 /* IROBuyCoinsViewController.swift in Sources */,
-				371B05281ED9ECE6001D1CC5 /* IROTestViewController.swift in Sources */,
 				37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */,
 				370E366E1E43BE3600F8FF9E /* IROPostViewController.swift in Sources */,
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
+				374E5B361EE77FC800A0CD75 /* IROShape.swift in Sources */,
 				370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */,
 				3715BFD51E9C74F300C29D9E /* IROForgotPasswordViewController.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
@@ -472,6 +507,7 @@
 				37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */,
 				37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */,
 				370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */,
+				37B192C91EE7792B00D07F53 /* IROAnimationViewController.swift in Sources */,
 				37C066791ED89D72009D17E4 /* IROTipView.swift in Sources */,
 				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
 				3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */,

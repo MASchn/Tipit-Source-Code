@@ -11,6 +11,7 @@ import UIKit
 protocol IROTipViewDelegate: class {
     func tipView(view: IROTipView, didSelectCloseButton button: UIButton)
     func tipView(view: IROTipView, didSelectBuyCoinsButton button: UIButton)
+    func tipView(view: IROTipView, didSelectShape shape: IROShape)
 }
 
 class IROTipView: UIView {
@@ -18,19 +19,21 @@ class IROTipView: UIView {
     // MARK: - Properties
     weak var delegate: IROTipViewDelegate?
     let shapeReuseId: String = "iro.reuseId.shape"
+    
     // Add buffer space to front and back by adding blank images
     let startBuffer: IROShape = IROShape()
-    let crown: IROShape = IROShape(image: #imageLiteral(resourceName: "crown"), minutes: 20, coins: 50)
-    let diamond: IROShape = IROShape(image: #imageLiteral(resourceName: "diamond"), minutes: 40, coins: 100)
-    let flame: IROShape = IROShape(image: #imageLiteral(resourceName: "flame"), minutes: 60, coins: 150)
-    let heart: IROShape = IROShape(image: #imageLiteral(resourceName: "heart"), minutes: 80, coins: 200)
-    let lips: IROShape = IROShape(image: #imageLiteral(resourceName: "lips"), minutes: 100, coins: 250)
-    let smile: IROShape = IROShape(image: #imageLiteral(resourceName: "smile"), minutes: 120, coins: 300)
-    let sun: IROShape = IROShape(image: #imageLiteral(resourceName: "sun"), minutes: 140, coins: 350)
+    let crown: IROShape = IROShape(name: "crown", minutes: 20, coins: 50)
+    let flame: IROShape = IROShape(name: "flame", minutes: 60, coins: 150)
+    let diamond: IROShape = IROShape(name: "diamond", minutes: 20, coins: 100)
+    let heart: IROShape = IROShape(name: "heart", minutes: 40, coins: 200)
+    let kiss: IROShape = IROShape(name: "kiss", minutes: 60, coins: 300)
+    let smile: IROShape = IROShape(name: "smile", minutes: 80, coins: 400)
+    let sun: IROShape = IROShape(name: "sun", minutes: 100, coins: 500)
     let endBuffer: IROShape = IROShape()
     
-    lazy var shapes: [IROShape] = [self.startBuffer, self.crown, self.diamond, self.flame, self.heart, self.lips, self.smile, self.sun, self.endBuffer]
+    lazy var shapes: [IROShape] = [self.startBuffer, self.diamond, self.heart, self.kiss, self.smile, self.sun, self.endBuffer]
     
+    // Update the labels when a new shape is closest to center
     var closestToCenterIndex: Int = 0 {
         didSet {
             let shape: IROShape = self.shapes[closestToCenterIndex]
@@ -44,31 +47,10 @@ class IROTipView: UIView {
         }
     }
     
-//    lazy var images: [UIImage] = [UIImage(), #imageLiteral(resourceName: "crown"), #imageLiteral(resourceName: "diamond"), #imageLiteral(resourceName: "flame"), #imageLiteral(resourceName: "heart"), #imageLiteral(resourceName: "lips"), #imageLiteral(resourceName: "smile"), #imageLiteral(resourceName: "star"), #imageLiteral(resourceName: "sun"), UIImage()]
-    
-    struct IROShape {
-        let image: UIImage?
-        let minutes: Int?
-        let coins: Int?
-        
-        init() {
-            self.image = nil
-            self.minutes = nil
-            self.coins = nil
-        }
-        
-        init(image: UIImage, minutes: Int, coins: Int) {
-            self.image = image
-            self.minutes = minutes
-            self.coins = coins
-        }
-    }
-    
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(self.shadeView)
         self.addSubview(self.closeButton)
         self.addSubview(self.timeLabel)
         self.addSubview(self.coinsLabel)
@@ -90,13 +72,6 @@ class IROTipView: UIView {
     }
     
     // MARK: - Lazy Initialization
-    lazy var shadeView: UIView = {
-        let view: UIView = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     lazy var closeButton: UIButton = {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -150,12 +125,7 @@ class IROTipView: UIView {
     }()
     
     // MARK: - Autolayout
-    func setUpConstraints() {
-        self.shadeView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.shadeView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        self.shadeView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.shadeView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        
+    func setUpConstraints() {        
         self.closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 50.0).isActive = true
         self.closeButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         self.closeButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
@@ -187,10 +157,11 @@ class IROTipView: UIView {
     let minScale: CGFloat = 0.5
     let maxScale: CGFloat = 1.0
     
+    // Makes cells bigger when closer to the center
     func scaleCells() {
         
         var closestToCenterIndex: Int = 0
-        var closestDistance: CGFloat = 1000000 // High number
+        var closestDistance: CGFloat = 1000000 // High number to start
         
         for cell in self.shapesCollectionView.visibleCells {
             let distanceFromCenter: CGFloat = abs(self.shapesCollectionView.bounds.width / 2.0 - (cell.frame.midX - self.shapesCollectionView.contentOffset.x))
@@ -237,8 +208,23 @@ extension IROTipView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROShapeCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.shapeReuseId, for: indexPath) as! IROShapeCollectionViewCell
         let shape: IROShape = self.shapes[indexPath.item]
-        cell.shapeImageView.image = shape.image
+        if let name: String = shape.name {
+            cell.shapeImageView.image = UIImage(named: name)
+        }
         return cell
+    }
+    
+}
+
+extension IROTipView: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let shape: IROShape = self.shapes[indexPath.item]
+        
+        // Don't include the start and end buffer shapes
+        if shape.name != nil {
+            self.delegate?.tipView(view: self, didSelectShape: shape)
+        }
     }
     
 }
