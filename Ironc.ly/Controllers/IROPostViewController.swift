@@ -17,7 +17,7 @@ protocol IROPostViewControllerDelegate: class {
 
 class IROPostViewController: UIViewController {
     
-    let post: IROPost
+    var post: IROPost
     var videoURL: URL?
     var player: AVPlayer?
     var playerController : AVPlayerViewController?
@@ -31,6 +31,8 @@ class IROPostViewController: UIViewController {
         self.post = post
     
         super.init(nibName: nil, bundle: nil)
+        
+        self.timeRemainingLabel.text = post.formattedTimeRemaining()
         
         if post.type == .video {
             if let urlString: String = post.contentURL {
@@ -75,6 +77,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.lockButton)
         self.view.addSubview(self.tipButton)
+        self.view.addSubview(self.timeRemainingLabel)
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
@@ -161,6 +164,15 @@ class IROPostViewController: UIViewController {
         return button
     }()
     
+    lazy var timeRemainingLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var lockButton: UIButton = {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "lock"), for: .normal)
@@ -213,6 +225,11 @@ class IROPostViewController: UIViewController {
         self.tipButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.tipButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
+        self.timeRemainingLabel.topAnchor.constraint(equalTo: self.tipButton.bottomAnchor).isActive = true
+        self.timeRemainingLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.timeRemainingLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.timeRemainingLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
         // Off screen to begin
         self.tipViewTopAnchor.isActive = true
         self.tipView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -230,14 +247,18 @@ class IROPostViewController: UIViewController {
     
     // MARK: - Actions
     func tappedLockButton(sender: UIButton) {
+        self.showLockedAlert()
+    }
+    
+    func showLockedAlert() {
         let name: String = self.nameLabel.text ?? "this user"
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Unlock this content by subscribing to \(name) for 100 coins per month?",
+            message: "Unlock all private content in the app?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
-            UIView.animate(withDuration: 0.4, animations: { 
+            UIView.animate(withDuration: 0.4, animations: {
                 self.blurView.alpha = 0.0
                 self.lockButton.alpha = 0.0
             }, completion: { (success) in
@@ -245,7 +266,7 @@ class IROPostViewController: UIViewController {
                 self.lockButton.isHidden = true
             })
         }
-        let noAction: UIAlertAction = UIAlertAction(title: "No", style: .cancel) { (action) in
+        let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             //
         }
         alert.addAction(yesAction)
@@ -254,7 +275,11 @@ class IROPostViewController: UIViewController {
     }
     
     func tappedTipButton(sender: UIButton) {
-        self.showTipView()
+        if self.post.isPrivate == false {
+            self.showTipView()
+        } else {
+            self.showLockedAlert()
+        }
     }
     
     // MARK: - Animations
@@ -262,16 +287,21 @@ class IROPostViewController: UIViewController {
         self.tipButton.alpha = 0.0
         self.nameLabel.alpha = 0.0
         self.profileImageView.alpha = 0.0
+        self.timeRemainingLabel.alpha = 0.0
     }
     
     func showPostDetails() {
         self.tipButton.alpha = 1.0
         self.nameLabel.alpha = 1.0
         self.profileImageView.alpha = 1.0
+        self.timeRemainingLabel.alpha = 1.0
     }
     
     func showTipView() {
         self.tipViewTopAnchor.constant = 0.0
+        
+        self.updateCoinsButton()
+        
         UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutIfNeeded()
             self.hidePostDetails()
@@ -279,6 +309,14 @@ class IROPostViewController: UIViewController {
         }) { (completed: Bool) in
             self.delegate?.postViewController(viewController: self, isShowingTipScreen: true)
         }
+    }
+    
+    func updateCoinsButton() {
+        // Update coins amount
+        guard let user: IROUser = IROUser.currentUser else { return }
+        let formattedCoins: String = IROCoinsFormatter.formattedCoins(coins: user.coins)
+        let coinsTitle: String = "buy coins (\(formattedCoins) coins)"
+        self.tipView.buyCoinsButton.setTitle(coinsTitle, for: .normal)
     }
     
     func dismissTipView(fadeShade: Bool = true, completionHandler: ((Bool) -> Void)?) {
@@ -294,12 +332,39 @@ class IROPostViewController: UIViewController {
             completionHandler?(completed)
         }
     }
+    
+    func presentBuyCoinsModal() {
+        let buyCoinsViewController: IROBuyCoinsViewController = IROBuyCoinsViewController()
+        buyCoinsViewController.delegate = self
+        let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
+        self.present(navigationController, animated: true, completion: nil)
+    }
 
 }
 
 extension IROPostViewController: IROTipViewDelegate {
     
     func tipView(view: IROTipView, didSelectShape shape: IROShape) {
+        guard let user: IROUser = IROUser.currentUser else { return }
+        
+        if user.coins > shape.coins {
+            // Deduct the cost of the tip fom the user's coin balance
+            let newCoins: Int = user.coins - shape.coins
+            user.coins = newCoins
+            user.updateCoins(newAmount: newCoins)
+            
+            self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
+            self.timeRemainingLabel.text = self.post.formattedTimeRemaining()
+            
+            self.showTipAnimation(shape: shape)
+        } else {
+            self.presentBuyCoinsModal()
+        }
+        
+
+    }
+    
+    func showTipAnimation(shape: IROShape) {
         self.dismissTipView(fadeShade: false) { (completed: Bool) in
             self.animationView = LOTAnimationView(name: shape.name)
             self.animationView?.contentMode = .scaleAspectFit
@@ -308,7 +373,7 @@ extension IROPostViewController: IROTipViewDelegate {
             self.animationView?.play(completion: { (completed: Bool) in
                 self.animationView?.removeFromSuperview()
                 self.animationView = nil
-                UIView.animate(withDuration: 0.4, animations: { 
+                UIView.animate(withDuration: 0.4, animations: {
                     self.shadeView.alpha = 0.0
                 })
             })
@@ -316,13 +381,19 @@ extension IROPostViewController: IROTipViewDelegate {
     }
     
     func tipView(view: IROTipView, didSelectBuyCoinsButton button: UIButton) {
-        let buyCoinsViewController: IROBuyCoinsViewController = IROBuyCoinsViewController()
-        let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
-        self.present(navigationController, animated: true, completion: nil)
+        self.presentBuyCoinsModal()
     }
     
     func tipView(view: IROTipView, didSelectCloseButton button: UIButton) {
         self.dismissTipView(completionHandler: nil)
+    }
+    
+}
+
+extension IROPostViewController: IROBuyCoinsViewControllerDelegate {
+    
+    func buyCoinsViewControllerDidDismiss() {
+        self.updateCoinsButton()
     }
     
 }

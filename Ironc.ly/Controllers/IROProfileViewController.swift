@@ -36,9 +36,6 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.coinsSubtitleLabel)
         self.view.addSubview(self.editButton)
         self.view.addSubview(self.storyPreviewButton)
-        self.view.addSubview(self.followersButton)
-        self.view.addSubview(self.addFriendsButton)
-        self.view.addSubview(self.myFriendsButton)
         self.view.addSubview(self.bioLabel)
         
         self.setUpConstraints()
@@ -215,33 +212,6 @@ class IROProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var followersButton: IROButton = {
-        let button: IROButton = IROButton(style: .text)
-        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
-        button.setTitle("Followers", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var addFriendsButton: IROButton = {
-        let button: IROButton = IROButton(style: .text)
-        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
-        button.setTitle("Add Friends", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var myFriendsButton: IROButton = {
-        let button: IROButton = IROButton(style: .text)
-        button.titleLabel?.font = .systemFont(ofSize: 18.0, weight: UIFontWeightHeavy)
-        button.setTitle("My Friends", for: .normal)
-        button.addTarget(self, action: #selector(self.tappedNonsenseButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     lazy var bioLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textAlignment = .center
@@ -307,25 +277,6 @@ class IROProfileViewController: UIViewController {
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.storyPreviewWidth.isActive = true
         self.storyPreviewHeight.isActive = true
-        
-        self.followersButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 25.0).isActive = true
-        self.followersButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-        self.followersButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-        self.followersButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.addFriendsButton.topAnchor.constraint(equalTo: self.followersButton.bottomAnchor).isActive = true
-        self.addFriendsButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-        self.addFriendsButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-        self.addFriendsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.myFriendsButton.topAnchor.constraint(equalTo: self.addFriendsButton.bottomAnchor).isActive = true
-        self.myFriendsButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-        self.myFriendsButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-        self.myFriendsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.bioLabel.topAnchor.constraint(equalTo: self.myFriendsButton.bottomAnchor, constant: 35.0).isActive = true
-        self.bioLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20.0).isActive = true
-        self.bioLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20.0).isActive = true
     }
     
     // MARK: - Actions
@@ -344,11 +295,6 @@ class IROProfileViewController: UIViewController {
         let settingsViewController: IROSettingsViewController = IROSettingsViewController()
         let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
         self.present(settingsNavController, animated: true, completion: nil)
-    }
-    
-    func tappedNonsenseButton() {
-        // Go to the followers tab
-        self.tabBarController?.selectedIndex = 1
     }
     
     override func imagePickerSelectedImage(image: UIImage) {

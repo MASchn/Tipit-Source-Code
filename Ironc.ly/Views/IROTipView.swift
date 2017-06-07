@@ -37,12 +37,9 @@ class IROTipView: UIView {
     var closestToCenterIndex: Int = 0 {
         didSet {
             let shape: IROShape = self.shapes[closestToCenterIndex]
-            if
-                let minutes: Int = shape.minutes,
-                let coins: Int = shape.coins
-            {
-                self.timeLabel.text = "\(minutes) minutes"
-                self.coinsLabel.text = "\(coins) coins"
+            if shape.name != nil {
+                self.timeLabel.text = "\(shape.minutes) minutes"
+                self.coinsLabel.text = "\(shape.coins) coins"
             }
         }
     }
@@ -59,6 +56,11 @@ class IROTipView: UIView {
         
         self.setUpConstraints()
         self.layoutIfNeeded()
+        
+        // Hacky but necessary to scale cells upon first load
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.scaleCells()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,9 +105,7 @@ class IROTipView: UIView {
     
     lazy var buyCoinsButton: IROButton = {
         let button: IROButton = IROButton(style: .green)
-        let coins: String = "buy coins (\(IROUser.currentUser!.coins) coins)"
         button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
-        button.setTitle(coins, for: .normal)
         button.addTarget(self, action: #selector(self.tappedBuyCoinsButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -211,6 +211,7 @@ extension IROTipView: UICollectionViewDataSource {
         if let name: String = shape.name {
             cell.shapeImageView.image = UIImage(named: name)
         }
+        
         return cell
     }
     

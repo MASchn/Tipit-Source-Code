@@ -21,10 +21,10 @@ class IROUser: NSObject {
     var backgroundImage: UIImage?
     var website: String?
     var bio: String?
-    var coins: Int = 0
+    var coins: Int
     
     static var currentUser: IROUser?
-    static let defaults = UserDefaults.standard
+    let defaults = UserDefaults.standard
     
     // MARK: - Initialization
     class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
@@ -34,12 +34,14 @@ class IROUser: NSObject {
         let bio: String? = JSON["bio"] as? String
         let profileImageURL: String? = JSON["profile_image"] as? String
         let backgroundImageURL: String? = JSON["background_image"] as? String
+        let coins: Int = JSON["coins"] as? Int ?? 0
         
         if let _: IROUser = IROUser.currentUser {
             IROUser.currentUser?.username = username
             IROUser.currentUser?.fullName = fullName
             IROUser.currentUser?.website = website
             IROUser.currentUser?.bio = bio
+            IROUser.currentUser?.coins = coins
             if let profileImageURL: String = profileImageURL {
                 IROUser.currentUser?.profileImageURL = profileImageURL
             }
@@ -61,7 +63,8 @@ class IROUser: NSObject {
                 profileImageURL: profileImageURL,
                 backgroundImageURL: backgroundImageURL,
                 website: website,
-                bio: bio
+                bio: bio,
+                coins: coins
             )
             user.save()
             IROUser.currentUser = user
@@ -77,6 +80,7 @@ class IROUser: NSObject {
     init(token: String) {
         self.token = token
         self.email = nil
+        self.coins = 0
     }
     
     init(username: String?, email: String?, token: String, profileImage: UIImage?) {
@@ -84,9 +88,10 @@ class IROUser: NSObject {
         self.email = email
         self.token = token
         self.profileImage = profileImage
+        self.coins = 0
     }
     
-    init(username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?) {
+    init(username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int) {
         self.username = username
         self.email = email
         self.token = token
@@ -95,9 +100,10 @@ class IROUser: NSObject {
         self.backgroundImage = backgroundImage
         self.website = website
         self.bio = bio
+        self.coins = coins
     }
     
-    init(username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?) {
+    init(username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int) {
         self.username = username
         self.email = email
         self.token = token
@@ -106,17 +112,17 @@ class IROUser: NSObject {
         self.backgroundImageURL = backgroundImageURL
         self.website = website
         self.bio = bio
+        self.coins = coins
     }
     
     func save() {
-        let defaults = UserDefaults.standard
-        defaults.set(self.username, forKey: "username")
-        defaults.set(self.email, forKey: "email")
-        defaults.set(self.token, forKey: "token")
-        defaults.set(self.fullName, forKey: "full_name")
+        self.defaults.set(self.username, forKey: "username")
+        self.defaults.set(self.email, forKey: "email")
+        self.defaults.set(self.token, forKey: "token")
+        self.defaults.set(self.fullName, forKey: "full_name")
         if let profileImage: UIImage = self.profileImage {
             if let profileData: Data = UIImageJPEGRepresentation(profileImage, 0.5) {
-                defaults.set(profileData, forKey: "image")
+                self.defaults.set(profileData, forKey: "image")
             }
         }
         if let backgroundImage: UIImage = self.backgroundImage {
@@ -124,22 +130,28 @@ class IROUser: NSObject {
                 defaults.set(backgroundData, forKey: "background")
             }
         }
-        defaults.set(self.website, forKey: "website")
-        defaults.set(self.bio, forKey: "bio")
-        defaults.synchronize()
+        self.defaults.set(self.website, forKey: "website")
+        self.defaults.set(self.bio, forKey: "bio")
+        self.defaults.set(self.coins, forKey: "coins")
+        self.defaults.synchronize()
     }
     
-    static func logOut() {
-        defaults.removeObject(forKey: "email")
-        defaults.removeObject(forKey: "token")
-        defaults.removeObject(forKey: "image")
-        defaults.removeObject(forKey: "background")
-        self.currentUser = nil
+    func updateCoins(newAmount: Int) {
+        self.defaults.set(newAmount, forKey: "coins")
+        self.defaults.synchronize()
+    }
+    
+    func logOut() {
+        self.defaults.removeObject(forKey: "email")
+        self.defaults.removeObject(forKey: "token")
+        self.defaults.removeObject(forKey: "image")
+        self.defaults.removeObject(forKey: "background")
+        IROUser.currentUser = nil
     }
     
     static func fetchUserFromDefaults() -> IROUser? {
-        if let token: String = defaults.object(forKey: "token") as? String
-        {
+        let defaults: UserDefaults = UserDefaults.standard
+        if let token: String = defaults.object(forKey: "token") as? String {
             let username: String? = defaults.object(forKey: "username") as? String
             let email: String? = defaults.object(forKey: "email") as? String
             let fullName: String? = defaults.object(forKey: "full_name") as? String
@@ -153,6 +165,7 @@ class IROUser: NSObject {
             }
             let website: String? = defaults.object(forKey: "website") as? String
             let bio: String? = defaults.object(forKey: "bio") as? String
+            let coins: Int = defaults.integer(forKey: "coins")
             return IROUser(
                 username: username,
                 email: email,
@@ -161,9 +174,11 @@ class IROUser: NSObject {
                 profileImage: image,
                 backgroundImage: background,
                 website: website,
-                bio: bio
+                bio: bio,
+                coins: coins
             )
         }
         return nil
     }
+    
 }

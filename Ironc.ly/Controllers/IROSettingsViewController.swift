@@ -68,7 +68,7 @@ class IROSettingsViewController: UITableViewController {
         let alert: UIAlertController = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .alert)
         let yesAction: UIAlertAction = UIAlertAction(title: "Log Out", style: .destructive) { (action) in
             self.dismiss(animated: true, completion: { 
-                IROUser.logOut()
+                IROUser.currentUser?.logOut()
                 AppDelegate.shared.navigationController?.configureForSignIn()
                 AppDelegate.shared.navigationController?.popToRootViewController(animated: true)
             })

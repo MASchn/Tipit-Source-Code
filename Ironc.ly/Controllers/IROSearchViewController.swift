@@ -31,7 +31,7 @@ class IROSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationItem.title = "Private"
+        self.navigationItem.title = "Search"
         self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationController?.navigationBar.barTintColor = .white

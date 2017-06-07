@@ -11,8 +11,9 @@ import UIKit
 class IROTabBarController: UITabBarController {
     
     let homeImage: UIImage = #imageLiteral(resourceName: "home")
-    let privateImage: UIImage = #imageLiteral(resourceName: "private")
+    let searchImage: UIImage = #imageLiteral(resourceName: "search")
     let cameraImage: UIImage = #imageLiteral(resourceName: "camera")
+    let messageImage: UIImage = #imageLiteral(resourceName: "message")
     let profileImage: UIImage = #imageLiteral(resourceName: "profile")
     
     override func viewDidLoad() {
@@ -29,7 +30,7 @@ class IROTabBarController: UITabBarController {
         homeNavController.navigationBar.isTranslucent = false
         
         let searchViewController: IROSearchViewController = IROSearchViewController()
-        searchViewController.tabBarItem = UITabBarItem(title: nil, image: self.privateImage.withRenderingMode(.alwaysOriginal), selectedImage: self.privateImage)
+        searchViewController.tabBarItem = UITabBarItem(title: nil, image: self.searchImage.withRenderingMode(.alwaysOriginal), selectedImage: self.searchImage)
         searchViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         searchViewController.tabBarItem.tag = 1
         let searchNavController: UINavigationController = UINavigationController(rootViewController: searchViewController)
@@ -40,12 +41,17 @@ class IROTabBarController: UITabBarController {
         cameraViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         cameraViewController.tabBarItem.tag = 2
         
+        let messagesViewController: IROMessagesViewController = IROMessagesViewController()
+        messagesViewController.tabBarItem = UITabBarItem(title: nil, image: self.messageImage.withRenderingMode(.alwaysOriginal), selectedImage: self.messageImage)
+        messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+        messagesViewController.tabBarItem.tag = 3
+        
         let profileViewController: IROProfileViewController = IROProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
-        profileViewController.tabBarItem.tag = 3
+        profileViewController.tabBarItem.tag = 4
         
-        self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileViewController]
+        self.viewControllers = [homeNavController, searchNavController, cameraViewController, messagesViewController, profileViewController]
     }
 
 

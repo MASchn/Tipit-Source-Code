@@ -13,12 +13,13 @@ class IROFeedViewController: UIViewController {
     // MARK: - Properties
     var feedItems: [IROFeedItem] = [IROFeedItem]()
     var columns: Int = 1
+    let feedReuseId: String = "iro.reuseId.feed"
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.feedCollectionView)
                 
@@ -87,8 +88,8 @@ class IROFeedViewController: UIViewController {
     lazy var feedCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.register(IROFeedCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.backgroundColor = UIColor.iroGray
+        collectionView.register(IROFeedCollectionViewCell.self, forCellWithReuseIdentifier: self.feedReuseId)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
@@ -130,9 +131,13 @@ extension IROFeedViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: IROFeedCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! IROFeedCollectionViewCell
+        let cell: IROFeedCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.feedReuseId, for: indexPath) as! IROFeedCollectionViewCell
         let feedItem: IROFeedItem = self.feedItems[indexPath.item]
         cell.configure(with: feedItem)
+        
+        // Mock
+        cell.postImageView.image = #imageLiteral(resourceName: "demo")
+        
         return cell
     }
     

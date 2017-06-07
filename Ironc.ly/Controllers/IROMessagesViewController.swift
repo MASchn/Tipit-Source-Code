@@ -13,7 +13,7 @@ class IROMessagesViewController: IROPlaceholderViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.yellow
+        self.view.backgroundColor = .iroGray
         // Do any additional setup after loading the view.
     }
     

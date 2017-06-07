@@ -10,13 +10,13 @@ import Foundation
 
 struct IROShape {
     let name: String? // Used for image and animation
-    let minutes: Int?
-    let coins: Int?
+    let minutes: Int
+    let coins: Int
     
     init() {
         self.name = nil
-        self.minutes = nil
-        self.coins = nil
+        self.minutes = 0
+        self.coins = 0
     }
     
     init(name: String, minutes: Int, coins: Int) {

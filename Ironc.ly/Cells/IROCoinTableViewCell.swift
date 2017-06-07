@@ -11,10 +11,25 @@ import StoreKit
 
 class IROCoinsFormatter {
     
-    class func coins(productIdentifier: String) -> String {
+    class func coins(productIdentifier: String) -> Int {
         let id: NSString = productIdentifier as NSString
         let coins: String = id.components(separatedBy: ".").last!
-        return coins
+        let coinsNumber: Int = Int(coins)!
+        return coinsNumber
+    }
+    
+    class func formattedCoins(productIdentifier: String) -> String {
+        let coinsNumber: Int = self.coins(productIdentifier: productIdentifier)
+        let formattedCoins: String = self.formattedCoins(coins: coinsNumber)
+        return formattedCoins
+    }
+    
+    class func formattedCoins(coins: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        let number: NSNumber = NSNumber(integerLiteral: coins)
+        return formatter.string(from: number)!
     }
     
 }
@@ -38,7 +53,7 @@ class IROCoinTableViewCell: UITableViewCell {
     
     func configure(with product: SKProduct) {
         self.priceFormatter.locale = product.priceLocale
-        let coins: String = IROCoinsFormatter.coins(productIdentifier: product.productIdentifier)
+        let coins: String = IROCoinsFormatter.formattedCoins(productIdentifier: product.productIdentifier)
         let price: String = self.priceFormatter.string(from: product.price)!
         
         self.coinsLabel.text = coins

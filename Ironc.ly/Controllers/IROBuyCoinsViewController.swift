@@ -14,13 +14,17 @@ struct IROProduct {
     let price: String
 }
 
+protocol IROBuyCoinsViewControllerDelegate: class {
+    func buyCoinsViewControllerDidDismiss()
+}
+
 class IROBuyCoinsViewController: UIViewController {
     
     // MARK: - Properties
-    var coins: Int = UserDefaults.standard.integer(forKey: "coins")
     var productsRequest = SKProductsRequest()
     let coinsReuseId: String = "iro.reuseId.coins"
     var products: [SKProduct] = []
+    weak var delegate: IROBuyCoinsViewControllerDelegate?
     
     lazy var tableViewHeight: CGFloat = CGFloat(self.products.count) * self.coinsTableView.rowHeight
     lazy var tableViewHeightConstraint: NSLayoutConstraint = self.coinsTableView.heightAnchor.constraint(equalToConstant: 0.0)
@@ -34,7 +38,9 @@ class IROBuyCoinsViewController: UIViewController {
         self.view.addSubview(self.coinsLabel)
         self.view.addSubview(self.coinsTableView)
         
-        self.coinsLabel.text = "\(self.coins) coins"
+        let coins: Int = UserDefaults.standard.integer(forKey: "coins")
+        let formattedCoins: String = IROCoinsFormatter.formattedCoins(coins: coins)
+        self.coinsLabel.text = formattedCoins + " coins"
         
         self.setUpConstraints()
         
@@ -99,9 +105,13 @@ class IROBuyCoinsViewController: UIViewController {
     
     func purchase(product: SKProduct) {
         self.showAlert(title: "Buy coins", message: product.productIdentifier) {
-            let coins: Int = Int(IROCoinsFormatter.coins(productIdentifier: product.productIdentifier))!
-            IROUser.currentUser!.coins += coins
-            self.coinsLabel.text = "\(IROUser.currentUser!.coins) coins"
+            guard let user: IROUser = IROUser.currentUser else { return }
+            let coins: Int = IROCoinsFormatter.coins(productIdentifier: product.productIdentifier)
+            let newCoins: Int = user.coins + coins
+            user.coins = newCoins
+            user.updateCoins(newAmount: newCoins)
+            let formattedCoins: String = IROCoinsFormatter.formattedCoins(coins: newCoins)
+            self.coinsLabel.text = formattedCoins + " coins"
         }
         
 //        let payment: SKPayment = SKPayment(product: product)
@@ -109,7 +119,9 @@ class IROBuyCoinsViewController: UIViewController {
     }
     
     func tappedDismissButton() {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true) { 
+            self.delegate?.buyCoinsViewControllerDidDismiss()
+        }
     }
 
 }
@@ -149,8 +161,7 @@ extension IROBuyCoinsViewController: SKPaymentTransactionObserver {
     
     func complete(transaction: SKPaymentTransaction) {
         let productId: String = transaction.payment.productIdentifier
-        let coinsString = IROCoinsFormatter.coins(productIdentifier: productId)
-        let coins: Int = Int(coinsString)!
+        let coins = IROCoinsFormatter.coins(productIdentifier: productId)
         IROUser.currentUser!.coins += coins
         self.coinsLabel.text = "\(IROUser.currentUser!.coins) coins"
     }
