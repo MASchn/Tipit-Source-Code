@@ -69,19 +69,20 @@ class IROUser: NSObject {
         let backgroundImageURL: String? = JSON["background_image"] as? String
         let coins: Int = JSON["coins"] as? Int ?? 0
         
-        if let _: IROUser = IROUser.currentUser {
-            IROUser.currentUser?.username = username
-            IROUser.currentUser?.fullName = fullName
-            IROUser.currentUser?.website = website
-            IROUser.currentUser?.bio = bio
-            IROUser.currentUser?.coins = coins
+        if let user: IROUser = IROUser.currentUser {
+            user.username = username
+            user.fullName = fullName
+            user.website = website
+            user.bio = bio
+            user.coins = coins
             if let profileImageURL: String = profileImageURL {
-                IROUser.currentUser?.profileImageURL = profileImageURL
+                user.profileImageURL = profileImageURL
             }
             if let backgroundImageURL: String = backgroundImageURL {
-                IROUser.currentUser?.backgroundImageURL = backgroundImageURL
+                user.backgroundImageURL = backgroundImageURL
             }
-            IROUser.currentUser?.save()
+            user.save()
+            print("USER SAVED!\n\(user)")
             completionHandler(true)
         }
         else if
@@ -101,6 +102,7 @@ class IROUser: NSObject {
             )
             user.save()
             IROUser.currentUser = user
+            print("USER SAVED!/n\(user)")
             completionHandler(true)
         }
         else

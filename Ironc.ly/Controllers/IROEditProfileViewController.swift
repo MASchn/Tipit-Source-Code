@@ -97,18 +97,20 @@ class IROEditProfileViewController: UITableViewController {
     }
     
     func tappedDoneButton() {
-        IROAPIClient.updateUser(
-            username: self.usernameCell.textField.text,
-            fullname: self.nameCell.textField.text,
-            website: self.websiteCell.textField.text,
-            bio: self.bioCell.textField.text)
-        { (success: Bool) in
+        // TODO: Shouldn't have to know about API fields here. Refactorable.
+        let parameters: [String: Any] = [
+            "username" : self.usernameCell.textField.text ?? "",
+            "first_name" : self.nameCell.textField.text ?? "",
+            "website" : self.websiteCell.textField.text ?? "",
+            "bio" : self.bioCell.textField.text ?? ""
+        ]
+        IROAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
             if success == true {
                 self.dismiss(animated: true, completion: nil)
             } else {
                 self.showAlert(title: "Could not save", message: "An error occurred", completion: nil)
             }
-        }
+        })
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

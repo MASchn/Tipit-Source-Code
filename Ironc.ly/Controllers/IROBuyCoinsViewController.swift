@@ -112,6 +112,15 @@ class IROBuyCoinsViewController: UIViewController {
             user.updateCoins(newAmount: newCoins)
             let formattedCoins: String = IROCoinsFormatter.formattedCoins(coins: newCoins)
             self.coinsLabel.text = formattedCoins + " coins"
+            
+            // TODO: Shouldn't have to know about API fields here. Refactorable.
+            let parameters: [String: Any] = [
+                "coins" : IROUser.currentUser!.coins
+            ]
+            
+            IROAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+                // TODO: Success and error handling
+            })
         }
         
 //        let payment: SKPayment = SKPayment(product: product)

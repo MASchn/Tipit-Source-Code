@@ -122,16 +122,10 @@ class IROAPIClient: NSObject {
         }
     }
     
-    class func updateUser(username: String?, fullname: String?, website: String?, bio: String?, completionHandler: @escaping (Bool) -> Void) {
+    class func updateUser(parameters: Parameters, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
             "x-auth" : IROUser.currentUser!.token,
             "Content-Type" : "application/json"
-        ]
-        let parameters: Parameters = [
-            "username" : username ?? "",
-            "first_name" : fullname ?? "",
-            "website" : website ?? "",
-            "bio" : bio ?? ""
         ]
         Alamofire.request(baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
             switch response.result {
