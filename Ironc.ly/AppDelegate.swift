@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.showSignIn()
         
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
-            print("USER TOKEN: \(user.token)")
+            print(user)
             IROUser.currentUser = user
             self.showFeed(animated: false)
         }

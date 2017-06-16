@@ -26,6 +26,39 @@ class IROUser: NSObject {
     static var currentUser: IROUser?
     let defaults = UserDefaults.standard
     
+    // Log
+    override var description: String {
+        let header: String = "CURRENT USER"
+        let divider: String = "===================="
+        
+        var fields: [String] = [header, divider]
+        
+        if let username: String = self.username {
+            fields.append("USERNAME: \(username)")
+        }
+        if let email: String = self.email {
+            fields.append("EMAIL: \(email)")
+        }
+        
+        fields.append("TOKEN: \(token)")
+        
+        if let fullName: String = self.fullName {
+            fields.append("NAME: \(fullName)")
+        }
+        
+        if let profileImageURL: String = self.profileImageURL {
+            fields.append("IMAGE: \(profileImageURL)")
+        }
+        
+        if let backgroundImageURL: String = self.backgroundImageURL {
+            fields.append("BACKGROUND: \(backgroundImageURL)")
+        }
+        
+        fields.append("COINS: \(self.coins)")
+        
+        return fields.flatMap({$0}).joined(separator: "\n")
+    }
+    
     // MARK: - Initialization
     class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
         let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
