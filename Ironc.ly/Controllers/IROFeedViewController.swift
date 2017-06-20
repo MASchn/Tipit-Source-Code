@@ -31,7 +31,7 @@ class IROFeedViewController: UIViewController {
         
         // TODO: Delete
         let feedItem: IROFeedItem = IROFeedItem(JSON: [
-                "story_image" : ""
+            "story_image" : ""
             ])!
         self.feedItems = [feedItem]
         self.feedCollectionView.reloadData()
@@ -80,7 +80,7 @@ class IROFeedViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var emptyView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = .groupTableViewBackground
+        view.backgroundColor = .iroGray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -171,11 +171,11 @@ extension IROFeedViewController: UICollectionViewDelegate {
 //                    self.present(storyViewController, animated: true, completion: nil)
 //                }
 //            })
-            let story: IROStory = IROStory.mockStory()
-            let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
-            self.present(storyViewController, animated: true, completion: nil)
 //        }
         
+        let story: IROStory = IROStory.mockStory()
+        let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
+        self.present(storyViewController, animated: true, completion: nil)
     }
     
 }

@@ -26,17 +26,6 @@ class IROSearchViewController: UIViewController {
         self.view.addSubview(self.searchCollectionView)
         
         self.setUpConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationItem.title = "Search"
-        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
-        self.navigationController?.navigationBar.barStyle = .default
-        self.navigationController?.navigationBar.barTintColor = .white
-        
-        self.searchCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
         
         IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
             if let searchUsers: [IROSearchUser] = searchUsers {
@@ -46,8 +35,20 @@ class IROSearchViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
+        
+        self.searchCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return false
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
 
     // MARK: - Lazy Initialization
@@ -128,10 +129,25 @@ extension IROSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IROSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.searchReuseId, for: indexPath) as! IROSearchCollectionViewCell
         let searchUser: IROSearchUser = self.searchUsers[indexPath.item]
-        let section: IROSearchSection = IROSearchSection(rawValue: indexPath.section)!
-        cell.configure(with: searchUser, section: section)
+        cell.configure(with: searchUser)
         cell.delegate = self
         return cell
+    }
+    
+}
+
+extension IROSearchViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell: IROSearchCollectionViewCell = self.searchCollectionView.cellForItem(at: indexPath) as! IROSearchCollectionViewCell
+        if let userId: String = cell.userId {
+            IROAPIClient.getStory(userId: userId, completionHandler: { (story: IROStory?) in
+                if let story: IROStory = story, story.posts.count > 0 {
+                    let storyViewController: IROStoryViewController = IROStoryViewController(story: story, isProfile: false)
+                    self.present(storyViewController, animated: true, completion: nil)
+                }
+            })
+        }
     }
     
 }
@@ -139,36 +155,25 @@ extension IROSearchViewController: UICollectionViewDataSource {
 extension IROSearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = (collectionView.bounds.width - 4 * 15.0) / 2.0
-        return CGSize(width: width, height: 180.0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20.0, left: 15.0, bottom: 0.0, right: 15.0)
+        let size: CGFloat = collectionView.bounds.width / 2.0
+        return CGSize(width: size, height: size)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15.0
+        return 0.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 30.0
+        return 0.0
     }
     
 }
 
 extension IROSearchViewController: IROSearchCollectionViewCellDelegate {
     
-    func tappedFollowButton(with userId: String) {
-        IROAPIClient.userAction(action: .follow, userId: userId) { (success: Bool) in
-            //
-        }
-    }
-    
-    func tappedSubscribeButton(with userId: String) {
-        IROAPIClient.userAction(action: .subscribe, userId: userId) { (success: Bool) in
-            //
-        }
+    func searchCellDidSelectUser(with userId: String) {
+        let profileViewController: IROProfileViewController = IROProfileViewController()
+        self.navigationController?.pushViewController(profileViewController, animated: true)
     }
     
 }

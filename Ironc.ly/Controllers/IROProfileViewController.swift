@@ -36,15 +36,13 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.coinsSubtitleLabel)
         self.view.addSubview(self.editButton)
         self.view.addSubview(self.storyPreviewButton)
-        self.view.addSubview(self.bioLabel)
+//        self.view.addSubview(self.bioLabel)
         
         self.setUpConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.tabBarController?.navigationController?.isNavigationBarHidden = true
         
         IROAPIClient.getPersonalStory { (story: IROStory?) in
             if let story: IROStory = story {

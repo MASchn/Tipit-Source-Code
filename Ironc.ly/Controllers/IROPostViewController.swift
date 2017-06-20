@@ -81,7 +81,7 @@ class IROPostViewController: UIViewController {
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
-        if self.post.isPrivate == false {
+        if self.post.isPrivate == false || IROUser.currentUser!.unlockedAllContent == true {
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -275,7 +275,7 @@ class IROPostViewController: UIViewController {
     }
     
     func tappedTipButton(sender: UIButton) {
-        if self.post.isPrivate == false {
+        if self.post.isPrivate == false || IROUser.currentUser!.unlockedAllContent == true {
             self.showTipView()
         } else {
             self.showLockedAlert()

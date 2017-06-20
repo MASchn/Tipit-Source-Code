@@ -22,6 +22,7 @@ class IROUser: NSObject {
     var website: String?
     var bio: String?
     var coins: Int
+    var unlockedAllContent: Bool = true
     
     static var currentUser: IROUser?
     let defaults = UserDefaults.standard
@@ -55,6 +56,10 @@ class IROUser: NSObject {
         }
         
         fields.append("COINS: \(self.coins)")
+        
+        if self.unlockedAllContent == true {
+            fields.append("UNLOCKED ALL CONTENT")
+        }
         
         return fields.flatMap({$0}).joined(separator: "\n")
     }
