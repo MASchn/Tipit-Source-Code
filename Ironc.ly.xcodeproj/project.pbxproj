@@ -11,6 +11,8 @@
 		3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */; };
 		3702E6D71EC380BB00A8D0AB /* UIColor+PremiumSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */; };
 		3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D81EC3848700A8D0AB /* IROStyle.swift */; };
+		3704A4C11EF962F300D141C1 /* IROUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4C01EF962F300D141C1 /* IROUserTableViewController.swift */; };
+		3704A4C51EF96AB100D141C1 /* IROPagingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4C41EF96AB100D141C1 /* IROPagingTabViewController.swift */; };
 		370E36661E43B22900F8FF9E /* IROPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* IROPost.swift */; };
 		370E36681E43B24500F8FF9E /* IROUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* IROUser.swift */; };
 		370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36691E43BBC600F8FF9E /* IROStory.swift */; };
@@ -51,7 +53,6 @@
 		37A282F61EAF9FE600702AF4 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */; };
 		37B192C31EE7044D00D07F53 /* IROCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */; };
 		37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B192C41EE7148800D07F53 /* StoreKit.framework */; };
-		37B192C91EE7792B00D07F53 /* IROAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */; };
 		37B192CB1EE779FA00D07F53 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B192CA1EE779FA00D07F53 /* smile.json */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
@@ -74,6 +75,8 @@
 		3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchUser.swift; path = Models/IROSearchUser.swift; sourceTree = "<group>"; };
 		3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+PremiumSnap.swift"; sourceTree = "<group>"; };
 		3702E6D81EC3848700A8D0AB /* IROStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStyle.swift; sourceTree = "<group>"; };
+		3704A4C01EF962F300D141C1 /* IROUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUserTableViewController.swift; path = Controllers/IROUserTableViewController.swift; sourceTree = "<group>"; };
+		3704A4C41EF96AB100D141C1 /* IROPagingTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPagingTabViewController.swift; path = Controllers/IROPagingTabViewController.swift; sourceTree = "<group>"; };
 		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
 		370E36671E43B24400F8FF9E /* IROUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUser.swift; path = Models/IROUser.swift; sourceTree = "<group>"; };
 		370E36691E43BBC600F8FF9E /* IROStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStory.swift; sourceTree = "<group>"; };
@@ -114,7 +117,6 @@
 		37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = Controllers/IROSettingsViewController.swift; sourceTree = "<group>"; };
 		37B192C21EE7044D00D07F53 /* IROCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCoinTableViewCell.swift; path = Cells/IROCoinTableViewCell.swift; sourceTree = "<group>"; };
 		37B192C41EE7148800D07F53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROAnimationViewController.swift; sourceTree = "<group>"; };
 		37B192CA1EE779FA00D07F53 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -302,23 +304,24 @@
 		37BA702E1E36E8EF0093EAE5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */,
 				37875DA41E54C3A700C86290 /* IROCamViewController.swift */,
+				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
 				37BA70331E36F2AE0093EAE5 /* IROFeedViewController.swift */,
+				3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */,
+				37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */,
 				37BA703A1E36F61F0093EAE5 /* IROMessagesViewController.swift */,
 				37BA703E1E36F6560093EAE5 /* IROPlaceholderViewController.swift */,
 				370E366D1E43BE3600F8FF9E /* IROPostViewController.swift */,
 				37875D961E54B6CE00C86290 /* IROPreviewViewController.swift */,
 				37BA703C1E36F6330093EAE5 /* IROProfileViewController.swift */,
+				37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */,
 				3717AD241E395A75005EE969 /* IROSearchViewController.swift */,
+				37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */,
 				370E366B1E43BCEF00F8FF9E /* IROStoryViewController.swift */,
 				37BA70311E36E9870093EAE5 /* IROTabBarController.swift */,
-				37417DD91E85B96D00E1AF62 /* IRORegisterViewController.swift */,
-				37417DFF1E8EB0B700E1AF62 /* IROLoginViewController.swift */,
-				3715BFD41E9C74F300C29D9E /* IROForgotPasswordViewController.swift */,
-				378CD25A1EA5A5C6008FF66D /* IROEditProfileViewController.swift */,
-				37A282F51EAF9FE600702AF4 /* IROSettingsViewController.swift */,
-				373F57321ED7D35200F1BD64 /* IROBuyCoinsViewController.swift */,
-				37B192C81EE7792B00D07F53 /* IROAnimationViewController.swift */,
+				3704A4C01EF962F300D141C1 /* IROUserTableViewController.swift */,
+				3704A4C41EF96AB100D141C1 /* IROPagingTabViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */,
 				3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
+				3704A4C51EF96AB100D141C1 /* IROPagingTabViewController.swift in Sources */,
 				37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */,
 				373F57331ED7D35200F1BD64 /* IROBuyCoinsViewController.swift in Sources */,
 				37875DAB1E54C41900C86290 /* PhotoViewController.swift in Sources */,
@@ -499,6 +503,7 @@
 				3717AD251E395A75005EE969 /* IROSearchViewController.swift in Sources */,
 				374E5B361EE77FC800A0CD75 /* IROShape.swift in Sources */,
 				370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */,
+				3704A4C11EF962F300D141C1 /* IROUserTableViewController.swift in Sources */,
 				3715BFD51E9C74F300C29D9E /* IROForgotPasswordViewController.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
 				37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */,
@@ -507,7 +512,6 @@
 				37875D971E54B6CE00C86290 /* IROPreviewViewController.swift in Sources */,
 				37417E001E8EB0B700E1AF62 /* IROLoginViewController.swift in Sources */,
 				370E366C1E43BCEF00F8FF9E /* IROStoryViewController.swift in Sources */,
-				37B192C91EE7792B00D07F53 /* IROAnimationViewController.swift in Sources */,
 				37C066791ED89D72009D17E4 /* IROTipView.swift in Sources */,
 				37BA703B1E36F61F0093EAE5 /* IROMessagesViewController.swift in Sources */,
 				3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */,

@@ -299,26 +299,4 @@ class IROAPIClient: NSObject {
         }
     }
     
-    class func get<T>(endpoint: String, authentication: Bool = false, contentType: String = "application/json", completionHandler: ([T]?) -> Void) {
-        
-        var headers: HTTPHeaders = [
-            "Content-Type" : contentType
-        ]
-        
-        if authentication == true {
-            headers["x-auth"] = IROUser.currentUser!.token
-        }
-        
-//        Alamofire.request(
-//            baseURL + endpoint,
-//            method: .get,
-//            parameters: nil,
-//            encoding: JSONEncoding.default,
-//            headers: headers
-//            ).responseJSON { (response) in
-//                //
-//        }
-        
-    }
-    
 }

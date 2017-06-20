@@ -57,9 +57,7 @@ class IROFeedViewController: UIViewController {
             self.getFeed()
         }
         
-        self.tabBarController?.navigationItem.setHidesBackButton(true, animated: false)
-        
-        self.navigationItem.title = IROUser.currentUser?.fullName
+        self.navigationItem.title = "Tipit"
         self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationController?.navigationBar.barTintColor = .white
@@ -67,16 +65,7 @@ class IROFeedViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "notification").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.changeLayout))
     }
-    
-    // MARK: - Status Bar
-    override var prefersStatusBarHidden: Bool {
-        return false
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
-    }
-    
+        
     // MARK: - Lazy Initialization
     lazy var emptyView: UIView = {
         let view: UIView = UIView()

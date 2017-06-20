@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var navigationController: IRONavigationController?
+    var tabBarController: UITabBarController?
     
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -22,32 +22,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        self.showSignIn()
-        
+        // Get current user
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
-            print(user)
             IROUser.currentUser = user
-            self.showFeed(animated: false)
         }
         
+        self.initializeFeed()
         self.window?.makeKeyAndVisible()
         
         return true
     }
     
-    func showFeed(animated: Bool) {
-        if self.navigationController == nil {
-            self.showSignIn()
+    func initializeFeed() {
+        self.tabBarController = IROTabBarController()
+        self.tabBarController?.delegate = self
+        self.window?.rootViewController = tabBarController
+        
+        // Show log in scren if no current user
+        if IROUser.currentUser == nil {
+            let registerViewController: IROLoginViewController = IROLoginViewController()
+            let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
+            self.tabBarController?.present(navController, animated: false, completion: nil)
         }
-        let tabBarController: IROTabBarController = IROTabBarController()
-        tabBarController.delegate = self
-        self.navigationController?.pushViewController(tabBarController, animated: animated)
-    }
-    
-    func showSignIn() {
-        let registerViewController: IROLoginViewController = IROLoginViewController()
-        self.navigationController = IRONavigationController(rootViewController: registerViewController)
-        self.window?.rootViewController = self.navigationController
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -60,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             )
             user.save()
             IROUser.currentUser = user
-            self.showFeed(animated: true)
+            self.initializeFeed()
         }
         return true
     }
@@ -72,7 +68,7 @@ extension AppDelegate: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.tabBarItem.tag == 2 {
             let cameraViewController: IROCamViewController = IROCamViewController()
-            self.navigationController?.present(cameraViewController, animated: true, completion: nil)
+            self.tabBarController?.present(cameraViewController, animated: true, completion: nil)
             return false
         }
         return true

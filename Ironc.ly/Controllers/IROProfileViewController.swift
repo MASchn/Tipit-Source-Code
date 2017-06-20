@@ -15,6 +15,20 @@ class IROProfileViewController: UIViewController {
     var story: IROStory?
     lazy var storyPreviewWidth: NSLayoutConstraint = self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 0.0)
     lazy var storyPreviewHeight: NSLayoutConstraint = self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 0.0)
+    
+//    required init(username: String) {
+//        super.init(nibName: nil, bundle: nil)
+//        
+//        if username == IROUser.currentUser?.username {
+//            self.editButton.isHidden = false
+//        } else {
+//            self.followButton.isHidden = false
+//        }
+//    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -28,15 +42,22 @@ class IROProfileViewController: UIViewController {
         self.view.addSubview(self.settingsButton)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
+        
+        self.view.addSubview(self.followersButton)
         self.view.addSubview(self.followersCountLabel)
         self.view.addSubview(self.followersSubtitleLabel)
+        
+        self.view.addSubview(self.followingButton)
         self.view.addSubview(self.followingCountLabel)
         self.view.addSubview(self.followingSubtitleLabel)
+        
         self.view.addSubview(self.coinsCountLabel)
         self.view.addSubview(self.coinsSubtitleLabel)
+        
         self.view.addSubview(self.editButton)
+        self.view.addSubview(self.followButton)
+        
         self.view.addSubview(self.storyPreviewButton)
-//        self.view.addSubview(self.bioLabel)
         
         self.setUpConstraints()
     }
@@ -54,22 +75,19 @@ class IROProfileViewController: UIViewController {
                 }
             }
         }
-        
-        let backgroundImage: UIImage = IROUser.currentUser?.backgroundImage ?? #imageLiteral(resourceName: "empty_background")
+    }
+    
+    func configure(with user: IROUser) {
+        let backgroundImage: UIImage = user.backgroundImage ?? #imageLiteral(resourceName: "empty_background")
         self.backgroundImageView.image = backgroundImage
         
-        let profileImage: UIImage = IROUser.currentUser?.profileImage ?? #imageLiteral(resourceName: "empty_profile")
+        let profileImage: UIImage = user.profileImage ?? #imageLiteral(resourceName: "empty_profile")
         self.profileImageButton.setImage(profileImage, for: .normal)
         
-        self.nameLabel.text = IROUser.currentUser?.fullName
-        self.usernameLabel.text = IROUser.currentUser?.username
-        self.bioLabel.text = IROUser.currentUser?.bio
+        self.nameLabel.text = user.fullName
+        self.usernameLabel.text = user.username
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
+        
     // MARK: - Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -136,68 +154,65 @@ class IROProfileViewController: UIViewController {
         button.addTarget(self, action: #selector(self.tappedEditButton), for: .touchUpInside)
         button.clipsToBounds = false
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Edit will be hidden if profile is not for current user
         return button
     }()
     
-    lazy var followersCountLabel: UILabel = {
+    lazy var followButton: IROButton = {
+        let button: IROButton = IROButton(style: .green)
+        button.setTitle("Follow", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        button.addTarget(self, action: #selector(self.tappedFollowButton), for: .touchUpInside)
+        button.clipsToBounds = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Follow will be hidden if profile is current user
+        return button
+    }()
+    
+    lazy var followersButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .magenta
+        button.addTarget(self, action: #selector(self.tappedFollowersButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var followingButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.backgroundColor = .purple
+        button.addTarget(self, action: #selector(self.tappedFollowingButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var followersCountLabel: UILabel = self.valueLabel(value: "0")
+    lazy var followersSubtitleLabel: UILabel = self.subtitleLabel(subtitle: "followers")
+    lazy var followingCountLabel: UILabel = self.valueLabel(value: "0")
+    lazy var followingSubtitleLabel: UILabel =  self.subtitleLabel(subtitle: "following")
+    lazy var coinsCountLabel: UILabel = self.valueLabel(value: "0")
+    lazy var coinsSubtitleLabel: UILabel = self.subtitleLabel(subtitle: "coins")
+    
+    // Helper method
+    func valueLabel(value: String) -> UILabel {
         let label: UILabel = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
         label.textAlignment = .center
-        label.text = "100"
+        label.text = value
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
+    }
     
-    lazy var followersSubtitleLabel: UILabel = {
+    // Helper method
+    func subtitleLabel(subtitle: String) -> UILabel {
         let label: UILabel = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
         label.textAlignment = .center
-        label.text = "followers"
+        label.text = subtitle
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    lazy var followingCountLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
-        label.textAlignment = .center
-        label.text = "100"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var followingSubtitleLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
-        label.textAlignment = .center
-        label.text = "following"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var coinsCountLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
-        label.textAlignment = .center
-        label.text = "1K"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var coinsSubtitleLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightLight)
-        label.textAlignment = .center
-        label.text = "coins"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    }
     
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
@@ -252,6 +267,21 @@ class IROProfileViewController: UIViewController {
         self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
         self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.followButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
+        self.followButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        self.followButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        self.followButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.followersButton.topAnchor.constraint(equalTo: self.followersCountLabel.topAnchor).isActive = true
+        self.followersButton.bottomAnchor.constraint(equalTo: self.followersSubtitleLabel.bottomAnchor).isActive = true
+        self.followersButton.leftAnchor.constraint(equalTo: self.followersSubtitleLabel.leftAnchor).isActive = true
+        self.followersButton.rightAnchor.constraint(equalTo: self.followersSubtitleLabel.rightAnchor).isActive = true
+        
+        self.followingButton.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+        self.followingButton.bottomAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor).isActive = true
+        self.followingButton.leftAnchor.constraint(equalTo: self.followingSubtitleLabel.leftAnchor).isActive = true
+        self.followingButton.rightAnchor.constraint(equalTo: self.followingSubtitleLabel.rightAnchor).isActive = true
         
         self.followingCountLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 20.0).isActive = true
         self.followingCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -310,6 +340,20 @@ class IROProfileViewController: UIViewController {
         let editProfileViewController: IROEditProfileViewController = IROEditProfileViewController(style: .grouped)
         let editNavController: UINavigationController = UINavigationController(rootViewController: editProfileViewController)
         self.present(editNavController, animated: true, completion: nil)
+    }
+    
+    func tappedFollowButton() {
+        // Follow network request
+    }
+    
+    func tappedFollowersButton(sender: UIButton) {
+        let followersViewController: IROUserTableViewController = IROUserTableViewController()
+        self.navigationController?.pushViewController(followersViewController, animated: true)
+    }
+    
+    func tappedFollowingButton(sender: UIButton) {
+        let followingViewController: IROUserTableViewController = IROUserTableViewController()
+        self.navigationController?.pushViewController(followingViewController, animated: true)
     }
 
 }

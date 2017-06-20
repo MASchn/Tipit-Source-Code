@@ -19,6 +19,9 @@ class IROTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        
         self.tabBar.tintColor = .iroGreen
         self.tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
         

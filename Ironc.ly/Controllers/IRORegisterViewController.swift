@@ -186,7 +186,7 @@ class IRORegisterViewController: UIViewController {
             password: self.passwordTextField.text!
         ) { (success: Bool) in
             if success == true {
-                AppDelegate.shared.showFeed(animated: true)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             } else {
                 print("Could not register new user")
             }

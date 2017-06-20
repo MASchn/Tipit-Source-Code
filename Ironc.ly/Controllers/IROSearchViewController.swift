@@ -19,8 +19,6 @@ class IROSearchViewController: UIViewController {
         
         self.view.backgroundColor = .iroGray
         
-        self.navigationController?.navigationItem.hidesBackButton = true
-        
         self.view.addSubview(self.searchTextField)
         self.view.addSubview(self.cancelSearchButton)
         self.view.addSubview(self.searchCollectionView)
@@ -38,17 +36,7 @@ class IROSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.isNavigationBarHidden = true
-        
-        self.searchCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return false
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
+        self.navigationItem.title = "Search"
     }
 
     // MARK: - Lazy Initialization

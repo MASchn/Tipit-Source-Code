@@ -176,7 +176,7 @@ class IROLoginViewController: UIViewController {
                     self.emailTextField.text = ""
                     self.passwordTextField.text = ""
                     self.view.endEditing(true)
-                    AppDelegate.shared.showFeed(animated: true)
+                    self.navigationController?.dismiss(animated: true, completion: nil)
                 } else {
                     self.showAlert(title: "Incorrect email or password", message: "Please try again", completion: nil)
                 }
