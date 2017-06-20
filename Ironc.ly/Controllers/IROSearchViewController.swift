@@ -19,6 +19,12 @@ class IROSearchViewController: UIViewController {
         
         self.view.backgroundColor = .iroGray
         
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.tintColor = .white
+        
         self.view.addSubview(self.searchTextField)
         self.view.addSubview(self.cancelSearchButton)
         self.view.addSubview(self.searchCollectionView)
@@ -31,12 +37,6 @@ class IROSearchViewController: UIViewController {
                 self.searchCollectionView.reloadData()
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationItem.title = "Search"
     }
 
     // MARK: - Lazy Initialization

@@ -15,8 +15,21 @@ class IROUserTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.userReuseId)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.tappedBackButton))
+    }
+    
+    func tappedBackButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Table view data source

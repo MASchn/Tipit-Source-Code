@@ -35,7 +35,7 @@ class IROProfileViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        
+                
         self.view.addSubview(self.backgroundImageView)
         self.backgroundImageView.addSubview(self.shadeView)
         self.view.addSubview(self.profileImageButton)
@@ -65,6 +65,10 @@ class IROProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.tappedBackButton))
+        self.navigationController?.navigationBar.tintColor = .white
+        
         IROAPIClient.getPersonalStory { (story: IROStory?) in
             if let story: IROStory = story {
                 self.story = story
@@ -75,6 +79,10 @@ class IROProfileViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func tappedBackButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func configure(with user: IROUser) {
@@ -347,12 +355,12 @@ class IROProfileViewController: UIViewController {
     }
     
     func tappedFollowersButton(sender: UIButton) {
-        let followersViewController: IROUserTableViewController = IROUserTableViewController()
+        let followersViewController: IROFollowersViewController = IROFollowersViewController()
         self.navigationController?.pushViewController(followersViewController, animated: true)
     }
     
     func tappedFollowingButton(sender: UIButton) {
-        let followingViewController: IROUserTableViewController = IROUserTableViewController()
+        let followingViewController: IROFollowingViewController = IROFollowingViewController()
         self.navigationController?.pushViewController(followingViewController, animated: true)
     }
 
