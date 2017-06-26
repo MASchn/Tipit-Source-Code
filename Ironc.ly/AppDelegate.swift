@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         // Get current user
-        if let user: IROUser = IROUser.fetchUserFromDefaults() {
-            IROUser.currentUser = user
+        if let user: TIPUser = TIPUser.fetchUserFromDefaults() {
+            TIPUser.currentUser = user
             print(user)
         }
         
@@ -32,13 +32,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func initializeFeed() {
-        self.tabBarController = IROTabBarController()
+        self.tabBarController = TIPTabBarController()
         self.tabBarController?.delegate = self
         self.window?.rootViewController = tabBarController
         
         // Show log in scren if no current user
-        if IROUser.currentUser == nil {
-            let registerViewController: IROLoginViewController = IROLoginViewController()
+        if TIPUser.currentUser == nil {
+            let registerViewController: TIPLoginViewController = TIPLoginViewController()
             let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
             self.tabBarController?.present(navController, animated: false, completion: nil)
         }
@@ -46,14 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if let token: String = url.query?.components(separatedBy: "=").last {
-            let user: IROUser = IROUser(
+            let user: TIPUser = TIPUser(
                 username: nil,
                 email: nil,
                 token: token,
                 profileImage: nil
             )
             user.save()
-            IROUser.currentUser = user
+            TIPUser.currentUser = user
             self.initializeFeed()
         }
         return true
@@ -65,7 +65,7 @@ extension AppDelegate: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.tabBarItem.tag == 2 {
-            let cameraViewController: IROCamViewController = IROCamViewController()
+            let cameraViewController: TIPCamViewController = TIPCamViewController()
             self.tabBarController?.present(cameraViewController, animated: true, completion: nil)
             return false
         }
@@ -74,7 +74,7 @@ extension AppDelegate: UITabBarControllerDelegate {
     
 }
 
-class IRONavigationController: UINavigationController {
+class TIPNavigationController: UINavigationController {
     
     // MARK: - View Lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

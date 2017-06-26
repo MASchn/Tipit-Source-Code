@@ -17,7 +17,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class VideoViewController: IROPreviewViewController {
+class VideoViewController: TIPPreviewViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -102,8 +102,8 @@ class VideoViewController: IROPreviewViewController {
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: { 
             do {
                 let data: Data = try Data(contentsOf: self.videoURL)
-                IROAPIClient.postContent(
-                    user: IROUser.currentUser!,
+                TIPAPIClient.postContent(
+                    user: TIPUser.currentUser!,
                     content: data,
                     type: .video,
                     private: false,

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */; };
-		3704A4CB1F017C3800D141C1 /* IROParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4CA1F017C3800D141C1 /* IROParser.swift */; };
+		3702E6D31EC3770000A8D0AB /* TIPSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* TIPSearchUser.swift */; };
+		3704A4CB1F017C3800D141C1 /* TIPParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4CA1F017C3800D141C1 /* TIPParser.swift */; };
 		37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */; };
-		37079B921F018FDB0022E014 /* IROStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B911F018FDB0022E014 /* IROStyle.swift */; };
+		37079B921F018FDB0022E014 /* TIPStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B911F018FDB0022E014 /* TIPStyle.swift */; };
 		37079B961F01900B0022E014 /* CALayer+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B931F01900A0022E014 /* CALayer+TextField.swift */; };
 		37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B941F01900B0022E014 /* UIColor+PremiumSnap.swift */; };
 		37079B981F01900B0022E014 /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B951F01900B0022E014 /* UIImage+URL.swift */; };
@@ -21,37 +21,37 @@
 		37079BA41F0191290022E014 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9E1F0191290022E014 /* smile.json */; };
 		37079BA51F0191290022E014 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9F1F0191290022E014 /* star.json */; };
 		37079BA61F0191290022E014 /* sun.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079BA01F0191290022E014 /* sun.json */; };
-		37079BAC1F0191340022E014 /* IROCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA71F0191340022E014 /* IROCoinTableViewCell.swift */; };
-		37079BAD1F0191340022E014 /* IROEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA81F0191340022E014 /* IROEditProfileTableViewCell.swift */; };
-		37079BAE1F0191340022E014 /* IROFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA91F0191340022E014 /* IROFeedCollectionViewCell.swift */; };
-		37079BAF1F0191340022E014 /* IROSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BAA1F0191340022E014 /* IROSearchCollectionViewCell.swift */; };
-		37079BB01F0191340022E014 /* IROShapeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BAB1F0191340022E014 /* IROShapeCollectionViewCell.swift */; };
-		37079BB31F0191410022E014 /* IROButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB11F0191410022E014 /* IROButton.swift */; };
-		37079BB41F0191410022E014 /* IROTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB21F0191410022E014 /* IROTextField.swift */; };
-		37079BC91F01914F0022E014 /* IROBuyCoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB51F01914F0022E014 /* IROBuyCoinsViewController.swift */; };
-		37079BCA1F01914F0022E014 /* IROCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB61F01914F0022E014 /* IROCamViewController.swift */; };
-		37079BCB1F01914F0022E014 /* IROEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB71F01914F0022E014 /* IROEditProfileViewController.swift */; };
-		37079BCC1F01914F0022E014 /* IROFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB81F01914F0022E014 /* IROFeedViewController.swift */; };
-		37079BCD1F01914F0022E014 /* IROFollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB91F01914F0022E014 /* IROFollowersViewController.swift */; };
-		37079BCE1F01914F0022E014 /* IROFollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBA1F01914F0022E014 /* IROFollowingViewController.swift */; };
-		37079BCF1F01914F0022E014 /* IROForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBB1F01914F0022E014 /* IROForgotPasswordViewController.swift */; };
-		37079BD01F01914F0022E014 /* IROLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBC1F01914F0022E014 /* IROLoginViewController.swift */; };
-		37079BD11F01914F0022E014 /* IROMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBD1F01914F0022E014 /* IROMessagesViewController.swift */; };
-		37079BD21F01914F0022E014 /* IROPagingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBE1F01914F0022E014 /* IROPagingTabViewController.swift */; };
-		37079BD31F01914F0022E014 /* IROPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBF1F01914F0022E014 /* IROPlaceholderViewController.swift */; };
-		37079BD41F01914F0022E014 /* IROPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC01F01914F0022E014 /* IROPostViewController.swift */; };
-		37079BD51F01914F0022E014 /* IROPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC11F01914F0022E014 /* IROPreviewViewController.swift */; };
-		37079BD61F01914F0022E014 /* IROProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC21F01914F0022E014 /* IROProfileViewController.swift */; };
-		37079BD71F01914F0022E014 /* IRORegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC31F01914F0022E014 /* IRORegisterViewController.swift */; };
-		37079BD81F01914F0022E014 /* IROSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC41F01914F0022E014 /* IROSearchViewController.swift */; };
-		37079BD91F01914F0022E014 /* IROSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC51F01914F0022E014 /* IROSettingsViewController.swift */; };
-		37079BDA1F01914F0022E014 /* IROStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC61F01914F0022E014 /* IROStoryViewController.swift */; };
-		37079BDB1F01914F0022E014 /* IROTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC71F01914F0022E014 /* IROTabBarController.swift */; };
-		37079BDC1F01914F0022E014 /* IROUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC81F01914F0022E014 /* IROUserTableViewController.swift */; };
-		37079BDF1F01915D0022E014 /* IROEditProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BDD1F01915D0022E014 /* IROEditProfileHeaderView.swift */; };
-		37079BE01F01915D0022E014 /* IROTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BDE1F01915D0022E014 /* IROTipView.swift */; };
-		37079BE21F0191830022E014 /* IROAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE11F0191830022E014 /* IROAPIClient.swift */; };
-		37079BE41F01918E0022E014 /* IROStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE31F01918E0022E014 /* IROStory.swift */; };
+		37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */; };
+		37079BAD1F0191340022E014 /* TIPEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */; };
+		37079BAE1F0191340022E014 /* TIPFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA91F0191340022E014 /* TIPFeedCollectionViewCell.swift */; };
+		37079BAF1F0191340022E014 /* TIPSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BAA1F0191340022E014 /* TIPSearchCollectionViewCell.swift */; };
+		37079BB01F0191340022E014 /* TIPShapeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BAB1F0191340022E014 /* TIPShapeCollectionViewCell.swift */; };
+		37079BB31F0191410022E014 /* TIPButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB11F0191410022E014 /* TIPButton.swift */; };
+		37079BB41F0191410022E014 /* TIPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB21F0191410022E014 /* TIPTextField.swift */; };
+		37079BC91F01914F0022E014 /* TIPBuyCoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */; };
+		37079BCA1F01914F0022E014 /* TIPCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB61F01914F0022E014 /* TIPCamViewController.swift */; };
+		37079BCB1F01914F0022E014 /* TIPEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */; };
+		37079BCC1F01914F0022E014 /* TIPFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB81F01914F0022E014 /* TIPFeedViewController.swift */; };
+		37079BCD1F01914F0022E014 /* TIPFollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BB91F01914F0022E014 /* TIPFollowersViewController.swift */; };
+		37079BCE1F01914F0022E014 /* TIPFollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBA1F01914F0022E014 /* TIPFollowingViewController.swift */; };
+		37079BCF1F01914F0022E014 /* TIPForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBB1F01914F0022E014 /* TIPForgotPasswordViewController.swift */; };
+		37079BD01F01914F0022E014 /* TIPLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBC1F01914F0022E014 /* TIPLoginViewController.swift */; };
+		37079BD11F01914F0022E014 /* TIPMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBD1F01914F0022E014 /* TIPMessagesViewController.swift */; };
+		37079BD21F01914F0022E014 /* TIPPagingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */; };
+		37079BD31F01914F0022E014 /* TIPPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BBF1F01914F0022E014 /* TIPPlaceholderViewController.swift */; };
+		37079BD41F01914F0022E014 /* TIPPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC01F01914F0022E014 /* TIPPostViewController.swift */; };
+		37079BD51F01914F0022E014 /* TIPPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC11F01914F0022E014 /* TIPPreviewViewController.swift */; };
+		37079BD61F01914F0022E014 /* TIPProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC21F01914F0022E014 /* TIPProfileViewController.swift */; };
+		37079BD71F01914F0022E014 /* TIPRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC31F01914F0022E014 /* TIPRegisterViewController.swift */; };
+		37079BD81F01914F0022E014 /* TIPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC41F01914F0022E014 /* TIPSearchViewController.swift */; };
+		37079BD91F01914F0022E014 /* TIPSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC51F01914F0022E014 /* TIPSettingsViewController.swift */; };
+		37079BDA1F01914F0022E014 /* TIPStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC61F01914F0022E014 /* TIPStoryViewController.swift */; };
+		37079BDB1F01914F0022E014 /* TIPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC71F01914F0022E014 /* TIPTabBarController.swift */; };
+		37079BDC1F01914F0022E014 /* TIPUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BC81F01914F0022E014 /* TIPUserTableViewController.swift */; };
+		37079BDF1F01915D0022E014 /* TIPEditProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BDD1F01915D0022E014 /* TIPEditProfileHeaderView.swift */; };
+		37079BE01F01915D0022E014 /* TIPTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BDE1F01915D0022E014 /* TIPTipView.swift */; };
+		37079BE21F0191830022E014 /* TIPAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE11F0191830022E014 /* TIPAPIClient.swift */; };
+		37079BE41F01918E0022E014 /* TIPStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE31F01918E0022E014 /* TIPStory.swift */; };
 		37079BEC1F0191A40022E014 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE51F0191A40022E014 /* PhotoViewController.swift */; };
 		37079BED1F0191A40022E014 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE61F0191A40022E014 /* PreviewView.swift */; };
 		37079BEE1F0191A40022E014 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE71F0191A40022E014 /* SwiftyCamButton.swift */; };
@@ -59,25 +59,25 @@
 		37079BF01F0191A40022E014 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BE91F0191A40022E014 /* SwiftyCamViewControllerDelegate.swift */; };
 		37079BF11F0191A40022E014 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BEA1F0191A40022E014 /* SwiftyRecordButton.swift */; };
 		37079BF21F0191A40022E014 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BEB1F0191A40022E014 /* VideoViewController.swift */; };
-		370E36661E43B22900F8FF9E /* IROPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* IROPost.swift */; };
-		370E36681E43B24500F8FF9E /* IROUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* IROUser.swift */; };
-		37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E031E8EB6A200E1AF62 /* IROValidator.swift */; };
-		374E5B361EE77FC800A0CD75 /* IROShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374E5B351EE77FC800A0CD75 /* IROShape.swift */; };
-		3762A53A1E96C1F4007FDD51 /* IROMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */; };
+		370E36661E43B22900F8FF9E /* TIPPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* TIPPost.swift */; };
+		370E36681E43B24500F8FF9E /* TIPUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* TIPUser.swift */; };
+		37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E031E8EB6A200E1AF62 /* TIPValidator.swift */; };
+		374E5B361EE77FC800A0CD75 /* TIPShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374E5B351EE77FC800A0CD75 /* TIPShape.swift */; };
+		3762A53A1E96C1F4007FDD51 /* TIPMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */; };
 		37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B192C41EE7148800D07F53 /* StoreKit.framework */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
-		37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* IROFeedItem.swift */; };
+		37C49C371EC68BB500187EBE /* TIPFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* TIPFeedItem.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.release.xcconfig"; sourceTree = "<group>"; };
-		3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchUser.swift; path = Models/IROSearchUser.swift; sourceTree = "<group>"; };
-		3704A4CA1F017C3800D141C1 /* IROParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROParser.swift; path = Networking/IROParser.swift; sourceTree = "<group>"; };
+		3702E6D21EC3770000A8D0AB /* TIPSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchUser.swift; path = Models/TIPSearchUser.swift; sourceTree = "<group>"; };
+		3704A4CA1F017C3800D141C1 /* TIPParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPParser.swift; path = Networking/TIPParser.swift; sourceTree = "<group>"; };
 		37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UINavigationBar+Style.swift"; path = "Extensions/UINavigationBar+Style.swift"; sourceTree = "<group>"; };
-		37079B911F018FDB0022E014 /* IROStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStyle.swift; path = Config/IROStyle.swift; sourceTree = "<group>"; };
+		37079B911F018FDB0022E014 /* TIPStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStyle.swift; path = Config/TIPStyle.swift; sourceTree = "<group>"; };
 		37079B931F01900A0022E014 /* CALayer+TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CALayer+TextField.swift"; path = "Extensions/CALayer+TextField.swift"; sourceTree = "<group>"; };
 		37079B941F01900B0022E014 /* UIColor+PremiumSnap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+PremiumSnap.swift"; path = "Extensions/UIColor+PremiumSnap.swift"; sourceTree = "<group>"; };
 		37079B951F01900B0022E014 /* UIImage+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+URL.swift"; path = "Extensions/UIImage+URL.swift"; sourceTree = "<group>"; };
@@ -88,37 +88,37 @@
 		37079B9E1F0191290022E014 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = smile.json; path = UI/Animations/smile.json; sourceTree = "<group>"; };
 		37079B9F1F0191290022E014 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = star.json; path = UI/Animations/star.json; sourceTree = "<group>"; };
 		37079BA01F0191290022E014 /* sun.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sun.json; path = UI/Animations/sun.json; sourceTree = "<group>"; };
-		37079BA71F0191340022E014 /* IROCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCoinTableViewCell.swift; path = UI/Cells/IROCoinTableViewCell.swift; sourceTree = "<group>"; };
-		37079BA81F0191340022E014 /* IROEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileTableViewCell.swift; path = UI/Cells/IROEditProfileTableViewCell.swift; sourceTree = "<group>"; };
-		37079BA91F0191340022E014 /* IROFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedCollectionViewCell.swift; path = UI/Cells/IROFeedCollectionViewCell.swift; sourceTree = "<group>"; };
-		37079BAA1F0191340022E014 /* IROSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchCollectionViewCell.swift; path = UI/Cells/IROSearchCollectionViewCell.swift; sourceTree = "<group>"; };
-		37079BAB1F0191340022E014 /* IROShapeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROShapeCollectionViewCell.swift; path = UI/Cells/IROShapeCollectionViewCell.swift; sourceTree = "<group>"; };
-		37079BB11F0191410022E014 /* IROButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROButton.swift; path = UI/Controls/IROButton.swift; sourceTree = "<group>"; };
-		37079BB21F0191410022E014 /* IROTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTextField.swift; path = UI/Controls/IROTextField.swift; sourceTree = "<group>"; };
-		37079BB51F01914F0022E014 /* IROBuyCoinsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROBuyCoinsViewController.swift; path = "UI/View Controllers/IROBuyCoinsViewController.swift"; sourceTree = "<group>"; };
-		37079BB61F01914F0022E014 /* IROCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROCamViewController.swift; path = "UI/View Controllers/IROCamViewController.swift"; sourceTree = "<group>"; };
-		37079BB71F01914F0022E014 /* IROEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileViewController.swift; path = "UI/View Controllers/IROEditProfileViewController.swift"; sourceTree = "<group>"; };
-		37079BB81F01914F0022E014 /* IROFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedViewController.swift; path = "UI/View Controllers/IROFeedViewController.swift"; sourceTree = "<group>"; };
-		37079BB91F01914F0022E014 /* IROFollowersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFollowersViewController.swift; path = "UI/View Controllers/IROFollowersViewController.swift"; sourceTree = "<group>"; };
-		37079BBA1F01914F0022E014 /* IROFollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFollowingViewController.swift; path = "UI/View Controllers/IROFollowingViewController.swift"; sourceTree = "<group>"; };
-		37079BBB1F01914F0022E014 /* IROForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROForgotPasswordViewController.swift; path = "UI/View Controllers/IROForgotPasswordViewController.swift"; sourceTree = "<group>"; };
-		37079BBC1F01914F0022E014 /* IROLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROLoginViewController.swift; path = "UI/View Controllers/IROLoginViewController.swift"; sourceTree = "<group>"; };
-		37079BBD1F01914F0022E014 /* IROMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMessagesViewController.swift; path = "UI/View Controllers/IROMessagesViewController.swift"; sourceTree = "<group>"; };
-		37079BBE1F01914F0022E014 /* IROPagingTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPagingTabViewController.swift; path = "UI/View Controllers/IROPagingTabViewController.swift"; sourceTree = "<group>"; };
-		37079BBF1F01914F0022E014 /* IROPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPlaceholderViewController.swift; path = "UI/View Controllers/IROPlaceholderViewController.swift"; sourceTree = "<group>"; };
-		37079BC01F01914F0022E014 /* IROPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPostViewController.swift; path = "UI/View Controllers/IROPostViewController.swift"; sourceTree = "<group>"; };
-		37079BC11F01914F0022E014 /* IROPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPreviewViewController.swift; path = "UI/View Controllers/IROPreviewViewController.swift"; sourceTree = "<group>"; };
-		37079BC21F01914F0022E014 /* IROProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROProfileViewController.swift; path = "UI/View Controllers/IROProfileViewController.swift"; sourceTree = "<group>"; };
-		37079BC31F01914F0022E014 /* IRORegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRORegisterViewController.swift; path = "UI/View Controllers/IRORegisterViewController.swift"; sourceTree = "<group>"; };
-		37079BC41F01914F0022E014 /* IROSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchViewController.swift; path = "UI/View Controllers/IROSearchViewController.swift"; sourceTree = "<group>"; };
-		37079BC51F01914F0022E014 /* IROSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSettingsViewController.swift; path = "UI/View Controllers/IROSettingsViewController.swift"; sourceTree = "<group>"; };
-		37079BC61F01914F0022E014 /* IROStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStoryViewController.swift; path = "UI/View Controllers/IROStoryViewController.swift"; sourceTree = "<group>"; };
-		37079BC71F01914F0022E014 /* IROTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTabBarController.swift; path = "UI/View Controllers/IROTabBarController.swift"; sourceTree = "<group>"; };
-		37079BC81F01914F0022E014 /* IROUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUserTableViewController.swift; path = "UI/View Controllers/IROUserTableViewController.swift"; sourceTree = "<group>"; };
-		37079BDD1F01915D0022E014 /* IROEditProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROEditProfileHeaderView.swift; path = UI/Views/IROEditProfileHeaderView.swift; sourceTree = "<group>"; };
-		37079BDE1F01915D0022E014 /* IROTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROTipView.swift; path = UI/Views/IROTipView.swift; sourceTree = "<group>"; };
-		37079BE11F0191830022E014 /* IROAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROAPIClient.swift; path = Networking/IROAPIClient.swift; sourceTree = "<group>"; };
-		37079BE31F01918E0022E014 /* IROStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROStory.swift; path = Models/IROStory.swift; sourceTree = "<group>"; };
+		37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPCoinTableViewCell.swift; path = UI/Cells/TIPCoinTableViewCell.swift; sourceTree = "<group>"; };
+		37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEditProfileTableViewCell.swift; path = UI/Cells/TIPEditProfileTableViewCell.swift; sourceTree = "<group>"; };
+		37079BA91F0191340022E014 /* TIPFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedCollectionViewCell.swift; path = UI/Cells/TIPFeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		37079BAA1F0191340022E014 /* TIPSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchCollectionViewCell.swift; path = UI/Cells/TIPSearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		37079BAB1F0191340022E014 /* TIPShapeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPShapeCollectionViewCell.swift; path = UI/Cells/TIPShapeCollectionViewCell.swift; sourceTree = "<group>"; };
+		37079BB11F0191410022E014 /* TIPButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPButton.swift; path = UI/Controls/TIPButton.swift; sourceTree = "<group>"; };
+		37079BB21F0191410022E014 /* TIPTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPTextField.swift; path = UI/Controls/TIPTextField.swift; sourceTree = "<group>"; };
+		37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPBuyCoinsViewController.swift; path = "UI/View Controllers/TIPBuyCoinsViewController.swift"; sourceTree = "<group>"; };
+		37079BB61F01914F0022E014 /* TIPCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPCamViewController.swift; path = "UI/View Controllers/TIPCamViewController.swift"; sourceTree = "<group>"; };
+		37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEditProfileViewController.swift; path = "UI/View Controllers/TIPEditProfileViewController.swift"; sourceTree = "<group>"; };
+		37079BB81F01914F0022E014 /* TIPFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedViewController.swift; path = "UI/View Controllers/TIPFeedViewController.swift"; sourceTree = "<group>"; };
+		37079BB91F01914F0022E014 /* TIPFollowersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFollowersViewController.swift; path = "UI/View Controllers/TIPFollowersViewController.swift"; sourceTree = "<group>"; };
+		37079BBA1F01914F0022E014 /* TIPFollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFollowingViewController.swift; path = "UI/View Controllers/TIPFollowingViewController.swift"; sourceTree = "<group>"; };
+		37079BBB1F01914F0022E014 /* TIPForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPForgotPasswordViewController.swift; path = "UI/View Controllers/TIPForgotPasswordViewController.swift"; sourceTree = "<group>"; };
+		37079BBC1F01914F0022E014 /* TIPLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPLoginViewController.swift; path = "UI/View Controllers/TIPLoginViewController.swift"; sourceTree = "<group>"; };
+		37079BBD1F01914F0022E014 /* TIPMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessagesViewController.swift; path = "UI/View Controllers/TIPMessagesViewController.swift"; sourceTree = "<group>"; };
+		37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPagingTabViewController.swift; path = "UI/View Controllers/TIPPagingTabViewController.swift"; sourceTree = "<group>"; };
+		37079BBF1F01914F0022E014 /* TIPPlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPlaceholderViewController.swift; path = "UI/View Controllers/TIPPlaceholderViewController.swift"; sourceTree = "<group>"; };
+		37079BC01F01914F0022E014 /* TIPPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPostViewController.swift; path = "UI/View Controllers/TIPPostViewController.swift"; sourceTree = "<group>"; };
+		37079BC11F01914F0022E014 /* TIPPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPreviewViewController.swift; path = "UI/View Controllers/TIPPreviewViewController.swift"; sourceTree = "<group>"; };
+		37079BC21F01914F0022E014 /* TIPProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPProfileViewController.swift; path = "UI/View Controllers/TIPProfileViewController.swift"; sourceTree = "<group>"; };
+		37079BC31F01914F0022E014 /* TIPRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPRegisterViewController.swift; path = "UI/View Controllers/TIPRegisterViewController.swift"; sourceTree = "<group>"; };
+		37079BC41F01914F0022E014 /* TIPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchViewController.swift; path = "UI/View Controllers/TIPSearchViewController.swift"; sourceTree = "<group>"; };
+		37079BC51F01914F0022E014 /* TIPSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSettingsViewController.swift; path = "UI/View Controllers/TIPSettingsViewController.swift"; sourceTree = "<group>"; };
+		37079BC61F01914F0022E014 /* TIPStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStoryViewController.swift; path = "UI/View Controllers/TIPStoryViewController.swift"; sourceTree = "<group>"; };
+		37079BC71F01914F0022E014 /* TIPTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPTabBarController.swift; path = "UI/View Controllers/TIPTabBarController.swift"; sourceTree = "<group>"; };
+		37079BC81F01914F0022E014 /* TIPUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPUserTableViewController.swift; path = "UI/View Controllers/TIPUserTableViewController.swift"; sourceTree = "<group>"; };
+		37079BDD1F01915D0022E014 /* TIPEditProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEditProfileHeaderView.swift; path = UI/Views/TIPEditProfileHeaderView.swift; sourceTree = "<group>"; };
+		37079BDE1F01915D0022E014 /* TIPTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPTipView.swift; path = UI/Views/TIPTipView.swift; sourceTree = "<group>"; };
+		37079BE11F0191830022E014 /* TIPAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPAPIClient.swift; path = Networking/TIPAPIClient.swift; sourceTree = "<group>"; };
+		37079BE31F01918E0022E014 /* TIPStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStory.swift; path = Models/TIPStory.swift; sourceTree = "<group>"; };
 		37079BE51F0191A40022E014 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoViewController.swift; path = SwiftyCam/PhotoViewController.swift; sourceTree = "<group>"; };
 		37079BE61F0191A40022E014 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = SwiftyCam/PreviewView.swift; sourceTree = "<group>"; };
 		37079BE71F0191A40022E014 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamButton.swift; path = SwiftyCam/SwiftyCamButton.swift; sourceTree = "<group>"; };
@@ -126,18 +126,18 @@
 		37079BE91F0191A40022E014 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewControllerDelegate.swift; path = SwiftyCam/SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
 		37079BEA1F0191A40022E014 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyRecordButton.swift; path = SwiftyCam/SwiftyRecordButton.swift; sourceTree = "<group>"; };
 		37079BEB1F0191A40022E014 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoViewController.swift; path = SwiftyCam/VideoViewController.swift; sourceTree = "<group>"; };
-		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
-		370E36671E43B24400F8FF9E /* IROUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUser.swift; path = Models/IROUser.swift; sourceTree = "<group>"; };
-		37417E031E8EB6A200E1AF62 /* IROValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROValidator.swift; path = Models/IROValidator.swift; sourceTree = "<group>"; };
-		374E5B351EE77FC800A0CD75 /* IROShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROShape.swift; path = Models/IROShape.swift; sourceTree = "<group>"; };
-		3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROMediaItem.swift; path = Models/IROMediaItem.swift; sourceTree = "<group>"; };
+		370E36651E43B22900F8FF9E /* TIPPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPost.swift; path = Models/TIPPost.swift; sourceTree = "<group>"; };
+		370E36671E43B24400F8FF9E /* TIPUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPUser.swift; path = Models/TIPUser.swift; sourceTree = "<group>"; };
+		37417E031E8EB6A200E1AF62 /* TIPValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPValidator.swift; path = Models/TIPValidator.swift; sourceTree = "<group>"; };
+		374E5B351EE77FC800A0CD75 /* TIPShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPShape.swift; path = Models/TIPShape.swift; sourceTree = "<group>"; };
+		3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMediaItem.swift; path = Models/TIPMediaItem.swift; sourceTree = "<group>"; };
 		37B192C41EE7148800D07F53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37BA70251E36E6070093EAE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37BA70271E36E6070093EAE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37C49C361EC68BB500187EBE /* IROFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFeedItem.swift; path = Models/IROFeedItem.swift; sourceTree = "<group>"; };
+		37C49C361EC68BB500187EBE /* TIPFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedItem.swift; path = Models/TIPFeedItem.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -167,14 +167,14 @@
 		370E36641E43B21100F8FF9E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				37C49C361EC68BB500187EBE /* IROFeedItem.swift */,
-				3762A5391E96C1F4007FDD51 /* IROMediaItem.swift */,
-				370E36651E43B22900F8FF9E /* IROPost.swift */,
-				3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */,
-				374E5B351EE77FC800A0CD75 /* IROShape.swift */,
-				37079BE31F01918E0022E014 /* IROStory.swift */,
-				370E36671E43B24400F8FF9E /* IROUser.swift */,
-				37417E031E8EB6A200E1AF62 /* IROValidator.swift */,
+				37C49C361EC68BB500187EBE /* TIPFeedItem.swift */,
+				3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */,
+				370E36651E43B22900F8FF9E /* TIPPost.swift */,
+				3702E6D21EC3770000A8D0AB /* TIPSearchUser.swift */,
+				374E5B351EE77FC800A0CD75 /* TIPShape.swift */,
+				37079BE31F01918E0022E014 /* TIPStory.swift */,
+				370E36671E43B24400F8FF9E /* TIPUser.swift */,
+				37417E031E8EB6A200E1AF62 /* TIPValidator.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -194,8 +194,8 @@
 		3715BFD71E9D1C4D00C29D9E /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				37079BB11F0191410022E014 /* IROButton.swift */,
-				37079BB21F0191410022E014 /* IROTextField.swift */,
+				37079BB11F0191410022E014 /* TIPButton.swift */,
+				37079BB21F0191410022E014 /* TIPTextField.swift */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -215,8 +215,8 @@
 		373238DF1E4E29A800E787C9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				37079BDD1F01915D0022E014 /* IROEditProfileHeaderView.swift */,
-				37079BDE1F01915D0022E014 /* IROTipView.swift */,
+				37079BDD1F01915D0022E014 /* TIPEditProfileHeaderView.swift */,
+				37079BDE1F01915D0022E014 /* TIPTipView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -224,8 +224,8 @@
 		3762A5361E96B863007FDD51 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				37079BE11F0191830022E014 /* IROAPIClient.swift */,
-				3704A4CA1F017C3800D141C1 /* IROParser.swift */,
+				37079BE11F0191830022E014 /* TIPAPIClient.swift */,
+				3704A4CA1F017C3800D141C1 /* TIPParser.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 		37B192C61EE7316200D07F53 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				37079B911F018FDB0022E014 /* IROStyle.swift */,
+				37079B911F018FDB0022E014 /* TIPStyle.swift */,
 			);
 			name = Config;
 			sourceTree = "<group>";
@@ -311,26 +311,26 @@
 		37BA702E1E36E8EF0093EAE5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				37079BB51F01914F0022E014 /* IROBuyCoinsViewController.swift */,
-				37079BB61F01914F0022E014 /* IROCamViewController.swift */,
-				37079BB71F01914F0022E014 /* IROEditProfileViewController.swift */,
-				37079BB81F01914F0022E014 /* IROFeedViewController.swift */,
-				37079BB91F01914F0022E014 /* IROFollowersViewController.swift */,
-				37079BBA1F01914F0022E014 /* IROFollowingViewController.swift */,
-				37079BBB1F01914F0022E014 /* IROForgotPasswordViewController.swift */,
-				37079BBC1F01914F0022E014 /* IROLoginViewController.swift */,
-				37079BBD1F01914F0022E014 /* IROMessagesViewController.swift */,
-				37079BBE1F01914F0022E014 /* IROPagingTabViewController.swift */,
-				37079BBF1F01914F0022E014 /* IROPlaceholderViewController.swift */,
-				37079BC01F01914F0022E014 /* IROPostViewController.swift */,
-				37079BC11F01914F0022E014 /* IROPreviewViewController.swift */,
-				37079BC21F01914F0022E014 /* IROProfileViewController.swift */,
-				37079BC31F01914F0022E014 /* IRORegisterViewController.swift */,
-				37079BC41F01914F0022E014 /* IROSearchViewController.swift */,
-				37079BC51F01914F0022E014 /* IROSettingsViewController.swift */,
-				37079BC61F01914F0022E014 /* IROStoryViewController.swift */,
-				37079BC71F01914F0022E014 /* IROTabBarController.swift */,
-				37079BC81F01914F0022E014 /* IROUserTableViewController.swift */,
+				37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */,
+				37079BB61F01914F0022E014 /* TIPCamViewController.swift */,
+				37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */,
+				37079BB81F01914F0022E014 /* TIPFeedViewController.swift */,
+				37079BB91F01914F0022E014 /* TIPFollowersViewController.swift */,
+				37079BBA1F01914F0022E014 /* TIPFollowingViewController.swift */,
+				37079BBB1F01914F0022E014 /* TIPForgotPasswordViewController.swift */,
+				37079BBC1F01914F0022E014 /* TIPLoginViewController.swift */,
+				37079BBD1F01914F0022E014 /* TIPMessagesViewController.swift */,
+				37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */,
+				37079BBF1F01914F0022E014 /* TIPPlaceholderViewController.swift */,
+				37079BC01F01914F0022E014 /* TIPPostViewController.swift */,
+				37079BC11F01914F0022E014 /* TIPPreviewViewController.swift */,
+				37079BC21F01914F0022E014 /* TIPProfileViewController.swift */,
+				37079BC31F01914F0022E014 /* TIPRegisterViewController.swift */,
+				37079BC41F01914F0022E014 /* TIPSearchViewController.swift */,
+				37079BC51F01914F0022E014 /* TIPSettingsViewController.swift */,
+				37079BC61F01914F0022E014 /* TIPStoryViewController.swift */,
+				37079BC71F01914F0022E014 /* TIPTabBarController.swift */,
+				37079BC81F01914F0022E014 /* TIPUserTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -338,11 +338,11 @@
 		37BA70351E36F3AF0093EAE5 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				37079BA71F0191340022E014 /* IROCoinTableViewCell.swift */,
-				37079BA81F0191340022E014 /* IROEditProfileTableViewCell.swift */,
-				37079BA91F0191340022E014 /* IROFeedCollectionViewCell.swift */,
-				37079BAA1F0191340022E014 /* IROSearchCollectionViewCell.swift */,
-				37079BAB1F0191340022E014 /* IROShapeCollectionViewCell.swift */,
+				37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */,
+				37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */,
+				37079BA91F0191340022E014 /* TIPFeedCollectionViewCell.swift */,
+				37079BAA1F0191340022E014 /* TIPSearchCollectionViewCell.swift */,
+				37079BAB1F0191340022E014 /* TIPShapeCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -490,58 +490,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37079BAD1F0191340022E014 /* IROEditProfileTableViewCell.swift in Sources */,
-				37079BCB1F01914F0022E014 /* IROEditProfileViewController.swift in Sources */,
-				3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */,
-				37079BCF1F01914F0022E014 /* IROForgotPasswordViewController.swift in Sources */,
+				37079BAD1F0191340022E014 /* TIPEditProfileTableViewCell.swift in Sources */,
+				37079BCB1F01914F0022E014 /* TIPEditProfileViewController.swift in Sources */,
+				3702E6D31EC3770000A8D0AB /* TIPSearchUser.swift in Sources */,
+				37079BCF1F01914F0022E014 /* TIPForgotPasswordViewController.swift in Sources */,
 				37079BF01F0191A40022E014 /* SwiftyCamViewControllerDelegate.swift in Sources */,
-				3762A53A1E96C1F4007FDD51 /* IROMediaItem.swift in Sources */,
-				37079BC91F01914F0022E014 /* IROBuyCoinsViewController.swift in Sources */,
-				37079BD71F01914F0022E014 /* IRORegisterViewController.swift in Sources */,
-				37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */,
-				37079BCA1F01914F0022E014 /* IROCamViewController.swift in Sources */,
+				3762A53A1E96C1F4007FDD51 /* TIPMediaItem.swift in Sources */,
+				37079BC91F01914F0022E014 /* TIPBuyCoinsViewController.swift in Sources */,
+				37079BD71F01914F0022E014 /* TIPRegisterViewController.swift in Sources */,
+				37C49C371EC68BB500187EBE /* TIPFeedItem.swift in Sources */,
+				37079BCA1F01914F0022E014 /* TIPCamViewController.swift in Sources */,
 				37079B961F01900B0022E014 /* CALayer+TextField.swift in Sources */,
-				37079BCE1F01914F0022E014 /* IROFollowingViewController.swift in Sources */,
-				37079BAF1F0191340022E014 /* IROSearchCollectionViewCell.swift in Sources */,
+				37079BCE1F01914F0022E014 /* TIPFollowingViewController.swift in Sources */,
+				37079BAF1F0191340022E014 /* TIPSearchCollectionViewCell.swift in Sources */,
 				37079BEF1F0191A40022E014 /* SwiftyCamViewController.swift in Sources */,
-				37079BE21F0191830022E014 /* IROAPIClient.swift in Sources */,
-				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
-				37079BD51F01914F0022E014 /* IROPreviewViewController.swift in Sources */,
+				37079BE21F0191830022E014 /* TIPAPIClient.swift in Sources */,
+				370E36661E43B22900F8FF9E /* TIPPost.swift in Sources */,
+				37079BD51F01914F0022E014 /* TIPPreviewViewController.swift in Sources */,
 				37079BEC1F0191A40022E014 /* PhotoViewController.swift in Sources */,
-				37079BDB1F01914F0022E014 /* IROTabBarController.swift in Sources */,
+				37079BDB1F01914F0022E014 /* TIPTabBarController.swift in Sources */,
 				37079BF21F0191A40022E014 /* VideoViewController.swift in Sources */,
-				374E5B361EE77FC800A0CD75 /* IROShape.swift in Sources */,
+				374E5B361EE77FC800A0CD75 /* TIPShape.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
-				37079BDA1F01914F0022E014 /* IROStoryViewController.swift in Sources */,
-				37417E041E8EB6A200E1AF62 /* IROValidator.swift in Sources */,
-				37079BCD1F01914F0022E014 /* IROFollowersViewController.swift in Sources */,
-				37079BD31F01914F0022E014 /* IROPlaceholderViewController.swift in Sources */,
-				37079BAE1F0191340022E014 /* IROFeedCollectionViewCell.swift in Sources */,
-				37079BD01F01914F0022E014 /* IROLoginViewController.swift in Sources */,
-				37079BD91F01914F0022E014 /* IROSettingsViewController.swift in Sources */,
-				37079BB41F0191410022E014 /* IROTextField.swift in Sources */,
-				37079BB31F0191410022E014 /* IROButton.swift in Sources */,
-				37079BD41F01914F0022E014 /* IROPostViewController.swift in Sources */,
-				37079BD11F01914F0022E014 /* IROMessagesViewController.swift in Sources */,
+				37079BDA1F01914F0022E014 /* TIPStoryViewController.swift in Sources */,
+				37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */,
+				37079BCD1F01914F0022E014 /* TIPFollowersViewController.swift in Sources */,
+				37079BD31F01914F0022E014 /* TIPPlaceholderViewController.swift in Sources */,
+				37079BAE1F0191340022E014 /* TIPFeedCollectionViewCell.swift in Sources */,
+				37079BD01F01914F0022E014 /* TIPLoginViewController.swift in Sources */,
+				37079BD91F01914F0022E014 /* TIPSettingsViewController.swift in Sources */,
+				37079BB41F0191410022E014 /* TIPTextField.swift in Sources */,
+				37079BB31F0191410022E014 /* TIPButton.swift in Sources */,
+				37079BD41F01914F0022E014 /* TIPPostViewController.swift in Sources */,
+				37079BD11F01914F0022E014 /* TIPMessagesViewController.swift in Sources */,
 				37079B9A1F0191100022E014 /* UIViewController+Alert.swift in Sources */,
-				37079BB01F0191340022E014 /* IROShapeCollectionViewCell.swift in Sources */,
+				37079BB01F0191340022E014 /* TIPShapeCollectionViewCell.swift in Sources */,
 				37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */,
-				37079BAC1F0191340022E014 /* IROCoinTableViewCell.swift in Sources */,
-				37079BD81F01914F0022E014 /* IROSearchViewController.swift in Sources */,
-				37079BDC1F01914F0022E014 /* IROUserTableViewController.swift in Sources */,
-				370E36681E43B24500F8FF9E /* IROUser.swift in Sources */,
-				37079BD21F01914F0022E014 /* IROPagingTabViewController.swift in Sources */,
-				37079BD61F01914F0022E014 /* IROProfileViewController.swift in Sources */,
-				37079BDF1F01915D0022E014 /* IROEditProfileHeaderView.swift in Sources */,
-				3704A4CB1F017C3800D141C1 /* IROParser.swift in Sources */,
+				37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */,
+				37079BD81F01914F0022E014 /* TIPSearchViewController.swift in Sources */,
+				37079BDC1F01914F0022E014 /* TIPUserTableViewController.swift in Sources */,
+				370E36681E43B24500F8FF9E /* TIPUser.swift in Sources */,
+				37079BD21F01914F0022E014 /* TIPPagingTabViewController.swift in Sources */,
+				37079BD61F01914F0022E014 /* TIPProfileViewController.swift in Sources */,
+				37079BDF1F01915D0022E014 /* TIPEditProfileHeaderView.swift in Sources */,
+				3704A4CB1F017C3800D141C1 /* TIPParser.swift in Sources */,
 				37079BED1F0191A40022E014 /* PreviewView.swift in Sources */,
 				37079BF11F0191A40022E014 /* SwiftyRecordButton.swift in Sources */,
 				37079B981F01900B0022E014 /* UIImage+URL.swift in Sources */,
-				37079BE01F01915D0022E014 /* IROTipView.swift in Sources */,
-				37079BE41F01918E0022E014 /* IROStory.swift in Sources */,
-				37079BCC1F01914F0022E014 /* IROFeedViewController.swift in Sources */,
+				37079BE01F01915D0022E014 /* TIPTipView.swift in Sources */,
+				37079BE41F01918E0022E014 /* TIPStory.swift in Sources */,
+				37079BCC1F01914F0022E014 /* TIPFeedViewController.swift in Sources */,
 				37079BEE1F0191A40022E014 /* SwiftyCamButton.swift in Sources */,
-				37079B921F018FDB0022E014 /* IROStyle.swift in Sources */,
+				37079B921F018FDB0022E014 /* TIPStyle.swift in Sources */,
 				37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

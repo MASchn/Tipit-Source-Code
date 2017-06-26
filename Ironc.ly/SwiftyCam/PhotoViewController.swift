@@ -16,7 +16,7 @@
 import UIKit
 import Alamofire
 
-class PhotoViewController: IROPreviewViewController {
+class PhotoViewController: TIPPreviewViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -83,8 +83,8 @@ class PhotoViewController: IROPreviewViewController {
     func tappedPublicButton(sender: UIButton) {
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
-                IROAPIClient.postContent(
-                    user: IROUser.currentUser!,
+                TIPAPIClient.postContent(
+                    user: TIPUser.currentUser!,
                     content: data,
                     type: .image,
                     private: false,
