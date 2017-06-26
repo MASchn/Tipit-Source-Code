@@ -42,13 +42,10 @@ class IROFeedCollectionViewCell: UICollectionViewCell {
             })
         }
         
-        if let profileImage: String = feedItem.profileImage {
-            UIImage.download(urlString: profileImage, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
-                self.userImageView.image = image
-            })
-        } else {
-            self.userImageView.image = #imageLiteral(resourceName: "empty_profile")
-        }
+        UIImage.download(urlString: feedItem.profileImage, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+            self.userImageView.image = image
+        })
+  
     }
     
     override func prepareForReuse() {

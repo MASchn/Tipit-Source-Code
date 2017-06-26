@@ -53,8 +53,10 @@ class IROTabBarController: UITabBarController {
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         profileViewController.tabBarItem.tag = 3
+        let profileNavController: UINavigationController = UINavigationController(rootViewController: profileViewController)
+        profileNavController.isNavigationBarHidden = true
         
-        self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileViewController]
+        self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileNavController]
     }
 
 

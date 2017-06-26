@@ -19,51 +19,47 @@ class IROSearchViewController: UIViewController {
         
         self.view.backgroundColor = .iroGray
         
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.tintColor = .white
-        
-        self.view.addSubview(self.searchTextField)
-        self.view.addSubview(self.cancelSearchButton)
+        self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
         
         self.setUpConstraints()
         
-        IROAPIClient.getAllUsers { (searchUsers: [IROSearchUser]?) in
-            if let searchUsers: [IROSearchUser] = searchUsers {
-                self.searchUsers = searchUsers
+        // Searching with black query requests all users
+        self.search(query: "")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.navigationItem.title = "Search"
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.titleTextAttributes = IROStyle.navBarTitleAttributes
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.barTintColor = .white
+    }
+    
+    // MARK: - Networking
+    func search(query: String) {
+        IROAPIClient.searchUsers(query: query) { (users: [IROSearchUser]?) in
+            if let users: [IROSearchUser] = users {
+                self.searchUsers = users
                 self.searchCollectionView.reloadData()
             }
         }
     }
 
     // MARK: - Lazy Initialization
-    lazy var searchTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        textField.backgroundColor = .white
-        textField.leftViewMode = .always
-        let button: UIButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 54.0, height: 45.0))
-        button.setImage(#imageLiteral(resourceName: "search_bar"), for: .normal)
-        textField.leftView = button
-        textField.placeholder = "Search"
-        textField.returnKeyType = .search
-        textField.autocorrectionType = .no
-        textField.clearButtonMode = .whileEditing
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-    
-    lazy var cancelSearchButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Cancel", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
-        button.addTarget(self, action: #selector(self.tappedCancelSearchButton(sender:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    lazy var searchBar: UISearchBar = {
+        let searchBar: UISearchBar = UISearchBar()
+        searchBar.placeholder = "Search"
+        searchBar.tintColor = .black
+        searchBar.isTranslucent = true
+        searchBar.backgroundImage = UIImage()
+        searchBar.autocapitalizationType = .none
+        searchBar.autocorrectionType = .no
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
     }()
     
     lazy var searchCollectionView: UICollectionView = {
@@ -80,26 +76,15 @@ class IROSearchViewController: UIViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.searchTextField.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.searchTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.searchTextField.rightAnchor.constraint(equalTo: self.cancelSearchButton.leftAnchor).isActive = true
-        self.searchTextField.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.searchBar.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
         
-        self.cancelSearchButton.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.cancelSearchButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.cancelSearchButton.bottomAnchor.constraint(equalTo: self.searchTextField.bottomAnchor).isActive = true
-        self.cancelSearchButton.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
-        
-        self.searchCollectionView.topAnchor.constraint(equalTo: self.searchTextField.bottomAnchor).isActive = true
+        self.searchCollectionView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor).isActive = true
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-    }
-    
-    // MARK: - Actions
-    func tappedCancelSearchButton(sender: UIButton) {
-        self.searchTextField.text = ""
-        self.searchTextField.resignFirstResponder()
     }
 
 }
@@ -162,6 +147,31 @@ extension IROSearchViewController: IROSearchCollectionViewCellDelegate {
     func searchCellDidSelectUser(with userId: String) {
         let profileViewController: IROProfileViewController = IROProfileViewController()
         self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+    
+}
+
+extension IROSearchViewController: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(false, animated: true)
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if let query: String = searchBar.text?.lowercased() {
+            self.search(query: query)
+        }
     }
     
 }

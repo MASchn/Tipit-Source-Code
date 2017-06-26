@@ -201,17 +201,17 @@ class IROAPIClient: NSObject {
         }
     }
     
-    class func getAllUsers(completionHandler: @escaping ([IROSearchUser]?) -> Void) {
+    class func searchUsers(query: String, completionHandler: @escaping ([IROSearchUser]?) -> Void) {
         let headers: HTTPHeaders = self.headers()
-        Alamofire.request(baseURL + "/users", headers: headers).responseJSON { (response) in
-            self.parseSearchUsers(response: response, completionHandler: completionHandler)
-        }
-    }
-    
-    class func searchUsers(searchString: String, completionHandler: @escaping ([IROSearchUser]?) -> Void) {
-        let headers: HTTPHeaders = self.headers()
-        Alamofire.request(baseURL + "/search", headers: headers).responseJSON { (response) in
-            self.parseSearchUsers(response: response, completionHandler: completionHandler)
+        Alamofire.request(
+            baseURL + "/search?search=\(query)",
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).responseJSON { (response) in
+            let searchUsers: [IROSearchUser]? = IROParser.parse(response: response)
+            completionHandler(searchUsers)
         }
     }
     
@@ -220,26 +220,6 @@ class IROAPIClient: NSObject {
             "x-auth" : IROUser.currentUser!.token,
             "Content-Type" : "application/json"
         ]
-    }
-            
-    class func parseSearchUsers(response: DataResponse<Any>, completionHandler: @escaping ([IROSearchUser]?) -> Void) {
-        switch response.result {
-        case .success(let JSONDictionary):
-            if let JSONArray: [[String : Any]] = JSONDictionary as? [[String : Any]] {
-                var searchItems: [IROSearchUser] = [IROSearchUser]()
-                for JSON: [String : Any] in JSONArray {
-                    if let searchItem: IROSearchUser = IROSearchUser(JSON: JSON) {
-                        searchItems.append(searchItem)
-                    }
-                }
-                completionHandler(searchItems)
-            } else {
-                completionHandler(nil)
-            }
-        case .failure(let error):
-            print(error)
-            completionHandler(nil)
-        }
     }
     
     enum IROUserAction: String {
@@ -299,4 +279,16 @@ class IROAPIClient: NSObject {
         }
     }
     
+}
+
+// Debugging
+extension Request {
+    public func debugLog() -> Self {
+        #if DEBUG
+            debugPrint("=======================================")
+            debugPrint(self)
+            debugPrint("=======================================")
+        #endif
+        return self
+    }
 }

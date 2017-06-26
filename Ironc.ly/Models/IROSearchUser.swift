@@ -15,21 +15,29 @@ class IROSearchUser: NSObject {
     var username: String?
     var name: String?
     var profileImageURL: String?
+    var backgroundImageURL: String?
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
         guard let userId: String = JSON["id"] as? String else { return nil }
-        guard let profileImage: String = JSON["profile_image"] as? String else { return nil }
-        guard Array(profileImage.characters).first == "h" else { return nil }
+        guard let username: String = JSON["username"] as? String else { return nil }
+        
+        if let profileImage: String = JSON["profile_image"] as? String {
+            self.profileImageURL = profileImage
+        }
+        
+        if let backgroundImage: String = JSON["background_image"] as? String {
+            self.backgroundImageURL = backgroundImage
+        }
         
         self.userId = userId
         
         if let mediaItem: String = (JSON["media_item"] as? [String : Any])?["url"] as? String {
             self.mediaItemURL = mediaItem
         }
-        self.username = JSON["username"] as? String
+        
+        self.username = username
         self.name = JSON["name"] as? String
-        self.profileImageURL = profileImage
     }
 
 }

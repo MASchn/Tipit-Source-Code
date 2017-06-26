@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Get current user
         if let user: IROUser = IROUser.fetchUserFromDefaults() {
             IROUser.currentUser = user
+            print(user)
         }
         
         self.initializeFeed()

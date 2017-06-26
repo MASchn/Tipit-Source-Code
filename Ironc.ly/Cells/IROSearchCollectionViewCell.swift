@@ -46,17 +46,13 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-        if let profileImageURL: String = searchUser.profileImageURL {
-            UIImage.download(urlString: profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
-                self.profileImageView.image = image
-            })
-        }
+        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+            self.profileImageView.image = image
+        })
         
-        if let postImageURL: String = searchUser.mediaItemURL {
-            UIImage.download(urlString: postImageURL, completion: { (image: UIImage?) in
-                self.postImageView.image = image
-            })
-        }
+        UIImage.download(urlString: searchUser.mediaItemURL, placeHolder: #imageLiteral(resourceName: "empty_background"), completion: { (image: UIImage?) in
+            self.postImageView.image = image
+        })
         
     }
     
@@ -70,7 +66,7 @@ class IROSearchCollectionViewCell: UICollectionViewCell {
     // MARK: - Lazy Initialization
     lazy var postImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = .groupTableViewBackground
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

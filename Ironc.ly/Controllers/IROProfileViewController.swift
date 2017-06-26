@@ -84,6 +84,10 @@ class IROProfileViewController: UIViewController {
     func tappedBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     func configure(with user: IROUser) {
         let backgroundImage: UIImage = user.backgroundImage ?? #imageLiteral(resourceName: "empty_background")

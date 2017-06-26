@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D01EC3744800A8D0AB /* IROSearch.swift */; };
 		3702E6D31EC3770000A8D0AB /* IROSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */; };
 		3702E6D71EC380BB00A8D0AB /* UIColor+PremiumSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */; };
 		3702E6D91EC3848700A8D0AB /* IROStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D81EC3848700A8D0AB /* IROStyle.swift */; };
@@ -15,6 +14,8 @@
 		3704A4C51EF96AB100D141C1 /* IROPagingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4C41EF96AB100D141C1 /* IROPagingTabViewController.swift */; };
 		3704A4C71EF9799200D141C1 /* IROFollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4C61EF9799200D141C1 /* IROFollowersViewController.swift */; };
 		3704A4C91EF979D700D141C1 /* IROFollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4C81EF979D700D141C1 /* IROFollowingViewController.swift */; };
+		3704A4CB1F017C3800D141C1 /* IROParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4CA1F017C3800D141C1 /* IROParser.swift */; };
+		37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */; };
 		370E36661E43B22900F8FF9E /* IROPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* IROPost.swift */; };
 		370E36681E43B24500F8FF9E /* IROUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* IROUser.swift */; };
 		370E366A1E43BBC600F8FF9E /* IROStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36691E43BBC600F8FF9E /* IROStory.swift */; };
@@ -73,7 +74,6 @@
 
 /* Begin PBXFileReference section */
 		2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.release.xcconfig"; sourceTree = "<group>"; };
-		3702E6D01EC3744800A8D0AB /* IROSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearch.swift; path = Networking/IROSearch.swift; sourceTree = "<group>"; };
 		3702E6D21EC3770000A8D0AB /* IROSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROSearchUser.swift; path = Models/IROSearchUser.swift; sourceTree = "<group>"; };
 		3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+PremiumSnap.swift"; sourceTree = "<group>"; };
 		3702E6D81EC3848700A8D0AB /* IROStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStyle.swift; sourceTree = "<group>"; };
@@ -81,6 +81,8 @@
 		3704A4C41EF96AB100D141C1 /* IROPagingTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPagingTabViewController.swift; path = Controllers/IROPagingTabViewController.swift; sourceTree = "<group>"; };
 		3704A4C61EF9799200D141C1 /* IROFollowersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFollowersViewController.swift; path = Controllers/IROFollowersViewController.swift; sourceTree = "<group>"; };
 		3704A4C81EF979D700D141C1 /* IROFollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROFollowingViewController.swift; path = Controllers/IROFollowingViewController.swift; sourceTree = "<group>"; };
+		3704A4CA1F017C3800D141C1 /* IROParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROParser.swift; path = Networking/IROParser.swift; sourceTree = "<group>"; };
+		37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UINavigationBar+Style.swift"; path = "Extensions/UINavigationBar+Style.swift"; sourceTree = "<group>"; };
 		370E36651E43B22900F8FF9E /* IROPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROPost.swift; path = Models/IROPost.swift; sourceTree = "<group>"; };
 		370E36671E43B24400F8FF9E /* IROUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IROUser.swift; path = Models/IROUser.swift; sourceTree = "<group>"; };
 		370E36691E43BBC600F8FF9E /* IROStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IROStory.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		3715BFD61E9D1C4800C29D9E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37B192C71EE7789E00D07F53 /* Animations */,
 				37BA70351E36F3AF0093EAE5 /* Cells */,
 				3715BFD71E9D1C4D00C29D9E /* Controls */,
 				37BA702E1E36E8EF0093EAE5 /* View Controllers */,
@@ -204,6 +207,7 @@
 				3715BFDD1E9D301200C29D9E /* UIViewController+Alert.swift */,
 				37A282F31EAF91D000702AF4 /* UIImage+URL.swift */,
 				3702E6D61EC380BB00A8D0AB /* UIColor+PremiumSnap.swift */,
+				37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -221,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				3762A5371E96B879007FDD51 /* IROAPIClient.swift */,
-				3702E6D01EC3744800A8D0AB /* IROSearch.swift */,
+				3704A4CA1F017C3800D141C1 /* IROParser.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -282,7 +286,6 @@
 		37BA701A1E36E6070093EAE5 /* Ironc.ly */ = {
 			isa = PBXGroup;
 			children = (
-				37B192C71EE7789E00D07F53 /* Animations */,
 				37B192C61EE7316200D07F53 /* Config */,
 				3715BFDC1E9D300300C29D9E /* Extensions */,
 				3715BFD61E9D1C4800C29D9E /* UI */,
@@ -500,7 +503,6 @@
 				37C49C371EC68BB500187EBE /* IROFeedItem.swift in Sources */,
 				372FB5A01EAE47950095AC7A /* IROEditProfileHeaderView.swift in Sources */,
 				3704A4C71EF9799200D141C1 /* IROFollowersViewController.swift in Sources */,
-				3702E6D11EC3744800A8D0AB /* IROSearch.swift in Sources */,
 				370E36661E43B22900F8FF9E /* IROPost.swift in Sources */,
 				3704A4C51EF96AB100D141C1 /* IROPagingTabViewController.swift in Sources */,
 				37417E021E8EB16C00E1AF62 /* CALayer+TextField.swift in Sources */,
@@ -537,8 +539,10 @@
 				3762A5381E96B879007FDD51 /* IROAPIClient.swift in Sources */,
 				370E36681E43B24500F8FF9E /* IROUser.swift in Sources */,
 				378CD25B1EA5A5C6008FF66D /* IROEditProfileViewController.swift in Sources */,
+				3704A4CB1F017C3800D141C1 /* IROParser.swift in Sources */,
 				3704A4C91EF979D700D141C1 /* IROFollowingViewController.swift in Sources */,
 				37A282F41EAF91D000702AF4 /* UIImage+URL.swift in Sources */,
+				37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
