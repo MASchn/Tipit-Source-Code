@@ -2,9 +2,6 @@
 //  IROCamViewController.swift
 //  Ironc.ly
 //
-//  Created by Richard McAteer on 2/15/17.
-//  Copyright © 2017 Richard McAteer. All rights reserved.
-//
 
 import UIKit
 import AVFoundation

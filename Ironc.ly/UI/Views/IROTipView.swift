@@ -2,9 +2,6 @@
 //  IROTipView.swift
 //  Ironc.ly
 //
-//  Created by Richard McAteer on 5/26/17.
-//  Copyright © 2017 Richard McAteer. All rights reserved.
-//
 
 import UIKit
 

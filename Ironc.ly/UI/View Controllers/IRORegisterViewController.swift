@@ -2,9 +2,6 @@
 //  IRORegisterViewController.swift
 //  Ironc.ly
 //
-//  Created by Richard McAteer on 3/24/17.
-//  Copyright © 2017 Richard McAteer. All rights reserved.
-//
 
 import UIKit
 import Alamofire

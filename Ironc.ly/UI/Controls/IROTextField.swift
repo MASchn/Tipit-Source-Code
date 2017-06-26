@@ -2,9 +2,6 @@
 //  IROTextField.swift
 //  Ironc.ly
 //
-//  Created by Richard McAteer on 4/11/17.
-//  Copyright © 2017 Richard McAteer. All rights reserved.
-//
 
 import UIKit
 

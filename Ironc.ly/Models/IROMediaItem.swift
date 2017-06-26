@@ -2,9 +2,6 @@
 //  IROMediaItem.swift
 //  Ironc.ly
 //
-//  Created by Richard McAteer on 4/6/17.
-//  Copyright © 2017 Richard McAteer. All rights reserved.
-//
 
 import Foundation
 
