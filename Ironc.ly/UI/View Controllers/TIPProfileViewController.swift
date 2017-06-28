@@ -9,9 +9,21 @@ import Alamofire
 class TIPProfileViewController: UIViewController {
     
     // MARK: - Properties
+    var userId: String?
     var story: TIPStory?
     lazy var storyPreviewWidth: NSLayoutConstraint = self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 0.0)
     lazy var storyPreviewHeight: NSLayoutConstraint = self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 0.0)
+    
+    convenience init(userId: String, username: String?, profileImage: UIImage?) {
+        self.init(nibName: nil, bundle: nil)
+        
+        self.userId = userId
+        self.usernameLabel.text = username
+        self.profileImageButton.setImage(profileImage, for: .normal)
+        
+        self.followButton.isHidden = false
+        self.editButton.isHidden = true
+    }
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -155,7 +167,6 @@ class TIPProfileViewController: UIViewController {
         button.addTarget(self, action: #selector(self.tappedEditButton), for: .touchUpInside)
         button.clipsToBounds = false
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = true // Edit will be hidden if profile is not for current user
         return button
     }()
     
@@ -350,7 +361,24 @@ class TIPProfileViewController: UIViewController {
     }
     
     func tappedFollowButton() {
-        // Follow network request
+        if let userId: String = userId {
+            
+            if followButton.titleLabel?.text == "Follow" {
+                self.followButton.setTitle("Unfollow", for: .normal)
+                self.followButton.configure(style: .white)
+                TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
+                    //
+                })
+            } else if followButton.titleLabel?.text == "Unfollow" {
+                self.followButton.setTitle("Follow", for: .normal)
+                self.followButton.configure(style: .green)
+                TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
+                    //
+                })
+            }
+
+
+        }
     }
     
     func tappedFollowersButton(sender: UIButton) {

@@ -13,57 +13,50 @@ enum TIPUserImageType: String  {
     case background = "background_image"
 }
 
+enum TIPUserAction: String {
+    case follow = "/follow"
+    case unfollow = "/unfollow"
+    case subscribe = "/subscribe"
+    case unsubscribe = "/unsubscribe"
+}
+
 class TIPAPIClient: NSObject {
     
-    class func getStory(userId: String, completionHandler: @escaping (TIPStory?) -> Void) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
-        let headers: HTTPHeaders = [
+    class var authHeaders: HTTPHeaders {
+        guard let user: TIPUser = TIPUser.currentUser else { return HTTPHeaders() }
+        return [
             "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
-        Alamofire.request(baseURL + "/story?id=\(userId)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
-            self.parseStoryResponse(response: response, completionHandler: { (story: TIPStory?) in
-                completionHandler(story)
-            })
-        }
     }
     
+    class func getStory(userId: String, completionHandler: @escaping (TIPStory?) -> Void) {
+        Alamofire.request(
+            baseURL + "/story?id=\(userId)",
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+        ).responseJSON { (response) in
+            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
+            guard let user: TIPUser = TIPUser.currentUser else { return }
+            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
+                TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
+                    completionHandler(story)
+                })
+            }
+        }
+    }
     
     class func getPersonalStory(completionHandler: @escaping (TIPStory?) -> Void) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
-        let headers: HTTPHeaders = [
-            "x-auth" : user.token,
-            "Content-Type" : "application/json"
-        ]
-        Alamofire.request(baseURL + "/users/me/media_items", headers: headers).responseJSON { (response) in
-            self.parseStoryResponse(response: response, completionHandler: { (story: TIPStory?) in
-                completionHandler(story)
-            })
-        }
-    }
-    
-    // Helper method
-    private class func parseStoryResponse(response: DataResponse<Any>, completionHandler: @escaping (TIPStory?) -> Void) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
-        
-        switch response.result {
-        case .success(let JSONDictionary):
-            if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                var mediaItems: [TIPMediaItem] = []
-                if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
-                    for mediaItemJSON: [String : Any] in mediaItemsJSON {
-                        if let mediaItem: TIPMediaItem = TIPMediaItem(JSON: mediaItemJSON) {
-                            mediaItems.append(mediaItem)
-                        }
-                    }
-                    TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
-                        completionHandler(story)
-                    })
-                }
+        Alamofire.request(baseURL + "/users/me/media_items", headers: self.authHeaders).responseJSON { (response) in
+            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
+            guard let user: TIPUser = TIPUser.currentUser else { return }
+            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
+                TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
+                    completionHandler(story)
+                })
             }
-        case .failure(let error):
-            print(error)
-            completionHandler(nil)
         }
     }
     
@@ -81,7 +74,9 @@ class TIPAPIClient: NSObject {
             method: .post, parameters:
             parameters,
             encoding: JSONEncoding.default,
-            headers: headers).responseJSON { (response) in
+            headers: headers
+        ).responseJSON
+            { (response) in
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -122,13 +117,13 @@ class TIPAPIClient: NSObject {
     }
     
     class func updateUser(parameters: Parameters, completionHandler: @escaping (Bool) -> Void) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
-        
-        let headers: HTTPHeaders = [
-            "x-auth" : user.token,
-            "Content-Type" : "application/json"
-        ]
-        Alamofire.request(baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+        Alamofire.request(
+            baseURL + "/users",
+            method: .patch,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+        ).responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -204,43 +199,20 @@ class TIPAPIClient: NSObject {
         }
     }
     
-    class func searchUsers(query: String, completionHandler: @escaping ([TIPSearchUser]?) -> Void) {
-        let headers: HTTPHeaders = self.headers()
+    class func searchUsers(query: String, completionHandler: @escaping ([TIPSearchUser]?, Error?) -> Void) {
         Alamofire.request(
             baseURL + "/search?search=\(query)",
             method: .get,
             parameters: nil,
             encoding: JSONEncoding.default,
-            headers: headers
+            headers: self.authHeaders
         ).responseJSON { (response) in
-            let searchUsers: [TIPSearchUser]? = TIPParser.parse(response: response)
-            completionHandler(searchUsers)
+            let completion: (users: [TIPSearchUser]?, error: Error?) = TIPParser.handleResponse(response: response)
+            completionHandler(completion.users, completion.error)
         }
     }
     
-    class func headers() -> HTTPHeaders {
-        guard let user: TIPUser = TIPUser.currentUser else { return HTTPHeaders() }
-        
-        return [
-            "x-auth" : user.token,
-            "Content-Type" : "application/json"
-        ]
-    }
-    
-    enum TIPUserAction: String {
-        case follow = "/follow"
-        case unfollow = "/unfollow"
-        case subscribe = "/subscribe"
-        case unsubscribe = "/unsubscribe"
-    }
-    
     class func userAction(action: TIPUserAction, userId: String, completionHandler: @escaping (Bool) -> Void) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
-
-        let headers: HTTPHeaders = [
-            "x-auth" : user.token,
-            "Content-Type" : "application/json"
-        ]
         let parameters: Parameters = [
             "_id" : userId
         ]
@@ -249,7 +221,7 @@ class TIPAPIClient: NSObject {
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default,
-            headers: headers
+            headers: self.authHeaders
             ).responseString { (response) in
                 //
         }

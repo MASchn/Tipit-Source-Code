@@ -8,7 +8,7 @@ import UIKit
 
 class TIPUser: NSObject {
     
-    var userId: String = "abc"
+    var userId: String?
     var username: String?
     var email: String?
     let token: String
@@ -90,9 +90,11 @@ class TIPUser: NSObject {
         }
         else if
             let email: String = JSON["email"] as? String,
-            let token: String = JSON["token"] as? String
+            let token: String = JSON["token"] as? String,
+            let userId: String = JSON["id"] as? String
         {
             let user: TIPUser = TIPUser(
+                userId: userId,
                 username: username,
                 email: email,
                 token: token,
@@ -141,7 +143,8 @@ class TIPUser: NSObject {
         self.coins = coins
     }
     
-    init(username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int) {
+        self.userId = userId
         self.username = username
         self.email = email
         self.token = token

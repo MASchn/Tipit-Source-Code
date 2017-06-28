@@ -35,7 +35,7 @@ class TIPSearchViewController: UIViewController {
     
     // MARK: - Networking
     func search(query: String) {
-        TIPAPIClient.searchUsers(query: query) { (users: [TIPSearchUser]?) in
+        TIPAPIClient.searchUsers(query: query) { (users: [TIPSearchUser]?, error: Error?) in
             if let users: [TIPSearchUser] = users {
                 self.searchUsers = users
                 self.searchCollectionView.reloadData()
@@ -81,6 +81,10 @@ class TIPSearchViewController: UIViewController {
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.searchBar.resignFirstResponder()
+    }    
 
 }
 
@@ -144,8 +148,8 @@ extension TIPSearchViewController: UICollectionViewDelegateFlowLayout {
 
 extension TIPSearchViewController: TIPSearchCollectionViewCellDelegate {
     
-    func searchCellDidSelectUser(with userId: String) {
-        let profileViewController: TIPProfileViewController = TIPProfileViewController()
+    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?) {
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId, username: username, profileImage: profileImage)
         profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }

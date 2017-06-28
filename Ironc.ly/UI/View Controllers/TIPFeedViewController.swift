@@ -138,18 +138,14 @@ extension TIPFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell: TIPFeedCollectionViewCell = self.feedCollectionView.cellForItem(at: indexPath) as! TIPFeedCollectionViewCell
-//        if let userId: String = cell.userId {
-//            TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
-//                if let story: TIPStory = story {
-//                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, isProfile: false)
-//                    self.present(storyViewController, animated: true, completion: nil)
-//                }
-//            })
-//        }
-        
-        let story: TIPStory = TIPStory.mockStory()
-        let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, isProfile: false)
-        self.present(storyViewController, animated: true, completion: nil)
+        if let userId: String = cell.userId {
+            TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
+                if let story: TIPStory = story {
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, isProfile: false)
+                    self.present(storyViewController, animated: true, completion: nil)
+                }
+            })
+        }
     }
     
 }

@@ -20,6 +20,10 @@ class TIPButton: UIButton {
     convenience init(style: TIPButtonStyle) {
         self.init(frame: .zero)
         
+        self.configure(style: style)
+    }
+    
+    func configure(style: TIPButtonStyle) {
         switch style {
         case .green:
             self.setTitleColor(.black, for: .normal)

@@ -6,7 +6,7 @@
 import UIKit
 
 protocol TIPSearchCollectionViewCellDelegate: class {
-    func searchCellDidSelectUser(with userId: String)
+    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?)
 }
 
 class TIPSearchCollectionViewCell: UICollectionViewCell {
@@ -36,6 +36,7 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         self.profileImageView.image = nil
+        self.postImageView.image = nil
     }
     
     func configure(with searchUser: TIPSearchUser) {
@@ -43,7 +44,7 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-        UIImage.download(urlString: searchUser.profileImageURL, completion: { (image: UIImage?) in
+        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
             self.profileImageView.image = image
         })
         
@@ -71,7 +72,6 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
     
     lazy var profileImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.backgroundColor = .lightGray
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +123,7 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     func tappedProfileButton(sender: UIButton) {
         if let userId: String = self.userId {
-            self.delegate?.searchCellDidSelectUser(with: userId)
+            self.delegate?.searchCellDidSelectUser(with: userId, username: self.usernameLabel.text, profileImage: profileImageView.image)
         }
     }
     
