@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         self.initializeFeed()
-        self.window?.makeKeyAndVisible()
         
         return true
     }
@@ -34,14 +33,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func initializeFeed() {
         self.tabBarController = TIPTabBarController()
         self.tabBarController?.delegate = self
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = self.tabBarController
+        self.window?.makeKeyAndVisible()
         
         // Show log in scren if no current user
         if TIPUser.currentUser == nil {
-            let registerViewController: TIPLoginViewController = TIPLoginViewController()
-            let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
+            let navController: UINavigationController = self.initializeSignInController()
             self.tabBarController?.present(navController, animated: false, completion: nil)
         }
+    }
+    
+    func initializeSignInController() -> UINavigationController {
+        let registerViewController: TIPLoginViewController = TIPLoginViewController()
+        let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
+        navController.isNavigationBarHidden = false
+        navController.navigationBar.isTranslucent = true
+        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navController.navigationBar.shadowImage = UIImage()
+        navController.navigationBar.tintColor = .white
+        navController.navigationBar.barStyle = .black
+        return navController
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -70,34 +81,6 @@ extension AppDelegate: UITabBarControllerDelegate {
             return false
         }
         return true
-    }
-    
-}
-
-class TIPNavigationController: UINavigationController {
-    
-    // MARK: - View Lifecycle
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        self.configureForSignIn()
-    }
-    
-    override init(rootViewController: UIViewController) {
-        super.init(rootViewController: rootViewController)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    func configureForSignIn() {
-        self.isNavigationBarHidden = false
-        self.navigationBar.isTranslucent = true
-        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.tintColor = .white
-        self.navigationBar.barStyle = .black
     }
     
 }
