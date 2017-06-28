@@ -44,6 +44,8 @@ class TIPAPIClient: NSObject {
     
     // Helper method
     private class func parseStoryResponse(response: DataResponse<Any>, completionHandler: @escaping (TIPStory?) -> Void) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
         switch response.result {
         case .success(let JSONDictionary):
             if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -54,7 +56,7 @@ class TIPAPIClient: NSObject {
                             mediaItems.append(mediaItem)
                         }
                     }
-                    TIPStory.story(with: TIPUser.currentUser!, mediaItems: mediaItems, completion: { (story: TIPStory?) in
+                    TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
                         completionHandler(story)
                     })
                 }
@@ -120,8 +122,10 @@ class TIPAPIClient: NSObject {
     }
     
     class func updateUser(parameters: Parameters, completionHandler: @escaping (Bool) -> Void) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
         let headers: HTTPHeaders = [
-            "x-auth" : TIPUser.currentUser!.token,
+            "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
         Alamofire.request(baseURL + "/users", method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
@@ -140,8 +144,10 @@ class TIPAPIClient: NSObject {
     }
     
     class func updateUserImage(data: Data, type: TIPUserImageType, completionHandler: @escaping (Bool) -> Void) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
         let headers: HTTPHeaders = [
-            "x-auth" : TIPUser.currentUser!.token,
+            "x-auth" : user.token,
             "content" : "image"
         ]
         
@@ -213,8 +219,10 @@ class TIPAPIClient: NSObject {
     }
     
     class func headers() -> HTTPHeaders {
+        guard let user: TIPUser = TIPUser.currentUser else { return HTTPHeaders() }
+        
         return [
-            "x-auth" : TIPUser.currentUser!.token,
+            "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
     }
@@ -227,8 +235,10 @@ class TIPAPIClient: NSObject {
     }
     
     class func userAction(action: TIPUserAction, userId: String, completionHandler: @escaping (Bool) -> Void) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+
         let headers: HTTPHeaders = [
-            "x-auth" : TIPUser.currentUser!.token,
+            "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
         let parameters: Parameters = [
@@ -246,8 +256,10 @@ class TIPAPIClient: NSObject {
     }
     
     class func getFeed(completionHandler: @escaping ([TIPFeedItem]?) -> Void) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+
         let headers: HTTPHeaders = [
-            "x-auth" : TIPUser.currentUser!.token,
+            "x-auth" : user.token,
             "Content-Type" : "application/json"
         ]
         Alamofire.request(

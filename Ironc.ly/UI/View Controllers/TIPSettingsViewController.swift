@@ -26,28 +26,22 @@ class TIPSettingsViewController: UITableViewController {
     
     // MARK: - UITableViewDataSource
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        if indexPath.section == 1 && indexPath.row == 3 {
+        if indexPath.row == 0 {
             cell.textLabel?.text = "Log Out"
             cell.textLabel?.textColor = .red
-        } else {
-            cell.textLabel?.text = "Settings"
         }
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Important Settings"
-    }
-    
+        
     // MARK: - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!

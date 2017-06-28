@@ -99,11 +99,13 @@ class VideoViewController: TIPPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: { 
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             do {
                 let data: Data = try Data(contentsOf: self.videoURL)
                 TIPAPIClient.postContent(
-                    user: TIPUser.currentUser!,
+                    user: user,
                     content: data,
                     type: .video,
                     private: false,

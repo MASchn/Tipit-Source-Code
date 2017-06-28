@@ -145,7 +145,7 @@ extension TIPSearchViewController: UICollectionViewDelegateFlowLayout {
 extension TIPSearchViewController: TIPSearchCollectionViewCellDelegate {
     
     func searchCellDidSelectUser(with userId: String) {
-        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId)
+        let profileViewController: TIPProfileViewController = TIPProfileViewController()
         profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }

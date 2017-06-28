@@ -81,10 +81,12 @@ class PhotoViewController: TIPPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
                 TIPAPIClient.postContent(
-                    user: TIPUser.currentUser!,
+                    user: user,
                     content: data,
                     type: .image,
                     private: false,

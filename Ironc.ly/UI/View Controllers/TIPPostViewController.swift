@@ -78,7 +78,9 @@ class TIPPostViewController: UIViewController {
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
-        if self.post.isPrivate == false || TIPUser.currentUser!.unlockedAllContent == true {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
+        if self.post.isPrivate == false || user.unlockedAllContent == true {
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -272,7 +274,9 @@ class TIPPostViewController: UIViewController {
     }
     
     func tappedTipButton(sender: UIButton) {
-        if self.post.isPrivate == false || TIPUser.currentUser!.unlockedAllContent == true {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
+        if self.post.isPrivate == false || user.unlockedAllContent == true {
             self.showTipView()
         } else {
             self.showLockedAlert()

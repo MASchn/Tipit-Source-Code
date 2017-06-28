@@ -101,6 +101,8 @@ class TIPBuyCoinsViewController: UIViewController {
     }
     
     func purchase(product: SKProduct) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+
         self.showAlert(title: "Buy coins", message: product.productIdentifier) {
             guard let user: TIPUser = TIPUser.currentUser else { return }
             let coins: Int = TIPCoinsFormatter.coins(productIdentifier: product.productIdentifier)
@@ -112,7 +114,7 @@ class TIPBuyCoinsViewController: UIViewController {
             
             // TODO: Shouldn't have to know about API fields here. Refactorable.
             let parameters: [String: Any] = [
-                "coins" : TIPUser.currentUser!.coins
+                "coins" : user.coins
             ]
             
             TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
@@ -166,10 +168,12 @@ extension TIPBuyCoinsViewController: SKPaymentTransactionObserver {
     }
     
     func complete(transaction: SKPaymentTransaction) {
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+
         let productId: String = transaction.payment.productIdentifier
         let coins = TIPCoinsFormatter.coins(productIdentifier: productId)
-        TIPUser.currentUser!.coins += coins
-        self.coinsLabel.text = "\(TIPUser.currentUser!.coins) coins"
+        user.coins += coins
+        self.coinsLabel.text = "\(user.coins) coins"
     }
     
 }

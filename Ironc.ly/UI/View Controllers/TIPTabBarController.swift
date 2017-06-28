@@ -45,7 +45,7 @@ class TIPTabBarController: UITabBarController {
         messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         messagesViewController.tabBarItem.tag = 3
         
-        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: TIPUser.currentUser!.userId)
+        let profileViewController: TIPProfileViewController = TIPProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         profileViewController.tabBarItem.tag = 3

@@ -13,20 +13,6 @@ class TIPProfileViewController: UIViewController {
     lazy var storyPreviewWidth: NSLayoutConstraint = self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 0.0)
     lazy var storyPreviewHeight: NSLayoutConstraint = self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 0.0)
     
-    required init(userId: String) {
-        super.init(nibName: nil, bundle: nil)
-        
-        if userId == TIPUser.currentUser?.userId {
-            self.editButton.isHidden = false
-        } else {
-            self.followButton.isHidden = false
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +51,7 @@ class TIPProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationItem.title = "Profile"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
         
         TIPAPIClient.getPersonalStory { (story: TIPStory?) in
@@ -92,8 +79,14 @@ class TIPProfileViewController: UIViewController {
         
         self.nameLabel.text = user.fullName
         self.usernameLabel.text = user.username
-    }
         
+        if user.userId == TIPUser.currentUser?.userId {
+            self.editButton.isHidden = false
+        } else {
+            self.followButton.isHidden = false
+        }
+    }
+
     // MARK: - Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -334,7 +327,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func tappedSettingsButton() {
-        let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
+        let settingsViewController: TIPSettingsViewController = TIPSettingsViewController(style: .grouped)
         let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
         self.present(settingsNavController, animated: true, completion: nil)
     }

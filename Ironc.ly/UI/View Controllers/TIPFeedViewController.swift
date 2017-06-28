@@ -24,16 +24,7 @@ class TIPFeedViewController: UIViewController {
         
         self.setUpConstraints()
         
-//        self.getFeed()
-        
-        // TODO: Delete
-        let feedItem: TIPFeedItem = TIPFeedItem(JSON: [
-            "story_image" : ""
-            ])!
-        self.feedItems = [feedItem]
-        self.feedCollectionView.reloadData()
-        self.feedCollectionView.isHidden = false
-        self.emptyView.isHidden = true
+        self.getFeed()
     }
     
     func getFeed() {
@@ -57,7 +48,6 @@ class TIPFeedViewController: UIViewController {
         self.configureTIPNavBar()
         self.navigationItem.title = "Tipit"
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: nil)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
         
