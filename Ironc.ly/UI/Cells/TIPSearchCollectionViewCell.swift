@@ -43,11 +43,11 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+        UIImage.download(urlString: searchUser.profileImageURL, completion: { (image: UIImage?) in
             self.profileImageView.image = image
         })
         
-        UIImage.download(urlString: searchUser.mediaItemURL, placeHolder: #imageLiteral(resourceName: "empty_background"), completion: { (image: UIImage?) in
+        UIImage.download(urlString: searchUser.mediaItemURL, completion: { (image: UIImage?) in
             self.postImageView.image = image
         })
         

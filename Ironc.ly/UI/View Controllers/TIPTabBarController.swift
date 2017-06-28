@@ -21,20 +21,19 @@ class TIPTabBarController: UITabBarController {
         
         self.tabBar.tintColor = .iroGreen
         self.tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
+        self.tabBar.isTranslucent = false
         
         let homeViewController: TIPFeedViewController = TIPFeedViewController()
         homeViewController.tabBarItem = UITabBarItem(title: nil, image: self.homeImage.withRenderingMode(.alwaysOriginal), selectedImage: self.homeImage)
         homeViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         homeViewController.tabBarItem.tag = 0
         let homeNavController: UINavigationController = UINavigationController(rootViewController: homeViewController)
-        homeNavController.navigationBar.isTranslucent = false
         
         let searchViewController: TIPSearchViewController = TIPSearchViewController()
         searchViewController.tabBarItem = UITabBarItem(title: nil, image: self.searchImage.withRenderingMode(.alwaysOriginal), selectedImage: self.searchImage)
         searchViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         searchViewController.tabBarItem.tag = 1
         let searchNavController: UINavigationController = UINavigationController(rootViewController: searchViewController)
-        searchNavController.navigationBar.isTranslucent = false
 
         let cameraViewController: UIViewController = UIViewController()
         cameraViewController.tabBarItem = UITabBarItem(title: nil, image: self.cameraImage.withRenderingMode(.alwaysOriginal), selectedImage: self.cameraImage)
@@ -46,12 +45,11 @@ class TIPTabBarController: UITabBarController {
         messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         messagesViewController.tabBarItem.tag = 3
         
-        let profileViewController: TIPProfileViewController = TIPProfileViewController()
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: TIPUser.currentUser!.userId)
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
         profileViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         profileViewController.tabBarItem.tag = 3
         let profileNavController: UINavigationController = UINavigationController(rootViewController: profileViewController)
-        profileNavController.isNavigationBarHidden = true
         
         self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileNavController]
     }

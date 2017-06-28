@@ -9,6 +9,7 @@ class TIPSearchViewController: UIViewController {
     
     let searchReuseId: String = "iro.reuseId.search"
     var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
+    var emptyStateColors: [UIColor] = [.sampleColor1, .sampleColor2, .sampleColor3, .sampleColor4]
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -29,10 +30,7 @@ class TIPSearchViewController: UIViewController {
         super.viewWillAppear(animated)
 
         self.navigationItem.title = "Search"
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.titleTextAttributes = TIPStyle.navBarTitleAttributes
-        self.navigationController?.navigationBar.barStyle = .default
-        self.navigationController?.navigationBar.barTintColor = .white
+        self.configureTIPNavBar()
     }
     
     // MARK: - Networking
@@ -98,6 +96,11 @@ extension TIPSearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TIPSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.searchReuseId, for: indexPath) as! TIPSearchCollectionViewCell
+        
+        let colorIndex: Int = indexPath.item % 4
+        let color: UIColor = self.emptyStateColors[colorIndex]
+        cell.postImageView.backgroundColor = color
+        
         let searchUser: TIPSearchUser = self.searchUsers[indexPath.item]
         cell.configure(with: searchUser)
         cell.delegate = self
@@ -142,7 +145,8 @@ extension TIPSearchViewController: UICollectionViewDelegateFlowLayout {
 extension TIPSearchViewController: TIPSearchCollectionViewCellDelegate {
     
     func searchCellDidSelectUser(with userId: String) {
-        let profileViewController: TIPProfileViewController = TIPProfileViewController()
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId)
+        profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }
     
@@ -162,6 +166,12 @@ extension TIPSearchViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let query: String = searchBar.text?.lowercased() {
+            self.search(query: query)
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

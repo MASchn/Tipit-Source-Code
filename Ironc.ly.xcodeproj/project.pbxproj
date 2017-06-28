@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3702E6D31EC3770000A8D0AB /* TIPSearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3702E6D21EC3770000A8D0AB /* TIPSearchUser.swift */; };
 		3704A4CB1F017C3800D141C1 /* TIPParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3704A4CA1F017C3800D141C1 /* TIPParser.swift */; };
-		37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */; };
+		37079B901F018F790022E014 /* UIViewContr+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B8F1F018F790022E014 /* UIViewContr+Style.swift */; };
 		37079B921F018FDB0022E014 /* TIPStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B911F018FDB0022E014 /* TIPStyle.swift */; };
 		37079B961F01900B0022E014 /* CALayer+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B931F01900A0022E014 /* CALayer+TextField.swift */; };
 		37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B941F01900B0022E014 /* UIColor+PremiumSnap.swift */; };
@@ -76,7 +76,7 @@
 		2D9390AE0C7C973632987C98 /* Pods-Ironc.ly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.release.xcconfig"; sourceTree = "<group>"; };
 		3702E6D21EC3770000A8D0AB /* TIPSearchUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchUser.swift; path = Models/TIPSearchUser.swift; sourceTree = "<group>"; };
 		3704A4CA1F017C3800D141C1 /* TIPParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPParser.swift; path = Networking/TIPParser.swift; sourceTree = "<group>"; };
-		37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UINavigationBar+Style.swift"; path = "Extensions/UINavigationBar+Style.swift"; sourceTree = "<group>"; };
+		37079B8F1F018F790022E014 /* UIViewContr+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewContr+Style.swift"; path = "Extensions/UIViewContr+Style.swift"; sourceTree = "<group>"; };
 		37079B911F018FDB0022E014 /* TIPStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStyle.swift; path = Config/TIPStyle.swift; sourceTree = "<group>"; };
 		37079B931F01900A0022E014 /* CALayer+TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CALayer+TextField.swift"; path = "Extensions/CALayer+TextField.swift"; sourceTree = "<group>"; };
 		37079B941F01900B0022E014 /* UIColor+PremiumSnap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+PremiumSnap.swift"; path = "Extensions/UIColor+PremiumSnap.swift"; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 				37079B931F01900A0022E014 /* CALayer+TextField.swift */,
 				37079B941F01900B0022E014 /* UIColor+PremiumSnap.swift */,
 				37079B951F01900B0022E014 /* UIImage+URL.swift */,
-				37079B8F1F018F790022E014 /* UINavigationBar+Style.swift */,
+				37079B8F1F018F790022E014 /* UIViewContr+Style.swift */,
 				37079B991F0191100022E014 /* UIViewController+Alert.swift */,
 			);
 			name = Extensions;
@@ -542,7 +542,7 @@
 				37079BCC1F01914F0022E014 /* TIPFeedViewController.swift in Sources */,
 				37079BEE1F0191A40022E014 /* SwiftyCamButton.swift in Sources */,
 				37079B921F018FDB0022E014 /* TIPStyle.swift in Sources */,
-				37079B901F018F790022E014 /* UINavigationBar+Style.swift in Sources */,
+				37079B901F018F790022E014 /* UIViewContr+Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

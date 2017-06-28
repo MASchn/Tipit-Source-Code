@@ -54,13 +54,11 @@ class TIPFeedViewController: UIViewController {
             self.getFeed()
         }
         
+        self.configureTIPNavBar()
         self.navigationItem.title = "Tipit"
-        self.navigationController?.navigationBar.titleTextAttributes = TIPStyle.navBarTitleAttributes
-        self.navigationController?.navigationBar.barStyle = .default
-        self.navigationController?.navigationBar.barTintColor = .white
-                
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "notification").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.changeLayout))
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
         
     // MARK: - Lazy Initialization

@@ -8,6 +8,7 @@ import UIKit
 
 class TIPUser: NSObject {
     
+    var userId: String = "abc"
     var username: String?
     var email: String?
     let token: String
