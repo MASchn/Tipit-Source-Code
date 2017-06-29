@@ -116,12 +116,9 @@ extension TIPFeedViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TIPFeedCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.feedReuseId, for: indexPath) as! TIPFeedCollectionViewCell
+        cell.delegate = self
         let feedItem: TIPFeedItem = self.feedItems[indexPath.item]
         cell.configure(with: feedItem)
-        
-        // Mock
-        cell.postImageView.image = #imageLiteral(resourceName: "demo")
-        
         return cell
     }
     
@@ -156,6 +153,16 @@ extension TIPFeedViewController: UICollectionViewDelegate {
                 }
             })
         }
+    }
+    
+}
+
+extension TIPFeedViewController: TIPStoryCollectionViewCellDelegate {
+    
+    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?) {
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId, username: username, profileImage: profileImage)
+        profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
+        self.navigationController?.pushViewController(profileViewController, animated: true)
     }
     
 }

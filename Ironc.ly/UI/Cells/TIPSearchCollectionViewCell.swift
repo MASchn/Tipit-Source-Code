@@ -5,25 +5,14 @@
 
 import UIKit
 
-protocol TIPSearchCollectionViewCellDelegate: class {
-    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?)
-}
-
-class TIPSearchCollectionViewCell: UICollectionViewCell {
+class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     
     // MARK: - Properties
-    var userId: String?
-    weak var delegate: TIPSearchCollectionViewCellDelegate?
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.contentView.addSubview(self.postImageView)
-        self.contentView.addSubview(self.profileButton)
-        self.contentView.addSubview(self.usernameLabel)
-        self.contentView.addSubview(self.profileImageView)
-        
+                
         self.setUpConstraints()
         self.contentView.layoutIfNeeded()
     }
@@ -61,39 +50,6 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height / 2.0
     }
     
-    // MARK: - Lazy Initialization
-    lazy var postImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    lazy var profileImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    // Invisible button for hit area behind profile image view and username label to go to profile
-    lazy var profileButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var usernameLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     // MARK: - Autolayout
     func setUpConstraints() {
         let hMargin: CGFloat = 10.0
@@ -120,11 +76,6 @@ class TIPSearchCollectionViewCell: UICollectionViewCell {
         self.profileButton.rightAnchor.constraint(equalTo: self.usernameLabel.rightAnchor, constant: hMargin).isActive = true
     }
     
-    // MARK: - Actions
-    func tappedProfileButton(sender: UIButton) {
-        if let userId: String = self.userId {
-            self.delegate?.searchCellDidSelectUser(with: userId, username: self.usernameLabel.text, profileImage: profileImageView.image)
-        }
-    }
+
     
 }

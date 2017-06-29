@@ -69,6 +69,7 @@
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
 		37C49C371EC68BB500187EBE /* TIPFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* TIPFeedItem.swift */; };
+		37DD13A41F05958200237CF8 /* TIPStoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A31F05958200237CF8 /* TIPStoryCollectionViewCell.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +139,7 @@
 		37BA70251E36E6070093EAE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37BA70271E36E6070093EAE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37C49C361EC68BB500187EBE /* TIPFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedItem.swift; path = Models/TIPFeedItem.swift; sourceTree = "<group>"; };
+		37DD13A31F05958200237CF8 /* TIPStoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStoryCollectionViewCell.swift; path = UI/Cells/TIPStoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -340,6 +342,7 @@
 			children = (
 				37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */,
 				37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */,
+				37DD13A31F05958200237CF8 /* TIPStoryCollectionViewCell.swift */,
 				37079BA91F0191340022E014 /* TIPFeedCollectionViewCell.swift */,
 				37079BAA1F0191340022E014 /* TIPSearchCollectionViewCell.swift */,
 				37079BAB1F0191340022E014 /* TIPShapeCollectionViewCell.swift */,
@@ -524,6 +527,7 @@
 				37079BD41F01914F0022E014 /* TIPPostViewController.swift in Sources */,
 				37079BD11F01914F0022E014 /* TIPMessagesViewController.swift in Sources */,
 				37079B9A1F0191100022E014 /* UIViewController+Alert.swift in Sources */,
+				37DD13A41F05958200237CF8 /* TIPStoryCollectionViewCell.swift in Sources */,
 				37079BB01F0191340022E014 /* TIPShapeCollectionViewCell.swift in Sources */,
 				37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */,
 				37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */,

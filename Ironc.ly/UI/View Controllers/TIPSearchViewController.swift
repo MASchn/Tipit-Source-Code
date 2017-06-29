@@ -146,7 +146,7 @@ extension TIPSearchViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension TIPSearchViewController: TIPSearchCollectionViewCellDelegate {
+extension TIPSearchViewController: TIPStoryCollectionViewCellDelegate {
     
     func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?) {
         let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId, username: username, profileImage: profileImage)
