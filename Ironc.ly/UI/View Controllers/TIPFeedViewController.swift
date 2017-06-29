@@ -35,6 +35,7 @@ class TIPFeedViewController: UIViewController {
                 self.feedCollectionView.isHidden = false
                 self.emptyView.isHidden = true
             }
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -67,9 +68,18 @@ class TIPFeedViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
+        collectionView.addSubview(self.refreshControl)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isHidden = true
         return collectionView
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let control: UIRefreshControl = UIRefreshControl()
+        control.backgroundColor = .iroGreen
+        control.tintColor = .white
+        control.addTarget(self, action: #selector(self.getFeed), for: .valueChanged)
+        return control
     }()
     
     // MARK: - Autolayout
