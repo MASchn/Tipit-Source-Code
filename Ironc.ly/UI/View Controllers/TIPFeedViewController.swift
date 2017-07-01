@@ -62,6 +62,7 @@ class TIPFeedViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var emptyView: TIPFeedEmptyView = {
         let view: TIPFeedEmptyView = TIPFeedEmptyView()
+        view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -104,12 +105,18 @@ class TIPFeedViewController: UIViewController {
     func changeLayout() {
         if self.columns == 1 {
             self.columns = 2
-            self.tabBarController!.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "list").withRenderingMode(.alwaysOriginal)
+            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "list").withRenderingMode(.alwaysOriginal)
         } else {
             self.columns = 1
-            self.tabBarController!.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal)
+            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal)
         }
         self.feedCollectionView.reloadData()
+    }
+    
+    // MARK: - Actions
+    func tappedFollowButton() {
+        // Go to Search
+        self.tabBarController?.selectedIndex = 1
     }
     
 }
