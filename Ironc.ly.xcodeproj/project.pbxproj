@@ -61,6 +61,7 @@
 		37079BF21F0191A40022E014 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BEB1F0191A40022E014 /* VideoViewController.swift */; };
 		370E36661E43B22900F8FF9E /* TIPPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36651E43B22900F8FF9E /* TIPPost.swift */; };
 		370E36681E43B24500F8FF9E /* TIPUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E36671E43B24400F8FF9E /* TIPUser.swift */; };
+		3729B7971F08262700CEBAED /* TIPNoInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729B7961F08262700CEBAED /* TIPNoInternetView.swift */; };
 		37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E031E8EB6A200E1AF62 /* TIPValidator.swift */; };
 		374E5B361EE77FC800A0CD75 /* TIPShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374E5B351EE77FC800A0CD75 /* TIPShape.swift */; };
 		3762A53A1E96C1F4007FDD51 /* TIPMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */; };
@@ -133,6 +134,7 @@
 		37079BEB1F0191A40022E014 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoViewController.swift; path = SwiftyCam/VideoViewController.swift; sourceTree = "<group>"; };
 		370E36651E43B22900F8FF9E /* TIPPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPost.swift; path = Models/TIPPost.swift; sourceTree = "<group>"; };
 		370E36671E43B24400F8FF9E /* TIPUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPUser.swift; path = Models/TIPUser.swift; sourceTree = "<group>"; };
+		3729B7961F08262700CEBAED /* TIPNoInternetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPNoInternetView.swift; path = UI/Views/TIPNoInternetView.swift; sourceTree = "<group>"; };
 		37417E031E8EB6A200E1AF62 /* TIPValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPValidator.swift; path = Models/TIPValidator.swift; sourceTree = "<group>"; };
 		374E5B351EE77FC800A0CD75 /* TIPShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPShape.swift; path = Models/TIPShape.swift; sourceTree = "<group>"; };
 		3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMediaItem.swift; path = Models/TIPMediaItem.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				37DD13A71F08110700237CF8 /* TIPFeedEmptyView.swift */,
 				37DD13A91F08111900237CF8 /* TIPNoConnectionView.swift */,
 				37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */,
+				3729B7961F08262700CEBAED /* TIPNoInternetView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				37079BAD1F0191340022E014 /* TIPEditProfileTableViewCell.swift in Sources */,
 				37079BCB1F01914F0022E014 /* TIPEditProfileViewController.swift in Sources */,
 				3702E6D31EC3770000A8D0AB /* TIPSearchUser.swift in Sources */,
+				3729B7971F08262700CEBAED /* TIPNoInternetView.swift in Sources */,
 				37079BCF1F01914F0022E014 /* TIPForgotPasswordViewController.swift in Sources */,
 				37079BF01F0191A40022E014 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				3762A53A1E96C1F4007FDD51 /* TIPMediaItem.swift in Sources */,

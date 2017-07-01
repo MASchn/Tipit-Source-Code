@@ -18,6 +18,7 @@ class TIPSearchUser: NSObject {
     init?(JSON: [String : Any]) {
         guard let userId: String = JSON["id"] as? String else { return nil }
         guard let username: String = JSON["username"] as? String else { return nil }
+        guard username.characters.count > 0 else { return nil }
         
         if let profileImage: String = JSON["profile_image"] as? String {
             self.profileImageURL = profileImage

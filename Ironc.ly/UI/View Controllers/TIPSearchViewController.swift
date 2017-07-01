@@ -23,7 +23,7 @@ class TIPSearchViewController: UIViewController {
         self.setUpConstraints()
         
         // Searching with black query requests all users
-        self.search(query: "")
+        self.search()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,11 +34,14 @@ class TIPSearchViewController: UIViewController {
     }
     
     // MARK: - Networking
-    func search(query: String) {
-        TIPAPIClient.searchUsers(query: query) { (users: [TIPSearchUser]?, error: Error?) in
-            if let users: [TIPSearchUser] = users {
-                self.searchUsers = users
-                self.searchCollectionView.reloadData()
+    func search() {
+        if let query: String = self.searchBar.text?.lowercased() {
+            TIPAPIClient.searchUsers(query: query) { (users: [TIPSearchUser]?, error: Error?) in
+                if let users: [TIPSearchUser] = users {
+                    self.searchUsers = users
+                    self.searchCollectionView.reloadData()
+                }
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -65,8 +68,27 @@ class TIPSearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
+        collectionView.addSubview(self.refreshControl)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    lazy var noResultsView: UIView = {
+        let view: UIView = UIView()
+        return view
+    }()
+    
+    lazy var noInternetView: TIPEmptyStateView = {
+        let view: TIPEmptyStateView = TIPEmptyStateView()
+        return view
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let control: UIRefreshControl = UIRefreshControl()
+        control.backgroundColor = .iroGreen
+        control.tintColor = .white
+        control.addTarget(self, action: #selector(self.search), for: .valueChanged)
+        return control
     }()
     
     // MARK: - Autolayout
@@ -173,16 +195,12 @@ extension TIPSearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if let query: String = searchBar.text?.lowercased() {
-            self.search(query: query)
-        }
+        self.search()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        if let query: String = searchBar.text?.lowercased() {
-            self.search(query: query)
-        }
+        self.search()
     }
     
 }
