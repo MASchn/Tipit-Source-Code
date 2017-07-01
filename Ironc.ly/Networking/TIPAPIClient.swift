@@ -37,7 +37,10 @@ class TIPAPIClient: NSObject {
             parameters: nil,
             encoding: JSONEncoding.default,
             headers: self.authHeaders
-        ).responseJSON { (response) in
+        )
+            .debugLog()
+            .responseJSON
+        { (response) in
             let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
             guard let user: TIPUser = TIPUser.currentUser else { return }
             if let mediaItems: [TIPMediaItem] = completion.mediaItems {
@@ -49,7 +52,9 @@ class TIPAPIClient: NSObject {
     }
     
     class func getPersonalStory(completionHandler: @escaping (TIPStory?) -> Void) {
-        Alamofire.request(baseURL + "/users/me/media_items", headers: self.authHeaders).responseJSON { (response) in
+        Alamofire.request(baseURL + "/users/me/media_items", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON { (response) in
             let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
             guard let user: TIPUser = TIPUser.currentUser else { return }
             if let mediaItems: [TIPMediaItem] = completion.mediaItems {

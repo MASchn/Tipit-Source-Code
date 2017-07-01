@@ -11,8 +11,6 @@ class TIPProfileViewController: UIViewController {
     // MARK: - Properties
     var userId: String?
     var story: TIPStory?
-    lazy var storyPreviewWidth: NSLayoutConstraint = self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 0.0)
-    lazy var storyPreviewHeight: NSLayoutConstraint = self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 0.0)
     
     convenience init(userId: String, username: String?, profileImage: UIImage?) {
         self.init(nibName: nil, bundle: nil)
@@ -65,17 +63,6 @@ class TIPProfileViewController: UIViewController {
         self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
-        
-        TIPAPIClient.getPersonalStory { (story: TIPStory?) in
-            if let story: TIPStory = story {
-                self.story = story
-                if let firstPost: TIPPost = story.posts.first {
-                    self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                    self.storyPreviewWidth.constant = 150.0
-                    self.storyPreviewHeight.constant = 150.0
-                }
-            }
-        }
     }
     
     func tappedBackButton() {
@@ -112,6 +99,8 @@ class TIPProfileViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -232,7 +221,6 @@ class TIPProfileViewController: UIViewController {
         let button: UIButton = UIButton()
         button.backgroundColor = .lightGray
         button.layer.borderColor = UIColor.iroGreen.cgColor
-        button.layer.borderWidth = 10.0
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -321,8 +309,8 @@ class TIPProfileViewController: UIViewController {
         
         self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.storyPreviewWidth.isActive = true
-        self.storyPreviewHeight.isActive = true
+        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
     }
     
     // MARK: - Actions

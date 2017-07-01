@@ -29,12 +29,19 @@ class TIPFeedViewController: UIViewController {
     
     func getFeed() {
         TIPAPIClient.getFeed { (feedItems: [TIPFeedItem]?) in
-            if let feedItems: [TIPFeedItem] = feedItems, feedItems.count > 0 {
+            if let feedItems: [TIPFeedItem] = feedItems {
                 self.feedItems = feedItems
                 self.feedCollectionView.reloadData()
-                self.feedCollectionView.isHidden = false
-                self.emptyView.isHidden = true
+                
+                if feedItems.count > 0 {
+                    self.feedCollectionView.isHidden = false
+                    self.emptyView.isHidden = true
+                } else {
+                    self.feedCollectionView.isHidden = true
+                    self.emptyView.isHidden = false
+                }
             }
+            
             self.refreshControl.endRefreshing()
         }
     }
@@ -47,15 +54,14 @@ class TIPFeedViewController: UIViewController {
         }
         
         self.configureTIPNavBar()
-        self.navigationItem.title = "Tipit"
+        self.navigationItem.title = "tipit"
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
         
     // MARK: - Lazy Initialization
-    lazy var emptyView: UIView = {
-        let view: UIView = UIView()
-        view.backgroundColor = .iroGray
+    lazy var emptyView: TIPFeedEmptyView = {
+        let view: TIPFeedEmptyView = TIPFeedEmptyView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

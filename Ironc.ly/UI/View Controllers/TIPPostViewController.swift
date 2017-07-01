@@ -144,7 +144,7 @@ class TIPPostViewController: UIViewController {
         let imageView: UIImageView = UIImageView()
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 1.0
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

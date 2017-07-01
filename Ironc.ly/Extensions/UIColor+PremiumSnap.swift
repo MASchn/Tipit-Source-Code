@@ -15,6 +15,10 @@ extension UIColor {
         return UIColor(red: 216/255.0, green: 216/255.0, blue: 216/255.0, alpha: 1.0)
     }
     
+    class var iroMediumGray: UIColor {
+        return UIColor(red: 151/255.0, green: 151/255.0, blue: 151/255.0, alpha: 1.0)
+    }
+    
     class var iroDarkGray: UIColor {
         return UIColor(red: 74/255.0, green: 74/255.0, blue: 74/255.0, alpha: 1.0)
     }

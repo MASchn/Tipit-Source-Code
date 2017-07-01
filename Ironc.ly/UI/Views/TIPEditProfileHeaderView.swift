@@ -44,7 +44,7 @@ class TIPEditProfileHeaderView: UIView {
     lazy var profileImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = .lightGray
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -70,7 +70,7 @@ class TIPEditProfileHeaderView: UIView {
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.backgroundColor = .lightGray
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
