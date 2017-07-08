@@ -63,7 +63,7 @@ class TIPUser: NSObject {
     }
     
     // MARK: - Initialization
-    class func parseUserJSON(JSON: [String : Any], completionHandler: (Bool) -> Void) {
+    class func parseUserJSON(JSON: [String : Any], completionHandler: @escaping (Bool) -> Void) {
         let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
         let fullName: String? = JSON["first_name"] as? String
         let website: String? = JSON["website"] as? String
@@ -71,6 +71,7 @@ class TIPUser: NSObject {
         let profileImageURL: String? = JSON["profile_image"] as? String
         let backgroundImageURL: String? = JSON["background_image"] as? String
         let coins: Int = JSON["coins"] as? Int ?? 0
+        let userId: String? = JSON["id"] as? String
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -90,8 +91,7 @@ class TIPUser: NSObject {
         }
         else if
             let email: String = JSON["email"] as? String,
-            let token: String = JSON["token"] as? String,
-            let userId: String = JSON["id"] as? String
+            let token: String = JSON["token"] as? String
         {
             let user: TIPUser = TIPUser(
                 userId: userId,

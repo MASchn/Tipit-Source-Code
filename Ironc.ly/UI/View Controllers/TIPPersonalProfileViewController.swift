@@ -31,6 +31,10 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
             self.backgroundImageView.image = image
         }
         
+        self.getPersonalStory()
+    }
+    
+    func getPersonalStory() {
         TIPAPIClient.getPersonalStory { (story: TIPStory?) in
             if let story: TIPStory = story {
                 self.story = story
@@ -38,6 +42,9 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
                     self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
                     self.storyPreviewButton.layer.borderWidth = 10.0
                 }
+            } else {
+                self.storyPreviewButton.setImage(nil, for: .normal)
+                self.storyPreviewButton.layer.borderWidth = 0.0
             }
         }
     }

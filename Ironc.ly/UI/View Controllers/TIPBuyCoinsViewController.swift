@@ -74,7 +74,7 @@ class TIPBuyCoinsViewController: UITableViewController {
     }
     
     func purchase(product: SKProduct) {
-        guard let user: TIPUser = TIPUser.currentUser else { return }
+//        guard let user: TIPUser = TIPUser.currentUser else { return }
 
         self.showAlert(title: "Buy coins", message: product.productIdentifier) {
             guard let user: TIPUser = TIPUser.currentUser else { return }

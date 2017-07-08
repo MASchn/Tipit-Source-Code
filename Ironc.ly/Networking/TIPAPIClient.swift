@@ -106,7 +106,9 @@ class TIPAPIClient: NSObject {
             parameters: parameters,
             encoding: JSONEncoding.default,
             headers: headers
-        ).responseJSON { (response) in
+        )
+            .debugLog()
+            .responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -194,9 +196,9 @@ class TIPAPIClient: NSObject {
             headers: headers
         ).responseJSON { (response) in
             switch response.result {
-            case .success(let JSONDictionary):
+            case .success( _):
                 completionHandler(true)
-            case .failure(let error):
+            case .failure( _):
                 completionHandler(false)
             }
         }
@@ -259,7 +261,7 @@ class TIPAPIClient: NSObject {
                             completionHandler(feedItems)
                         }
                     }
-                case .failure(let error):
+                case .failure( _):
                     completionHandler(nil)
                 }
         }

@@ -25,11 +25,13 @@ class TIPPostViewController: UIViewController {
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
-    init(post: TIPPost, isProfile: Bool) {
+    init(post: TIPPost, username: String, profileImage: UIImage?) {
         self.post = post
     
         super.init(nibName: nil, bundle: nil)
         
+        self.profileImageView.image = profileImage ?? #imageLiteral(resourceName: "empty_profile")
+        self.usernameLabel.text = username
         self.timeRemainingLabel.text = post.formattedTimeRemaining()
         
         if post.type == .video {
@@ -51,7 +53,7 @@ class TIPPostViewController: UIViewController {
                     NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
                     
                     self.view.bringSubview(toFront: self.profileImageView)
-                    self.view.bringSubview(toFront: self.nameLabel)
+                    self.view.bringSubview(toFront: self.usernameLabel)
                 }
             }
         }
@@ -71,7 +73,7 @@ class TIPPostViewController: UIViewController {
 
         self.view.addSubview(self.postImageView)
         self.view.addSubview(self.blurView)
-        self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.profileImageView)
         self.view.addSubview(self.settingsButton)
         self.view.addSubview(self.lockButton)
@@ -88,8 +90,6 @@ class TIPPostViewController: UIViewController {
         }
         
         self.postImageView.image = self.post.contentImage
-        self.nameLabel.text = self.post.username
-        self.profileImageView.image = #imageLiteral(resourceName: "empty_profile")
         
         self.setUpConstraints()
     }
@@ -130,7 +130,7 @@ class TIPPostViewController: UIViewController {
         return view
     }()
     
-    lazy var nameLabel: UILabel = {
+    lazy var usernameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
@@ -210,12 +210,12 @@ class TIPPostViewController: UIViewController {
         self.shadeView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.shadeView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.nameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32.0).isActive = true
-        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
-        self.nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200.0).isActive = true
-        self.nameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32.0).isActive = true
+        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
+        self.usernameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200.0).isActive = true
+        self.usernameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
         
-        self.profileImageView.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
+        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 10.0).isActive = true
         self.profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
         self.profileImageView.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         self.profileImageView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
@@ -261,7 +261,6 @@ class TIPPostViewController: UIViewController {
     }
     
     func showLockedAlert() {
-        let name: String = self.nameLabel.text ?? "this user"
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
             message: "Unlock all private content in the app?",
@@ -321,14 +320,14 @@ class TIPPostViewController: UIViewController {
     // MARK: - Animations
     func hidePostDetails() {
         self.tipButton.alpha = 0.0
-        self.nameLabel.alpha = 0.0
+        self.usernameLabel.alpha = 0.0
         self.profileImageView.alpha = 0.0
         self.timeRemainingLabel.alpha = 0.0
     }
     
     func showPostDetails() {
         self.tipButton.alpha = 1.0
-        self.nameLabel.alpha = 1.0
+        self.usernameLabel.alpha = 1.0
         self.profileImageView.alpha = 1.0
         self.timeRemainingLabel.alpha = 1.0
     }

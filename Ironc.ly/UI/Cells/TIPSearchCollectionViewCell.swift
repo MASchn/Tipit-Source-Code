@@ -28,6 +28,7 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     
     func configure(with searchUser: TIPSearchUser) {
         self.userId = searchUser.userId
+        self.username = searchUser.username
         
         self.usernameLabel.text = searchUser.username
         

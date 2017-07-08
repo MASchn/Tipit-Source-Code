@@ -17,6 +17,7 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     weak var delegate: TIPStoryCollectionViewCellDelegate?
     var userId: String?
+    var username: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,7 +90,7 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     func tappedProfileButton(sender: UIButton) {
         if let userId: String = self.userId {
-            self.delegate?.searchCellDidSelectUser(with: userId, username: self.usernameLabel.text, profileImage: profileImageView.image)
+            self.delegate?.searchCellDidSelectUser(with: userId, username: self.username, profileImage: self.profileImageView.image)
         }
     }
     

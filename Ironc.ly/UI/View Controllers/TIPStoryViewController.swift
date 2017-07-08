@@ -9,14 +9,18 @@ class TIPStoryViewController: UIPageViewController {
     
     // MARK: - Properties
     let story: TIPStory
+    let username: String
+    let profileImage: UIImage?
+    
     var currentIndex: Int = 0
     var isProfile: Bool = false
     var currentViewController: TIPPostViewController?
         
     // MARK: - View Lifecycle
-    init(story: TIPStory, isProfile: Bool) {
+    init(story: TIPStory, username: String, profileImage: UIImage?) {
         self.story = story
-        self.isProfile = isProfile
+        self.username = username
+        self.profileImage = profileImage
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
         
@@ -42,7 +46,7 @@ class TIPStoryViewController: UIPageViewController {
         self.pageControl.numberOfPages = self.story.posts.count
         
         let firstPost: TIPPost = self.story.posts.first!
-        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, isProfile: self.isProfile)
+        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage)
         postViewController.delegate = self
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         self.currentViewController = postViewController
@@ -95,7 +99,7 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let beforeIndex: Int = index - 1
             let beforePost: TIPPost = storyViewController.story.posts[beforeIndex]
-            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, isProfile: self.isProfile)
+            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, username: self.username, profileImage: self.profileImage)
             return beforePostViewController
         }
         
@@ -113,7 +117,7 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let afterIndex: Int = index + 1
             let afterPost: TIPPost = storyViewController.story.posts[afterIndex]
-            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, isProfile: self.isProfile)
+            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, username: self.username, profileImage: self.profileImage)
             return afterPostViewController
         }
         

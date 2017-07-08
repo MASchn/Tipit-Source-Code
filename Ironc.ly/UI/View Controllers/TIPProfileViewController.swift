@@ -63,6 +63,22 @@ class TIPProfileViewController: UIViewController {
         self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
+        
+        if let userId: String = self.userId {
+            self.getStory(userId: userId)
+        }
+    }
+    
+    func getStory(userId: String) {
+        TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
+            if let story: TIPStory = story {
+                self.story = story
+                if let firstPost: TIPPost = story.posts.first {
+                    self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                    self.storyPreviewButton.layer.borderWidth = 10.0
+                }
+            }
+        })
     }
     
     func tappedBackButton() {
@@ -219,9 +235,9 @@ class TIPProfileViewController: UIViewController {
     
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = .lightGray
         button.layer.borderColor = UIColor.iroGreen.cgColor
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
+        button.contentMode = .scaleAspectFill
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -315,8 +331,10 @@ class TIPProfileViewController: UIViewController {
     
     // MARK: - Actions
     func tappedStoryPreviewButton() {
+        let username: String = TIPUser.currentUser?.username ?? ""
+        
         if let story: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, isProfile: true)
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: username, profileImage: TIPUser.currentUser?.profileImage)
             self.present(storyViewController, animated: true, completion: nil)
         }
     }
