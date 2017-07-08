@@ -81,23 +81,27 @@ class PhotoViewController: TIPPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
+        self.postContent(isPrivate: false)
+    }
+    
+    func tappedPrivateButton(sender: UIButton) {
+        self.postContent(isPrivate: true)
+    }
+    
+    func postContent(isPrivate: Bool) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
-        
+
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             if let data: Data = UIImageJPEGRepresentation(self.backgroundImage, 0.5) {
                 TIPAPIClient.postContent(
                     user: user,
                     content: data,
                     type: .image,
-                    private: false,
+                    isPrivate: isPrivate,
                     completionHandler: { (success: Bool) in
-                      print("Successfully uploaded content")
+                        print("Successfully uploaded content")
                 })
             }
         })
-    }
-    
-    func tappedPrivateButton(sender: UIButton) {
-        self.tappedPublicButton(sender: sender)
     }
 }

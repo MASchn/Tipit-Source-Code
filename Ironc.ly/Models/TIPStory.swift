@@ -38,7 +38,7 @@ struct TIPStory {
                             contentURL: item.url,
                             contentImage: image,
                             index: index,
-                            isPrivate: false
+                            isPrivate: item.isPrivate
                         )
                         posts.append(post)
                     }
@@ -50,7 +50,7 @@ struct TIPStory {
                     contentURL: item.url,
                     contentImage: nil,
                     index: index,
-                    isPrivate: false
+                    isPrivate: item.isPrivate
                 )
                 post.type = .video
                 posts.append(post)

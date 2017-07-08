@@ -99,6 +99,14 @@ class VideoViewController: TIPPreviewViewController {
     
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
+        self.postContent(isPrivate: false)
+    }
+    
+    func tappedPrivateButton(sender: UIButton) {
+        self.postContent(isPrivate: true)
+    }
+    
+    func postContent(isPrivate: Bool) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
 
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
@@ -108,7 +116,7 @@ class VideoViewController: TIPPreviewViewController {
                     user: user,
                     content: data,
                     type: .video,
-                    private: false,
+                    isPrivate: isPrivate,
                     completionHandler: {
                         (success: Bool) in
                         //
@@ -117,9 +125,5 @@ class VideoViewController: TIPPreviewViewController {
                 print(error)
             }
         })
-    }
-    
-    func tappedPrivateButton(sender: UIButton) {
-        self.tappedPublicButton(sender: sender)
     }
 }

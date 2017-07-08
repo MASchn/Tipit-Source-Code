@@ -172,11 +172,11 @@ class TIPAPIClient: NSObject {
         case video = "video"
     }
     
-    class func postContent(user: TIPUser, content: Data, type: TIPContentType, private: Bool, completionHandler: @escaping (Bool) -> Void) {
+    class func postContent(user: TIPUser, content: Data, type: TIPContentType, isPrivate: Bool, completionHandler: @escaping (Bool) -> Void) {
         let headers: HTTPHeaders = [
             "x-auth" : user.token
         ]
-        Alamofire.upload(content, to: baseURL + "/media_items?file_type=\(type.rawValue)", method: .post, headers: headers).responseJSON { (response) in
+        Alamofire.upload(content, to: baseURL + "/media_items?file_type=\(type.rawValue)&private=\(isPrivate)", method: .post, headers: headers).responseJSON { (response) in
             completionHandler(true)
         }
     }

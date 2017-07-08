@@ -17,6 +17,12 @@ struct TIPMediaItem {
         }
         self.url = url
         
+        if let isPrivate: Bool = JSON["private"] as? Bool {
+            self.isPrivate = isPrivate
+        } else {
+            self.isPrivate = false
+        }
+        
         // Hacky way of doing this for now
         if String(url.characters.suffix(3)) == "mp4" {
             self.type = .video
@@ -28,4 +34,5 @@ struct TIPMediaItem {
     
     let url: String
     let type: TIPMediaItemType
+    let isPrivate: Bool
 }

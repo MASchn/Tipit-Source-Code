@@ -20,7 +20,7 @@ class TIPUser: NSObject {
     var website: String?
     var bio: String?
     var coins: Int
-    var unlockedAllContent: Bool = true
+    var unlockedAllContent: Bool = false
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
