@@ -39,7 +39,7 @@ class TIPStoryViewController: UIPageViewController {
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeDown)
         
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.iroGray
         
         self.view.addSubview(self.pageControl)
 
