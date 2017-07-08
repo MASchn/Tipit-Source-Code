@@ -15,7 +15,7 @@ protocol TIPBuyCoinsViewControllerDelegate: class {
     func buyCoinsViewControllerDidDismiss()
 }
 
-class TIPBuyCoinsViewController: UIViewController {
+class TIPBuyCoinsViewController: UITableViewController {
     
     // MARK: - Properties
     var productsRequest = SKProductsRequest()
@@ -23,23 +23,20 @@ class TIPBuyCoinsViewController: UIViewController {
     var products: [SKProduct] = []
     weak var delegate: TIPBuyCoinsViewControllerDelegate?
     
-    lazy var tableViewHeight: CGFloat = CGFloat(self.products.count) * self.coinsTableView.rowHeight
-    lazy var tableViewHeightConstraint: NSLayoutConstraint = self.coinsTableView.heightAnchor.constraint(equalToConstant: 0.0)
-    
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .groupTableViewBackground
-
         self.view.addSubview(self.coinsLabel)
-        self.view.addSubview(self.coinsTableView)
         
         let coins: Int = UserDefaults.standard.integer(forKey: "coins")
         let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: coins)
         self.coinsLabel.text = formattedCoins + " coins"
         
-        self.setUpConstraints()
+        self.tableView.tableHeaderView = self.coinsLabel
+        self.tableView.alwaysBounceVertical = true
+        self.tableView.rowHeight = 64.0
+        self.tableView.register(TIPCoinTableViewCell.self, forCellReuseIdentifier: self.coinsReuseId)
         
         self.getAvailableProducts()
     }
@@ -55,36 +52,12 @@ class TIPBuyCoinsViewController: UIViewController {
     
     // MARK: - Lazy Initialization
     lazy var coinsLabel: UILabel = {
-        let label: UILabel = UILabel()
+        let label: UILabel = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 120.0))
         label.font = .systemFont(ofSize: 30.0, weight: UIFontWeightHeavy)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    lazy var coinsTableView: UITableView = {
-        let tableView: UITableView = UITableView()
-        tableView.backgroundColor = .white
-        tableView.alwaysBounceVertical = true
-        tableView.rowHeight = 64.0
-        tableView.register(TIPCoinTableViewCell.self, forCellReuseIdentifier: self.coinsReuseId)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
-    // MARK: - Autolayout
-    func setUpConstraints() {
-        self.coinsLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100.0).isActive = true
-        self.coinsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.coinsLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        
-        self.coinsTableView.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 50.0).isActive = true
-        self.coinsTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.coinsTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.tableViewHeightConstraint.isActive = true
-    }
     
     func getAvailableProducts() {
         let productIds: Set<String> = [
@@ -142,8 +115,7 @@ extension TIPBuyCoinsViewController: SKProductsRequestDelegate {
             CGFloat($0.price) < CGFloat($1.price)
         }
         self.products = products
-        self.tableViewHeightConstraint.constant = self.tableViewHeight
-        self.coinsTableView.reloadData()
+        self.tableView.reloadData()
     }
     
 }
@@ -176,26 +148,20 @@ extension TIPBuyCoinsViewController: SKPaymentTransactionObserver {
         self.coinsLabel.text = "\(user.coins) coins"
     }
     
-}
-
-extension TIPBuyCoinsViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // MARK: - UITableViewDataSource
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.products.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TIPCoinTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.coinsReuseId) as! TIPCoinTableViewCell
         let product: SKProduct = self.products[indexPath.row]
         cell.configure(with: product)
         return cell
     }
     
-}
-
-extension TIPBuyCoinsViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    // MARK: - UITableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let product: SKProduct = self.products[indexPath.row]

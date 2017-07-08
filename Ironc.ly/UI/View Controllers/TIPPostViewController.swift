@@ -370,7 +370,7 @@ class TIPPostViewController: UIViewController {
     }
     
     func presentBuyCoinsModal() {
-        let buyCoinsViewController: TIPBuyCoinsViewController = TIPBuyCoinsViewController()
+        let buyCoinsViewController: TIPBuyCoinsViewController = TIPBuyCoinsViewController(style: .grouped)
         buyCoinsViewController.delegate = self
         let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
         self.present(navigationController, animated: true, completion: nil)
