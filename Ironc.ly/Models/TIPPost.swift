@@ -7,7 +7,9 @@ import Foundation
 import UIKit
 
 struct TIPPost {
-    var user: TIPUser
+    
+    var contentId: String
+    var username: String?
     var contentURL: String?
     var contentImage: UIImage?
     var index: Int? // The index of a post in a story
@@ -15,8 +17,10 @@ struct TIPPost {
     var isPrivate: Bool
     var expiration: Date
     
-    init(user: TIPUser, contentURL: String?, contentImage: UIImage?, index: Int?, isPrivate: Bool) {
-        self.user = user
+    init(contentId: String, username: String?, contentURL: String?, contentImage: UIImage?, index: Int?, isPrivate: Bool) {
+        
+        self.contentId = contentId
+        self.username = username
         self.contentURL = contentURL
         self.contentImage = contentImage
         self.index = index

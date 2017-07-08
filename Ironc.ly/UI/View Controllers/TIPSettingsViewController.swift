@@ -4,8 +4,32 @@
 //
 
 import UIKit
+import MessageUI
 
 class TIPSettingsViewController: UITableViewController {
+    
+    enum TIPSetting: Int {
+        case ContactSupport
+        case LogOut
+        
+        func title() -> String {
+            switch self {
+            case .ContactSupport:
+                return "Contact Support"
+            case .LogOut:
+                return "Log Out"
+            }
+        }
+        
+        func titleColor() -> UIColor {
+            switch self {
+            case .LogOut:
+                return .red
+            default:
+                return .black
+            }
+        }
+    }
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -30,24 +54,34 @@ class TIPSettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "Log Out"
-            cell.textLabel?.textColor = .red
-        }
+        
+        let setting: TIPSetting = TIPSetting(rawValue: indexPath.row)!
+        
+        cell.textLabel?.text = setting.title()
+        cell.textLabel?.textColor = setting.titleColor()
+        
         return cell
     }
         
     // MARK: - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
-        if cell.textLabel?.text == "Log Out" {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let setting: TIPSetting = TIPSetting(rawValue: indexPath.row)!
+        
+        switch setting {
+        case .ContactSupport:
+            self.contactSupport()
+        case .LogOut:
             self.logOut()
         }
+        
     }
     
     // MARK: - Actions
@@ -69,5 +103,25 @@ class TIPSettingsViewController: UITableViewController {
         alert.addAction(noAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func contactSupport() {
+        let mailComposeVC = self.mailComposeViewController()
+        self.present(mailComposeVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeViewController() -> MFMailComposeViewController {
+        let mailComposeVC = MFMailComposeViewController()
+        mailComposeVC.mailComposeDelegate = self
+        mailComposeVC.setToRecipients(["support@tipapp.io"])
+        return mailComposeVC
+    }
 
+}
+
+extension TIPSettingsViewController: MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 }

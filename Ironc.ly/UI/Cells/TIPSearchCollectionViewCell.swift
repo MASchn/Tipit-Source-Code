@@ -7,8 +7,6 @@ import UIKit
 
 class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     
-    // MARK: - Properties
-    
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,14 +49,11 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     }
     
     // MARK: - Autolayout
-    func setUpConstraints() {
+    override func setUpConstraints() {
+        super.setUpConstraints()
+        
         let hMargin: CGFloat = 10.0
         let vMargin: CGFloat = 10.0
-        
-        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
         self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: vMargin).isActive = true
         self.usernameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: hMargin).isActive = true

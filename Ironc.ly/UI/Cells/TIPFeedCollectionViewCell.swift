@@ -23,6 +23,14 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.userId = feedItem.userId
         self.usernameLabel.text = feedItem.username
         
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
+        if feedItem.isPrivate == false || user.unlockedAllContent == true {
+            self.blurView.isHidden = true
+        } else {
+            self.blurView.isHidden = false
+        }
+        
         self.postImageView.alpha = 0.0
         UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
             self.postImageView.image = image
@@ -85,13 +93,10 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     }()
     
     // MARK: - Autolayout
-    func setUpConstraints() {
-        let hMargin: CGFloat = 15.0
+    override func setUpConstraints() {
+        super.setUpConstraints()
         
-        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        let hMargin: CGFloat = 15.0
         
         self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 18.0).isActive = true
         self.usernameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true

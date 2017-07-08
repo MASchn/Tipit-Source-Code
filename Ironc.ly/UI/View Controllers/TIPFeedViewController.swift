@@ -37,13 +37,19 @@ class TIPFeedViewController: UIViewController {
                     self.feedCollectionView.isHidden = false
                     self.emptyView.isHidden = true
                 } else {
-                    self.feedCollectionView.isHidden = true
-                    self.emptyView.isHidden = false
+                    self.showEmptyView()
                 }
+            } else {
+                self.showEmptyView()
             }
             
             self.refreshControl.endRefreshing()
         }
+    }
+    
+    func showEmptyView() {
+        self.feedCollectionView.isHidden = true
+        self.emptyView.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +70,7 @@ class TIPFeedViewController: UIViewController {
         let view: TIPFeedEmptyView = TIPFeedEmptyView()
         view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
         return view
     }()
     

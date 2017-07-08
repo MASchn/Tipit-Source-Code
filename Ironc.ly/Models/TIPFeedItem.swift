@@ -13,6 +13,7 @@ class TIPFeedItem: NSObject {
     var username: String?
     var timeRemaining: String?
     var userId: String?
+    var isPrivate: Bool
     
     init?(JSON: [String : Any]) {
         guard let storyImage: String = JSON["story_image"] as? String else { return nil }
@@ -23,6 +24,7 @@ class TIPFeedItem: NSObject {
         self.username = JSON["username"] as? String
         self.timeRemaining = JSON["time_remaining"] as? String
         self.userId = JSON["user_id"] as? String
+        self.isPrivate = JSON["private"] as? Bool ?? false
     }
     
 }

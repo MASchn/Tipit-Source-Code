@@ -7,6 +7,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import Lottie
+import MessageUI
 
 protocol TIPPostViewControllerDelegate: class {
     func postViewController(viewController: TIPPostViewController, isShowingTipScreen: Bool)
@@ -72,6 +73,7 @@ class TIPPostViewController: UIViewController {
         self.view.addSubview(self.blurView)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.profileImageView)
+        self.view.addSubview(self.settingsButton)
         self.view.addSubview(self.lockButton)
         self.view.addSubview(self.tipButton)
         self.view.addSubview(self.timeRemainingLabel)
@@ -85,15 +87,11 @@ class TIPPostViewController: UIViewController {
             self.lockButton.isHidden = true
         }
         
-        self.setUpConstraints()
-
         self.postImageView.image = self.post.contentImage
-        self.nameLabel.text = self.post.user.username
-        self.profileImageView.image = self.post.user.profileImage
+        self.nameLabel.text = self.post.username
+        self.profileImageView.image = #imageLiteral(resourceName: "empty_profile")
         
-        if self.post.user.profileImage == nil {
-            self.profileImageView.isHidden = true
-        }
+        self.setUpConstraints()
     }
     
     override func viewDidLayoutSubviews() {
@@ -148,6 +146,14 @@ class TIPPostViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var settingsButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
+        button.addTarget(self, action: #selector(self.tappedSettingsButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var tipButton: UIButton = {
@@ -213,6 +219,11 @@ class TIPPostViewController: UIViewController {
         self.profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15.0).isActive = true
         self.profileImageView.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         self.profileImageView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        
+        self.settingsButton.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.settingsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.settingsButton.widthAnchor.constraint(equalToConstant: 60.0).isActive = true
+        self.settingsButton.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
         
         self.lockButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.lockButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
@@ -281,6 +292,30 @@ class TIPPostViewController: UIViewController {
         } else {
             self.showLockedAlert()
         }
+    }
+    
+    func tappedSettingsButton(sender: UIButton) {
+        let actionSheet: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportAction: UIAlertAction = UIAlertAction(title: "Report", style: .destructive) { (action) in
+            let mailComposeVC = self.mailComposeViewController()
+            self.present(mailComposeVC, animated: true, completion: nil)
+        }
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(reportAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func mailComposeViewController() -> MFMailComposeViewController {
+        let mailComposeVC = MFMailComposeViewController()
+        mailComposeVC.mailComposeDelegate = self
+        mailComposeVC.setToRecipients(["support@tipapp.io"])
+        mailComposeVC.setSubject("Report Abusive Content")
+        
+        let contentId: String = self.post.contentId
+        
+        mailComposeVC.setMessageBody("Content ID: \(contentId)", isHTML: false)
+        return mailComposeVC
     }
     
     // MARK: - Animations
@@ -395,6 +430,14 @@ extension TIPPostViewController: TIPBuyCoinsViewControllerDelegate {
     
     func buyCoinsViewControllerDidDismiss() {
         self.updateCoinsButton()
+    }
+    
+}
+
+extension TIPPostViewController: MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 }

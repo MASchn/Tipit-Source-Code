@@ -42,9 +42,8 @@ class TIPAPIClient: NSObject {
             .responseJSON
         { (response) in
             let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            guard let user: TIPUser = TIPUser.currentUser else { return }
             if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
+                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
                     completionHandler(story)
                 })
             }
@@ -56,9 +55,8 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON { (response) in
             let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            guard let user: TIPUser = TIPUser.currentUser else { return }
             if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(with: user, mediaItems: mediaItems, completion: { (story: TIPStory?) in
+                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
                     completionHandler(story)
                 })
             }
@@ -245,7 +243,9 @@ class TIPAPIClient: NSObject {
             parameters: nil,
             encoding: JSONEncoding.default,
             headers: headers
-            ).responseJSON { (response) in
+            )
+            .debugLog()
+            .responseJSON { (response) in
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
