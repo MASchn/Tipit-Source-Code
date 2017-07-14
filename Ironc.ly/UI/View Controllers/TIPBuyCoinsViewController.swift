@@ -38,6 +38,9 @@ class TIPBuyCoinsViewController: UITableViewController {
         self.tableView.rowHeight = 64.0
         self.tableView.register(TIPCoinTableViewCell.self, forCellReuseIdentifier: self.coinsReuseId)
         
+        // Get payment lifecycle callbacks.
+        SKPaymentQueue.default().add(self)
+        
         self.getAvailableProducts()
     }
     
@@ -74,29 +77,8 @@ class TIPBuyCoinsViewController: UITableViewController {
     }
     
     func purchase(product: SKProduct) {
-//        guard let user: TIPUser = TIPUser.currentUser else { return }
-
-        self.showAlert(title: "Buy coins", message: product.productIdentifier) {
-            guard let user: TIPUser = TIPUser.currentUser else { return }
-            let coins: Int = TIPCoinsFormatter.coins(productIdentifier: product.productIdentifier)
-            let newCoins: Int = user.coins + coins
-            user.coins = newCoins
-            user.updateCoins(newAmount: newCoins)
-            let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: newCoins)
-            self.coinsLabel.text = formattedCoins + " coins"
-            
-            // TODO: Shouldn't have to know about API fields here. Refactorable.
-            let parameters: [String: Any] = [
-                "coins" : user.coins
-            ]
-            
-            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
-                // TODO: Success and error handling
-            })
-        }
-        
-//        let payment: SKPayment = SKPayment(product: product)
-//        SKPaymentQueue.default().add(payment)
+        let payment: SKPayment = SKPayment(product: product)
+        SKPaymentQueue.default().add(payment)
     }
     
     func tappedDismissButton() {
@@ -141,11 +123,25 @@ extension TIPBuyCoinsViewController: SKPaymentTransactionObserver {
     
     func complete(transaction: SKPaymentTransaction) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
-
-        let productId: String = transaction.payment.productIdentifier
-        let coins = TIPCoinsFormatter.coins(productIdentifier: productId)
-        user.coins += coins
-        self.coinsLabel.text = "\(user.coins) coins"
+        
+        let coins: Int = TIPCoinsFormatter.coins(productIdentifier: transaction.payment.productIdentifier)
+        let newCoins: Int = user.coins + coins
+        user.coins = newCoins
+        user.updateCoins(newAmount: newCoins)
+        let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: newCoins)
+        self.coinsLabel.text = formattedCoins + " coins"
+        let parameters: [String: Any] = [
+            "coins" : user.coins
+        ]
+        TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+            // TODO: Success and error handling
+        })
+        SKPaymentQueue.default().finishTransaction(transaction)
+    }
+    
+    private func fail(transaction: SKPaymentTransaction) {
+        self.showAlert(title: "Purchase failed", message: "Please try again later", completion: nil)
+        SKPaymentQueue.default().finishTransaction(transaction)
     }
     
     // MARK: - UITableViewDataSource
