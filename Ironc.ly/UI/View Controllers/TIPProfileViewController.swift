@@ -12,15 +12,41 @@ class TIPProfileViewController: UIViewController {
     var userId: String?
     var story: TIPStory?
     
-    convenience init(userId: String, username: String?, profileImage: UIImage?) {
+    // MARK: - View Lifecycle
+    convenience init(searchUser: TIPSearchUser) {
         self.init(nibName: nil, bundle: nil)
-        
-        self.userId = userId
-        self.usernameLabel.text = username
-        self.profileImageButton.setImage(profileImage, for: .normal)
+
+        self.userId = searchUser.userId
+        self.usernameLabel.text = searchUser.username
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
+        
+        if searchUser.following == false {
+            self.showFollowButton()
+        } else {
+            self.showUnfollowButton()
+        }
+        
+        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
+            self.profileImageButton.setImage(image, for: .normal)
+        })
+    }
+    
+    convenience init(feedItem: TIPFeedItem) {
+        self.init(nibName: nil, bundle: nil)
+
+        self.userId = feedItem.userId
+        self.usernameLabel.text = feedItem.username
+        
+        self.followButton.isHidden = false
+        self.editButton.isHidden = true
+        
+        self.showUnfollowButton()
+        
+        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
+            self.profileImageButton.setImage(image, for: .normal)
+        })
     }
     
     // MARK: - View Lifecycle
@@ -132,7 +158,7 @@ class TIPProfileViewController: UIViewController {
         let button: UIButton = UIButton()
         button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(self.tappedProfileButton), for: .touchUpInside)
-        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -237,7 +263,7 @@ class TIPProfileViewController: UIViewController {
         let button: UIButton = UIButton()
         button.layer.borderColor = UIColor.iroGreen.cgColor
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
-        button.contentMode = .scaleAspectFill
+        button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -368,23 +394,38 @@ class TIPProfileViewController: UIViewController {
     
     func tappedFollowButton() {
         if let userId: String = userId {
-            
             if followButton.titleLabel?.text == "Follow" {
-                self.followButton.setTitle("Unfollow", for: .normal)
-                self.followButton.configure(style: .white)
-                TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
-                    //
-                })
+                self.showUnfollowButton()
+                self.unfollow(userId: userId)
             } else if followButton.titleLabel?.text == "Unfollow" {
-                self.followButton.setTitle("Follow", for: .normal)
-                self.followButton.configure(style: .green)
-                TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
-                    //
-                })
+                self.showFollowButton()
+                self.follow(userId: userId)
             }
-
-
         }
+    }
+    
+    func showUnfollowButton() {
+        self.followButton.setTitle("Unfollow", for: .normal)
+        self.followButton.configure(style: .white)
+
+    }
+    
+    func unfollow(userId: String) {
+        TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
+            //
+        })
+    }
+    
+    func showFollowButton() {
+        self.followButton.setTitle("Follow", for: .normal)
+        self.followButton.configure(style: .green)
+
+    }
+    
+    func follow(userId: String) {
+        TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
+            //
+        })
     }
     
     func tappedFollowersButton(sender: UIButton) {

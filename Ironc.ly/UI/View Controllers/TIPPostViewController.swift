@@ -25,7 +25,7 @@ class TIPPostViewController: UIViewController {
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
-    init(post: TIPPost, username: String, profileImage: UIImage?) {
+    init(post: TIPPost, username: String?, profileImage: UIImage?) {
         self.post = post
     
         super.init(nibName: nil, bundle: nil)
@@ -84,7 +84,7 @@ class TIPPostViewController: UIViewController {
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if self.post.isPrivate == false || user.unlockedAllContent == true {
+        if self.post.isPrivate == false || user.allAccess == true {
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -267,13 +267,22 @@ class TIPPostViewController: UIViewController {
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
-            UIView.animate(withDuration: 0.4, animations: {
-                self.blurView.alpha = 0.0
-                self.lockButton.alpha = 0.0
-            }, completion: { (success) in
-                self.blurView.isHidden = true
-                self.lockButton.isHidden = true
+            
+            TIPAPIClient.postAllAccess(allAccess: true, completionHandler: { (success: Bool) in
+                if success == true {
+                    TIPUser.currentUser?.updateAllAccess(newValue: true)
+                    
+                    UIView.animate(withDuration: 0.4, animations: {
+                        self.blurView.alpha = 0.0
+                        self.lockButton.alpha = 0.0
+                    }, completion: { (success) in
+                        self.blurView.isHidden = true
+                        self.lockButton.isHidden = true
+                    })
+                }
             })
+            
+
         }
         let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             //
@@ -286,7 +295,7 @@ class TIPPostViewController: UIViewController {
     func tappedTipButton(sender: UIButton) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if self.post.isPrivate == false || user.unlockedAllContent == true {
+        if self.post.isPrivate == false || user.allAccess == true {
             self.showTipView()
         } else {
             self.showLockedAlert()
@@ -386,7 +395,7 @@ extension TIPPostViewController: TIPTipViewDelegate {
             // Deduct the cost of the tip fom the user's coin balance
             let newCoins: Int = user.coins - shape.coins
             user.coins = newCoins
-            user.updateCoins(newAmount: newCoins)
+            user.updateCoins(newValue: newCoins)
             
             self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
             self.timeRemainingLabel.text = self.post.formattedTimeRemaining()

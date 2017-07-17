@@ -139,13 +139,10 @@ extension TIPSearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell: TIPSearchCollectionViewCell = self.searchCollectionView.cellForItem(at: indexPath) as! TIPSearchCollectionViewCell
-        if
-            let userId: String = cell.userId,
-            let username: String = cell.username
-        {
-            TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
+        if let user: TIPSearchUser = cell.user {
+            TIPAPIClient.getStory(userId: user.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story, story.posts.count > 0 {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: username, profileImage: cell.profileImageView.image)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image)
                     self.present(storyViewController, animated: true, completion: nil)
                 }
             })
@@ -171,10 +168,10 @@ extension TIPSearchViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension TIPSearchViewController: TIPStoryCollectionViewCellDelegate {
+extension TIPSearchViewController: TIPSearchCollectionViewCellDelegate {
     
-    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?) {
-        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId, username: username, profileImage: profileImage)
+    func searchCellDidSelectUser(user: TIPSearchUser) {
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(searchUser: user)
         profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }

@@ -126,8 +126,7 @@ extension TIPBuyCoinsViewController: SKPaymentTransactionObserver {
         
         let coins: Int = TIPCoinsFormatter.coins(productIdentifier: transaction.payment.productIdentifier)
         let newCoins: Int = user.coins + coins
-        user.coins = newCoins
-        user.updateCoins(newAmount: newCoins)
+        user.updateCoins(newValue: newCoins)
         let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: newCoins)
         self.coinsLabel.text = formattedCoins + " coins"
         let parameters: [String: Any] = [

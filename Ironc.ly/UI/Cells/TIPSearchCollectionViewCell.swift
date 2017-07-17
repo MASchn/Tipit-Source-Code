@@ -5,7 +5,14 @@
 
 import UIKit
 
+protocol TIPSearchCollectionViewCellDelegate: class {
+    func searchCellDidSelectUser(user: TIPSearchUser)
+}
+
 class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
+    
+    var user: TIPSearchUser?
+    weak var delegate: TIPSearchCollectionViewCellDelegate?
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
@@ -27,16 +34,15 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     }
     
     func configure(with searchUser: TIPSearchUser) {
-        self.userId = searchUser.userId
-        self.username = searchUser.username
+        self.user = searchUser
         
         self.usernameLabel.text = searchUser.username
         
-        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
             self.profileImageView.image = image
         })
         
-        UIImage.download(urlString: searchUser.mediaItemURL, completion: { (image: UIImage?) in
+        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
             self.postImageView.image = image
         })
         
@@ -72,6 +78,11 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         self.profileButton.rightAnchor.constraint(equalTo: self.usernameLabel.rightAnchor, constant: hMargin).isActive = true
     }
     
+    override func tappedProfileButton(sender: UIButton) {
+        if let user: TIPSearchUser = self.user {
+            self.delegate?.searchCellDidSelectUser(user: user)
+        }
+    }
 
     
 }

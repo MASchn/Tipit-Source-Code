@@ -19,6 +19,7 @@ class TIPFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.feedCollectionView)
+        self.view.addSubview(self.loadingView)
                 
         self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
         
@@ -28,7 +29,10 @@ class TIPFeedViewController: UIViewController {
     }
     
     func getFeed() {
+        self.loadingView.startAnimating()
         TIPAPIClient.getFeed { (feedItems: [TIPFeedItem]?) in
+            self.loadingView.stopAnimating()
+            
             if let feedItems: [TIPFeedItem] = feedItems {
                 self.feedItems = feedItems
                 self.feedCollectionView.reloadData()
@@ -55,6 +59,8 @@ class TIPFeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.emptyView.isHidden = true
+        
         if self.feedItems.count == 0 {
             self.getFeed()
         }
@@ -71,6 +77,12 @@ class TIPFeedViewController: UIViewController {
         view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
+        return view
+    }()
+    
+    lazy var loadingView: UIActivityIndicatorView = {
+        let view: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -107,6 +119,9 @@ class TIPFeedViewController: UIViewController {
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.loadingView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.loadingView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     }
     
     func changeLayout() {
@@ -165,13 +180,10 @@ extension TIPFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell: TIPFeedCollectionViewCell = self.feedCollectionView.cellForItem(at: indexPath) as! TIPFeedCollectionViewCell
-        if
-            let userId: String = cell.userId,
-            let username: String = cell.usernameLabel.text
-        {
-            TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
+        if let feedItem: TIPFeedItem = cell.feedItem {
+            TIPAPIClient.getStory(userId: feedItem.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: username, profileImage: cell.profileImageView.image)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: feedItem.username, profileImage: cell.profileImageView.image)
                     self.present(storyViewController, animated: true, completion: nil)
                 }
             })
@@ -180,10 +192,10 @@ extension TIPFeedViewController: UICollectionViewDelegate {
     
 }
 
-extension TIPFeedViewController: TIPStoryCollectionViewCellDelegate {
+extension TIPFeedViewController: TIPFeedCollectionViewCellDelegate {
     
-    func searchCellDidSelectUser(with userId: String, username: String?, profileImage: UIImage?) {
-        let profileViewController: TIPProfileViewController = TIPProfileViewController(userId: userId, username: username, profileImage: profileImage)
+    func feedCellDidSelectItem(feedItem: TIPFeedItem) {
+        let profileViewController: TIPProfileViewController = TIPProfileViewController(feedItem: feedItem)
         profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }

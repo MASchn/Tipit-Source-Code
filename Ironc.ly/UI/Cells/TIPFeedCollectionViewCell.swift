@@ -5,7 +5,14 @@
 
 import UIKit
 
+protocol TIPFeedCollectionViewCellDelegate: class {
+    func feedCellDidSelectItem(feedItem: TIPFeedItem)
+}
+
 class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
+    
+    var feedItem: TIPFeedItem?
+    weak var delegate: TIPFeedCollectionViewCellDelegate?
     
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
@@ -20,12 +27,13 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     }
     
     func configure(with feedItem: TIPFeedItem) {
-        self.userId = feedItem.userId
+        self.feedItem = feedItem
+        
         self.usernameLabel.text = feedItem.username
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if feedItem.isPrivate == false || user.unlockedAllContent == true {
+        if feedItem.isPrivate == false || user.allAccess == true {
             self.blurView.isHidden = true
         } else {
             self.blurView.isHidden = false
@@ -39,7 +47,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
             })
         }
         
-        UIImage.download(urlString: feedItem.profileImage, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
             self.profileImageView.image = image
         })
   
@@ -112,6 +120,12 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
         self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.profileButton.rightAnchor.constraint(equalTo: self.usernameLabel.rightAnchor, constant: hMargin).isActive = true
+    }
+    
+    override func tappedProfileButton(sender: UIButton) {
+        if let feedItem: TIPFeedItem = self.feedItem {
+            self.delegate?.feedCellDidSelectItem(feedItem: feedItem)
+        }
     }
     
 }

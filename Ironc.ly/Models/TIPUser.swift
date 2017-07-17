@@ -20,7 +20,7 @@ class TIPUser: NSObject {
     var website: String?
     var bio: String?
     var coins: Int
-    var unlockedAllContent: Bool = false
+    var allAccess: Bool
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
@@ -55,7 +55,7 @@ class TIPUser: NSObject {
         
         fields.append("COINS: \(self.coins)")
         
-        if self.unlockedAllContent == true {
+        if self.allAccess == true {
             fields.append("UNLOCKED ALL CONTENT")
         }
         
@@ -64,6 +64,7 @@ class TIPUser: NSObject {
     
     // MARK: - Initialization
     class func parseUserJSON(JSON: [String : Any], completionHandler: @escaping (Bool) -> Void) {
+        let userId: String? = JSON["id"] as? String
         let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
         let fullName: String? = JSON["first_name"] as? String
         let website: String? = JSON["website"] as? String
@@ -71,7 +72,7 @@ class TIPUser: NSObject {
         let profileImageURL: String? = JSON["profile_image"] as? String
         let backgroundImageURL: String? = JSON["background_image"] as? String
         let coins: Int = JSON["coins"] as? Int ?? 0
-        let userId: String? = JSON["id"] as? String
+        let allAccess: Bool = JSON["all_access"] as? Bool ?? false
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -103,7 +104,8 @@ class TIPUser: NSObject {
                 backgroundImageURL: backgroundImageURL,
                 website: website,
                 bio: bio,
-                coins: coins
+                coins: coins,
+                allAccess: allAccess
             )
             user.save()
             TIPUser.currentUser = user
@@ -121,6 +123,7 @@ class TIPUser: NSObject {
         self.token = token
         self.email = nil
         self.coins = 0
+        self.allAccess = false
     }
     
     init(username: String?, email: String?, token: String, profileImage: UIImage?) {
@@ -129,9 +132,11 @@ class TIPUser: NSObject {
         self.token = token
         self.profileImage = profileImage
         self.coins = 0
+        self.allAccess = false
     }
     
-    init(username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool) {
+        self.userId = userId
         self.username = username
         self.email = email
         self.token = token
@@ -141,9 +146,10 @@ class TIPUser: NSObject {
         self.website = website
         self.bio = bio
         self.coins = coins
+        self.allAccess = allAccess
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -154,9 +160,11 @@ class TIPUser: NSObject {
         self.website = website
         self.bio = bio
         self.coins = coins
+        self.allAccess = allAccess
     }
     
     func save() {
+        self.defaults.set(self.userId, forKey: "user_id")
         self.defaults.set(self.username, forKey: "username")
         self.defaults.set(self.email, forKey: "email")
         self.defaults.set(self.token, forKey: "token")
@@ -174,11 +182,19 @@ class TIPUser: NSObject {
         self.defaults.set(self.website, forKey: "website")
         self.defaults.set(self.bio, forKey: "bio")
         self.defaults.set(self.coins, forKey: "coins")
+        self.defaults.set(self.allAccess, forKey: "all_access")
         self.defaults.synchronize()
     }
     
-    func updateCoins(newAmount: Int) {
-        self.defaults.set(newAmount, forKey: "coins")
+    func updateCoins(newValue: Int) {
+        TIPUser.currentUser?.coins = newValue
+        self.defaults.set(newValue, forKey: "coins")
+        self.defaults.synchronize()
+    }
+    
+    func updateAllAccess(newValue: Bool) {
+        TIPUser.currentUser?.allAccess = newValue
+        self.defaults.set(newValue, forKey: "all_access")
         self.defaults.synchronize()
     }
     
@@ -193,6 +209,7 @@ class TIPUser: NSObject {
     static func fetchUserFromDefaults() -> TIPUser? {
         let defaults: UserDefaults = UserDefaults.standard
         if let token: String = defaults.object(forKey: "token") as? String {
+            let userId: String? = defaults.object(forKey: "user_id") as? String
             let username: String? = defaults.object(forKey: "username") as? String
             let email: String? = defaults.object(forKey: "email") as? String
             let fullName: String? = defaults.object(forKey: "full_name") as? String
@@ -207,7 +224,9 @@ class TIPUser: NSObject {
             let website: String? = defaults.object(forKey: "website") as? String
             let bio: String? = defaults.object(forKey: "bio") as? String
             let coins: Int = defaults.integer(forKey: "coins")
+            let allAccess: Bool = defaults.bool(forKey: "all_access")
             return TIPUser(
+                userId: userId,
                 username: username,
                 email: email,
                 token: token,
@@ -216,7 +235,8 @@ class TIPUser: NSObject {
                 backgroundImage: background,
                 website: website,
                 bio: bio,
-                coins: coins
+                coins: coins,
+                allAccess: allAccess
             )
         }
         return nil

@@ -267,6 +267,29 @@ class TIPAPIClient: NSObject {
         }
     }
     
+    class func postAllAccess(allAccess: Bool, completionHandler: @escaping (Bool) -> Void) {
+        let parameters: Parameters = [
+            "all_access" : allAccess
+        ]
+        
+        Alamofire.request(
+            baseURL + "/all_access",
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+        )
+            .debugLog()
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(_):
+                    completionHandler(true)
+                case .failure(_):
+                    completionHandler(false)
+                }
+        }
+    }
+    
 }
 
 // Debugging

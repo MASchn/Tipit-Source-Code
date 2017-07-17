@@ -9,7 +9,7 @@ class TIPStoryViewController: UIPageViewController {
     
     // MARK: - Properties
     let story: TIPStory
-    let username: String
+    let username: String?
     let profileImage: UIImage?
     
     var currentIndex: Int = 0
@@ -17,7 +17,7 @@ class TIPStoryViewController: UIPageViewController {
     var currentViewController: TIPPostViewController?
         
     // MARK: - View Lifecycle
-    init(story: TIPStory, username: String, profileImage: UIImage?) {
+    init(story: TIPStory, username: String?, profileImage: UIImage?) {
         self.story = story
         self.username = username
         self.profileImage = profileImage
