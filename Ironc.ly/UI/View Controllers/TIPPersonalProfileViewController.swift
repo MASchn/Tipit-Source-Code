@@ -23,12 +23,24 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.nameLabel.text = user.fullName
         self.usernameLabel.text = user.username
         
-        UIImage.download(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) { (image: UIImage?) in
-            self.profileImageButton.setImage(image, for: .normal)
+        if(TIPUser.currentUser?.profileImage != nil){
+            self.profileImageButton.setImage(TIPUser.currentUser?.profileImage, for: .normal)
+        } else {
+            UIImage.download(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) { (image: UIImage?) in
+                self.profileImageButton.setImage(image, for: .normal)
+                TIPUser.currentUser?.profileImage = image
+                TIPUser.currentUser?.save()
+            }
         }
         
-        UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "empty_background")) { (image: UIImage?) in
-            self.backgroundImageView.image = image
+        if(TIPUser.currentUser?.backgroundImage != nil){
+            self.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
+        } else {
+            UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "empty_background")) { (image: UIImage?) in
+                self.backgroundImageView.image = image
+                TIPUser.currentUser?.backgroundImage = image
+                TIPUser.currentUser?.save()
+            }
         }
         
         self.getPersonalStory()

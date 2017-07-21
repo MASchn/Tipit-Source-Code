@@ -26,7 +26,7 @@ class TIPUserTableViewController: UITableViewController {
     }
     
     func tappedBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Table view data source

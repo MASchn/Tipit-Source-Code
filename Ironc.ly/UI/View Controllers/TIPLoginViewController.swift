@@ -168,12 +168,22 @@ class TIPLoginViewController: UIViewController {
         } else {
             let email: String = self.emailTextField.text!
             let password: String = self.passwordTextField.text!
-            TIPAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
+            
+            let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            TIPAPIClient.logInUser(email: trimmedEmail, password: password, completionHandler: { (success: Bool) in
                 if success == true {
-                    self.emailTextField.text = ""
-                    self.passwordTextField.text = ""
-                    self.view.endEditing(true)
-                    self.navigationController?.dismiss(animated: true, completion: nil)
+                    
+                    TIPAPIClient.updateUser(parameters: [:], completionHandler: { (success: Bool) in
+                        if success == true {
+                            self.emailTextField.text = ""
+                            self.passwordTextField.text = ""
+                            self.view.endEditing(true)
+                            self.navigationController?.dismiss(animated: true, completion: nil)
+                        } else {
+                            self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
+                        }
+                    })
                 } else {
                     self.showAlert(title: "Incorrect email or password", message: "Please try again", completion: nil)
                 }
