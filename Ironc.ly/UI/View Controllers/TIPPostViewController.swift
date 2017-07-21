@@ -34,6 +34,7 @@ class TIPPostViewController: UIViewController {
         self.usernameLabel.text = username
         self.timeRemainingLabel.text = post.formattedTimeRemaining()
         
+        
         if post.type == .video {
             if let urlString: String = post.contentURL {
                 if let url: URL = URL(string: urlString) {
@@ -54,6 +55,12 @@ class TIPPostViewController: UIViewController {
                     
                     self.view.bringSubview(toFront: self.profileImageView)
                     self.view.bringSubview(toFront: self.usernameLabel)
+                    self.view.bringSubview(toFront: self.settingsButton)
+                    self.view.bringSubview(toFront: self.tipButton)
+                    self.view.bringSubview(toFront: self.timeRemainingLabel)
+                    self.view.bringSubview(toFront: self.shadeView)
+                    self.view.bringSubview(toFront: self.tipView)
+                    
                 }
             }
         }
