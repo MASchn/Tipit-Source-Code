@@ -70,6 +70,7 @@
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
 		37C49C371EC68BB500187EBE /* TIPFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C49C361EC68BB500187EBE /* TIPFeedItem.swift */; };
+		37D1D7A91F23E879002246FB /* Date+Tipit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D1D7A81F23E879002246FB /* Date+Tipit.swift */; };
 		37DD13A41F05958200237CF8 /* TIPStoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A31F05958200237CF8 /* TIPStoryCollectionViewCell.swift */; };
 		37DD13A61F0598D400237CF8 /* TIPPersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A51F0598D400237CF8 /* TIPPersonalProfileViewController.swift */; };
 		37DD13A81F08110700237CF8 /* TIPFeedEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A71F08110700237CF8 /* TIPFeedEmptyView.swift */; };
@@ -145,6 +146,7 @@
 		37BA70251E36E6070093EAE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37BA70271E36E6070093EAE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37C49C361EC68BB500187EBE /* TIPFeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedItem.swift; path = Models/TIPFeedItem.swift; sourceTree = "<group>"; };
+		37D1D7A81F23E879002246FB /* Date+Tipit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Tipit.swift"; path = "Extensions/Date+Tipit.swift"; sourceTree = "<group>"; };
 		37DD13A31F05958200237CF8 /* TIPStoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPStoryCollectionViewCell.swift; path = UI/Cells/TIPStoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		37DD13A51F0598D400237CF8 /* TIPPersonalProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPersonalProfileViewController.swift; path = "UI/View Controllers/TIPPersonalProfileViewController.swift"; sourceTree = "<group>"; };
 		37DD13A71F08110700237CF8 /* TIPFeedEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFeedEmptyView.swift; path = UI/Views/TIPFeedEmptyView.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				37079B951F01900B0022E014 /* UIImage+URL.swift */,
 				37079B8F1F018F790022E014 /* UIViewContr+Style.swift */,
 				37079B991F0191100022E014 /* UIViewController+Alert.swift */,
+				37D1D7A81F23E879002246FB /* Date+Tipit.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				TargetAttributes = {
 					37BA70171E36E6070093EAE5 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = DLHM52DNV8;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -545,6 +549,7 @@
 				37079BD11F01914F0022E014 /* TIPMessagesViewController.swift in Sources */,
 				37079B9A1F0191100022E014 /* UIViewController+Alert.swift in Sources */,
 				37DD13A41F05958200237CF8 /* TIPStoryCollectionViewCell.swift in Sources */,
+				37D1D7A91F23E879002246FB /* Date+Tipit.swift in Sources */,
 				37DD13AA1F08111900237CF8 /* TIPNoConnectionView.swift in Sources */,
 				37079BB01F0191340022E014 /* TIPShapeCollectionViewCell.swift in Sources */,
 				37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */,
@@ -682,7 +687,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -698,7 +703,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DLHM52DNV8;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
