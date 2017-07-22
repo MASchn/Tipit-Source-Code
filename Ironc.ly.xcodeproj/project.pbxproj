@@ -65,7 +65,6 @@
 		37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37417E031E8EB6A200E1AF62 /* TIPValidator.swift */; };
 		374E5B361EE77FC800A0CD75 /* TIPShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374E5B351EE77FC800A0CD75 /* TIPShape.swift */; };
 		3762A53A1E96C1F4007FDD51 /* TIPMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */; };
-		37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B192C41EE7148800D07F53 /* StoreKit.framework */; };
 		37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA701B1E36E6070093EAE5 /* AppDelegate.swift */; };
 		37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70221E36E6070093EAE5 /* Assets.xcassets */; };
 		37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */; };
@@ -76,6 +75,7 @@
 		37DD13AA1F08111900237CF8 /* TIPNoConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A91F08111900237CF8 /* TIPNoConnectionView.swift */; };
 		37DD13AC1F08113300237CF8 /* TIPEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
+		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,7 +138,6 @@
 		37417E031E8EB6A200E1AF62 /* TIPValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPValidator.swift; path = Models/TIPValidator.swift; sourceTree = "<group>"; };
 		374E5B351EE77FC800A0CD75 /* TIPShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPShape.swift; path = Models/TIPShape.swift; sourceTree = "<group>"; };
 		3762A5391E96C1F4007FDD51 /* TIPMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMediaItem.swift; path = Models/TIPMediaItem.swift; sourceTree = "<group>"; };
-		37B192C41EE7148800D07F53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		37BA70181E36E6070093EAE5 /* Ironc.ly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ironc.ly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BA701B1E36E6070093EAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BA70221E36E6070093EAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -152,6 +151,7 @@
 		37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEmptyStateView.swift; path = UI/Views/TIPEmptyStateView.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */,
-				37B192C51EE7148800D07F53 /* StoreKit.framework in Frameworks */,
+				FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +368,7 @@
 		D8650C89371D34FFD109B1DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				37B192C41EE7148800D07F53 /* StoreKit.framework */,
+				FAEA2DC61F23F097004B116C /* StoreKit.framework */,
 				E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */,
 			);
 			name = Frameworks;
@@ -409,6 +409,7 @@
 				TargetAttributes = {
 					37BA70171E36E6070093EAE5 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = R74782WUZX;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -682,11 +683,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R74782WUZX;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.premiumsnap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tipitinc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -698,11 +699,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R74782WUZX;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.premiumsnap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tipitinc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

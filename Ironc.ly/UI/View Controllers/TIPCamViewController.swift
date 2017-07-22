@@ -26,6 +26,7 @@ class TIPCamViewController: SwiftyCamViewController {
         self.view.addSubview(self.switchCameraButton)
         self.view.addSubview(self.flashButton)
         self.view.addSubview(self.timerLabel)
+        self.view.addSubview(self.photoLibraryButton)
         
         self.setUpConstraints()
     }
@@ -76,6 +77,16 @@ class TIPCamViewController: SwiftyCamViewController {
         return button
     }()
     
+    lazy var photoLibraryButton: UIButton = {
+        let button: UIButton = UIButton()
+        let image: UIImage = #imageLiteral(resourceName: "forgot_password_background")
+        button.setImage(image, for: .normal)
+        //button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.tappedLibraryButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
         let buttonSize: CGFloat = 44.0
@@ -99,6 +110,12 @@ class TIPCamViewController: SwiftyCamViewController {
         self.timerLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.timerLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.timerLabel.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        
+        self.photoLibraryButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20.0).isActive = true
+        self.photoLibraryButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40.0).isActive = true
+        self.photoLibraryButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        self.photoLibraryButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        
     }
     
     // MARK: - Actions
@@ -123,6 +140,21 @@ class TIPCamViewController: SwiftyCamViewController {
     func incrementVideoTimerSeconds() {
         self.videoTimerSeconds += 1
         self.timerLabel.text = String(format: "00:%02d", self.videoTimerSeconds)
+    }
+    
+    func tappedLibraryButton() {
+        let imagePicker: UIImagePickerController = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    override func imagePickerSelectedImage(image: UIImage) {
+        let currentVC = self.presentedViewController
+        currentVC?.dismiss(animated: true, completion: { 
+            let newVC = PhotoViewController(image: image)
+            self.present(newVC, animated: true, completion: nil)
+        })
     }
 
 }

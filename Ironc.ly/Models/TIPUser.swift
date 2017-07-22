@@ -67,11 +67,6 @@ class TIPUser: NSObject {
         
         print("USER JSON: \(JSON)")
         
-//        print("USER BACKGROUND PIC: \(TIPUser.currentUser?.backgroundImage)")
-//        print("USER BACKGROUND PIC URL: \(TIPUser.currentUser?.backgroundImageURL)")
-//        print("USER PROFILE PIC: \(TIPUser.currentUser?.profileImage)")
-//        print("USER PROFILE PIC URL: \(TIPUser.currentUser?.profileImageURL)")
-        
         let userId: String? = JSON["id"] as? String
         let username: String? = JSON["username"] as? String // Username will exist for sign up but not log in
         let fullName: String? = JSON["first_name"] as? String

@@ -5,6 +5,7 @@
 
 import UIKit
 import Alamofire
+import AVFoundation
 
 class TIPProfileViewController: UIViewController {
     
@@ -105,9 +106,23 @@ class TIPProfileViewController: UIViewController {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
             if let story: TIPStory = story {
                 self.story = story
-                if let firstPost: TIPPost = story.posts.first {
-                    self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                    self.storyPreviewButton.layer.borderWidth = 10.0
+                if let firstPost: TIPPost = story.posts.last {
+                    
+                    if firstPost.type == .video {
+                        
+                        DispatchQueue.global(qos: .background).async {
+                            let url = URL(string: firstPost.contentURL!)
+                            let image = self.imageFromVideo(url: url!, at: 0)
+                            DispatchQueue.main.async {
+                                self.storyPreviewButton.setImage(image, for: .normal)
+                                self.storyPreviewButton.layer.borderWidth = 10.0
+                            }
+                        }
+                        
+                    } else {
+                        self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                        self.storyPreviewButton.layer.borderWidth = 10.0
+                    }
                 }
             }
         })
@@ -447,6 +462,25 @@ class TIPProfileViewController: UIViewController {
     func tappedFollowingButton(sender: UIButton) {
         let followingViewController: TIPFollowingViewController = TIPFollowingViewController()
         self.navigationController?.pushViewController(followingViewController, animated: true)
+    }
+    
+    func imageFromVideo(url: URL, at time: TimeInterval) -> UIImage? {
+        let asset = AVURLAsset(url: url)
+        
+        let assetIG = AVAssetImageGenerator(asset: asset)
+        assetIG.appliesPreferredTrackTransform = true
+        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
+        
+        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
+        let thumbnailImageRef: CGImage
+        do {
+            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
+        } catch let error {
+            print("Error: \(error)")
+            return nil
+        }
+        
+        return UIImage(cgImage: thumbnailImageRef)
     }
 
 }
