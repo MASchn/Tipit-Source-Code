@@ -8,52 +8,42 @@ import Alamofire
 
 class TIPParser: NSObject {
     
-    class func handleResponse<T>(response: DataResponse<Any>) -> (T?, Error?) {
+    class func parseSearchUsers(response: DataResponse<Any>, completionHandler: ([TIPSearchUser]?, Error?) -> Void) {
         switch response.result {
         case.success(let JSONDictionary):
-
-            // Parsing waterfall
-            if T.self == [TIPSearchUser].self {
-                let value: T? = self.parseSearchUsers(result: JSONDictionary) as? T
-                return (value, nil)
-            } else if T.self == [TIPMediaItem].self {
-                let value: T? = self.parseMediaItems(result: JSONDictionary) as? T
-                return (value, nil)
-            } else {
-                return (nil, nil)
-            }
-        case .failure(let error):
-            print(error.localizedDescription)
-            return (nil, error)
-        }
-    }
-
-    class func parseSearchUsers(result: Any) -> [TIPSearchUser]? {
-        if let JSONArray: [[String : Any]] = result as? [[String : Any]] {
-            var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
-            for JSON: [String : Any] in JSONArray {
-                if let searchItem: TIPSearchUser = TIPSearchUser(JSON: JSON) {
-                    searchUsers.append(searchItem)
-                }
-            }
-            return searchUsers
-        }
-        return nil
-    }
-    
-    class func parseMediaItems(result: Any) -> [TIPMediaItem]? {
-        if let JSON: [String : Any] = result as? [String : Any] {
-            var mediaItems: [TIPMediaItem] = []
-            if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
-                for mediaItemJSON: [String : Any] in mediaItemsJSON {
-                    if let mediaItem: TIPMediaItem = TIPMediaItem(JSON: mediaItemJSON) {
-                        mediaItems.append(mediaItem)
+            if let JSONArray: [[String : Any]] = JSONDictionary as? [[String : Any]] {
+                var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
+                for JSON: [String : Any] in JSONArray {
+                    if let searchItem: TIPSearchUser = TIPSearchUser(JSON: JSON) {
+                        searchUsers.append(searchItem)
                     }
                 }
-                return mediaItems
+                completionHandler(searchUsers, nil)
             }
+            completionHandler(nil, nil)
+        case .failure(let error):
+            completionHandler(nil, error)
         }
-        return nil
+    }
+    
+    class func parseMediaItems(response: DataResponse<Any>, completionHandler: ([TIPMediaItem]?, Error?) -> Void) {
+        switch response.result {
+        case.success(let JSONDictionary):
+            if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                var mediaItems: [TIPMediaItem] = []
+                if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
+                    for mediaItemJSON: [String : Any] in mediaItemsJSON {
+                        if let mediaItem: TIPMediaItem = TIPMediaItem(JSON: mediaItemJSON) {
+                            mediaItems.append(mediaItem)
+                        }
+                    }
+                    completionHandler(mediaItems, nil)
+                }
+            }
+            completionHandler(nil, nil)
+        case.failure(let error):
+            completionHandler(nil, error)
+        }
     }
     
 
