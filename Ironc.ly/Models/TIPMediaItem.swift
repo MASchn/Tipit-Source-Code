@@ -11,10 +11,19 @@ struct TIPMediaItem {
         case video
     }
     
+    let contentId: String
+    let url: String
+    let type: TIPMediaItemType
+    let isPrivate: Bool
+    let username: String
+    let timeRemaining: String
+    
     init?(JSON: [String : Any]) {
         guard let url: String = JSON["url"] as? String else { return nil }
         guard let contentId: String = JSON["_id"] as? String else { return nil }
-//        guard let username: String = JSON["username"] as? String else { return nil }
+        guard let dateString: String = JSON["created_at"] as? String else { return nil }
+        
+        self.timeRemaining = Date.fromString(dateString: dateString).formattedTimeRemaining()
         
         self.url = url
         self.contentId = contentId
@@ -35,9 +44,4 @@ struct TIPMediaItem {
         
     }
     
-    let contentId: String
-    let url: String
-    let type: TIPMediaItemType
-    let isPrivate: Bool
-    let username: String
 }

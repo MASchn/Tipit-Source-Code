@@ -296,7 +296,7 @@ class TIPAPIClient: NSObject {
         }
     }
     
-    class func tip(contentId: String, coins: Int, milliseconds: Int, completionHandler: @escaping (Int?, Error?) -> Void) {
+    class func tip(contentId: String, coins: Int, milliseconds: Int, completionHandler: @escaping (Int?, String?, Error?) -> Void) {
         let parameters: Parameters = [
             "coins" : coins,
             "milliseconds" : milliseconds
@@ -313,13 +313,16 @@ class TIPAPIClient: NSObject {
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
-                        if let coins: Int = JSON["coins"] as? Int {
-                            completionHandler(coins, nil)
+                        if
+                            let coins: Int = (JSON["myuser"] as? [String: Any])?["coins"] as? Int,
+                            let dateString: String = JSON["updated_media_time"] as? String
+                        {
+                            completionHandler(coins, dateString, nil)
                         }
                     }
-                    completionHandler(nil, nil)
+                    completionHandler(nil, nil, nil)
                 case .failure(let error):
-                    completionHandler(nil, error)
+                    completionHandler(nil, nil, error)
             }
         }
         
