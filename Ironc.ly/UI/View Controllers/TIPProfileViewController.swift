@@ -31,6 +31,10 @@ class TIPProfileViewController: UIViewController {
         UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
             self.profileImageButton.setImage(image, for: .normal)
         })
+        
+        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "empty_background"), completion: { [unowned self] (image: UIImage?) in
+            self.backgroundImageView.image = image
+        })
     }
     
     convenience init(feedItem: TIPFeedItem) {
@@ -86,6 +90,8 @@ class TIPProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        print("TOKEN: \(TIPUser.currentUser?.token)")
+        
         self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
@@ -108,7 +114,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func tappedBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func configure(with user: TIPUser) {
@@ -358,6 +364,11 @@ class TIPProfileViewController: UIViewController {
     // MARK: - Actions
     func tappedStoryPreviewButton() {
         let username: String = TIPUser.currentUser?.username ?? ""
+        print("STORY: \(self.story)")
+        
+        if self.story?.posts.isEmpty == true{
+            return
+        }
         
         if let story: TIPStory = self.story {
             let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: username, profileImage: TIPUser.currentUser?.profileImage)

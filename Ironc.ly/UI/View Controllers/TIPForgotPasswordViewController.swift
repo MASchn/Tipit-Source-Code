@@ -142,7 +142,7 @@ class TIPForgotPasswordViewController: UIViewController {
         TIPAPIClient.forgotPassword(email: self.emailTextField.text!) { (success: Bool) in
             if success == true {
                 self.showAlert(title: "Reset request submitted", message: "Please follow the instructions sent to your email") {
-                    self.navigationController?.popToRootViewController(animated: true)
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 }
             } else {
                 print("Forgot password error")

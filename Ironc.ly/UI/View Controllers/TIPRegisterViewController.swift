@@ -173,7 +173,7 @@ class TIPRegisterViewController: UIViewController {
         }
         
         guard TIPValidator.isValidPassword(input: password) else {
-            self.showAlert(title: "Invalid password", message: nil, completion: nil)
+            self.showAlert(title: "Invalid password", message: "Password must be longer than 6 characters", completion: nil)
             return
         }
         
@@ -191,7 +191,7 @@ class TIPRegisterViewController: UIViewController {
     }
     
     func tappedSignInButton() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func tappedFacebookButton() {

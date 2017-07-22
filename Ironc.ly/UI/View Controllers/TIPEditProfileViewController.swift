@@ -150,7 +150,7 @@ class TIPEditProfileViewController: UITableViewController {
             TIPUser.currentUser?.save()
             self.editProfileHeaderView.backgroundImageView.image = image
             if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
-                TIPAPIClient.updateUserImage(data: data, type: .profile) { (success: Bool) in
+                TIPAPIClient.updateUserImage(data: data, type: .background) { (success: Bool) in
                     //
                 }
             }

@@ -23,6 +23,7 @@ class TIPParser: NSObject {
                 return (nil, nil)
             }
         case .failure(let error):
+            print(error.localizedDescription)
             return (nil, error)
         }
     }

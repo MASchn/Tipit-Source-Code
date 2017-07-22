@@ -74,8 +74,8 @@ class TIPAPIClient: NSObject {
         ]
         Alamofire.request(
             baseURL + "/users",
-            method: .post, parameters:
-            parameters,
+            method: .post,
+            parameters: parameters,
             encoding: JSONEncoding.default,
             headers: headers
         ).responseJSON
@@ -195,6 +195,7 @@ class TIPAPIClient: NSObject {
             encoding: JSONEncoding.default,
             headers: headers
         ).responseJSON { (response) in
+            print("RESPONSE: \(response)")
             switch response.result {
             case .success( _):
                 completionHandler(true)
@@ -252,6 +253,7 @@ class TIPAPIClient: NSObject {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                         if let feedItemsJSON: [[String : Any]] = JSON["feed_items"] as? [[String : Any]] {
+                            print("JSON: \(feedItemsJSON)")
                             var feedItems: [TIPFeedItem] = [TIPFeedItem]()
                             for feedItemJSON in feedItemsJSON {
                                 if let feedItem: TIPFeedItem = TIPFeedItem(JSON: feedItemJSON) {

@@ -330,13 +330,13 @@
 				37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */,
 				37079BB61F01914F0022E014 /* TIPCamViewController.swift */,
 				37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */,
+				37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */,
 				37079BB81F01914F0022E014 /* TIPFeedViewController.swift */,
 				37079BB91F01914F0022E014 /* TIPFollowersViewController.swift */,
 				37079BBA1F01914F0022E014 /* TIPFollowingViewController.swift */,
 				37079BBB1F01914F0022E014 /* TIPForgotPasswordViewController.swift */,
 				37079BBC1F01914F0022E014 /* TIPLoginViewController.swift */,
 				37079BBD1F01914F0022E014 /* TIPMessagesViewController.swift */,
-				37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */,
 				37079BBF1F01914F0022E014 /* TIPPlaceholderViewController.swift */,
 				37079BC01F01914F0022E014 /* TIPPostViewController.swift */,
 				37079BC11F01914F0022E014 /* TIPPreviewViewController.swift */,
@@ -409,7 +409,6 @@
 				TargetAttributes = {
 					37BA70171E36E6070093EAE5 = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = DLHM52DNV8;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -683,7 +682,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = DLHM52DNV8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -699,7 +698,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = DLHM52DNV8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

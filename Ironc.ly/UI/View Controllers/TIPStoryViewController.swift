@@ -76,6 +76,12 @@ class TIPStoryViewController: UIPageViewController {
     
     // MARK: - Actions
     func dismissStory() {
+        let postVCs = self.viewControllers as! [TIPPostViewController]
+        
+        for postVC in postVCs {
+            postVC.player?.pause()
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -132,6 +138,12 @@ extension TIPStoryViewController: UIPageViewControllerDelegate {
         let storyViewController: TIPStoryViewController = pageViewController as! TIPStoryViewController
         storyViewController.currentIndex = firstPendingViewController.post.index!
         self.currentViewController = firstPendingViewController
+        
+        let postVCs = storyViewController.viewControllers as! [TIPPostViewController]
+        
+        for postVC in postVCs {
+            postVC.player?.pause()
+        }
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
