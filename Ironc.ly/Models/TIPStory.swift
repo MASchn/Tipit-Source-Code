@@ -66,12 +66,7 @@ struct TIPStory {
         // Called when all posts have finished loading
         firstGroup.notify(queue: DispatchQueue.main) {
             posts.sort(by: {$0.index! < $1.index!})
-<<<<<<< HEAD
-//            print("Posts: \(posts)")
             let story: TIPStory = TIPStory(posts: posts, isSubscribed: isSubcribed)
-=======
-            let story: TIPStory = TIPStory(posts: posts)
->>>>>>> master
             completion(story)
         }
     }
