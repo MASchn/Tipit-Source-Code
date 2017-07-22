@@ -32,8 +32,7 @@ class TIPPostViewController: UIViewController {
         
         self.profileImageView.image = profileImage ?? #imageLiteral(resourceName: "empty_profile")
         self.usernameLabel.text = username
-        self.timeRemainingLabel.text = post.formattedTimeRemaining()
-        
+        self.timeRemainingLabel.text = post.timeRemaining
         
         if post.type == .video {
             if let urlString: String = post.contentURL {
@@ -398,23 +397,29 @@ extension TIPPostViewController: TIPTipViewDelegate {
     func tipView(view: TIPTipView, didSelectShape shape: TIPShape) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
+        let milliseconds: Int = shape.minutes * 60 * 1000
+        
         if user.coins > shape.coins {
-            // Deduct the cost of the tip fom the user's coin balance
-            let newCoins: Int = user.coins - shape.coins
-            user.coins = newCoins
-            user.updateCoins(newValue: newCoins)
-            
-            self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
-            self.timeRemainingLabel.text = self.post.formattedTimeRemaining()
-            
-            self.showTipAnimation(shape: shape)
+            TIPAPIClient.tip(contentId: self.post.contentId, coins: shape.coins, milliseconds: milliseconds) { (coins: Int?, dateString: String?, error: Error?) in
+                if
+                    let coins: Int = coins,
+                    let dateString: String = dateString
+                {
+                    user.updateCoins(newValue: coins)
+                    
+                    self.timeRemainingLabel.text = Date.fromString(dateString: dateString).formattedTimeRemaining()
+                    
+                    self.showTipAnimation(shape: shape)
+                } else {
+                    print("Error tipping")
+                }
+            }
         } else {
             self.presentBuyCoinsModal()
-        }
-        
+        }        
 
     }
-    
+
     func showTipAnimation(shape: TIPShape) {
         self.dismissTipView(fadeShade: false) { (completed: Bool) in
             self.animationView = LOTAnimationView(name: shape.name)
