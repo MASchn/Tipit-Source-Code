@@ -41,25 +41,28 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON
         { (response) in
-            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
-                    completionHandler(story)
-                })
-            }
+            TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
+                if let mediaItems: [TIPMediaItem] = mediaItems {
+                    TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
+                        completionHandler(story)
+                    })
+                }
+            })
         }
     }
     
     class func getPersonalStory(completionHandler: @escaping (TIPStory?) -> Void) {
         Alamofire.request(baseURL + "/users/me/media_items", headers: self.authHeaders)
             .debugLog()
-            .responseJSON { (response) in
-            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
-                    completionHandler(story)
-                })
-            }
+            .responseJSON
+        { (response) in
+            TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
+                if let mediaItems: [TIPMediaItem] = mediaItems {
+                    TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
+                        completionHandler(story)
+                    })
+                }
+            })
         }
     }
     
@@ -212,9 +215,13 @@ class TIPAPIClient: NSObject {
             parameters: nil,
             encoding: JSONEncoding.default,
             headers: self.authHeaders
-        ).responseJSON { (response) in
-            let completion: (users: [TIPSearchUser]?, error: Error?) = TIPParser.handleResponse(response: response)
-            completionHandler(completion.users, completion.error)
+        )
+            .debugLog()
+            .responseJSON 
+        { (response) in
+            TIPParser.parseSearchUsers(response: response, completionHandler: { (searchUsers: [TIPSearchUser]?, error: Error?) in
+                completionHandler(searchUsers, error)
+            })
         }
     }
     
@@ -248,7 +255,8 @@ class TIPAPIClient: NSObject {
             headers: headers
             )
             .debugLog()
-            .responseJSON { (response) in
+            .responseJSON
+        { (response) in
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -290,6 +298,38 @@ class TIPAPIClient: NSObject {
                     completionHandler(false)
                 }
         }
+    }
+    
+    class func tip(contentId: String, coins: Int, milliseconds: Int, completionHandler: @escaping (Int?, String?, Error?) -> Void) {
+        let parameters: Parameters = [
+            "coins" : coins,
+            "milliseconds" : milliseconds
+        ]
+        Alamofire.request(
+            baseURL + "/justthetip/\(contentId)",
+            method: .patch,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+            )
+            .debugLog()
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        if
+                            let coins: Int = (JSON["myuser"] as? [String: Any])?["coins"] as? Int,
+                            let dateString: String = JSON["updated_media_time"] as? String
+                        {
+                            completionHandler(coins, dateString, nil)
+                        }
+                    }
+                    completionHandler(nil, nil, nil)
+                case .failure(let error):
+                    completionHandler(nil, nil, error)
+            }
+        }
+        
     }
     
 }

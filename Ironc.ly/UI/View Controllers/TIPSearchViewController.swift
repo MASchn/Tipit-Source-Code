@@ -21,9 +21,6 @@ class TIPSearchViewController: UIViewController {
         self.view.addSubview(self.searchCollectionView)
         
         self.setUpConstraints()
-        
-        // Searching with black query requests all users
-        self.search()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,6 +28,9 @@ class TIPSearchViewController: UIViewController {
 
         self.navigationItem.title = "Search"
         self.configureTIPNavBar()
+        
+        // Searching with black query requests all users
+        self.search()
     }
     
     // MARK: - Networking
