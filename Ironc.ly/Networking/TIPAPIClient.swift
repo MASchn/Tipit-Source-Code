@@ -212,7 +212,10 @@ class TIPAPIClient: NSObject {
             parameters: nil,
             encoding: JSONEncoding.default,
             headers: self.authHeaders
-        ).responseJSON { (response) in
+        )
+            .debugLog()
+            .responseJSON
+        { (response) in
             let completion: (users: [TIPSearchUser]?, error: Error?) = TIPParser.handleResponse(response: response)
             completionHandler(completion.users, completion.error)
         }
@@ -248,7 +251,8 @@ class TIPAPIClient: NSObject {
             headers: headers
             )
             .debugLog()
-            .responseJSON { (response) in
+            .responseJSON
+        { (response) in
                 switch response.result {
                 case .success(let JSONDictionary):
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
@@ -292,13 +296,14 @@ class TIPAPIClient: NSObject {
         }
     }
     
-    class func tip(contentId: String, completionHandler: @escaping (Bool) -> Void) {
+    class func tip(contentId: String, coins: Int, milliseconds: Int, completionHandler: @escaping (Int?, Error?) -> Void) {
         let parameters: Parameters = [
-            "id" : contentId
+            "coins" : coins,
+            "milliseconds" : milliseconds
         ]
         Alamofire.request(
-            baseURL + "/justthetip",
-            method: .post,
+            baseURL + "/justthetip/\(contentId)",
+            method: .patch,
             parameters: parameters,
             encoding: JSONEncoding.default,
             headers: self.authHeaders
@@ -306,10 +311,15 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON { (response) in
                 switch response.result {
-                case .success(_):
-                    completionHandler(true)
-                case .failure(_):
-                    completionHandler(false)
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        if let coins: Int = JSON["coins"] as? Int {
+                            completionHandler(coins, nil)
+                        }
+                    }
+                    completionHandler(nil, nil)
+                case .failure(let error):
+                    completionHandler(nil, error)
             }
         }
         

@@ -398,28 +398,27 @@ extension TIPPostViewController: TIPTipViewDelegate {
     func tipView(view: TIPTipView, didSelectShape shape: TIPShape) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        TIPAPIClient.tip(contentId: self.post.contentId) { (success: Bool) in
-            if success == true {
-                if user.coins > shape.coins {
-                    // Deduct the cost of the tip fom the user's coin balance
-                    let newCoins: Int = user.coins - shape.coins
-                    user.coins = newCoins
-                    user.updateCoins(newValue: newCoins)
+        let milliseconds: Int = shape.minutes * 60 * 1000
+        
+        if user.coins > shape.coins {
+            TIPAPIClient.tip(contentId: self.post.contentId, coins: shape.coins, milliseconds: milliseconds) { (coins: Int?, error: Error?) in
+                if let coins: Int = coins {
+                    user.updateCoins(newValue: coins)
                     
                     self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
                     self.timeRemainingLabel.text = self.post.formattedTimeRemaining()
                     
                     self.showTipAnimation(shape: shape)
                 } else {
-                    self.presentBuyCoinsModal()
+                    print("Error tipping")
                 }
-            } else {
-                print("Error tipping")
             }
-        }
+        } else {
+            self.presentBuyCoinsModal()
+        }        
 
     }
-    
+
     func showTipAnimation(shape: TIPShape) {
         self.dismissTipView(fadeShade: false) { (completed: Bool) in
             self.animationView = LOTAnimationView(name: shape.name)
