@@ -398,20 +398,25 @@ extension TIPPostViewController: TIPTipViewDelegate {
     func tipView(view: TIPTipView, didSelectShape shape: TIPShape) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if user.coins > shape.coins {
-            // Deduct the cost of the tip fom the user's coin balance
-            let newCoins: Int = user.coins - shape.coins
-            user.coins = newCoins
-            user.updateCoins(newValue: newCoins)
-            
-            self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
-            self.timeRemainingLabel.text = self.post.formattedTimeRemaining()
-            
-            self.showTipAnimation(shape: shape)
-        } else {
-            self.presentBuyCoinsModal()
+        TIPAPIClient.tip(contentId: self.post.contentId) { (success: Bool) in
+            if success == true {
+                if user.coins > shape.coins {
+                    // Deduct the cost of the tip fom the user's coin balance
+                    let newCoins: Int = user.coins - shape.coins
+                    user.coins = newCoins
+                    user.updateCoins(newValue: newCoins)
+                    
+                    self.post.expiration = Calendar.current.date(byAdding: .minute, value: shape.minutes, to: self.post.expiration)!
+                    self.timeRemainingLabel.text = self.post.formattedTimeRemaining()
+                    
+                    self.showTipAnimation(shape: shape)
+                } else {
+                    self.presentBuyCoinsModal()
+                }
+            } else {
+                print("Error tipping")
+            }
         }
-        
 
     }
     

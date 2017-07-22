@@ -292,6 +292,29 @@ class TIPAPIClient: NSObject {
         }
     }
     
+    class func tip(contentId: String, completionHandler: @escaping (Bool) -> Void) {
+        let parameters: Parameters = [
+            "id" : contentId
+        ]
+        Alamofire.request(
+            baseURL + "/justthetip",
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+            )
+            .debugLog()
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(_):
+                    completionHandler(true)
+                case .failure(_):
+                    completionHandler(false)
+            }
+        }
+        
+    }
+    
 }
 
 // Debugging
