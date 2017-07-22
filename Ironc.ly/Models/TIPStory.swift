@@ -8,6 +8,7 @@ import UIKit
 
 struct TIPStory {
     let posts: [TIPPost]
+    let isSubscribed: Bool
     
 //    static func mockStory() -> TIPStory {
 //        let user1: TIPUser = TIPUser(username: "Hanna Julie Marie", email: "user1@gmail.com", token: "token", profileImage: #imageLiteral(resourceName: "user1"))
@@ -25,7 +26,7 @@ struct TIPStory {
 //    }
     
     // TODO: Refactor
-    static func story(mediaItems: [TIPMediaItem], completion: @escaping (TIPStory?) -> Void) {
+    static func story(mediaItems: [TIPMediaItem], isSubcribed: Bool, completion: @escaping (TIPStory?) -> Void) {
         var posts: [TIPPost] = []
         let firstGroup = DispatchGroup()
         for index: Int in 0..<mediaItems.count {
@@ -65,7 +66,7 @@ struct TIPStory {
         // Called when all posts have finished loading
         firstGroup.notify(queue: DispatchQueue.main) {
             posts.sort(by: {$0.index! < $1.index!})
-            let story: TIPStory = TIPStory(posts: posts)
+            let story: TIPStory = TIPStory(posts: posts, isSubscribed: isSubcribed)
             completion(story)
         }
     }

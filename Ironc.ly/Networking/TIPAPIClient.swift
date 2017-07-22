@@ -41,25 +41,28 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON
         { (response) in
-            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
-                    completionHandler(story)
-                })
-            }
+            TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
+                if let mediaItems: [TIPMediaItem] = mediaItems {
+                    TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
+                        completionHandler(story)
+                    })
+                }
+            })
         }
     }
     
     class func getPersonalStory(completionHandler: @escaping (TIPStory?) -> Void) {
         Alamofire.request(baseURL + "/users/me/media_items", headers: self.authHeaders)
             .debugLog()
-            .responseJSON { (response) in
-            let completion: (mediaItems: [TIPMediaItem]?, error: Error?) = TIPParser.handleResponse(response: response)
-            if let mediaItems: [TIPMediaItem] = completion.mediaItems {
-                TIPStory.story(mediaItems: mediaItems, completion: { (story: TIPStory?) in
-                    completionHandler(story)
-                })
-            }
+            .responseJSON
+        { (response) in
+            TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
+                if let mediaItems: [TIPMediaItem] = mediaItems {
+                    TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
+                        completionHandler(story)
+                    })
+                }
+            })
         }
     }
     
@@ -214,10 +217,11 @@ class TIPAPIClient: NSObject {
             headers: self.authHeaders
         )
             .debugLog()
-            .responseJSON
+            .responseJSON 
         { (response) in
-            let completion: (users: [TIPSearchUser]?, error: Error?) = TIPParser.handleResponse(response: response)
-            completionHandler(completion.users, completion.error)
+            TIPParser.parseSearchUsers(response: response, completionHandler: { (searchUsers: [TIPSearchUser]?, error: Error?) in
+                completionHandler(searchUsers, error)
+            })
         }
     }
     
