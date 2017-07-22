@@ -14,6 +14,9 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        self.userId = TIPUser.currentUser?.userId
+        
         super.viewWillAppear(animated)
         
         guard let user: TIPUser = TIPUser.currentUser else {
@@ -51,7 +54,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
             if let story: TIPStory = story {
                 self.story = story
                 if let firstPost: TIPPost = story.posts.first {
-                    self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                    //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
                     self.storyPreviewButton.layer.borderWidth = 10.0
                 }
             } else {

@@ -64,12 +64,12 @@ class TIPBuyCoinsViewController: UITableViewController {
     
     func getAvailableProducts() {
         let productIds: Set<String> = [
-            "com.premiumsnap.coins.1000",
-            "com.premiumsnap.coins.1200",
-            "com.premiumsnap.coins.1500",
-            "com.premiumsnap.coins.4000",
-            "com.premiumsnap.coins.10000",
-            "com.premiumsnap.coins.70000"
+            "com.tipitinc.coins.1000"
+//            "com.tipitinc.coins.1200",
+//            "com.tipitinc.coins.1500",
+//            "com.tipitinc.coins.4000",
+//            "com.tipitinc.coins.10000",
+//            "com.tipitinc.coins.70000"
         ]
         let productsRequest = SKProductsRequest(productIdentifiers: productIds)
         productsRequest.delegate = self
