@@ -5,6 +5,7 @@
 
 import UIKit
 import FBSDKLoginKit
+import SendBirdSDK
 
 class TIPLoginViewController: UIViewController {
 

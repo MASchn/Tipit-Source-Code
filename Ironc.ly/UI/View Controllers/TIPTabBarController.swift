@@ -44,6 +44,7 @@ class TIPTabBarController: UITabBarController {
         messagesViewController.tabBarItem = UITabBarItem(title: nil, image: self.messageImage.withRenderingMode(.alwaysOriginal), selectedImage: self.messageImage)
         messagesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
         messagesViewController.tabBarItem.tag = 3
+        let messagesNavController: UINavigationController = UINavigationController(rootViewController: messagesViewController)
         
         let profileViewController: TIPPersonalProfileViewController = TIPPersonalProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
@@ -51,7 +52,7 @@ class TIPTabBarController: UITabBarController {
         profileViewController.tabBarItem.tag = 3
         let profileNavController: UINavigationController = UINavigationController(rootViewController: profileViewController)
         
-        self.viewControllers = [homeNavController, searchNavController, cameraViewController, profileNavController]
+        self.viewControllers = [homeNavController, searchNavController, cameraViewController, messagesNavController ,profileNavController]
     }
 
 

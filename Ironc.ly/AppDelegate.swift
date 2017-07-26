@@ -5,18 +5,22 @@
 
 import UIKit
 import FBSDKCoreKit
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var tabBarController: UITabBarController?
+    let sendBirdAppID = "EB96DFC6-5314-4901-9CDF-5791FDEE157A"
     
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        SBDMain.initWithApplicationId(sendBirdAppID)
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         

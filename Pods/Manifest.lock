@@ -13,6 +13,7 @@ PODS:
   - FBSDKShareKit (4.20.2):
     - FBSDKCoreKit
   - lottie-ios (1.5.1)
+  - SendBirdSDK (3.0.44)
 
 DEPENDENCIES:
   - Alamofire
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - lottie-ios
+  - SendBirdSDK
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
@@ -29,7 +31,8 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
   FBSDKShareKit: ca9b22264ea49a896dafb2467c1a4f72aa41996f
   lottie-ios: f680a7c4cb7a567ecf258fde0f967913aff111b8
+  SendBirdSDK: 976ced2079ea1fef23f97b51c1d09aaa70ff8182
 
-PODFILE CHECKSUM: 1d28edb3793f09400d1a26c26d95b064b569b681
+PODFILE CHECKSUM: 5eb7114ec6b0903d275acec8d6d11a5d3143603a
 
 COCOAPODS: 1.2.0

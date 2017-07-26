@@ -5,13 +5,16 @@
 
 import UIKit
 
-class TIPMessagesViewController: TIPPlaceholderViewController {
+class TIPMessagesViewController: UIViewController {
 
+    let messageListReuseId: String = "iro.reuseId.messageList"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = .iroGray
-        // Do any additional setup after loading the view.
+        self.view.addSubview(messageListCollectionView)
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -20,20 +23,43 @@ class TIPMessagesViewController: TIPPlaceholderViewController {
         self.tabBarController?.navigationController?.isNavigationBarHidden = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - Lazy Initialization
+    lazy var messageListCollectionView: UITableView = {
+        //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let tableView: UITableView = UITableView(frame: self.view.frame)
+        tableView.backgroundColor = UIColor.iroGray
+        tableView.register(TIPMessageListTableViewCell.self, forCellReuseIdentifier: self.messageListReuseId)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.alwaysBounceVertical = true
+        //collectionView.addSubview(self.refreshControl)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        //collectionView.isHidden = true
+        return tableView
+    }()
+    
+    func setUpConstraints() {
+        self.messageListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.messageListCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.messageListCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.messageListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: TIPMessageListTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.messageListReuseId, for: indexPath) as! TIPMessageListTableViewCell
+        
+        cell.profileImageView.image = #imageLiteral(resourceName: "user1")
+        cell.usernameLabel.text = "chick"
+        
+        return cell
+    }
+}
+
+
