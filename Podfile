@@ -5,6 +5,10 @@ use_frameworks!
 target 'Ironc.ly' do
     pod 'Alamofire'
     pod 'lottie-ios'
+    pod 'Bolts'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKShareKit'
+    pod 'FBSDKLoginKit'
 end
 
 post_install do |installer|

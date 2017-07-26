@@ -5,6 +5,7 @@
 
 import UIKit
 import MessageUI
+import FBSDKLoginKit
 
 class TIPSettingsViewController: UITableViewController {
     

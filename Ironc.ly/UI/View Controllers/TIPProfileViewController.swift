@@ -33,7 +33,7 @@ class TIPProfileViewController: UIViewController {
             self.profileImageButton.setImage(image, for: .normal)
         })
         
-        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "empty_background"), completion: { [unowned self] (image: UIImage?) in
+        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
             self.backgroundImageView.image = image
         })
     }

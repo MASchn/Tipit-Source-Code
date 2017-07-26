@@ -5,6 +5,7 @@
 
 import Foundation
 import UIKit
+import FBSDKLoginKit
 
 class TIPUser: NSObject {
     
@@ -202,6 +203,12 @@ class TIPUser: NSObject {
     }
     
     func logOut() {
+        
+        if let fbUser = FBSDKAccessToken.current() {
+            print("obatained fb token \(fbUser)")
+            FBSDKLoginManager().logOut()
+        }
+        
         self.defaults.removeObject(forKey: "email")
         self.defaults.removeObject(forKey: "token")
         self.defaults.removeObject(forKey: "image")

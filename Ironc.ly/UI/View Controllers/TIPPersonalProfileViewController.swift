@@ -39,7 +39,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         if(TIPUser.currentUser?.backgroundImage != nil){
             self.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
         } else {
-            UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "empty_background")) { (image: UIImage?) in
+            UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) { (image: UIImage?) in
                 self.backgroundImageView.image = image
                 TIPUser.currentUser?.backgroundImage = image
                 TIPUser.currentUser?.save()
@@ -56,6 +56,9 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
                 if let firstPost: TIPPost = story.posts.first {
                     //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
                     self.storyPreviewButton.layer.borderWidth = 10.0
+                } else {
+                    self.storyPreviewButton.setImage(nil, for: .normal)
+                    self.storyPreviewButton.layer.borderWidth = 0.0
                 }
             } else {
                 self.storyPreviewButton.setImage(nil, for: .normal)

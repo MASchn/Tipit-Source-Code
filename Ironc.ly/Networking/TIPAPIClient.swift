@@ -198,7 +198,7 @@ class TIPAPIClient: NSObject {
             encoding: JSONEncoding.default,
             headers: headers
         ).responseJSON { (response) in
-            print("RESPONSE: \(response)")
+            print("RESPONSE: \(response.response?.statusCode)")
             switch response.result {
             case .success( _):
                 completionHandler(true)
