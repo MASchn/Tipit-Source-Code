@@ -5,6 +5,7 @@
 
 import UIKit
 import Alamofire
+import FBSDKLoginKit
 
 class TIPRegisterViewController: UIViewController {
 
@@ -195,8 +196,55 @@ class TIPRegisterViewController: UIViewController {
     }
     
     func tappedFacebookButton() {
-        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
-        UIApplication.shared.openURL(url)
+//        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
+//        UIApplication.shared.openURL(url)
+    
+        FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
+            
+            if error != nil {
+                print("failed to log in\(error)")
+                return
+            }
+            
+            self.registerFBUser()
+            //print("COOL", FBSDKAccessToken.current())
+        }
+        
+    }
+    
+    
+    func registerFBUser() {
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {
+            (connection, result, error) in
+            
+            if error != nil {
+                print("failed to start graph request\(error)")
+                return
+            }
+            
+            let resultDict = result! as! [String: Any]
+            
+            print("RES: \(resultDict)")
+            print("RES[0]: \(resultDict["email"])")
+            
+            let email: String = resultDict["email"] as! String
+            let name: String = resultDict["name"] as! String
+            let id: String = resultDict["id"] as! String
+            
+            
+            TIPAPIClient.registerNewUser(
+                username: name,
+                email: email,
+                password: id
+            ) { (success: Bool) in
+                if success == true {
+                    self.navigationController?.dismiss(animated: true, completion: nil)
+                } else {
+                    print("Could not register new user")
+                }
+            }
+            
+        }
     }
     
 }

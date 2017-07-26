@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
@@ -56,18 +59,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if let token: String = url.query?.components(separatedBy: "=").last {
-            let user: TIPUser = TIPUser(
-                username: nil,
-                email: nil,
-                token: token,
-                profileImage: nil
-            )
-            user.save()
-            TIPUser.currentUser = user
-            self.initializeFeed()
-        }
-        return true
+        
+        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        
+//        if let token: String = url.query?.components(separatedBy: "=").last {
+//            let user: TIPUser = TIPUser(
+//                username: nil,
+//                email: nil,
+//                token: token,
+//                profileImage: nil
+//            )
+//            user.save()
+//            TIPUser.currentUser = user
+//            self.initializeFeed()
+//        }
+        return handled
     }
 
 }

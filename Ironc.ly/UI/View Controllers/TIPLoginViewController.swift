@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class TIPLoginViewController: UIViewController {
 
@@ -89,6 +90,17 @@ class TIPLoginViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+//    lazy var facebookButton: FBSDKLoginButton = {
+//        let button: FBSDKLoginButton = FBSDKLoginButton()
+//        //button.setTitle("Sign in with Facebook", for: .normal)
+//        //button.addTarget(self, action: #selector(self.tappedFacebookButton), for: .touchUpInside)
+//        button.clipsToBounds = true
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.readPermissions = ["email", "public_profile"]
+//        button.delegate = self
+//        return button
+//    }()
     
     lazy var forgotPasswordButton: TIPButton = {
         let button: TIPButton = TIPButton(style: .text)
@@ -192,8 +204,19 @@ class TIPLoginViewController: UIViewController {
     }
     
     func tappedFacebookButton() {
-        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
-        UIApplication.shared.openURL(url)
+//        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!
+//        UIApplication.shared.openURL(url)
+        
+        FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
+            
+            if error != nil {
+                print("failed to log in\(error)")
+                return
+            }
+            
+            self.logInFBUser()
+            //print("COOL", FBSDKAccessToken.current())
+        }
     }
     
     func tappedForgotPasswordButton() {
@@ -224,6 +247,100 @@ extension TIPLoginViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+    
+}
+
+extension TIPLoginViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if error != nil {
+            print(error)
+            return
+        }
+        
+//        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {
+//            (connection, result, error) in
+//            
+//            if error != nil {
+//                print("failed to start graph request\(error)")
+//                return
+//            }
+//            
+//            let resultDict = result! as! [String: Any]
+//            
+//            print("RES: \(resultDict)")
+//            print("RES[0]: \(resultDict["email"])")
+//            
+//            let email: String = resultDict["email"] as! String
+//            let name: String = resultDict["name"] as! String
+//            let id: String = resultDict["id"] as! String
+//            let password: String = "general"
+//            
+//            TIPAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
+//                if success == true {
+//                    
+//                    TIPAPIClient.updateUser(parameters: [:], completionHandler: { (success: Bool) in
+//                        if success == true {
+////                            self.emailTextField.text = ""
+////                            self.passwordTextField.text = ""
+////                            self.view.endEditing(true)
+//                            self.navigationController?.dismiss(animated: true, completion: nil)
+//                        } else {
+//                            self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
+//                        }
+//                    })
+//                } else {
+//                    self.showAlert(title: "User doesnt exist", message: "Make new user", completion: nil)
+//                }
+//            })
+//            
+//        }
+        
+    }
+    
+    func logInFBUser() {
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {
+            (connection, result, error) in
+            
+            if error != nil {
+                print("failed to start graph request\(error)")
+                return
+            }
+            
+            let resultDict = result! as! [String: Any]
+            
+            print("RES: \(resultDict)")
+            print("RES[0]: \(resultDict["email"])")
+            
+            let email: String = resultDict["email"] as! String
+            let name: String = resultDict["name"] as! String
+            let id: String = resultDict["id"] as! String
+            let password: String = "general"
+            
+            TIPAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
+                if success == true {
+                    
+                    TIPAPIClient.updateUser(parameters: [:], completionHandler: { (success: Bool) in
+                        if success == true {
+                            //                            self.emailTextField.text = ""
+                            //                            self.passwordTextField.text = ""
+                            //                            self.view.endEditing(true)
+                            self.navigationController?.dismiss(animated: true, completion: nil)
+                        } else {
+                            self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
+                        }
+                    })
+                } else {
+                    self.showAlert(title: "User doesnt exist", message: "Make new user", completion: nil)
+                }
+            })
+            
+        }
     }
     
 }
