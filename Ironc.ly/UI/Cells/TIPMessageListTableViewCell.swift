@@ -11,6 +11,8 @@ import UIKit
 
 class TIPMessageListTableViewCell: UITableViewCell {
     
+    var feedItem: TIPFeedItem?
+    
     // MARK: - View Lifecycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,9 +28,20 @@ class TIPMessageListTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-//    func configure(with searchUser: SKProduct) {
-//        
-//    }
+    func configure(with feedItem: TIPFeedItem) {
+        self.feedItem = feedItem
+        
+        self.usernameLabel.text = feedItem.username
+        
+        guard let user: TIPUser = TIPUser.currentUser else { return }
+        
+        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+            self.profileImageView.image = image
+        })
+        
+    }
+    
+    
     
     // MARK: - Layout
     override func layoutSubviews() {

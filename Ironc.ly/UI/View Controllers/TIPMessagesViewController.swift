@@ -6,7 +6,8 @@
 import UIKit
 
 class TIPMessagesViewController: UIViewController {
-
+    
+    var feedItems: [TIPFeedItem] = [TIPFeedItem]()
     let messageListReuseId: String = "iro.reuseId.messageList"
     
     override func viewDidLoad() {
@@ -15,6 +16,31 @@ class TIPMessagesViewController: UIViewController {
         self.view.backgroundColor = .iroGray
         self.view.addSubview(messageListCollectionView)
     
+        self.getFeed()
+        
+    }
+    
+    func getFeed() {
+        
+        TIPAPIClient.getFeed { (feedItems: [TIPFeedItem]?) in
+            
+            
+            if let feedItems: [TIPFeedItem] = feedItems {
+                self.feedItems = feedItems
+                self.messageListCollectionView.reloadData()
+                
+                if feedItems.count > 0 {
+                    //self.feedCollectionView.isHidden = false
+                    //self.emptyView.isHidden = true
+                } else {
+                    //self.showEmptyView()
+                }
+            } else {
+                //self.showEmptyView()
+            }
+            
+            //self.refreshControl.endRefreshing()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,14 +75,14 @@ class TIPMessagesViewController: UIViewController {
 
 extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.feedItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TIPMessageListTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.messageListReuseId, for: indexPath) as! TIPMessageListTableViewCell
         
-        cell.profileImageView.image = #imageLiteral(resourceName: "user1")
-        cell.usernameLabel.text = "chick"
+        let feedItem: TIPFeedItem = self.feedItems[indexPath.row]
+        cell.configure(with: feedItem)
         
         return cell
     }
