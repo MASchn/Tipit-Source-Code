@@ -32,6 +32,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(user)
         }
         
+        if let currentUserID = TIPUser.currentUser?.userId {
+            print("SSSSSSSS CURRENT USER ID: \(currentUserID)")
+            
+            SBDMain.connect(withUserId: currentUserID) { (user, error) in
+                
+                if error != nil {
+                    print("ERROR CONNECTING CURRENT USER: \(error)")
+                    return
+                }
+                
+                print("USER: \(user)")
+                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
+            }
+        }
+        
         self.initializeFeed()
         
         return true

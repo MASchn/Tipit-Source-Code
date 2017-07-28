@@ -227,7 +227,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
             cell.bubbleRightAnchor?.isActive = true
             cell.bubbleLeftAnchor?.isActive = false
         } else {
-            cell.bubbleView.backgroundColor = UIColor.lightGray
+            cell.bubbleView.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
             cell.textView.textColor = .black
             //cell.profileImageView.image = chatUser.profileImage
             cell.profileImageView.isHidden = false
@@ -237,9 +237,9 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         }
         
         if let profileURL = chatUser.profileImageURL {
-            cell.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!)
+            cell.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
         } else {
-            cell.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!)
+            cell.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
         }
         
         cell.textView.text = message.message

@@ -16,26 +16,8 @@ class TIPMessagesViewController: UIViewController {
 
         self.view.backgroundColor = .iroGray
         self.view.addSubview(messageListCollectionView)
-    
-        if let currentUserID = TIPUser.currentUser?.userId {
-            print("CURRENT USER ID: \(currentUserID)")
-            
-            SBDMain.connect(withUserId: currentUserID) { (user, error) in
-                
-                if error != nil {
-                    print("ERROR CONNECTING CURRENT USER: \(error)")
-                    return
-                }
-                
-                print("USER: \(user)")
-                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
-            }
-        }
-        
-        
         
         self.setUpConstraints()
-        
         
     }
     

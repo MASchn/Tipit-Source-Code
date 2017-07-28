@@ -192,6 +192,7 @@ class TIPLoginViewController: UIViewController {
                             self.emailTextField.text = ""
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
+                            TIPAPIClient.connectToSendBird()
                             self.navigationController?.dismiss(animated: true, completion: nil)
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
@@ -203,6 +204,7 @@ class TIPLoginViewController: UIViewController {
             })
         }
     }
+    
     
     func tappedFacebookButton() {
 //        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!

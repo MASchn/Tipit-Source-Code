@@ -5,6 +5,7 @@
 
 import Foundation
 import Alamofire
+import SendBirdSDK
 
 let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
 
@@ -330,6 +331,26 @@ class TIPAPIClient: NSObject {
             }
         }
         
+    }
+    
+    class func connectToSendBird() {
+        if let currentUserID = TIPUser.currentUser?.userId {
+            print("SSSSSSSS CURRENT USER ID: \(currentUserID)")
+            
+            SBDMain.connect(withUserId: currentUserID) { (user, error) in
+                
+                if error != nil {
+                    print("ERROR CONNECTING CURRENT USER: \(error)")
+                    return
+                }
+                
+                print("USER: \(user)")
+                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
+            }
+            
+        } else {
+            print("ERROR CONNECTING TO SENDBIRD")
+        }
     }
     
 }

@@ -35,13 +35,17 @@ class TIPMessageListTableViewCell: UITableViewCell {
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
+//        if let profileURL = feedItem.profileImageURL {
+//            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!)
+//        } else {
+//            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!)
+//        }
+        
         if let profileURL = feedItem.profileImageURL {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!)
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
         } else {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!)
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
         }
-        
-        
         
         
     }

@@ -41,12 +41,13 @@ extension UIImage {
 
 extension UIImageView {
     
-    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage) {
+    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage?, completion: @escaping () -> Void) {
         
         let NSUrlString = urlString as NSString
         
         if let cachedImage = imageCache.object(forKey: NSUrlString)  {
             self.image = cachedImage
+            completion()
             return
         }
         
@@ -55,11 +56,12 @@ extension UIImageView {
             self.image = image
             
             guard let url: URL = URL(string: urlString) else {
+                completion()
                 return
             }
             
             imageCache.setObject(image!, forKey: NSUrlString)
-            
+            completion()
         }
         
         

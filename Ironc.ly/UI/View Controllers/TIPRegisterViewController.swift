@@ -6,6 +6,7 @@
 import UIKit
 import Alamofire
 import FBSDKLoginKit
+import SendBirdSDK
 
 class TIPRegisterViewController: UIViewController {
 
@@ -184,6 +185,7 @@ class TIPRegisterViewController: UIViewController {
             password: self.passwordTextField.text!
         ) { (success: Bool) in
             if success == true {
+                TIPAPIClient.connectToSendBird()
                 self.navigationController?.dismiss(animated: true, completion: nil)
             } else {
                 print("Could not register new user")
@@ -238,6 +240,7 @@ class TIPRegisterViewController: UIViewController {
                 password: id
             ) { (success: Bool) in
                 if success == true {
+                    TIPAPIClient.connectToSendBird()
                     self.navigationController?.dismiss(animated: true, completion: nil)
                 } else {
                     print("Could not register new user")

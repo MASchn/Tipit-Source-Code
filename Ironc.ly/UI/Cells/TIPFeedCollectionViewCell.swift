@@ -39,18 +39,32 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
             self.blurView.isHidden = false
         }
         
-        self.postImageView.alpha = 0.0
-        UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
-            self.postImageView.image = image
+//        self.postImageView.alpha = 0.0
+//        UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
+//            self.postImageView.image = image
+//            UIView.animate(withDuration: 0.4, animations: {
+//                self.postImageView.alpha = 1.0
+//            })
+//        }
+//        
+//        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+//            self.profileImageView.image = image
+//        })
+        
+        
+        if let profileURL = feedItem.profileImageURL {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
+        } else {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+        }
+        
+//        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: UIImage(named: "empty_profile")!, completion: )
+    
+        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) { 
             UIView.animate(withDuration: 0.4, animations: {
                 self.postImageView.alpha = 1.0
             })
         }
-        
-        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
-            self.profileImageView.image = image
-        })
-  
     }
     
     override func prepareForReuse() {

@@ -41,7 +41,9 @@ class TIPChatCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.height/2
     }
+    
     
     // MARK: - Lazy Initialization
     lazy var bubbleView: UIView = {

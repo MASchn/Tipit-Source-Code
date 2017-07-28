@@ -6,6 +6,7 @@
 import Foundation
 import UIKit
 import FBSDKLoginKit
+import SendBirdSDK
 
 class TIPUser: NSObject {
     
@@ -207,6 +208,10 @@ class TIPUser: NSObject {
         if let fbUser = FBSDKAccessToken.current() {
             print("obatained fb token \(fbUser)")
             FBSDKLoginManager().logOut()
+        }
+        
+        SBDMain.disconnect { 
+            print("DISCONNECTED FROM SENDBIRD")
         }
         
         self.defaults.removeObject(forKey: "email")
