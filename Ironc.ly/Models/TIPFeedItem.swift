@@ -14,6 +14,7 @@ class TIPFeedItem: NSObject {
     var username: String?
     var timeRemaining: String?
     var isPrivate: Bool
+    var profileImage: UIImage?
     
     init?(JSON: [String : Any]) {
         guard let userId: String = JSON["user_id"] as? String else { return nil }

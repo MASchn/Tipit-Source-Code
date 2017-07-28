@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import SendBirdSDK
 
 class TIPMessagesViewController: UIViewController {
     
@@ -16,8 +17,33 @@ class TIPMessagesViewController: UIViewController {
         self.view.backgroundColor = .iroGray
         self.view.addSubview(messageListCollectionView)
     
-        self.getFeed()
+        if let currentUserID = TIPUser.currentUser?.userId {
+            print("CURRENT USER ID: \(currentUserID)")
+            
+            SBDMain.connect(withUserId: currentUserID) { (user, error) in
+                
+                if error != nil {
+                    print("ERROR CONNECTING CURRENT USER: \(error)")
+                    return
+                }
+                
+                print("USER: \(user)")
+                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
+            }
+        }
         
+        
+        
+        self.setUpConstraints()
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationController?.isNavigationBarHidden = true
+        self.getFeed()
     }
     
     func getFeed() {
@@ -42,12 +68,6 @@ class TIPMessagesViewController: UIViewController {
             //self.refreshControl.endRefreshing()
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.tabBarController?.navigationController?.isNavigationBarHidden = true
-    }
 
     // MARK: - Lazy Initialization
     lazy var messageListCollectionView: UITableView = {
@@ -71,6 +91,27 @@ class TIPMessagesViewController: UIViewController {
         self.messageListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
+    func goToChat(feedItem: TIPFeedItem, for cell: TIPMessageListTableViewCell){
+        
+        guard let myUserId = TIPUser.currentUser?.userId else {
+            print("NO CURRENT USER ID!!!")
+            return
+        }
+        
+        SBDGroupChannel.createChannel(withUserIds: [myUserId, feedItem.userId], isDistinct: true) { (channel, error) in
+            
+            if error != nil {
+                print("ERROR CEATING CHANNEL: \(error)")
+                return
+            }
+            
+            let chatVC: TIPChatViewController = TIPChatViewController(feedItem: feedItem, channel: channel!)
+            let chatNavController: UINavigationController = UINavigationController(rootViewController: chatVC)
+            self.present(chatNavController, animated: true, completion: nil)
+        }
+        
+    }
+    
 }
 
 extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -86,6 +127,23 @@ extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource 
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell: TIPMessageListTableViewCell = self.messageListCollectionView.cellForRow(at: indexPath) as! TIPMessageListTableViewCell
+        if let feedItem: TIPFeedItem = cell.feedItem {
+            //SBDMain.connect(withUserId: feedItem.userId, completionHandler: { (user, error) in
+                
+//                if error != nil {
+//                    print("ERROR CONNECTING FEED USER: \(error)")
+//                    return
+//                }
+            
+                self.goToChat(feedItem: feedItem, for: cell)
+            //})
+        }
+    }
+    
 }
 
 

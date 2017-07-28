@@ -5,6 +5,8 @@
 
 import UIKit
 
+let imageCache = NSCache<NSString, UIImage>()
+
 extension UIImage {
     
     class func download(urlString: String?, placeHolder: UIImage? = nil, completion: @escaping (UIImage?) -> Void) {
@@ -33,4 +35,33 @@ extension UIImage {
 
     }
     
+    
+    
+}
+
+extension UIImageView {
+    
+    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage) {
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            self.image = cachedImage
+            return
+        }
+        
+        UIImage.download(urlString: urlString, placeHolder: placeHolder) { (image) in
+            
+            self.image = image
+            
+            guard let url: URL = URL(string: urlString) else {
+                return
+            }
+            
+            imageCache.setObject(image!, forKey: NSUrlString)
+            
+        }
+        
+        
+    }
 }
