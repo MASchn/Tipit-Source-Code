@@ -96,6 +96,9 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
                     print("ID: \(userMessage.sender?.userId)")
                 }
                 
+            }
+            
+            if self.messages.isEmpty != true {
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                     let lastMessageIndex = (self.messages.endIndex - 1)
@@ -106,7 +109,8 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
             
         
         })
-        
+
+        SBDMain.add(self as SBDChannelDelegate, identifier: "chatVCHandler")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -189,9 +193,13 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y -= keyboardSize.height
         }
-        let lastMessageIndex = (self.messages.endIndex - 1)
-        let indexPath = IndexPath(item: lastMessageIndex, section: 0)
-        self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+        
+        if self.messages.isEmpty != true {
+            let lastMessageIndex = (self.messages.endIndex - 1)
+            let indexPath = IndexPath(item: lastMessageIndex, section: 0)
+            self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+        }
+        
     }
     
     func keyboardWillHide(sender: Notification) {
@@ -295,5 +303,19 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+    }
+}
+
+extension TIPChatViewController: SBDChannelDelegate {
+    
+    func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
+        print("message recieved")
+        let userMessage = message as! SBDUserMessage
+        self.messages.append(userMessage)
+        
+        self.collectionView?.reloadData()
+        let lastMessageIndex = (self.messages.endIndex - 1)
+        let indexPath = IndexPath(item: lastMessageIndex, section: 0)
+        self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
     }
 }
