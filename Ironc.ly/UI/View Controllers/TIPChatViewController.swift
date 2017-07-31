@@ -41,6 +41,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         //self.collectionView?.isUserInteractionEnabled = false
         self.collectionView?.isScrollEnabled = true
         
+        //self.view.backgroundColor = .white
         self.title = self.username
         self.collectionView?.backgroundColor = .white
         self.collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
@@ -54,6 +55,10 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:Notification.Name.UIKeyboardWillShow, object: nil);
        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil);
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.collectionView!.addGestureRecognizer(tap)
         
         self.view.addSubview(inputContainerView)
         self.inputContainerView.addSubview(sendButton)
@@ -93,6 +98,9 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
                 
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
+                    let lastMessageIndex = (self.messages.endIndex - 1)
+                    let indexPath = IndexPath(item: lastMessageIndex, section: 0)
+                    self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
                 }
             }
             
@@ -103,6 +111,16 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - LAZY VARIABLES
@@ -158,6 +176,11 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         self.seperatorLine.rightAnchor.constraint(equalTo: self.inputContainerView.rightAnchor).isActive = true
         self.seperatorLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
+        self.collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.collectionView?.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.collectionView?.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.collectionView?.bottomAnchor.constraint(equalTo: self.inputContainerView.topAnchor).isActive = true
     }
     
     
@@ -166,12 +189,19 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y -= keyboardSize.height
         }
+        let lastMessageIndex = (self.messages.endIndex - 1)
+        let indexPath = IndexPath(item: lastMessageIndex, section: 0)
+        self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
     }
     
     func keyboardWillHide(sender: Notification) {
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y += keyboardSize.height
         }
+    }
+    
+    func dismissKeyboard() {
+        self.inputTextField.endEditing(true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -203,6 +233,9 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
             
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
+                let lastMessageIndex = (self.messages.endIndex - 1)
+                let indexPath = IndexPath(item: lastMessageIndex, section: 0)
+                self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
             }
         }
 
@@ -251,7 +284,6 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var height: CGFloat = 80
-        
         let text = messages[indexPath.item]
         height = estimateFrameForText(text: text.message!).height + 20
         

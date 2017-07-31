@@ -33,9 +33,15 @@ class TIPProfileViewController: UIViewController {
             self.profileImageButton.setImage(image, for: .normal)
         })
         
-        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
-            self.backgroundImageView.image = image
-        })
+        if let backgroundURL = searchUser.backgroundImageURL {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        } else {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        }
+        
+//        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
+//            self.backgroundImageView.image = image
+//        })
     }
     
     convenience init(feedItem: TIPFeedItem) {
