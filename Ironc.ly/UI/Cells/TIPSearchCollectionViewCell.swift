@@ -48,9 +48,9 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
             self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
         }
         
-        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
-            self.postImageView.image = image
-        })
+//        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
+//            self.postImageView.image = image
+//        })
         
         if let mediaURL = searchUser.mediaItemURL {
             self.postImageView.loadImageUsingCacheFromUrlString(urlString: mediaURL, placeHolder: nil) {}

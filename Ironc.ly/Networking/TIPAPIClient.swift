@@ -6,6 +6,7 @@
 import Foundation
 import Alamofire
 import SendBirdSDK
+import AVFoundation
 
 let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
 
@@ -44,6 +45,7 @@ class TIPAPIClient: NSObject {
         { (response) in
             TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
                 if let mediaItems: [TIPMediaItem] = mediaItems {
+                    
                     TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
                         completionHandler(story)
                     })
@@ -351,6 +353,40 @@ class TIPAPIClient: NSObject {
         } else {
             print("ERROR CONNECTING TO SENDBIRD")
         }
+    }
+    
+    class func imageFromVideo(urlString: String, at time: TimeInterval) -> UIImage? {
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            return(cachedImage)
+        }
+        
+        guard let url = URL(string: urlString) else {
+            return(nil)
+        }
+        
+        let asset = AVURLAsset(url: url)
+        
+        let assetIG = AVAssetImageGenerator(asset: asset)
+        assetIG.appliesPreferredTrackTransform = true
+        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
+        
+        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
+        let thumbnailImageRef: CGImage
+        do {
+            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
+        } catch let error {
+            print("Error: \(error)")
+            return nil
+        }
+        
+        let finalImage = UIImage(cgImage: thumbnailImageRef)
+        
+        imageCache.setObject(finalImage, forKey: NSUrlString)
+        
+        return finalImage
     }
     
 }

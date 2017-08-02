@@ -30,6 +30,8 @@ class TIPParser: NSObject {
         switch response.result {
         case.success(let JSONDictionary):
             if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                print("JSON MEDIA ITEM DICT: \(JSON)")
+                
                 var mediaItems: [TIPMediaItem] = []
                 if let mediaItemsJSON: [[String : Any]] = JSON["mediaItems"] as? [[String : Any]] {
                     for mediaItemJSON: [String : Any] in mediaItemsJSON {

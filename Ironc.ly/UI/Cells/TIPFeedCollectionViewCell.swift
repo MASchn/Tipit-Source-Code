@@ -29,6 +29,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     func configure(with feedItem: TIPFeedItem) {
         self.feedItem = feedItem
         
+        print("FEED ITEM PIC URL: \(feedItem.storyImage)")
+        
         self.usernameLabel.text = feedItem.username
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
@@ -46,7 +48,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
 //                self.postImageView.alpha = 1.0
 //            })
 //        }
-//        
+//
 //        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
 //            self.profileImageView.image = image
 //        })
@@ -60,10 +62,18 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
 //        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: UIImage(named: "empty_profile")!, completion: )
     
-        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) { 
+        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) {
+            
+            if (self.postImageView.image == nil) && (feedItem.storyImage.contains(".mp4")) {
+                let image = TIPAPIClient.imageFromVideo(urlString: feedItem.storyImage, at: 0)
+                self.postImageView.image = image
+            }
+            
             UIView.animate(withDuration: 0.4, animations: {
                 self.postImageView.alpha = 1.0
             })
+            
+            
         }
     }
     
