@@ -18,14 +18,14 @@ class TIPMessagesViewController: UIViewController {
         self.view.addSubview(messageListCollectionView)
         
         self.setUpConstraints()
-        self.getSubs()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tabBarController?.navigationController?.isNavigationBarHidden = true
-        
+        self.getSubs()
     }
     
     func getFeed() {
@@ -53,21 +53,11 @@ class TIPMessagesViewController: UIViewController {
     
     func getSubs() {
         
-        var allMySubs: [TIPSearchUser] = [TIPSearchUser]()
-        
-//        if let subbedTo = user.subscribedTo {
-//            for sub in subbedTo{
-//                if sub == feedItem.userId {
-//                    isSubbed = true
-//                }
-//            }
-//        }
+        self.subbedToUsers.removeAll()
         
         guard let subbedTo = TIPUser.currentUser?.subscribedTo else {
             return
         }
-        
-        
         
         TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
             
@@ -80,14 +70,8 @@ class TIPMessagesViewController: UIViewController {
                 }
             }
             
-            //print("ALL MY SUBS: \(allMySubs.count)")
             self.messageListCollectionView.reloadData()
         }
-        
-        
-        
-        
-        
         
     }
 

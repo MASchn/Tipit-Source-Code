@@ -48,8 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
-        TIPAPIClient.connectToSendBird()
-        
         self.initializeFeed()
         
         return true
@@ -65,6 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if TIPUser.currentUser == nil {
             let navController: UINavigationController = self.initializeSignInController()
             self.tabBarController?.present(navController, animated: false, completion: nil)
+        } else {
+            TIPAPIClient.connectToSendBird()
         }
     }
     

@@ -286,7 +286,7 @@ class TIPPostViewController: UIViewController {
     func showLockedAlert() {
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text)?",
+            message: "Subscribe to \(self.usernameLabel.text!)?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in

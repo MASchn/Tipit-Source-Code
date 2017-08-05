@@ -25,11 +25,18 @@ class TIPProfileViewController: UIViewController {
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
+        self.subscribeButton.isHidden = false
         
         if searchUser.following == false {
             self.showFollowButton()
         } else {
             self.showUnfollowButton()
+        }
+        
+        if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
+            self.showUnsubscribeButton()
+        } else {
+            self.showSubscribeButton()
         }
         
 //        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
@@ -67,9 +74,15 @@ class TIPProfileViewController: UIViewController {
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
+        self.subscribeButton.isHidden = false
         
         self.showUnfollowButton()
         
+        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
+            self.showUnsubscribeButton()
+        } else {
+            self.showSubscribeButton()
+        }
 //        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
 //            self.profileImageButton.setImage(image, for: .normal)
 //        })
@@ -119,6 +132,7 @@ print("BRAD USER ID: \(userId)")
         
         self.view.addSubview(self.editButton)
         self.view.addSubview(self.followButton)
+        self.view.addSubview(self.subscribeButton)
         
         self.view.addSubview(self.storyPreviewButton)
         
@@ -194,6 +208,7 @@ print("BRAD USER ID: \(userId)")
         self.profileImageButton.layer.cornerRadius = self.profileImageButton.frame.size.height / 2.0
         self.editButton.layer.cornerRadius = self.editButton.frame.size.height / 2.0
         self.followButton.layer.cornerRadius = self.followButton.frame.size.height / 2.0
+        self.subscribeButton.layer.cornerRadius = self.subscribeButton.frame.size.height / 2.0
     }
     
     // MARK: - Lazy Initialization
@@ -264,6 +279,17 @@ print("BRAD USER ID: \(userId)")
         button.setTitle("Follow", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(self.tappedFollowButton), for: .touchUpInside)
+        button.clipsToBounds = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Follow will be hidden if profile is current user
+        return button
+    }()
+    
+    lazy var subscribeButton: TIPButton = {
+        let button: TIPButton = TIPButton(style: .green)
+        button.setTitle("Subscribe", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightMedium)
+        button.addTarget(self, action: #selector(self.tappedSubscribeButton), for: .touchUpInside)
         button.clipsToBounds = false
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isHidden = true // Follow will be hidden if profile is current user
@@ -377,6 +403,10 @@ print("BRAD USER ID: \(userId)")
         self.followButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         self.followButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
+        self.subscribeButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 30).isActive = true
+        self.subscribeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.subscribeButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        self.subscribeButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         // APPSTORE: REMOVING FOR V1
 //
 //        self.followersButton.topAnchor.constraint(equalTo: self.followersCountLabel.topAnchor).isActive = true
@@ -465,6 +495,72 @@ print("BRAD USER ID: \(userId)")
             } else if followButton.titleLabel?.text == "Unfollow" {
                 self.showFollowButton()
                 self.follow(userId: userId)
+            }
+        }
+    }
+    
+    func tappedSubscribeButton() {
+        if let userId: String = userId {
+            if subscribeButton.titleLabel?.text == "Subscribe" {
+                self.showUnsubscribeButton()
+                self.subscribe(userId: userId)
+            } else if subscribeButton.titleLabel?.text == "Unsubscribe" {
+                self.showSubscribeButton()
+                self.unsubscribe(userId: userId)
+            }
+        }
+    }
+    
+//    func showSubscribeAlert() -> Bool {
+//        let alert: UIAlertController = UIAlertController(
+//            title: "Subscribe",
+//            message: "Subscribe to \(self.usernameLabel.text!)?",
+//            preferredStyle: .alert
+//        )
+//        let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+//            
+//            
+//        }
+//        
+//        let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+//            //
+//        }
+//        alert.addAction(yesAction)
+//        alert.addAction(noAction)
+//        self.present(alert, animated: true, completion: nil)
+//    }
+    
+    func showUnsubscribeButton() {
+        self.subscribeButton.setTitle("Unsubscribe", for: .normal)
+        self.subscribeButton.configure(style: .white)
+        
+    }
+    
+    func showSubscribeButton() {
+        self.subscribeButton.setTitle("Subscribe", for: .normal)
+        self.subscribeButton.configure(style: .green)
+        
+    }
+    
+    func subscribe(userId: String) {
+        TIPAPIClient.userAction(action: .subscribe, userId: userId) { (success: Bool) in
+            if success == true {
+                TIPUser.currentUser?.subscribedTo?.append(userId)
+                TIPUser.currentUser?.save()
+            } else {
+                print("COULD NOT SUBSCRIBE")
+            }
+        }
+    }
+    
+    func unsubscribe(userId: String) {
+        TIPAPIClient.userAction(action: .unsubscribe, userId: userId) { (success: Bool) in
+            if success == true {
+                let index = TIPUser.currentUser?.subscribedTo?.index(of: userId)
+                TIPUser.currentUser?.subscribedTo?.remove(at: index!)
+                TIPUser.currentUser?.save()
+            } else {
+                print("COULD NOT UNSUBSCRIBE")
             }
         }
     }
