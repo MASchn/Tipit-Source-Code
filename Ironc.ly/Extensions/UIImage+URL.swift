@@ -5,6 +5,8 @@
 
 import UIKit
 
+let imageCache = NSCache<NSString, UIImage>()
+
 extension UIImage {
     
     class func download(urlString: String?, placeHolder: UIImage? = nil, completion: @escaping (UIImage?) -> Void) {
@@ -33,4 +35,68 @@ extension UIImage {
 
     }
     
+    class func loadImageUsingCache(urlString: String, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            completion(cachedImage)
+            return
+        }
+        
+        UIImage.download(urlString: urlString, placeHolder: placeHolder) { (image) in
+            
+            guard let url: URL = URL(string: urlString) else {
+                completion(image)
+                return
+            }
+            
+            if (image != placeHolder) && (image != nil) {
+                imageCache.setObject(image!, forKey: NSUrlString)
+            }
+            
+            
+            completion(image)
+        }
+        
+    }
+    
+}
+
+extension UIImageView {
+    
+    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage?, completion: @escaping () -> Void) {
+        
+//        guard let string = urlString else {
+//            
+//            return
+//        }
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            self.image = cachedImage
+            completion()
+            return
+        }
+        
+        UIImage.download(urlString: urlString, placeHolder: placeHolder) { (image) in
+            
+            self.image = image
+            
+            guard let url: URL = URL(string: urlString) else {
+                completion()
+                return
+            }
+            
+            if (image != placeHolder) && (image != nil) {
+                imageCache.setObject(image!, forKey: NSUrlString)
+            }
+            
+            
+            completion()
+        }
+        
+        
+    }
 }

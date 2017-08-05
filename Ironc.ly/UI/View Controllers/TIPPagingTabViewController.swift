@@ -33,7 +33,7 @@ class TIPPagingTabViewController: UIPageViewController {
     // MARK: - Lazy Initialization
     lazy var tabBar: UITabBar = {
         let tabBar: UITabBar = UITabBar()
-        tabBar.tintColor = .iroGreen
+        tabBar.tintColor = .iroBlue
         tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
         return tabBar
     }()

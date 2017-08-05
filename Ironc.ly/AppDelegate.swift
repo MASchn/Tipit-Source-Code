@@ -5,12 +5,14 @@
 
 import UIKit
 import FBSDKCoreKit
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var tabBarController: UITabBarController?
+    let sendBirdAppID = "EB96DFC6-5314-4901-9CDF-5791FDEE157A"
     
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -18,15 +20,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        SBDMain.initWithApplicationId(sendBirdAppID)
+        
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        //self.window?.backgroundColor = .clear
         
         // Get current user
         if let user: TIPUser = TIPUser.fetchUserFromDefaults() {
             TIPUser.currentUser = user
             print(user)
         }
+        
+//        if let currentUserID = TIPUser.currentUser?.userId {
+//            print("SSSSSSSS CURRENT USER ID: \(currentUserID)")
+//            
+//            SBDMain.connect(withUserId: currentUserID) { (user, error) in
+//                
+//                if error != nil {
+//                    print("ERROR CONNECTING CURRENT USER: \(error)")
+//                    return
+//                }
+//                
+//                print("USER: \(user)")
+//                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
+//            }
+//        }
+        
+        TIPAPIClient.connectToSendBird()
         
         self.initializeFeed()
         

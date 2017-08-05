@@ -5,6 +5,7 @@
 
 import UIKit
 import FBSDKLoginKit
+import SendBirdSDK
 
 class TIPLoginViewController: UIViewController {
 
@@ -186,22 +187,25 @@ class TIPLoginViewController: UIViewController {
             TIPAPIClient.logInUser(email: trimmedEmail, password: password, completionHandler: { (success: Bool) in
                 if success == true {
                     
-                    TIPAPIClient.updateUser(parameters: [:], completionHandler: { (success: Bool) in
+                    TIPAPIClient.getCurrentUserInfo(completionHandler: { (success: Bool) in
                         if success == true {
                             self.emailTextField.text = ""
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
+                            TIPAPIClient.connectToSendBird()
                             self.navigationController?.dismiss(animated: true, completion: nil)
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
                         }
                     })
+                
                 } else {
                     self.showAlert(title: "Incorrect email or password", message: "Please try again", completion: nil)
                 }
             })
         }
     }
+    
     
     func tappedFacebookButton() {
 //        let url: URL = URL(string: "https://powerful-reef-30384.herokuapp.com/auth/facebook")!

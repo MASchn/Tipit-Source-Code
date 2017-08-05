@@ -7,6 +7,10 @@ import UIKit
 
 extension UIColor {
     
+    class var iroBlue: UIColor {
+        return UIColor(red: 133/255, green: 229/255, blue: 232/255, alpha: 1.0)
+    }
+    
     class var iroGreen: UIColor {
         return UIColor(red: 170/255.0, green: 229/255.0, blue: 0.0, alpha: 1.0)
     }

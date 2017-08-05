@@ -131,7 +131,7 @@ class TIPCamViewController: SwiftyCamViewController {
         self.flashEnabled = !self.flashEnabled
         
         if flashEnabled == true {
-            self.flashButton.tintColor = .iroGreen
+            self.flashButton.tintColor = .iroBlue
         } else {
             self.flashButton.tintColor = UIColor.white
         }

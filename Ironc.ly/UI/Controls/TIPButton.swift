@@ -28,7 +28,7 @@ class TIPButton: UIButton {
         case .green:
             self.setTitleColor(.black, for: .normal)
             self.setTitleColor(.white, for: .highlighted)
-            self.backgroundColor = .iroGreen
+            self.backgroundColor = .iroBlue
         case .white:
             self.setTitleColor(.black, for: .normal)
             self.setTitleColor(.lightGray, for: .highlighted)

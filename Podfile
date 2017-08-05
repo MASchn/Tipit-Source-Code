@@ -9,6 +9,7 @@ target 'Ironc.ly' do
     pod 'FBSDKCoreKit'
     pod 'FBSDKShareKit'
     pod 'FBSDKLoginKit'
+    pod 'SendBirdSDK'
 end
 
 post_install do |installer|

@@ -6,6 +6,7 @@
 import Foundation
 import UIKit
 import FBSDKLoginKit
+import SendBirdSDK
 
 class TIPUser: NSObject {
     
@@ -22,6 +23,8 @@ class TIPUser: NSObject {
     var bio: String?
     var coins: Int
     var allAccess: Bool
+    var subscribers: [String]?
+    var subscribedTo: [String]?
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
@@ -60,6 +63,14 @@ class TIPUser: NSObject {
             fields.append("UNLOCKED ALL CONTENT")
         }
         
+        if let mySubs: [String] = self.subscribers {
+            fields.append("SUBSCRIBERS: \(mySubs)")
+        }
+        
+        if let subbedTo: [String] = self.subscribedTo {
+            fields.append("SUBBED TO: \(subbedTo)")
+        }
+        
         return fields.flatMap({$0}).joined(separator: "\n")
     }
     
@@ -77,6 +88,8 @@ class TIPUser: NSObject {
         let backgroundImageURL: String? = JSON["background_image"] as? String
         let coins: Int = JSON["coins"] as? Int ?? 0
         let allAccess: Bool = JSON["all_access"] as? Bool ?? false
+        let mySubs: [String]? = JSON["_mysubscribers"] as? [String]
+        let subsTo: [String]? = JSON["_mysubscriptions"] as? [String]
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -84,6 +97,12 @@ class TIPUser: NSObject {
             user.website = website
             user.bio = bio
             user.coins = coins
+            if let subs: [String] = mySubs{
+                user.subscribers = subs
+            }
+            if let subs: [String] = subsTo{
+                user.subscribedTo = subs
+            }
             if let profileImageURL: String = profileImageURL {
                 user.profileImageURL = profileImageURL
             }
@@ -109,7 +128,9 @@ class TIPUser: NSObject {
                 website: website,
                 bio: bio,
                 coins: coins,
-                allAccess: allAccess
+                allAccess: allAccess,
+                mySubs: mySubs,
+                subbedTo: subsTo
             )
             user.save()
             TIPUser.currentUser = user
@@ -139,7 +160,7 @@ class TIPUser: NSObject {
         self.allAccess = false
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -151,9 +172,11 @@ class TIPUser: NSObject {
         self.bio = bio
         self.coins = coins
         self.allAccess = allAccess
+        self.subscribers = mySubs
+        self.subscribedTo = subbedTo
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -165,6 +188,8 @@ class TIPUser: NSObject {
         self.bio = bio
         self.coins = coins
         self.allAccess = allAccess
+        self.subscribers = mySubs
+        self.subscribedTo = subbedTo
     }
     
     func save() {
@@ -187,6 +212,8 @@ class TIPUser: NSObject {
         self.defaults.set(self.bio, forKey: "bio")
         self.defaults.set(self.coins, forKey: "coins")
         self.defaults.set(self.allAccess, forKey: "all_access")
+        self.defaults.set(self.subscribers, forKey: "subscribers")
+        self.defaults.set(self.subscribedTo, forKey: "subscribedTo")
         self.defaults.synchronize()
     }
     
@@ -207,6 +234,10 @@ class TIPUser: NSObject {
         if let fbUser = FBSDKAccessToken.current() {
             print("obatained fb token \(fbUser)")
             FBSDKLoginManager().logOut()
+        }
+        
+        SBDMain.disconnect { 
+            print("DISCONNECTED FROM SENDBIRD")
         }
         
         self.defaults.removeObject(forKey: "email")
@@ -235,6 +266,8 @@ class TIPUser: NSObject {
             let bio: String? = defaults.object(forKey: "bio") as? String
             let coins: Int = defaults.integer(forKey: "coins")
             let allAccess: Bool = defaults.bool(forKey: "all_access")
+            let mySubs: [String]? = defaults.object(forKey: "subscribers") as? [String]
+            let subbedTo: [String]? = defaults.object(forKey: "subscribedTo") as? [String]
             return TIPUser(
                 userId: userId,
                 username: username,
@@ -246,7 +279,9 @@ class TIPUser: NSObject {
                 website: website,
                 bio: bio,
                 coins: coins,
-                allAccess: allAccess
+                allAccess: allAccess,
+                mySubs: mySubs,
+                subbedTo: subbedTo
             )
         }
         return nil

@@ -20,8 +20,14 @@ class TIPFeedViewController: UIViewController {
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.feedCollectionView)
         self.view.addSubview(self.loadingView)
-                
-        self.feedCollectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.bottomLayoutGuide.length, right: 0.0)
+        
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.tabBarController!.tabBar.frame.height, right: 0.0)
+        
+        self.feedCollectionView.contentInset = adjustForTabbarInsets
+        self.feedCollectionView.scrollIndicatorInsets = adjustForTabbarInsets
+        self.feedCollectionView.scrollIndicatorInsets.bottom -= 10
+        self.feedCollectionView.contentInset.bottom -= 10
+        
         
         self.setUpConstraints()
         
@@ -102,7 +108,7 @@ class TIPFeedViewController: UIViewController {
     
     lazy var refreshControl: UIRefreshControl = {
         let control: UIRefreshControl = UIRefreshControl()
-        control.backgroundColor = .iroGreen
+        control.backgroundColor = .iroBlue
         control.tintColor = .white
         control.addTarget(self, action: #selector(self.getFeed), for: .valueChanged)
         return control
@@ -122,6 +128,8 @@ class TIPFeedViewController: UIViewController {
         
         self.loadingView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.loadingView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        
+        
     }
     
     func changeLayout() {
@@ -183,7 +191,8 @@ extension TIPFeedViewController: UICollectionViewDelegate {
         if let feedItem: TIPFeedItem = cell.feedItem {
             TIPAPIClient.getStory(userId: feedItem.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: feedItem.username, profileImage: cell.profileImageView.image)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: feedItem.username, profileImage: cell.profileImageView.image, userID: feedItem.userId)
+                    
                     self.present(storyViewController, animated: true, completion: nil)
                 }
             })

@@ -20,6 +20,13 @@ class TIPSearchViewController: UIViewController {
         self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
         
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.tabBarController!.tabBar.frame.height, right: 0.0)
+        
+        self.searchCollectionView.contentInset = adjustForTabbarInsets
+        self.searchCollectionView.scrollIndicatorInsets = adjustForTabbarInsets
+        self.searchCollectionView.scrollIndicatorInsets.bottom -= 10
+        self.searchCollectionView.contentInset.bottom -= 10
+        
         self.setUpConstraints()
     }
     
@@ -85,7 +92,7 @@ class TIPSearchViewController: UIViewController {
     
     lazy var refreshControl: UIRefreshControl = {
         let control: UIRefreshControl = UIRefreshControl()
-        control.backgroundColor = .iroGreen
+        control.backgroundColor = .iroBlue
         control.tintColor = .white
         control.addTarget(self, action: #selector(self.search), for: .valueChanged)
         return control
@@ -142,7 +149,8 @@ extension TIPSearchViewController: UICollectionViewDelegate {
         if let user: TIPSearchUser = cell.user {
             TIPAPIClient.getStory(userId: user.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story, story.posts.count > 0 {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image, userID: user.userId)
+                    
                     self.present(storyViewController, animated: true, completion: nil)
                 }
             })

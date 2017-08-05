@@ -14,6 +14,7 @@ class TIPSearchUser: NSObject {
     var profileImageURL: String?
     var backgroundImageURL: String?
     var following: Bool
+    var isSubscribed: Bool
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
@@ -34,6 +35,17 @@ class TIPSearchUser: NSObject {
         if let mediaItem: String = (JSON["media_item"] as? [String : Any])?["url"] as? String {
             self.mediaItemURL = mediaItem
         }
+        
+        if let mediaItem: [String:Any] = (JSON["media_item"] as? [String : Any]){
+            if let subscribed = mediaItem["isSubscribed"] as? Bool{
+                self.isSubscribed = subscribed
+            } else {
+                self.isSubscribed = false
+            }
+        } else {
+            self.isSubscribed = false
+        }
+        
         
         self.username = username
         self.name = JSON["name"] as? String

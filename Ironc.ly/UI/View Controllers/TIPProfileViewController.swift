@@ -12,6 +12,8 @@ class TIPProfileViewController: UIViewController {
     // MARK: - Properties
     var userId: String?
     var story: TIPStory?
+    var username: String?
+    var profilePic: UIImage?
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -19,6 +21,7 @@ class TIPProfileViewController: UIViewController {
 
         self.userId = searchUser.userId
         self.usernameLabel.text = searchUser.username
+        self.username = searchUser.username
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
@@ -29,13 +32,30 @@ class TIPProfileViewController: UIViewController {
             self.showUnfollowButton()
         }
         
-        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
-            self.profileImageButton.setImage(image, for: .normal)
-        })
+//        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
+//            self.profileImageButton.setImage(image, for: .normal)
+//        })
         
-        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
-            self.backgroundImageView.image = image
-        })
+        
+        if let profileURL = searchUser.profileImageURL {
+            UIImage.loadImageUsingCache(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
+                self.profileImageButton.setImage(image, for: .normal)
+            })
+        } else {
+            UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
+                self.profileImageButton.setImage(image, for: .normal)
+            })
+        }
+        
+        if let backgroundURL = searchUser.backgroundImageURL {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        } else {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        }
+        
+//        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
+//            self.backgroundImageView.image = image
+//        })
     }
     
     convenience init(feedItem: TIPFeedItem) {
@@ -43,21 +63,38 @@ class TIPProfileViewController: UIViewController {
 
         self.userId = feedItem.userId
         self.usernameLabel.text = feedItem.username
+        self.username = feedItem.username
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
         
         self.showUnfollowButton()
         
-        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
-            self.profileImageButton.setImage(image, for: .normal)
-        })
+//        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
+//            self.profileImageButton.setImage(image, for: .normal)
+//        })
+        
+        if let profileURL = feedItem.profileImageURL {
+            UIImage.loadImageUsingCache(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
+                self.profileImageButton.setImage(image, for: .normal)
+            })
+        } else {
+            UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
+                self.profileImageButton.setImage(image, for: .normal)
+            })
+        }
+        
+        if let backgroundURL = feedItem.backgroundImageURL {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        } else {
+            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+        }
     }
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print("BRAD USER ID: \(userId)")
         self.view.backgroundColor = .white
                 
         self.view.addSubview(self.backgroundImageView)
@@ -111,8 +148,8 @@ class TIPProfileViewController: UIViewController {
                     if firstPost.type == .video {
                         
                         DispatchQueue.global(qos: .background).async {
-                            let url = URL(string: firstPost.contentURL!)
-                            let image = self.imageFromVideo(url: url!, at: 0)
+                            
+                            let image = TIPAPIClient.imageFromVideo(urlString: firstPost.contentURL!, at: 0)
                             DispatchQueue.main.async {
                                 self.storyPreviewButton.setImage(image, for: .normal)
                                 self.storyPreviewButton.layer.borderWidth = 10.0
@@ -282,7 +319,7 @@ class TIPProfileViewController: UIViewController {
     
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
-        button.layer.borderColor = UIColor.iroGreen.cgColor
+        button.layer.borderColor = UIColor.iroBlue.cgColor
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
@@ -378,21 +415,23 @@ class TIPProfileViewController: UIViewController {
     
     // MARK: - Actions
     func tappedStoryPreviewButton() {
-        let username: String = TIPUser.currentUser?.username ?? ""
+        //let username: String = TIPUser.currentUser?.username ?? ""
         print("STORY: \(self.story)")
         
         if self.story?.posts.isEmpty == true{
             return
         }
         
-        if let story: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: username, profileImage: TIPUser.currentUser?.profileImage)
+        if let currentStory: TIPStory = self.story {
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.username, profileImage: self.profileImageButton.image(for: .normal), userID: self.userId!)
             self.present(storyViewController, animated: true, completion: nil)
         }
     }
     
     func tappedProfileButton() {
-        self.showPhotoActionSheet()
+        if self.userId == TIPUser.currentUser?.userId {
+            self.showPhotoActionSheet()
+        }
     }
     
     func tappedSettingsButton() {
@@ -437,6 +476,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func unfollow(userId: String) {
+        
         TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
             //
         })
@@ -449,6 +489,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func follow(userId: String) {
+        print("BRAD USER ID: \(userId)")
         TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
             //
         })
@@ -464,23 +505,38 @@ class TIPProfileViewController: UIViewController {
         self.navigationController?.pushViewController(followingViewController, animated: true)
     }
     
-    func imageFromVideo(url: URL, at time: TimeInterval) -> UIImage? {
-        let asset = AVURLAsset(url: url)
-        
-        let assetIG = AVAssetImageGenerator(asset: asset)
-        assetIG.appliesPreferredTrackTransform = true
-        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
-        
-        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
-        let thumbnailImageRef: CGImage
-        do {
-            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
-        } catch let error {
-            print("Error: \(error)")
-            return nil
-        }
-        
-        return UIImage(cgImage: thumbnailImageRef)
-    }
+//    func imageFromVideo(urlString: String, at time: TimeInterval) -> UIImage? {
+//        
+//        let NSUrlString = urlString as NSString
+//        
+//        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+//            return(cachedImage)
+//        }
+//        
+//        guard let url = URL(string: urlString) else {
+//            return(nil)
+//        }
+//        
+//        let asset = AVURLAsset(url: url)
+//        
+//        let assetIG = AVAssetImageGenerator(asset: asset)
+//        assetIG.appliesPreferredTrackTransform = true
+//        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
+//        
+//        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
+//        let thumbnailImageRef: CGImage
+//        do {
+//            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
+//        } catch let error {
+//            print("Error: \(error)")
+//            return nil
+//        }
+//        
+//        let finalImage = UIImage(cgImage: thumbnailImageRef)
+//        
+//        imageCache.setObject(finalImage, forKey: NSUrlString)
+//        
+//        return finalImage
+//    }
 
 }

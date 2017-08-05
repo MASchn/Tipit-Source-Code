@@ -29,28 +29,62 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     func configure(with feedItem: TIPFeedItem) {
         self.feedItem = feedItem
         
+        print("FEED ITEM PIC URL: \(feedItem.storyImage)")
+        
         self.usernameLabel.text = feedItem.username
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if feedItem.isPrivate == false || user.allAccess == true {
+        var isSubbed: Bool = false
+        
+        if let subbedTo = user.subscribedTo {
+            for sub in subbedTo{
+                if sub == feedItem.userId {
+                    isSubbed = true
+                }
+            }
+        }
+        
+        if feedItem.isPrivate == false || isSubbed == true {
             self.blurView.isHidden = true
         } else {
             self.blurView.isHidden = false
         }
         
-        self.postImageView.alpha = 0.0
-        UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
-            self.postImageView.image = image
+//        self.postImageView.alpha = 0.0
+//        UIImage.download(urlString: feedItem.storyImage) { (image: UIImage?) in
+//            self.postImageView.image = image
+//            UIView.animate(withDuration: 0.4, animations: {
+//                self.postImageView.alpha = 1.0
+//            })
+//        }
+//
+//        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+//            self.profileImageView.image = image
+//        })
+        
+        
+        if let profileURL = feedItem.profileImageURL {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
+        } else {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+        }
+        
+//        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: UIImage(named: "empty_profile")!, completion: )
+    
+        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) {
+            
+            if (self.postImageView.image == nil) && (feedItem.storyImage.contains(".mp4")) {
+                let image = TIPAPIClient.imageFromVideo(urlString: feedItem.storyImage, at: 0)
+                self.postImageView.image = image
+            }
+            
             UIView.animate(withDuration: 0.4, animations: {
                 self.postImageView.alpha = 1.0
             })
+            
+            
         }
-        
-        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
-            self.profileImageView.image = image
-        })
-  
     }
     
     override func prepareForReuse() {

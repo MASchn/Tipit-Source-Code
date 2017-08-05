@@ -38,13 +38,25 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
-            self.profileImageView.image = image
-        })
+//        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
+//            self.profileImageView.image = image
+//        })
         
-        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
-            self.postImageView.image = image
-        })
+        if let profileURL = searchUser.profileImageURL {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
+        } else {
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+        }
+        
+//        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
+//            self.postImageView.image = image
+//        })
+        
+        if let mediaURL = searchUser.mediaItemURL {
+            self.postImageView.loadImageUsingCacheFromUrlString(urlString: mediaURL, placeHolder: nil) {}
+        } else {
+            self.postImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: nil) {}
+        }
         
     }
     

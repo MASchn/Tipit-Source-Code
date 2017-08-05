@@ -5,6 +5,8 @@
 
 import Foundation
 import Alamofire
+import SendBirdSDK
+import AVFoundation
 
 let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
 
@@ -30,6 +32,27 @@ class TIPAPIClient: NSObject {
         ]
     }
     
+    class func getCurrentUserInfo(completionHandler: @escaping (Bool) -> Void) {
+        Alamofire.request(baseURL + "/users/me", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON
+            { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        print("CURRENT USER JSON: \(JSON)")
+                        
+                        TIPUser.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
+                            completionHandler(success)
+                        })
+                    }
+                case .failure(let error):
+                    completionHandler(false)
+                    print("Update user request failed with error \(error)")
+                }
+        }
+    }
+    
     class func getStory(userId: String, completionHandler: @escaping (TIPStory?) -> Void) {
         Alamofire.request(
             baseURL + "/story?id=\(userId)",
@@ -41,8 +64,10 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON
         { (response) in
+            
             TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
                 if let mediaItems: [TIPMediaItem] = mediaItems {
+                    
                     TIPStory.story(mediaItems: mediaItems, isSubcribed: false, completion: { (story: TIPStory?) in
                         completionHandler(story)
                     })
@@ -135,6 +160,8 @@ class TIPAPIClient: NSObject {
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                    print("USER STUFFFFFFFFFFF: \(JSON)")
+                    
                     TIPUser.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
                         completionHandler(success)
                     })
@@ -236,7 +263,12 @@ class TIPAPIClient: NSObject {
             encoding: JSONEncoding.default,
             headers: self.authHeaders
             ).responseString { (response) in
-                //
+                switch response.result {
+                case .success(_):
+                    completionHandler(true)
+                case .failure(_):
+                    completionHandler(false)
+                }
         }
     }
     
@@ -330,6 +362,60 @@ class TIPAPIClient: NSObject {
             }
         }
         
+    }
+    
+    class func connectToSendBird() {
+        if let currentUserID = TIPUser.currentUser?.userId {
+            print("SSSSSSSS CURRENT USER ID: \(currentUserID)")
+            
+            SBDMain.connect(withUserId: currentUserID) { (user, error) in
+                
+                if error != nil {
+                    print("ERROR CONNECTING CURRENT USER: \(error)")
+                    return
+                }
+                
+                print("USER: \(user)")
+                print("USER CONNECTION STATUS: \(user?.connectionStatus)")
+            }
+            
+        } else {
+            print("ERROR CONNECTING TO SENDBIRD")
+        }
+    }
+    
+    class func imageFromVideo(urlString: String, at time: TimeInterval) -> UIImage? {
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            return(cachedImage)
+        }
+        
+        guard let url = URL(string: urlString) else {
+            return(nil)
+        }
+        
+        let asset = AVURLAsset(url: url)
+        
+        let assetIG = AVAssetImageGenerator(asset: asset)
+        assetIG.appliesPreferredTrackTransform = true
+        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
+        
+        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
+        let thumbnailImageRef: CGImage
+        do {
+            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
+        } catch let error {
+            print("Error: \(error)")
+            return nil
+        }
+        
+        let finalImage = UIImage(cgImage: thumbnailImageRef)
+        
+        imageCache.setObject(finalImage, forKey: NSUrlString)
+        
+        return finalImage
     }
     
 }
