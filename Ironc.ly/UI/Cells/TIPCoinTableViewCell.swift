@@ -75,7 +75,7 @@ class TIPCoinTableViewCell: UITableViewCell {
     
     lazy var priceButton: UIButton = {
         let button: UIButton = UIButton()
-        button.backgroundColor = .iroGreen
+        button.backgroundColor = .iroBlue
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightMedium)
         button.clipsToBounds = true

@@ -13,15 +13,53 @@ class TIPTabBarController: UITabBarController {
     let messageImage: UIImage = #imageLiteral(resourceName: "message")
     let profileImage: UIImage = #imageLiteral(resourceName: "profile")
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        
+    }
+    
+    func addTopRoundedCornerToView(targetView:UIView?, desiredCurve:CGFloat?) {
+        let offset:CGFloat =  targetView!.frame.width/desiredCurve!
+        let bounds: CGRect = targetView!.bounds
+        
+        let rectBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y+bounds.size.height / 2, width: bounds.size.width, height: bounds.size.height / 2)
+        
+        let rectPath: UIBezierPath = UIBezierPath(rect: rectBounds)
+        
+        let ovalBounds = CGRect(x: bounds.origin.x - offset / 2, y: bounds.origin.y, width: bounds.size.width + offset, height: bounds.size.height)
+        let ovalPath: UIBezierPath = UIBezierPath(ovalIn: ovalBounds)
+        rectPath.append(ovalPath)
+        
+        // Create the shape layer and set its path
+        let maskLayer: CAShapeLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = rectPath.cgPath
+        
+        // Set the newly created shape layer as the mask for the view's layer
+        targetView!.layer.mask = maskLayer
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.setHidesBackButton(true, animated: false)
         
-        self.tabBar.tintColor = .iroGreen
-        self.tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
-        self.tabBar.isTranslucent = false
+        self.tabBar.tintColor = UIColor.iroBlue
+        //self.tabBar.barTintColor = UIColor(white: 0.0, alpha: 0.7)
+        self.tabBar.barTintColor = .clear
+        self.tabBar.isTranslucent = true
+        
+        self.tabBar.layer.backgroundColor = UIColor.black.cgColor
+        self.view.backgroundColor = .clear
+        self.tabBarController?.view.backgroundColor = .clear
+        self.tabBar.backgroundImage = UIImage(named: "nothing")
+        
+
+        self.addTopRoundedCornerToView(targetView: self.tabBar, desiredCurve: 1.5)
+        
+        
         
         let homeViewController: TIPFeedViewController = TIPFeedViewController()
         homeViewController.tabBarItem = UITabBarItem(title: nil, image: self.homeImage.withRenderingMode(.alwaysOriginal), selectedImage: self.homeImage)

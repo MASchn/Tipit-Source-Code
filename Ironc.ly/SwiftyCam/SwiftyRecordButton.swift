@@ -36,7 +36,7 @@ class SwiftyRecordButton: SwiftyCamButton {
         circleBorder = CALayer()
         circleBorder.backgroundColor = UIColor.clear.cgColor
         circleBorder.borderWidth = 6.0
-        circleBorder.borderColor = UIColor.iroGreen.cgColor
+        circleBorder.borderColor = UIColor.iroBlue.cgColor
         circleBorder.bounds = self.bounds
         circleBorder.position = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         circleBorder.cornerRadius = self.frame.size.width / 2

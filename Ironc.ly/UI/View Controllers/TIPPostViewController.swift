@@ -21,12 +21,24 @@ class TIPPostViewController: UIViewController {
     var playerController : AVPlayerViewController?
     var delegate: TIPPostViewControllerDelegate?
     var animationView: LOTAnimationView?
+    var userID: String
+    var isSubscribed: Bool?
     
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
-    init(post: TIPPost, username: String?, profileImage: UIImage?) {
+    init(post: TIPPost, username: String?, profileImage: UIImage?, userID: String) {
         self.post = post
+        self.userID = userID
+        self.isSubscribed = false
+        
+        if let subbedTo = TIPUser.currentUser?.subscribedTo {
+            for sub in subbedTo{
+                if sub == userID {
+                    self.isSubscribed = true
+                }
+            }
+        }
     
         super.init(nibName: nil, bundle: nil)
         
@@ -90,7 +102,12 @@ class TIPPostViewController: UIViewController {
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if self.post.isPrivate == false || user.allAccess == true {
+//        if self.post.isPrivate == false || user.allAccess == true {
+//            self.blurView.isHidden = true
+//            self.lockButton.isHidden = true
+//        }
+        
+        if self.post.isPrivate == false  || self.isSubscribed == true{
             self.blurView.isHidden = true
             self.lockButton.isHidden = true
         }
@@ -165,9 +182,9 @@ class TIPPostViewController: UIViewController {
     lazy var tipButton: UIButton = {
         let button: UIButton = UIButton()
         button.setTitle("TIP", for: .normal)
-        button.setTitleColor(.iroGreen, for: .normal)
+        button.setTitleColor(.iroBlue, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        button.layer.borderColor = UIColor.iroGreen.cgColor
+        button.layer.borderColor = UIColor.iroBlue.cgColor
         button.layer.borderWidth = 2.0
         button.addTarget(self, action: #selector(self.tappedTipButton(sender:)), for: .touchUpInside)
         button.clipsToBounds = true
@@ -269,14 +286,21 @@ class TIPPostViewController: UIViewController {
     func showLockedAlert() {
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Unlock all private content in the app?",
+            message: "Subscribe to \(self.usernameLabel.text)?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-            TIPAPIClient.postAllAccess(allAccess: true, completionHandler: { (success: Bool) in
+
+            
+            
+            TIPAPIClient.userAction(action: .subscribe, userId: self.userID, completionHandler: { (success: Bool) in
                 if success == true {
-                    TIPUser.currentUser?.updateAllAccess(newValue: true)
+                    print("SUCCESS")
+                    self.isSubscribed = true
+                    
+                    TIPUser.currentUser?.subscribedTo?.append(self.userID)
+                    TIPUser.currentUser?.save()
                     
                     UIView.animate(withDuration: 0.4, animations: {
                         self.blurView.alpha = 0.0
@@ -285,11 +309,16 @@ class TIPPostViewController: UIViewController {
                         self.blurView.isHidden = true
                         self.lockButton.isHidden = true
                     })
+                    
+                } else {
+                    print("ERROR SUBSCRIBING")
                 }
+    
             })
             
 
         }
+        
         let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             //
         }

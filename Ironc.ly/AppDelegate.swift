@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        //self.window?.backgroundColor = .clear
         
         // Get current user
         if let user: TIPUser = TIPUser.fetchUserFromDefaults() {

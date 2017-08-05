@@ -35,7 +35,17 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if feedItem.isPrivate == false || user.allAccess == true {
+        var isSubbed: Bool = false
+        
+        if let subbedTo = user.subscribedTo {
+            for sub in subbedTo{
+                if sub == feedItem.userId {
+                    isSubbed = true
+                }
+            }
+        }
+        
+        if feedItem.isPrivate == false || isSubbed == true {
             self.blurView.isHidden = true
         } else {
             self.blurView.isHidden = false

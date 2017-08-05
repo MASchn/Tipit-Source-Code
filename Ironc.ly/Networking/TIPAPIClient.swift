@@ -32,6 +32,27 @@ class TIPAPIClient: NSObject {
         ]
     }
     
+    class func getCurrentUserInfo(completionHandler: @escaping (Bool) -> Void) {
+        Alamofire.request(baseURL + "/users/me", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON
+            { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        print("CURRENT USER JSON: \(JSON)")
+                        
+                        TIPUser.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
+                            completionHandler(success)
+                        })
+                    }
+                case .failure(let error):
+                    completionHandler(false)
+                    print("Update user request failed with error \(error)")
+                }
+        }
+    }
+    
     class func getStory(userId: String, completionHandler: @escaping (TIPStory?) -> Void) {
         Alamofire.request(
             baseURL + "/story?id=\(userId)",
@@ -43,6 +64,7 @@ class TIPAPIClient: NSObject {
             .debugLog()
             .responseJSON
         { (response) in
+            
             TIPParser.parseMediaItems(response: response, completionHandler: { (mediaItems: [TIPMediaItem]?, error: Error?) in
                 if let mediaItems: [TIPMediaItem] = mediaItems {
                     
@@ -138,6 +160,8 @@ class TIPAPIClient: NSObject {
             switch response.result {
             case .success(let JSONDictionary):
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                    print("USER STUFFFFFFFFFFF: \(JSON)")
+                    
                     TIPUser.parseUserJSON(JSON: JSON, completionHandler: { (success: Bool) in
                         completionHandler(success)
                     })
@@ -239,7 +263,12 @@ class TIPAPIClient: NSObject {
             encoding: JSONEncoding.default,
             headers: self.authHeaders
             ).responseString { (response) in
-                //
+                switch response.result {
+                case .success(_):
+                    completionHandler(true)
+                case .failure(_):
+                    completionHandler(false)
+                }
         }
     }
     

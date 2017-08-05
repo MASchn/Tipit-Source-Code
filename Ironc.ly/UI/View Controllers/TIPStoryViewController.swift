@@ -11,16 +11,19 @@ class TIPStoryViewController: UIPageViewController {
     let story: TIPStory
     let username: String?
     let profileImage: UIImage?
+    let userID: String
     
     var currentIndex: Int = 0
     var isProfile: Bool = false
     var currentViewController: TIPPostViewController?
         
     // MARK: - View Lifecycle
-    init(story: TIPStory, username: String?, profileImage: UIImage?) {
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String) {
         self.story = story
         self.username = username
         self.profileImage = profileImage
+        self.userID = userID
+        
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
         
@@ -46,8 +49,10 @@ class TIPStoryViewController: UIPageViewController {
         self.pageControl.numberOfPages = self.story.posts.count
         
         let firstPost: TIPPost = self.story.posts.first!
-        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage)
+        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID)
         postViewController.delegate = self
+        
+
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         self.currentViewController = postViewController
         
@@ -62,7 +67,7 @@ class TIPStoryViewController: UIPageViewController {
     lazy var pageControl: UIPageControl = {
         let control: UIPageControl = UIPageControl()
         control.pageIndicatorTintColor = UIColor(white: 0.0, alpha: 0.3)
-        control.currentPageIndicatorTintColor = .iroGreen
+        control.currentPageIndicatorTintColor = .iroBlue
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -105,7 +110,8 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let beforeIndex: Int = index - 1
             let beforePost: TIPPost = storyViewController.story.posts[beforeIndex]
-            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, username: self.username, profileImage: self.profileImage)
+            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, username: self.username, profileImage: self.profileImage, userID: self.userID)
+
             return beforePostViewController
         }
         
@@ -123,7 +129,8 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let afterIndex: Int = index + 1
             let afterPost: TIPPost = storyViewController.story.posts[afterIndex]
-            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, username: self.username, profileImage: self.profileImage)
+            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, username: self.username, profileImage: self.profileImage, userID: self.userID)
+            
             return afterPostViewController
         }
         

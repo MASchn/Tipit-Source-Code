@@ -94,7 +94,7 @@ class TIPProfileViewController: UIViewController {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print("BRAD USER ID: \(userId)")
         self.view.backgroundColor = .white
                 
         self.view.addSubview(self.backgroundImageView)
@@ -319,7 +319,7 @@ class TIPProfileViewController: UIViewController {
     
     lazy var storyPreviewButton: UIButton = {
         let button: UIButton = UIButton()
-        button.layer.borderColor = UIColor.iroGreen.cgColor
+        button.layer.borderColor = UIColor.iroBlue.cgColor
         button.addTarget(self, action: #selector(self.tappedStoryPreviewButton), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
@@ -423,7 +423,7 @@ class TIPProfileViewController: UIViewController {
         }
         
         if let currentStory: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.username, profileImage: self.profileImageButton.image(for: .normal))
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.username, profileImage: self.profileImageButton.image(for: .normal), userID: self.userId!)
             self.present(storyViewController, animated: true, completion: nil)
         }
     }
@@ -476,6 +476,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func unfollow(userId: String) {
+        
         TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
             //
         })
@@ -488,6 +489,7 @@ class TIPProfileViewController: UIViewController {
     }
     
     func follow(userId: String) {
+        print("BRAD USER ID: \(userId)")
         TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
             //
         })
