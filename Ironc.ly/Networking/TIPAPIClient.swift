@@ -332,6 +332,17 @@ class TIPAPIClient: NSObject {
         }
     }
     
+    class func getAllUsers(completionHandler: @escaping ([[String: String]]?) -> Void) {
+        Alamofire.request(baseURL + "/users", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON
+            { (response) in
+                TIPParser.parseAllUsers(response: response, completionHandler: { (usersDict, err) in
+                    completionHandler(usersDict)
+                })
+        }
+    }
+    
     class func tip(contentId: String, coins: Int, milliseconds: Int, completionHandler: @escaping (Int?, String?, Error?) -> Void) {
         let parameters: Parameters = [
             "coins" : coins,

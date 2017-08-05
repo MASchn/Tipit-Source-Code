@@ -11,7 +11,7 @@ import SendBirdSDK
 
 class TIPChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    let chatUser: TIPFeedItem
+    let chatUser: TIPSearchUser
     let currentChannel: SBDGroupChannel
     let username: String?
     let chatReuseId: String = "iro.reuseId.chat"
@@ -19,7 +19,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
     var messages = [SBDUserMessage]()
     
     // MARK: - View Lifecycle
-    init(feedItem: TIPFeedItem, channel: SBDGroupChannel) {
+    init(feedItem: TIPSearchUser, channel: SBDGroupChannel) {
         
         self.currentChannel = channel
         self.chatUser = feedItem
