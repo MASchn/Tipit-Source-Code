@@ -111,7 +111,7 @@ class TIPProfileViewController: UIViewController {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-print("BRAD USER ID: \(userId)")
+        
         self.view.backgroundColor = .white
                 
         self.view.addSubview(self.backgroundImageView)
@@ -577,15 +577,6 @@ print("BRAD USER ID: \(userId)")
     func subscribe(userId: String) {
         
         self.showLockedAlert()
-        
-//        TIPAPIClient.userAction(action: .subscribe, userId: userId) { (success: Bool) in
-//            if success == true {
-//                TIPUser.currentUser?.subscribedTo?.append(userId)
-//                TIPUser.currentUser?.save()
-//            } else {
-//                print("COULD NOT SUBSCRIBE")
-//            }
-//        }
     }
     
     func unsubscribe(userId: String) {

@@ -12,6 +12,8 @@ class TIPStoryViewController: UIPageViewController {
     let username: String?
     let profileImage: UIImage?
     let userID: String
+    let feedItem: TIPFeedItem?
+    let searchUser: TIPSearchUser?
     
     var currentIndex: Int = 0
     var isProfile: Bool = false
@@ -23,7 +25,36 @@ class TIPStoryViewController: UIPageViewController {
         self.username = username
         self.profileImage = profileImage
         self.userID = userID
+        self.feedItem = nil
+        self.searchUser = nil
         
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
+        
+        self.dataSource = self
+        self.delegate = self
+    }
+    
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, feedItem: TIPFeedItem) {
+        self.story = story
+        self.username = username
+        self.profileImage = profileImage
+        self.userID = userID
+        self.feedItem = feedItem
+        self.searchUser = nil
+        
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
+        
+        self.dataSource = self
+        self.delegate = self
+    }
+    
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, searchUser: TIPSearchUser) {
+        self.story = story
+        self.username = username
+        self.profileImage = profileImage
+        self.userID = userID
+        self.feedItem = nil
+        self.searchUser = searchUser
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
         
@@ -86,6 +117,7 @@ class TIPStoryViewController: UIPageViewController {
         for postVC in postVCs {
             postVC.player?.pause()
         }
+        
         
         self.dismiss(animated: true, completion: nil)
     }

@@ -39,6 +39,10 @@ class TIPPostViewController: UIViewController {
                 }
             }
         }
+        
+        if self.userID == TIPUser.currentUser?.userId {
+            self.isSubscribed = true
+        }
     
         super.init(nibName: nil, bundle: nil)
         
@@ -105,10 +109,11 @@ class TIPPostViewController: UIViewController {
         
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-//        if self.post.isPrivate == false || user.allAccess == true {
-//            self.blurView.isHidden = true
-//            self.lockButton.isHidden = true
-//        }
+        if self.userID == user.userId {
+            self.tipButton.isHidden = true
+        } else {
+            self.tipButton.isHidden = false
+        }
         
         if self.post.isPrivate == false  || self.isSubscribed == true{
             self.blurView.isHidden = true
@@ -173,6 +178,7 @@ class TIPPostViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -287,6 +293,39 @@ class TIPPostViewController: UIViewController {
     
     func tappedProfilePic() {
         
+        if self.userID == TIPUser.currentUser?.userId {
+            self.parent?.dismiss(animated: true, completion: nil)
+        }
+        
+        guard let parentVC = self.parent as? TIPStoryViewController else {return}
+        
+        if parentVC.feedItem != nil {
+            
+            let tabVC = parentVC.presentingViewController as? TIPTabBarController
+            
+            parentVC.dismiss(animated: true, completion: { 
+                let profileViewController: TIPProfileViewController = TIPProfileViewController(feedItem: parentVC.feedItem!)
+                profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
+                
+                let navVC = tabVC?.viewControllers?[0] as? UINavigationController
+                navVC?.pushViewController(profileViewController, animated: true)
+            })
+            
+        }
+        else if parentVC.searchUser != nil {
+            let tabVC = parentVC.presentingViewController as? TIPTabBarController
+            
+            parentVC.dismiss(animated: true, completion: {
+                let profileViewController: TIPProfileViewController = TIPProfileViewController(searchUser: parentVC.searchUser!)
+                profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
+                
+                let navVC = tabVC?.viewControllers?[1] as? UINavigationController
+                navVC?.pushViewController(profileViewController, animated: true)
+            })
+        }
+        else if parentVC.feedItem == nil && parentVC.searchUser == nil {
+            self.parent?.dismiss(animated: true, completion: nil)
+        }
     }
     
     func tappedLockButton(sender: UIButton) {
@@ -365,10 +404,8 @@ class TIPPostViewController: UIViewController {
     func tappedTipButton(sender: UIButton) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if self.post.isPrivate == false || user.allAccess == true {
+        if self.post.isPrivate == false || self.isSubscribed == true {
             self.showTipView()
-        } else {
-            self.showLockedAlert()
         }
     }
     

@@ -156,7 +156,7 @@ extension TIPSearchViewController: UICollectionViewDelegate {
         if let user: TIPSearchUser = cell.user {
             TIPAPIClient.getStory(userId: user.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story, story.posts.count > 0 {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image, userID: user.userId)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image, userID: user.userId, searchUser: user)
                     
                     self.present(storyViewController, animated: true, completion: nil)
                 }

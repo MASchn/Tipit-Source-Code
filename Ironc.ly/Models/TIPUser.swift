@@ -91,7 +91,7 @@ class TIPUser: NSObject {
         let allAccess: Bool = JSON["all_access"] as? Bool ?? false
         let mySubs: [String]? = JSON["_mysubscribers"] as? [String]
         let subsTo: [String]? = JSON["_mysubscriptions"] as? [String]
-        let earnedCoins: Int = JSON["coinsEarned"] as? Int ?? 0
+        let earnedCoins: Int? = JSON["coinsEarned"] as? Int
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -99,7 +99,10 @@ class TIPUser: NSObject {
             user.website = website
             user.bio = bio
             user.coins = coins
-            user.coinsEarned = earnedCoins
+            if let myEarnedCoins = earnedCoins {
+                user.coinsEarned = myEarnedCoins
+            }
+            
             if let subs: [String] = mySubs{
                 user.subscribers = subs
             }
@@ -181,7 +184,7 @@ class TIPUser: NSObject {
         self.coinsEarned = coinsEarned
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?) {
         self.userId = userId
         self.username = username
         self.email = email
