@@ -193,7 +193,10 @@ class TIPLoginViewController: UIViewController {
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
                             TIPAPIClient.connectToSendBird()
-                            self.navigationController?.dismiss(animated: true, completion: nil)
+                            self.navigationController?.dismiss(animated: true, completion: { 
+                                
+                            })
+                            AppDelegate.shared.tabBarController?.selectedIndex = 0
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
                         }

@@ -66,8 +66,9 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         
         if let mediaURL = searchUser.mediaItemURL {
             self.postImageView.loadImageUsingCacheFromUrlString(urlString: mediaURL, placeHolder: nil) {}
-        } else {
-            //self.postImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: nil) {}
+        }
+        else if let backgroundURL = searchUser.backgroundImageURL{
+            self.postImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: nil) {}
         }
         
     }

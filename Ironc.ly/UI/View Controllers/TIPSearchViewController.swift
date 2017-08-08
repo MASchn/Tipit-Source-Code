@@ -137,7 +137,7 @@ extension TIPSearchViewController: UICollectionViewDataSource {
         let searchUser: TIPSearchUser = self.searchUsers[indexPath.item]
         cell.configure(with: searchUser)
         
-        if searchUser.mediaItemURL == nil {
+        if cell.postImageView.image == nil {
             cell.postImageView.image = placeholderImage
             cell.usernameLabel.textColor = .black
         }

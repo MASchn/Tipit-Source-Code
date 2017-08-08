@@ -466,7 +466,7 @@ class TIPPostViewController: UIViewController {
         // Update coins amount
         guard let user: TIPUser = TIPUser.currentUser else { return }
         let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: user.coins)
-        let coinsTitle: String = "buy coins (\(formattedCoins) coins)"
+        let coinsTitle: String = "buy coins: \(formattedCoins)"
         self.tipView.buyCoinsButton.setTitle(coinsTitle, for: .normal)
     }
     

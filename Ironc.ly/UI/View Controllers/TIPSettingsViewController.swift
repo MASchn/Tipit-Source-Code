@@ -95,7 +95,12 @@ class TIPSettingsViewController: UITableViewController {
         let yesAction: UIAlertAction = UIAlertAction(title: "Log Out", style: .destructive) { (action) in
             TIPUser.currentUser?.logOut()
             let signInNavController: UINavigationController = AppDelegate.shared.initializeSignInController()
-            self.present(signInNavController, animated: true, completion: nil)
+            
+            let presentingVC = self.presentingViewController
+            self.dismiss(animated: true, completion: { 
+                presentingVC?.present(signInNavController, animated: true, completion: nil)
+            })
+            //self.present(signInNavController, animated: true, completion: nil)
         }
         let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             //
