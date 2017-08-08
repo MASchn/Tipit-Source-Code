@@ -9,7 +9,8 @@ class TIPSearchViewController: UIViewController {
     
     let searchReuseId: String = "iro.reuseId.search"
     var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
-    var emptyStateColors: [UIColor] = [.sampleColor1, .sampleColor2, .sampleColor3, .sampleColor4]
+    var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "tipitbackground5_7"), #imageLiteral(resourceName: "tipitbackground4_7"),#imageLiteral(resourceName: "tipitbackground3_7"), #imageLiteral(resourceName: "tipitbackground1_7"), #imageLiteral(resourceName: "tipitbackground2_7")]
+//    var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "forgot_password_background"), #imageLiteral(resourceName: "register_background"), #imageLiteral(resourceName: "login_background"), #imageLiteral(resourceName: "feed_image_1"), #imageLiteral(resourceName: "feed_image_2")]
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -130,12 +131,18 @@ extension TIPSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TIPSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.searchReuseId, for: indexPath) as! TIPSearchCollectionViewCell
         
-        let colorIndex: Int = indexPath.item % 4
-        let color: UIColor = self.emptyStateColors[colorIndex]
-        cell.postImageView.backgroundColor = color
+        let imageIndex: Int = indexPath.item % 5
+        let placeholderImage: UIImage = self.emptyStateImages[imageIndex]
         
         let searchUser: TIPSearchUser = self.searchUsers[indexPath.item]
         cell.configure(with: searchUser)
+        
+        if searchUser.mediaItemURL == nil {
+            cell.postImageView.image = placeholderImage
+            cell.usernameLabel.textColor = .black
+        }
+    
+        
         cell.delegate = self
         return cell
     }

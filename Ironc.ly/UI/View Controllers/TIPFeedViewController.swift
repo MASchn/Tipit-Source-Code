@@ -31,7 +31,7 @@ class TIPFeedViewController: UIViewController {
         
         self.setUpConstraints()
         
-        self.getFeed()
+        
     }
     
     func getFeed() {
@@ -67,10 +67,10 @@ class TIPFeedViewController: UIViewController {
         
         self.emptyView.isHidden = true
         
-        if self.feedItems.count == 0 {
-            self.getFeed()
-        }
-        
+//        if self.feedItems.count == 0 {
+//            self.getFeed()
+//        }
+        self.getFeed()
         self.configureTIPNavBar()
         self.navigationItem.title = "tipit"
         

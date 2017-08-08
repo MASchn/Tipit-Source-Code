@@ -25,6 +25,14 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         
         self.nameLabel.text = user.fullName
         self.usernameLabel.text = user.username
+        self.coinsLabel.text = "Coins: \(user.coins)"
+        
+        if let coinsEarned = user.coinsEarned {
+            self.coinsEarnedLabel.text = "Coins Earned: \(coinsEarned)"
+        } else {
+            self.coinsEarnedLabel.text = "Coins Earned: 0"
+        }
+        
         
         if(TIPUser.currentUser?.profileImage != nil){
             self.profileImageButton.setImage(TIPUser.currentUser?.profileImage, for: .normal)

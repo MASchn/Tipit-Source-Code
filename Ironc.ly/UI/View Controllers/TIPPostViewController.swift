@@ -100,6 +100,9 @@ class TIPPostViewController: UIViewController {
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
+        let profileTap = UITapGestureRecognizer(target: self, action: #selector(tappedProfilePic))
+        self.profileImageView.addGestureRecognizer(profileTap)
+        
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
 //        if self.post.isPrivate == false || user.allAccess == true {
@@ -127,6 +130,8 @@ class TIPPostViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player?.play()
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
+
     }
     
     // MARK: - Lazy Initialization
@@ -279,6 +284,11 @@ class TIPPostViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    func tappedProfilePic() {
+        
+    }
+    
     func tappedLockButton(sender: UIButton) {
         self.showLockedAlert()
     }
@@ -286,34 +296,59 @@ class TIPPostViewController: UIViewController {
     func showLockedAlert() {
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text!)?",
+            message: "Subscribe to \(self.usernameLabel.text!) for 1000 coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-
+            if (TIPUser.currentUser?.coins)! < 1000 {
+                print("not enough coins")
+                return
+            }
             
-            
-            TIPAPIClient.userAction(action: .subscribe, userId: self.userID, completionHandler: { (success: Bool) in
+            TIPAPIClient.updateUserCoins(coinsToAdd: 1000, userID: self.userID, completionHandler: { (success: Bool) in
+                
                 if success == true {
-                    print("SUCCESS")
-                    self.isSubscribed = true
                     
-                    TIPUser.currentUser?.subscribedTo?.append(self.userID)
-                    TIPUser.currentUser?.save()
+                    let parameters: [String: Any] = [
+                        "coins" : ((TIPUser.currentUser?.coins)! - 1000)
+                    ]
                     
-                    UIView.animate(withDuration: 0.4, animations: {
-                        self.blurView.alpha = 0.0
-                        self.lockButton.alpha = 0.0
-                    }, completion: { (success) in
-                        self.blurView.isHidden = true
-                        self.lockButton.isHidden = true
+                    TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+                        
+                        if success == true {
+                            
+                        TIPAPIClient.userAction(action: .subscribe, userId: self.userID, completionHandler: { (success: Bool) in
+                            if success == true {
+                                print("SUCCESS")
+                                self.isSubscribed = true
+                                
+                               // TIPUser.currentUser?.coins -= 1000
+                                TIPUser.currentUser?.subscribedTo?.append(self.userID)
+                                TIPUser.currentUser?.save()
+                                
+                                UIView.animate(withDuration: 0.4, animations: {
+                                    self.blurView.alpha = 0.0
+                                    self.lockButton.alpha = 0.0
+                                }, completion: { (success) in
+                                    self.blurView.isHidden = true
+                                    self.lockButton.isHidden = true
+                                })
+                                
+                            } else {
+                                print("ERROR SUBSCRIBING")
+                            }
+                            
+                        })
+                            
+                      }
+                        
                     })
                     
                 } else {
-                    print("ERROR SUBSCRIBING")
+                    print("ERROR ADDING COINS")
                 }
-    
+                
             })
             
 

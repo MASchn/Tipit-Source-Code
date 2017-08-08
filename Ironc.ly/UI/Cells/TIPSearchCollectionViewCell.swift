@@ -38,9 +38,21 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-//        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
-//            self.profileImageView.image = image
-//        })
+//        var isSubbed: Bool = false
+//        
+//        if let subbedTo = TIPUser.currentUser?.subscribedTo {
+//            for sub in subbedTo{
+//                if sub == searchUser.userId {
+//                    isSubbed = true
+//                }
+//            }
+//        }
+//        
+//        if searchUser.isPrivate == false || isSubbed == true {
+//            self.blurView.isHidden = true
+//        } else {
+//            self.blurView.isHidden = false
+//        }
         
         if let profileURL = searchUser.profileImageURL {
             self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
@@ -55,7 +67,7 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         if let mediaURL = searchUser.mediaItemURL {
             self.postImageView.loadImageUsingCacheFromUrlString(urlString: mediaURL, placeHolder: nil) {}
         } else {
-            self.postImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: nil) {}
+            //self.postImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: nil) {}
         }
         
     }
