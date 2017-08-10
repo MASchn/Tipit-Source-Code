@@ -15,6 +15,7 @@ class TIPSearchUser: NSObject {
     var backgroundImageURL: String?
     var following: Bool
     var isSubscribed: Bool
+    var coinsToSub: Int?
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
@@ -50,6 +51,7 @@ class TIPSearchUser: NSObject {
         self.username = username
         self.name = JSON["name"] as? String
         self.following = JSON["following"] as? Bool ?? false
+        self.coinsToSub = JSON["coinsToSubscribe"] as? Int
     }
 
 }

@@ -23,14 +23,16 @@ class TIPPostViewController: UIViewController {
     var animationView: LOTAnimationView?
     var userID: String
     var isSubscribed: Bool?
+    var coinsToSub: Int
     
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
-    init(post: TIPPost, username: String?, profileImage: UIImage?, userID: String) {
+    init(post: TIPPost, username: String?, profileImage: UIImage?, userID: String, coinsToSub: Int) {
         self.post = post
         self.userID = userID
         self.isSubscribed = false
+        self.coinsToSub = coinsToSub
         
         if let subbedTo = TIPUser.currentUser?.subscribedTo {
             for sub in subbedTo{
@@ -335,22 +337,22 @@ class TIPPostViewController: UIViewController {
     func showLockedAlert() {
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text!) for 1000 coins?",
+            message: "Subscribe to \(self.usernameLabel.text!) for \(self.coinsToSub) coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-            if (TIPUser.currentUser?.coins)! < 1000 {
+            if (TIPUser.currentUser?.coins)! < self.coinsToSub {
                 print("not enough coins")
                 return
             }
             
-            TIPAPIClient.updateUserCoins(coinsToAdd: 1000, userID: self.userID, completionHandler: { (success: Bool) in
+            TIPAPIClient.updateUserCoins(coinsToAdd: self.coinsToSub, userID: self.userID, completionHandler: { (success: Bool) in
                 
                 if success == true {
                     
                     let parameters: [String: Any] = [
-                        "coins" : ((TIPUser.currentUser?.coins)! - 1000)
+                        "coins" : ((TIPUser.currentUser?.coins)! - self.coinsToSub)
                     ]
                     
                     TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in

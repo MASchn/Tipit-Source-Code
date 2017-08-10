@@ -64,8 +64,8 @@ class TIPBuyCoinsViewController: UITableViewController {
     
     func getAvailableProducts() {
         let productIds: Set<String> = [
-            "com.tipitinc.coins.1000"
-//            "com.tipitinc.coins.1200",
+            "com.tipitinc.coins.1000",
+            "com.tipitinc.coins.10000"
 //            "com.tipitinc.coins.1500",
 //            "com.tipitinc.coins.4000",
 //            "com.tipitinc.coins.10000",

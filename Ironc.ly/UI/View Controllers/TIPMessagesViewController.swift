@@ -59,12 +59,16 @@ class TIPMessagesViewController: UIViewController {
             return
         }
         
+        guard let subbing = TIPUser.currentUser?.subscribers else {
+            return
+        }
+        
         TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
             
             if let users: [TIPSearchUser] = SearchUsers {
                 for user: TIPSearchUser in users {
                     
-                    if subbedTo.contains(user.userId) {
+                    if subbedTo.contains(user.userId) || subbing.contains(user.userId) {
                         self.subbedToUsers.append(user)
                     }
                 }

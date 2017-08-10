@@ -14,6 +14,7 @@ class TIPProfileViewController: UIViewController {
     var story: TIPStory?
     var username: String?
     var profilePic: UIImage?
+    var coinsToSub: Int?
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -22,6 +23,7 @@ class TIPProfileViewController: UIViewController {
         self.userId = searchUser.userId
         self.usernameLabel.text = searchUser.username
         self.username = searchUser.username
+        self.coinsToSub = searchUser.coinsToSub
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
@@ -73,6 +75,7 @@ class TIPProfileViewController: UIViewController {
         self.userId = feedItem.userId
         self.usernameLabel.text = feedItem.username
         self.username = feedItem.username
+        self.coinsToSub = feedItem.coinsToSub
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
@@ -497,7 +500,8 @@ class TIPProfileViewController: UIViewController {
     }
     
     func tappedSettingsButton() {
-        let settingsViewController: TIPSettingsViewController = TIPSettingsViewController(style: .grouped)
+        
+        let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
         let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
         self.present(settingsNavController, animated: true, completion: nil)
     }
@@ -628,24 +632,29 @@ class TIPProfileViewController: UIViewController {
     }
     
     func showLockedAlert() {
+        
+        if self.coinsToSub == nil {
+            self.coinsToSub = 1000
+        }
+        
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text!) for 1000 coins?",
+            message: "Subscribe to \(self.usernameLabel.text!) for \(self.coinsToSub!) coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-            if (TIPUser.currentUser?.coins)! < 1000 {
+            if (TIPUser.currentUser?.coins)! < self.coinsToSub! {
                 print("not enough coins")
                 return
             }
             
-            TIPAPIClient.updateUserCoins(coinsToAdd: 1000, userID: self.userId!, completionHandler: { (success: Bool) in
+            TIPAPIClient.updateUserCoins(coinsToAdd: self.coinsToSub!, userID: self.userId!, completionHandler: { (success: Bool) in
                 
                 if success == true {
                     
                     let parameters: [String: Any] = [
-                        "coins" : ((TIPUser.currentUser?.coins)! - 1000)
+                        "coins" : ((TIPUser.currentUser?.coins)! - self.coinsToSub!)
                     ]
                     
                     TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in

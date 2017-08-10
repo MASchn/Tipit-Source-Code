@@ -26,6 +26,7 @@ class TIPUser: NSObject {
     var subscribers: [String]?
     var subscribedTo: [String]?
     var coinsEarned: Int?
+    var coinsToSubscribe: Int?
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
@@ -92,6 +93,7 @@ class TIPUser: NSObject {
         let mySubs: [String]? = JSON["_mysubscribers"] as? [String]
         let subsTo: [String]? = JSON["_mysubscriptions"] as? [String]
         let earnedCoins: Int? = JSON["coinsEarned"] as? Int
+        let coinsToSub: Int? = JSON["coinsToSubscribe"] as? Int
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -101,6 +103,10 @@ class TIPUser: NSObject {
             user.coins = coins
             if let myEarnedCoins = earnedCoins {
                 user.coinsEarned = myEarnedCoins
+            }
+            
+            if let coinsNeededToSub = coinsToSub {
+                user.coinsToSubscribe = coinsNeededToSub
             }
             
             if let subs: [String] = mySubs{
@@ -137,7 +143,8 @@ class TIPUser: NSObject {
                 allAccess: allAccess,
                 mySubs: mySubs,
                 subbedTo: subsTo,
-                coinsEarned: earnedCoins
+                coinsEarned: earnedCoins,
+                coinsToSub: coinsToSub
             )
             user.save()
             TIPUser.currentUser = user
@@ -167,7 +174,7 @@ class TIPUser: NSObject {
         self.allAccess = false
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -182,9 +189,10 @@ class TIPUser: NSObject {
         self.subscribers = mySubs
         self.subscribedTo = subbedTo
         self.coinsEarned = coinsEarned
+        self.coinsToSubscribe = coinsToSub
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -199,6 +207,7 @@ class TIPUser: NSObject {
         self.subscribers = mySubs
         self.subscribedTo = subbedTo
         self.coinsEarned = coinsEarned
+        self.coinsToSubscribe = coinsToSub
     }
     
     func save() {
@@ -224,6 +233,7 @@ class TIPUser: NSObject {
         self.defaults.set(self.subscribers, forKey: "subscribers")
         self.defaults.set(self.subscribedTo, forKey: "subscribedTo")
         self.defaults.set(self.coinsEarned, forKey: "coinsEarned")
+        self.defaults.set(self.coinsToSubscribe, forKey: "coinsToSubscribe")
         self.defaults.synchronize()
     }
     
@@ -278,7 +288,8 @@ class TIPUser: NSObject {
             let allAccess: Bool = defaults.bool(forKey: "all_access")
             let mySubs: [String]? = defaults.object(forKey: "subscribers") as? [String]
             let subbedTo: [String]? = defaults.object(forKey: "subscribedTo") as? [String]
-            let earnedCoins: Int = defaults.integer(forKey: "coinsEarned")
+            let earnedCoins: Int? = defaults.integer(forKey: "coinsEarned")
+            let coinsToSub: Int? = defaults.integer(forKey: "coinsToSubscribe")
             return TIPUser(
                 userId: userId,
                 username: username,
@@ -293,7 +304,8 @@ class TIPUser: NSObject {
                 allAccess: allAccess,
                 mySubs: mySubs,
                 subbedTo: subbedTo,
-                coinsEarned: earnedCoins
+                coinsEarned: earnedCoins,
+                coinsToSub: coinsToSub
             )
         }
         return nil
