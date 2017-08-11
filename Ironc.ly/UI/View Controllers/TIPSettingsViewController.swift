@@ -40,6 +40,16 @@ class TIPSettingsViewController: UIViewController, UITableViewDelegate, UITableV
         self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.settingsTableView)
         self.view.addSubview(self.coinsSegmentedControl)
+        
+        if let coinsToSub = TIPUser.currentUser?.coinsToSubscribe {
+            if coinsToSub == 2000 {
+                self.coinsSegmentedControl.selectedSegmentIndex = 1
+            }
+            else if coinsToSub == 3000 {
+                self.coinsSegmentedControl.selectedSegmentIndex = 2
+            }
+        }
+        
         //self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.setUpConstraints()
     }

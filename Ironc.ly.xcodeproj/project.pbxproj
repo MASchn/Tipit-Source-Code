@@ -79,6 +79,7 @@
 		FA0490151F27BD170093E3EE /* diamond.json in Resources */ = {isa = PBXBuildFile; fileRef = FA0490141F27BD170093E3EE /* diamond.json */; };
 		FA56F9291F2A3BED00B0F292 /* TIPChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */; };
 		FA56F92B1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */; };
+		FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */; };
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -160,6 +161,7 @@
 		FA0490141F27BD170093E3EE /* diamond.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = diamond.json; sourceTree = "<group>"; };
 		FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatViewController.swift; path = "UI/View Controllers/TIPChatViewController.swift"; sourceTree = "<group>"; };
 		FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatCollectionViewCell.swift; path = UI/Cells/TIPChatCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchEmptyView.swift; path = UI/Views/TIPSearchEmptyView.swift; sourceTree = "<group>"; };
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -241,6 +243,7 @@
 				37079BDD1F01915D0022E014 /* TIPEditProfileHeaderView.swift */,
 				37079BDE1F01915D0022E014 /* TIPTipView.swift */,
 				37DD13A71F08110700237CF8 /* TIPFeedEmptyView.swift */,
+				FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */,
 				37DD13A91F08111900237CF8 /* TIPNoConnectionView.swift */,
 				37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */,
 				3729B7961F08262700CEBAED /* TIPNoInternetView.swift */,
@@ -556,6 +559,7 @@
 				37079BD31F01914F0022E014 /* TIPPlaceholderViewController.swift in Sources */,
 				37079BAE1F0191340022E014 /* TIPFeedCollectionViewCell.swift in Sources */,
 				37079BD01F01914F0022E014 /* TIPLoginViewController.swift in Sources */,
+				FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */,
 				37079BD91F01914F0022E014 /* TIPSettingsViewController.swift in Sources */,
 				37DD13A61F0598D400237CF8 /* TIPPersonalProfileViewController.swift in Sources */,
 				37079BB41F0191410022E014 /* TIPTextField.swift in Sources */,

@@ -16,6 +16,7 @@ class TIPSearchUser: NSObject {
     var following: Bool
     var isSubscribed: Bool
     var coinsToSub: Int?
+    var isPrivate: Bool
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
@@ -43,8 +44,10 @@ class TIPSearchUser: NSObject {
             } else {
                 self.isSubscribed = false
             }
+            self.isPrivate = mediaItem["private"] as? Bool ?? false
         } else {
             self.isSubscribed = false
+            self.isPrivate = false
         }
         
         

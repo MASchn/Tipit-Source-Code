@@ -18,8 +18,10 @@ class TIPSearchViewController: UIViewController {
         
         self.view.backgroundColor = .iroGray
         
+        self.view.addSubview(self.noResultsView)
         self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
+        
         
         let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.tabBarController!.tabBar.frame.height, right: 0.0)
         
@@ -29,6 +31,7 @@ class TIPSearchViewController: UIViewController {
         self.searchCollectionView.contentInset.bottom -= 10
         
         self.setUpConstraints()
+        //self.search()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +41,7 @@ class TIPSearchViewController: UIViewController {
         self.configureTIPNavBar()
         
         // Searching with black query requests all users
+        //self.search()
         self.search()
     }
     
@@ -48,6 +52,18 @@ class TIPSearchViewController: UIViewController {
                 if let users: [TIPSearchUser] = users {
                     self.searchUsers = users
                     self.searchCollectionView.reloadData()
+                    
+                    if users.count > 0 {
+                        self.searchCollectionView.isHidden = false
+                        self.noResultsView.isHidden = true
+                    } else {
+                        self.searchCollectionView.isHidden = true
+                        self.noResultsView.isHidden = false
+                    }
+                    
+                } else {
+                    self.searchCollectionView.isHidden = true
+                    self.noResultsView.isHidden = false
                 }
                 self.refreshControl.endRefreshing()
             }
@@ -81,8 +97,11 @@ class TIPSearchViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var noResultsView: UIView = {
-        let view: UIView = UIView()
+    lazy var noResultsView: TIPSearchEmptyView = {
+        let view: TIPSearchEmptyView = TIPSearchEmptyView()
+        //view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
         return view
     }()
     
@@ -110,6 +129,11 @@ class TIPSearchViewController: UIViewController {
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.noResultsView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.noResultsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.noResultsView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.noResultsView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

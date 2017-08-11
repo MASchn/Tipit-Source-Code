@@ -61,8 +61,9 @@ class TIPParser: NSObject {
                     }
                 }
                 completionHandler(searchUsers, nil)
+            } else {
+                completionHandler(nil, nil)
             }
-            completionHandler(nil, nil)
         case .failure(let error):
             completionHandler(nil, error)
         }
@@ -84,8 +85,9 @@ class TIPParser: NSObject {
                     }
                     completionHandler(mediaItems, nil)
                 }
+            } else {
+                completionHandler(nil, nil)
             }
-            completionHandler(nil, nil)
         case.failure(let error):
             completionHandler(nil, error)
         }

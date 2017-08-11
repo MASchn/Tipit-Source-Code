@@ -38,21 +38,21 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         
         self.usernameLabel.text = searchUser.username
         
-//        var isSubbed: Bool = false
-//        
-//        if let subbedTo = TIPUser.currentUser?.subscribedTo {
-//            for sub in subbedTo{
-//                if sub == searchUser.userId {
-//                    isSubbed = true
-//                }
-//            }
-//        }
-//        
-//        if searchUser.isPrivate == false || isSubbed == true {
-//            self.blurView.isHidden = true
-//        } else {
-//            self.blurView.isHidden = false
-//        }
+        var isSubbed: Bool = false
+        
+        if let subbedTo = TIPUser.currentUser?.subscribedTo {
+            for sub in subbedTo{
+                if sub == searchUser.userId {
+                    isSubbed = true
+                }
+            }
+        }
+        
+        if searchUser.isPrivate == false || isSubbed == true {
+            self.blurView.isHidden = true
+        } else {
+            self.blurView.isHidden = false
+        }
         
         if let profileURL = searchUser.profileImageURL {
             self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
