@@ -31,7 +31,7 @@ class TIPFeedViewController: UIViewController {
         
         self.setUpConstraints()
         
-        self.getFeed()
+        
     }
     
     func getFeed() {
@@ -67,10 +67,10 @@ class TIPFeedViewController: UIViewController {
         
         self.emptyView.isHidden = true
         
-        if self.feedItems.count == 0 {
-            self.getFeed()
-        }
-        
+//        if self.feedItems.count == 0 {
+//            self.getFeed()
+//        }
+        self.getFeed()
         self.configureTIPNavBar()
         self.navigationItem.title = "tipit"
         
@@ -191,7 +191,7 @@ extension TIPFeedViewController: UICollectionViewDelegate {
         if let feedItem: TIPFeedItem = cell.feedItem {
             TIPAPIClient.getStory(userId: feedItem.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: feedItem.username, profileImage: cell.profileImageView.image, userID: feedItem.userId)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: feedItem.username, profileImage: cell.profileImageView.image, userID: feedItem.userId, feedItem: feedItem)
                     
                     self.present(storyViewController, animated: true, completion: nil)
                 }

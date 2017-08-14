@@ -15,6 +15,8 @@ class TIPSearchUser: NSObject {
     var backgroundImageURL: String?
     var following: Bool
     var isSubscribed: Bool
+    var coinsToSub: Int?
+    var isPrivate: Bool
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
@@ -42,14 +44,17 @@ class TIPSearchUser: NSObject {
             } else {
                 self.isSubscribed = false
             }
+            self.isPrivate = mediaItem["private"] as? Bool ?? false
         } else {
             self.isSubscribed = false
+            self.isPrivate = false
         }
         
         
         self.username = username
         self.name = JSON["name"] as? String
         self.following = JSON["following"] as? Bool ?? false
+        self.coinsToSub = JSON["coinsToSubscribe"] as? Int
     }
 
 }

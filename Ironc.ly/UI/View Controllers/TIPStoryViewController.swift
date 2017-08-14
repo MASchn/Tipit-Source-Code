@@ -12,6 +12,9 @@ class TIPStoryViewController: UIPageViewController {
     let username: String?
     let profileImage: UIImage?
     let userID: String
+    let feedItem: TIPFeedItem?
+    let searchUser: TIPSearchUser?
+    var coinsToSub: Int
     
     var currentIndex: Int = 0
     var isProfile: Bool = false
@@ -23,6 +26,49 @@ class TIPStoryViewController: UIPageViewController {
         self.username = username
         self.profileImage = profileImage
         self.userID = userID
+        self.feedItem = nil
+        self.searchUser = nil
+        self.coinsToSub = 0
+        
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
+        
+        self.dataSource = self
+        self.delegate = self
+    }
+    
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, feedItem: TIPFeedItem) {
+        self.story = story
+        self.username = username
+        self.profileImage = profileImage
+        self.userID = userID
+        self.feedItem = feedItem
+        self.searchUser = nil
+        
+        if let coins = feedItem.coinsToSub {
+            self.coinsToSub = coins
+        } else {
+            self.coinsToSub = 1000
+        }
+        
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
+        
+        self.dataSource = self
+        self.delegate = self
+    }
+    
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, searchUser: TIPSearchUser) {
+        self.story = story
+        self.username = username
+        self.profileImage = profileImage
+        self.userID = userID
+        self.feedItem = nil
+        self.searchUser = searchUser
+        
+        if let coins = searchUser.coinsToSub {
+            self.coinsToSub = coins
+        } else {
+            self.coinsToSub = 1000
+        }
         
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
@@ -49,7 +95,7 @@ class TIPStoryViewController: UIPageViewController {
         self.pageControl.numberOfPages = self.story.posts.count
         
         let firstPost: TIPPost = self.story.posts.first!
-        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID)
+        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
         postViewController.delegate = self
         
 
@@ -87,6 +133,7 @@ class TIPStoryViewController: UIPageViewController {
             postVC.player?.pause()
         }
         
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -110,7 +157,7 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let beforeIndex: Int = index - 1
             let beforePost: TIPPost = storyViewController.story.posts[beforeIndex]
-            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, username: self.username, profileImage: self.profileImage, userID: self.userID)
+            let beforePostViewController: TIPPostViewController = TIPPostViewController(post: beforePost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
 
             return beforePostViewController
         }
@@ -129,7 +176,7 @@ extension TIPStoryViewController: UIPageViewControllerDataSource {
         } else {
             let afterIndex: Int = index + 1
             let afterPost: TIPPost = storyViewController.story.posts[afterIndex]
-            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, username: self.username, profileImage: self.profileImage, userID: self.userID)
+            let afterPostViewController: TIPPostViewController = TIPPostViewController(post: afterPost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
             
             return afterPostViewController
         }

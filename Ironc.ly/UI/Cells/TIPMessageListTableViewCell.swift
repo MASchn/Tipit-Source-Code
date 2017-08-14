@@ -11,7 +11,7 @@ import UIKit
 
 class TIPMessageListTableViewCell: UITableViewCell {
     
-    var feedItem: TIPFeedItem?
+    var feedItem: TIPSearchUser?
     
     // MARK: - View Lifecycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -28,7 +28,7 @@ class TIPMessageListTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with feedItem: TIPFeedItem) {
+    func configure(with feedItem: TIPSearchUser) {
         self.feedItem = feedItem
         
         self.usernameLabel.text = feedItem.username

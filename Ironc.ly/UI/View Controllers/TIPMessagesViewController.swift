@@ -8,7 +8,7 @@ import SendBirdSDK
 
 class TIPMessagesViewController: UIViewController {
     
-    var feedItems: [TIPFeedItem] = [TIPFeedItem]()
+    var subbedToUsers: [TIPSearchUser] = [TIPSearchUser]()
     let messageListReuseId: String = "iro.reuseId.messageList"
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class TIPMessagesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.navigationController?.isNavigationBarHidden = true
-        self.getFeed()
+        self.getSubs()
     }
     
     func getFeed() {
@@ -34,7 +34,7 @@ class TIPMessagesViewController: UIViewController {
             
             
             if let feedItems: [TIPFeedItem] = feedItems {
-                self.feedItems = feedItems
+                //self.feedItems = feedItems
                 self.messageListCollectionView.reloadData()
                 
                 if feedItems.count > 0 {
@@ -49,6 +49,34 @@ class TIPMessagesViewController: UIViewController {
             
             //self.refreshControl.endRefreshing()
         }
+    }
+    
+    func getSubs() {
+        
+        self.subbedToUsers.removeAll()
+        
+        guard let subbedTo = TIPUser.currentUser?.subscribedTo else {
+            return
+        }
+        
+        guard let subbing = TIPUser.currentUser?.subscribers else {
+            return
+        }
+        
+        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
+            
+            if let users: [TIPSearchUser] = SearchUsers {
+                for user: TIPSearchUser in users {
+                    
+                    if subbedTo.contains(user.userId) || subbing.contains(user.userId) {
+                        self.subbedToUsers.append(user)
+                    }
+                }
+            }
+            
+            self.messageListCollectionView.reloadData()
+        }
+        
     }
 
     // MARK: - Lazy Initialization
@@ -73,21 +101,21 @@ class TIPMessagesViewController: UIViewController {
         self.messageListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
-    func goToChat(feedItem: TIPFeedItem, for cell: TIPMessageListTableViewCell){
+    func goToChat(user: TIPSearchUser, for cell: TIPMessageListTableViewCell){
         
         guard let myUserId = TIPUser.currentUser?.userId else {
             print("NO CURRENT USER ID!!!")
             return
         }
         
-        SBDGroupChannel.createChannel(withUserIds: [myUserId, feedItem.userId], isDistinct: true) { (channel, error) in
+        SBDGroupChannel.createChannel(withUserIds: [myUserId, user.userId], isDistinct: true) { (channel, error) in
             
             if error != nil {
                 print("ERROR CEATING CHANNEL: \(error)")
                 return
             }
             
-            let chatVC: TIPChatViewController = TIPChatViewController(feedItem: feedItem, channel: channel!)
+            let chatVC: TIPChatViewController = TIPChatViewController(feedItem: user, channel: channel!)
             let chatNavController: UINavigationController = UINavigationController(rootViewController: chatVC)
             self.present(chatNavController, animated: true, completion: nil)
         }
@@ -98,14 +126,14 @@ class TIPMessagesViewController: UIViewController {
 
 extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.feedItems.count
+        return self.subbedToUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TIPMessageListTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.messageListReuseId, for: indexPath) as! TIPMessageListTableViewCell
         
-        let feedItem: TIPFeedItem = self.feedItems[indexPath.row]
-        cell.configure(with: feedItem)
+        let user: TIPSearchUser = self.subbedToUsers[indexPath.row]
+        cell.configure(with: user)
         
         return cell
     }
@@ -113,7 +141,7 @@ extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell: TIPMessageListTableViewCell = self.messageListCollectionView.cellForRow(at: indexPath) as! TIPMessageListTableViewCell
-        if let feedItem: TIPFeedItem = cell.feedItem {
+        if let feedItem: TIPSearchUser = cell.feedItem {
             //SBDMain.connect(withUserId: feedItem.userId, completionHandler: { (user, error) in
                 
 //                if error != nil {
@@ -121,7 +149,7 @@ extension TIPMessagesViewController: UITableViewDelegate, UITableViewDataSource 
 //                    return
 //                }
             
-                self.goToChat(feedItem: feedItem, for: cell)
+                self.goToChat(user: feedItem, for: cell)
             //})
         }
     }

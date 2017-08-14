@@ -11,7 +11,7 @@ import SendBirdSDK
 
 class TIPChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    let chatUser: TIPFeedItem
+    let chatUser: TIPSearchUser
     let currentChannel: SBDGroupChannel
     let username: String?
     let chatReuseId: String = "iro.reuseId.chat"
@@ -19,7 +19,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
     var messages = [SBDUserMessage]()
     
     // MARK: - View Lifecycle
-    init(feedItem: TIPFeedItem, channel: SBDGroupChannel) {
+    init(feedItem: TIPSearchUser, channel: SBDGroupChannel) {
         
         self.currentChannel = channel
         self.chatUser = feedItem
@@ -53,8 +53,8 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         
         self.collectionView?.register(TIPChatCollectionViewCell.self, forCellWithReuseIdentifier: self.chatReuseId)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:Notification.Name.UIKeyboardWillShow, object: nil);
-       NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:Notification.Name.UIKeyboardWillShow, object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         tap.cancelsTouchesInView = false

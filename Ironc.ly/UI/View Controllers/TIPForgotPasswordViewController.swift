@@ -18,6 +18,9 @@ class TIPForgotPasswordViewController: UIViewController {
         self.view.addSubview(self.emailTextField)
         self.view.addSubview(self.submitButton)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil)
+        
         self.setUpConstraints()
     }
     
@@ -121,6 +124,21 @@ class TIPForgotPasswordViewController: UIViewController {
     }
     
     // MARK: - Keyboard
+    
+    func keyboardWillShow(sender: Notification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    func keyboardWillHide(sender: Notification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y += keyboardSize.height
+        }
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         

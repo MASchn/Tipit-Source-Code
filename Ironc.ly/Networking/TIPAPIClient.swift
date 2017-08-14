@@ -173,6 +173,32 @@ class TIPAPIClient: NSObject {
         }
     }
     
+    class func updateUserCoins(coinsToAdd: Int, userID: String, completionHandler: @escaping (Bool) -> Void) {
+        
+        let parameters: [String: Any] = [
+            "coins" : coinsToAdd
+        ]
+        
+        Alamofire.request(
+            baseURL + "/users/\(userID)",
+            method: .patch,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: self.authHeaders
+            ).responseJSON { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        print("USER STUFFFFFFFFFFF: \(JSON)")
+                        completionHandler(true)
+                    }
+                case .failure(let error):
+                    completionHandler(false)
+                    print("Update user request failed with error \(error)")
+                }
+        }
+    }
+    
     class func updateUserImage(data: Data, type: TIPUserImageType, completionHandler: @escaping (Bool) -> Void) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
@@ -329,6 +355,17 @@ class TIPAPIClient: NSObject {
                 case .failure(_):
                     completionHandler(false)
                 }
+        }
+    }
+    
+    class func getAllUsers(completionHandler: @escaping ([[String: String]]?) -> Void) {
+        Alamofire.request(baseURL + "/users", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON
+            { (response) in
+                TIPParser.parseAllUsers(response: response, completionHandler: { (usersDict, err) in
+                    completionHandler(usersDict)
+                })
         }
     }
     

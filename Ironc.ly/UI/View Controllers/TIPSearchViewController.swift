@@ -9,7 +9,8 @@ class TIPSearchViewController: UIViewController {
     
     let searchReuseId: String = "iro.reuseId.search"
     var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
-    var emptyStateColors: [UIColor] = [.sampleColor1, .sampleColor2, .sampleColor3, .sampleColor4]
+    var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "tipitbackground5_7"), #imageLiteral(resourceName: "tipitbackground4_7"),#imageLiteral(resourceName: "tipitbackground3_7"), #imageLiteral(resourceName: "tipitbackground1_7"), #imageLiteral(resourceName: "tipitbackground2_7")]
+//    var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "forgot_password_background"), #imageLiteral(resourceName: "register_background"), #imageLiteral(resourceName: "login_background"), #imageLiteral(resourceName: "feed_image_1"), #imageLiteral(resourceName: "feed_image_2")]
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -17,8 +18,10 @@ class TIPSearchViewController: UIViewController {
         
         self.view.backgroundColor = .iroGray
         
+        self.view.addSubview(self.noResultsView)
         self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
+        
         
         let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.tabBarController!.tabBar.frame.height, right: 0.0)
         
@@ -28,6 +31,7 @@ class TIPSearchViewController: UIViewController {
         self.searchCollectionView.contentInset.bottom -= 10
         
         self.setUpConstraints()
+        //self.search()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,6 +41,7 @@ class TIPSearchViewController: UIViewController {
         self.configureTIPNavBar()
         
         // Searching with black query requests all users
+        //self.search()
         self.search()
     }
     
@@ -47,6 +52,18 @@ class TIPSearchViewController: UIViewController {
                 if let users: [TIPSearchUser] = users {
                     self.searchUsers = users
                     self.searchCollectionView.reloadData()
+                    
+                    if users.count > 0 {
+                        self.searchCollectionView.isHidden = false
+                        self.noResultsView.isHidden = true
+                    } else {
+                        self.searchCollectionView.isHidden = true
+                        self.noResultsView.isHidden = false
+                    }
+                    
+                } else {
+                    self.searchCollectionView.isHidden = true
+                    self.noResultsView.isHidden = false
                 }
                 self.refreshControl.endRefreshing()
             }
@@ -80,8 +97,11 @@ class TIPSearchViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var noResultsView: UIView = {
-        let view: UIView = UIView()
+    lazy var noResultsView: TIPSearchEmptyView = {
+        let view: TIPSearchEmptyView = TIPSearchEmptyView()
+        //view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
         return view
     }()
     
@@ -109,6 +129,11 @@ class TIPSearchViewController: UIViewController {
         self.searchCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.searchCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.noResultsView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.noResultsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.noResultsView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.noResultsView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -130,12 +155,18 @@ extension TIPSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TIPSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.searchReuseId, for: indexPath) as! TIPSearchCollectionViewCell
         
-        let colorIndex: Int = indexPath.item % 4
-        let color: UIColor = self.emptyStateColors[colorIndex]
-        cell.postImageView.backgroundColor = color
+        let imageIndex: Int = indexPath.item % 5
+        let placeholderImage: UIImage = self.emptyStateImages[imageIndex]
         
         let searchUser: TIPSearchUser = self.searchUsers[indexPath.item]
         cell.configure(with: searchUser)
+        
+        if cell.postImageView.image == nil {
+            cell.postImageView.image = placeholderImage
+            cell.usernameLabel.textColor = .black
+        }
+    
+        
         cell.delegate = self
         return cell
     }
@@ -149,7 +180,7 @@ extension TIPSearchViewController: UICollectionViewDelegate {
         if let user: TIPSearchUser = cell.user {
             TIPAPIClient.getStory(userId: user.userId, completionHandler: { (story: TIPStory?) in
                 if let story: TIPStory = story, story.posts.count > 0 {
-                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image, userID: user.userId)
+                    let storyViewController: TIPStoryViewController = TIPStoryViewController(story: story, username: user.username, profileImage: cell.profileImageView.image, userID: user.userId, searchUser: user)
                     
                     self.present(storyViewController, animated: true, completion: nil)
                 }

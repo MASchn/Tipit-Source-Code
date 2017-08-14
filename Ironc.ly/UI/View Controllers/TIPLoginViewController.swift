@@ -193,7 +193,10 @@ class TIPLoginViewController: UIViewController {
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
                             TIPAPIClient.connectToSendBird()
-                            self.navigationController?.dismiss(animated: true, completion: nil)
+                            self.navigationController?.dismiss(animated: true, completion: { 
+                                
+                            })
+                            AppDelegate.shared.tabBarController?.selectedIndex = 0
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
                         }
@@ -326,14 +329,15 @@ extension TIPLoginViewController: FBSDKLoginButtonDelegate {
             let id: String = resultDict["id"] as! String
             let password: String = "general"
             
-            TIPAPIClient.logInUser(email: email, password: password, completionHandler: { (success: Bool) in
+            TIPAPIClient.logInUser(email: email, password: id, completionHandler: { (success: Bool) in
                 if success == true {
                     
-                    TIPAPIClient.updateUser(parameters: [:], completionHandler: { (success: Bool) in
+                    TIPAPIClient.getCurrentUserInfo(completionHandler: { (success: Bool) in
                         if success == true {
-                            //                            self.emailTextField.text = ""
-                            //                            self.passwordTextField.text = ""
-                            //                            self.view.endEditing(true)
+                            //self.emailTextField.text = ""
+                            //self.passwordTextField.text = ""
+                            //self.view.endEditing(true)
+                            TIPAPIClient.connectToSendBird()
                             self.navigationController?.dismiss(animated: true, completion: nil)
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)

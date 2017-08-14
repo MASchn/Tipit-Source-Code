@@ -8,6 +8,47 @@ import Alamofire
 
 class TIPParser: NSObject {
     
+    class func parseAllUsers(response: DataResponse<Any>, completionHandler: ([[String: String]]?, Error?) -> Void) {
+        switch response.result {
+        case.success(let JSONDictionary):
+            if let JSONArray: [[String : Any]] = JSONDictionary as? [[String : Any]] {
+                //print("ALL USERS: \(JSONArray)")
+                var allUsers: [[String: String]] = [[String: String]]()
+                
+                for JSON: [String : Any] in JSONArray {
+                    print("SINGLE USER: \(JSON)")
+                    
+                    
+                    
+                    
+                    
+//                    print("ID: \(id)")
+//                    print("USERNAME: \(userName)")
+//                    print("profileURL: \(profileURL)")
+                    
+                    var singleUser: [String: String] = [String: String]()
+                    
+                    if let id = JSON["id"] as? String {
+                        singleUser.updateValue(id, forKey: "id")
+                    }
+                    if let userName = JSON["username"] as? String {
+                        singleUser.updateValue(userName, forKey: "username")
+                    }
+                    if let profileURL = JSON["profile_image"] as? String {
+                        singleUser.updateValue(profileURL, forKey: "profile_image")
+                    }
+                    
+                
+                    allUsers.append(singleUser)
+                }
+                completionHandler(allUsers, nil)
+            }
+            completionHandler(nil, nil)
+        case .failure(let error):
+            completionHandler(nil, error)
+        }
+    }
+    
     class func parseSearchUsers(response: DataResponse<Any>, completionHandler: ([TIPSearchUser]?, Error?) -> Void) {
         switch response.result {
         case.success(let JSONDictionary):
@@ -20,8 +61,9 @@ class TIPParser: NSObject {
                     }
                 }
                 completionHandler(searchUsers, nil)
+            } else {
+                completionHandler(nil, nil)
             }
-            completionHandler(nil, nil)
         case .failure(let error):
             completionHandler(nil, error)
         }
@@ -43,8 +85,9 @@ class TIPParser: NSObject {
                     }
                     completionHandler(mediaItems, nil)
                 }
+            } else {
+                completionHandler(nil, nil)
             }
-            completionHandler(nil, nil)
         case.failure(let error):
             completionHandler(nil, error)
         }

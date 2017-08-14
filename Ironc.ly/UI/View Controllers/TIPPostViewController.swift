@@ -23,14 +23,16 @@ class TIPPostViewController: UIViewController {
     var animationView: LOTAnimationView?
     var userID: String
     var isSubscribed: Bool?
+    var coinsToSub: Int
     
     lazy var tipViewTopAnchor: NSLayoutConstraint = self.tipView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.size.height)
     
     // MARK: - View Lifecycle
-    init(post: TIPPost, username: String?, profileImage: UIImage?, userID: String) {
+    init(post: TIPPost, username: String?, profileImage: UIImage?, userID: String, coinsToSub: Int) {
         self.post = post
         self.userID = userID
         self.isSubscribed = false
+        self.coinsToSub = coinsToSub
         
         if let subbedTo = TIPUser.currentUser?.subscribedTo {
             for sub in subbedTo{
@@ -38,6 +40,10 @@ class TIPPostViewController: UIViewController {
                     self.isSubscribed = true
                 }
             }
+        }
+        
+        if self.userID == TIPUser.currentUser?.userId {
+            self.isSubscribed = true
         }
     
         super.init(nibName: nil, bundle: nil)
@@ -100,12 +106,16 @@ class TIPPostViewController: UIViewController {
         self.view.addSubview(self.shadeView)
         self.view.addSubview(self.tipView)
         
+        let profileTap = UITapGestureRecognizer(target: self, action: #selector(tappedProfilePic))
+        self.profileImageView.addGestureRecognizer(profileTap)
+        
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-//        if self.post.isPrivate == false || user.allAccess == true {
-//            self.blurView.isHidden = true
-//            self.lockButton.isHidden = true
-//        }
+        if self.userID == user.userId {
+            self.tipButton.isHidden = true
+        } else {
+            self.tipButton.isHidden = false
+        }
         
         if self.post.isPrivate == false  || self.isSubscribed == true{
             self.blurView.isHidden = true
@@ -127,6 +137,8 @@ class TIPPostViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player?.play()
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
+
     }
     
     // MARK: - Lazy Initialization
@@ -168,6 +180,7 @@ class TIPPostViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -279,6 +292,44 @@ class TIPPostViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    func tappedProfilePic() {
+        
+        if self.userID == TIPUser.currentUser?.userId {
+            self.parent?.dismiss(animated: true, completion: nil)
+        }
+        
+        guard let parentVC = self.parent as? TIPStoryViewController else {return}
+        
+        if parentVC.feedItem != nil {
+            
+            let tabVC = parentVC.presentingViewController as? TIPTabBarController
+            
+            parentVC.dismiss(animated: true, completion: { 
+                let profileViewController: TIPProfileViewController = TIPProfileViewController(feedItem: parentVC.feedItem!)
+                profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
+                
+                let navVC = tabVC?.viewControllers?[0] as? UINavigationController
+                navVC?.pushViewController(profileViewController, animated: true)
+            })
+            
+        }
+        else if parentVC.searchUser != nil {
+            let tabVC = parentVC.presentingViewController as? TIPTabBarController
+            
+            parentVC.dismiss(animated: true, completion: {
+                let profileViewController: TIPProfileViewController = TIPProfileViewController(searchUser: parentVC.searchUser!)
+                profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
+                
+                let navVC = tabVC?.viewControllers?[1] as? UINavigationController
+                navVC?.pushViewController(profileViewController, animated: true)
+            })
+        }
+        else if parentVC.feedItem == nil && parentVC.searchUser == nil {
+            self.parent?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func tappedLockButton(sender: UIButton) {
         self.showLockedAlert()
     }
@@ -286,34 +337,59 @@ class TIPPostViewController: UIViewController {
     func showLockedAlert() {
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text)?",
+            message: "Subscribe to \(self.usernameLabel.text!) for \(self.coinsToSub) coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-
+            if (TIPUser.currentUser?.coins)! < self.coinsToSub {
+                print("not enough coins")
+                return
+            }
             
-            
-            TIPAPIClient.userAction(action: .subscribe, userId: self.userID, completionHandler: { (success: Bool) in
+            TIPAPIClient.updateUserCoins(coinsToAdd: self.coinsToSub, userID: self.userID, completionHandler: { (success: Bool) in
+                
                 if success == true {
-                    print("SUCCESS")
-                    self.isSubscribed = true
                     
-                    TIPUser.currentUser?.subscribedTo?.append(self.userID)
-                    TIPUser.currentUser?.save()
+                    let parameters: [String: Any] = [
+                        "coins" : ((TIPUser.currentUser?.coins)! - self.coinsToSub)
+                    ]
                     
-                    UIView.animate(withDuration: 0.4, animations: {
-                        self.blurView.alpha = 0.0
-                        self.lockButton.alpha = 0.0
-                    }, completion: { (success) in
-                        self.blurView.isHidden = true
-                        self.lockButton.isHidden = true
+                    TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+                        
+                        if success == true {
+                            
+                        TIPAPIClient.userAction(action: .subscribe, userId: self.userID, completionHandler: { (success: Bool) in
+                            if success == true {
+                                print("SUCCESS")
+                                self.isSubscribed = true
+                                
+                               // TIPUser.currentUser?.coins -= 1000
+                                TIPUser.currentUser?.subscribedTo?.append(self.userID)
+                                TIPUser.currentUser?.save()
+                                
+                                UIView.animate(withDuration: 0.4, animations: {
+                                    self.blurView.alpha = 0.0
+                                    self.lockButton.alpha = 0.0
+                                }, completion: { (success) in
+                                    self.blurView.isHidden = true
+                                    self.lockButton.isHidden = true
+                                })
+                                
+                            } else {
+                                print("ERROR SUBSCRIBING")
+                            }
+                            
+                        })
+                            
+                      }
+                        
                     })
                     
                 } else {
-                    print("ERROR SUBSCRIBING")
+                    print("ERROR ADDING COINS")
                 }
-    
+                
             })
             
 
@@ -330,10 +406,8 @@ class TIPPostViewController: UIViewController {
     func tappedTipButton(sender: UIButton) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
-        if self.post.isPrivate == false || user.allAccess == true {
+        if self.post.isPrivate == false || self.isSubscribed == true {
             self.showTipView()
-        } else {
-            self.showLockedAlert()
         }
     }
     
@@ -394,7 +468,7 @@ class TIPPostViewController: UIViewController {
         // Update coins amount
         guard let user: TIPUser = TIPUser.currentUser else { return }
         let formattedCoins: String = TIPCoinsFormatter.formattedCoins(coins: user.coins)
-        let coinsTitle: String = "buy coins (\(formattedCoins) coins)"
+        let coinsTitle: String = "buy coins: \(formattedCoins)"
         self.tipView.buyCoinsButton.setTitle(coinsTitle, for: .normal)
     }
     
