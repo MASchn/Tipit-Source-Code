@@ -44,7 +44,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         //self.view.backgroundColor = .white
         self.title = self.username
         self.collectionView?.backgroundColor = .white
-        self.collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        self.collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.tintColor = .black
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedDismissButton))

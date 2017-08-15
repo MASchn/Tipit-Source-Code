@@ -17,9 +17,9 @@
 		37079B9A1F0191100022E014 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079B991F0191100022E014 /* UIViewController+Alert.swift */; };
 		37079BA11F0191290022E014 /* diamond1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9B1F0191290022E014 /* diamond1.json */; };
 		37079BA21F0191290022E014 /* heart.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9C1F0191290022E014 /* heart.json */; };
-		37079BA31F0191290022E014 /* kiss.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9D1F0191290022E014 /* kiss.json */; };
-		37079BA41F0191290022E014 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9E1F0191290022E014 /* smile.json */; };
-		37079BA51F0191290022E014 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9F1F0191290022E014 /* star.json */; };
+		37079BA31F0191290022E014 /* kiss1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9D1F0191290022E014 /* kiss1.json */; };
+		37079BA41F0191290022E014 /* smile1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9E1F0191290022E014 /* smile1.json */; };
+		37079BA51F0191290022E014 /* star1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079B9F1F0191290022E014 /* star1.json */; };
 		37079BA61F0191290022E014 /* sun.json in Resources */ = {isa = PBXBuildFile; fileRef = 37079BA01F0191290022E014 /* sun.json */; };
 		37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */; };
 		37079BAD1F0191340022E014 /* TIPEditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */; };
@@ -80,6 +80,9 @@
 		FA56F9291F2A3BED00B0F292 /* TIPChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */; };
 		FA56F92B1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */; };
 		FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */; };
+		FAB9F2501F3E5DCB00D025F0 /* kiss.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F24F1F3E5DCB00D025F0 /* kiss.json */; };
+		FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2511F3E5DD600D025F0 /* smile.json */; };
+		FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2531F3E5DDC00D025F0 /* star.json */; };
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -96,9 +99,9 @@
 		37079B991F0191100022E014 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Alert.swift"; path = "Extensions/UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		37079B9B1F0191290022E014 /* diamond1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = diamond1.json; path = UI/Animations/diamond1.json; sourceTree = "<group>"; };
 		37079B9C1F0191290022E014 /* heart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = heart.json; path = UI/Animations/heart.json; sourceTree = "<group>"; };
-		37079B9D1F0191290022E014 /* kiss.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = kiss.json; path = UI/Animations/kiss.json; sourceTree = "<group>"; };
-		37079B9E1F0191290022E014 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = smile.json; path = UI/Animations/smile.json; sourceTree = "<group>"; };
-		37079B9F1F0191290022E014 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = star.json; path = UI/Animations/star.json; sourceTree = "<group>"; };
+		37079B9D1F0191290022E014 /* kiss1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = kiss1.json; path = UI/Animations/kiss1.json; sourceTree = "<group>"; };
+		37079B9E1F0191290022E014 /* smile1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = smile1.json; path = UI/Animations/smile1.json; sourceTree = "<group>"; };
+		37079B9F1F0191290022E014 /* star1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = star1.json; path = UI/Animations/star1.json; sourceTree = "<group>"; };
 		37079BA01F0191290022E014 /* sun.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sun.json; path = UI/Animations/sun.json; sourceTree = "<group>"; };
 		37079BA71F0191340022E014 /* TIPCoinTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPCoinTableViewCell.swift; path = UI/Cells/TIPCoinTableViewCell.swift; sourceTree = "<group>"; };
 		37079BA81F0191340022E014 /* TIPEditProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEditProfileTableViewCell.swift; path = UI/Cells/TIPEditProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -162,6 +165,9 @@
 		FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatViewController.swift; path = "UI/View Controllers/TIPChatViewController.swift"; sourceTree = "<group>"; };
 		FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatCollectionViewCell.swift; path = UI/Cells/TIPChatCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchEmptyView.swift; path = UI/Views/TIPSearchEmptyView.swift; sourceTree = "<group>"; };
+		FAB9F24F1F3E5DCB00D025F0 /* kiss.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kiss.json; sourceTree = "<group>"; };
+		FAB9F2511F3E5DD600D025F0 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
+		FAB9F2531F3E5DDC00D025F0 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = star.json; sourceTree = "<group>"; };
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -288,9 +294,12 @@
 				FA0490141F27BD170093E3EE /* diamond.json */,
 				37079B9B1F0191290022E014 /* diamond1.json */,
 				37079B9C1F0191290022E014 /* heart.json */,
-				37079B9D1F0191290022E014 /* kiss.json */,
-				37079B9E1F0191290022E014 /* smile.json */,
-				37079B9F1F0191290022E014 /* star.json */,
+				FAB9F24F1F3E5DCB00D025F0 /* kiss.json */,
+				37079B9D1F0191290022E014 /* kiss1.json */,
+				FAB9F2511F3E5DD600D025F0 /* smile.json */,
+				37079B9E1F0191290022E014 /* smile1.json */,
+				FAB9F2531F3E5DDC00D025F0 /* star.json */,
+				37079B9F1F0191290022E014 /* star1.json */,
 				37079BA01F0191290022E014 /* sun.json */,
 			);
 			name = Animations;
@@ -461,12 +470,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */,
+				FAB9F2501F3E5DCB00D025F0 /* kiss.json in Resources */,
 				FA0490151F27BD170093E3EE /* diamond.json in Resources */,
-				37079BA31F0191290022E014 /* kiss.json in Resources */,
+				FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */,
+				37079BA31F0191290022E014 /* kiss1.json in Resources */,
 				37079BA11F0191290022E014 /* diamond1.json in Resources */,
 				37079BA21F0191290022E014 /* heart.json in Resources */,
-				37079BA51F0191290022E014 /* star.json in Resources */,
-				37079BA41F0191290022E014 /* smile.json in Resources */,
+				FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */,
+				37079BA51F0191290022E014 /* star1.json in Resources */,
+				37079BA41F0191290022E014 /* smile1.json in Resources */,
 				37079BA61F0191290022E014 /* sun.json in Resources */,
 				37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */,
 			);

@@ -67,11 +67,6 @@ extension UIImageView {
     
     func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage?, completion: @escaping () -> Void) {
         
-//        guard let string = urlString else {
-//            
-//            return
-//        }
-        
         let NSUrlString = urlString as NSString
         
         if let cachedImage = imageCache.object(forKey: NSUrlString)  {

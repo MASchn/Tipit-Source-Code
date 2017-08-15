@@ -19,6 +19,7 @@ class TIPSearchViewController: UIViewController {
         self.view.backgroundColor = .iroGray
         
         self.view.addSubview(self.noResultsView)
+        self.view.addSubview(self.noInternetView)
         self.view.addSubview(self.searchBar)
         self.view.addSubview(self.searchCollectionView)
         
@@ -59,11 +60,13 @@ class TIPSearchViewController: UIViewController {
                     } else {
                         self.searchCollectionView.isHidden = true
                         self.noResultsView.isHidden = false
+                        self.noInternetView.isHidden = true
                     }
                     
                 } else {
                     self.searchCollectionView.isHidden = true
-                    self.noResultsView.isHidden = false
+                    self.noInternetView.isHidden = false
+                    self.noResultsView.isHidden = true
                 }
                 self.refreshControl.endRefreshing()
             }
@@ -105,8 +108,10 @@ class TIPSearchViewController: UIViewController {
         return view
     }()
     
-    lazy var noInternetView: TIPEmptyStateView = {
-        let view: TIPEmptyStateView = TIPEmptyStateView()
+    lazy var noInternetView: TIPNoInternetView = {
+        let view: TIPNoInternetView = TIPNoInternetView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
         return view
     }()
     
@@ -134,6 +139,11 @@ class TIPSearchViewController: UIViewController {
         self.noResultsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.noResultsView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.noResultsView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.noInternetView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.noInternetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -40,6 +40,7 @@ class TIPSettingsViewController: UIViewController, UITableViewDelegate, UITableV
         self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.settingsTableView)
         self.view.addSubview(self.coinsSegmentedControl)
+        self.view.addSubview(self.coinsToSubLabel)
         
         if let coinsToSub = TIPUser.currentUser?.coinsToSubscribe {
             if coinsToSub == 2000 {
@@ -81,12 +82,21 @@ class TIPSettingsViewController: UIViewController, UITableViewDelegate, UITableV
     }()
     
     lazy var coinsSegmentedControl: UISegmentedControl = {
-       
         let segmentedControl: UISegmentedControl = UISegmentedControl(items: self.coinsToSubValues)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         //segmentedControl.addTarget(self, action: #selector(changeCoinsToSub), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
+    }()
+    
+    lazy var coinsToSubLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.text = "Set how many coins it costs to subscribe to you!"
+        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     func setUpConstraints() {
@@ -97,6 +107,11 @@ class TIPSettingsViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.coinsSegmentedControl.topAnchor.constraint(equalTo: self.settingsTableView.bottomAnchor, constant: 20).isActive = true
         self.coinsSegmentedControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.coinsToSubLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.coinsToSubLabel.bottomAnchor.constraint(equalTo: self.coinsSegmentedControl.topAnchor, constant: -20).isActive = true
+        self.coinsToSubLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.coinsToSubLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         //self.coinsSegmentedControl.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         //self.coinsSegmentedControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
         //self.coinsSegmentedControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 20).isActive = true
@@ -153,57 +168,57 @@ class TIPSettingsViewController: UIViewController, UITableViewDelegate, UITableV
 //    }
 //    })
     
-    func changeCoinsToSub(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            print("1000")
-            
-            let parameters: [String: Any] = [
-                "coinsToSubscribe" : "1000"
-            ]
-            
-            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
-                if success == true {
-                    print("successfully updated coins to sub")
-                } else {
-                    print("failed updating coins")
-                }
-            })
-            
-        case 1:
-            print("2000")
-            
-            let parameters: [String: Any] = [
-                "coinsToSubscribe" : "2000"
-            ]
-            
-            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
-                if success == true {
-                    print("successfully updated coins to sub")
-                } else {
-                    print("failed updating coins")
-                }
-            })
-            
-        case 2:
-            print("3000")
-            
-            let parameters: [String: Any] = [
-                "coinsToSubscribe" : "3000"
-            ]
-            
-            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
-                if success == true {
-                    print("successfully updated coins to sub")
-                } else {
-                    print("failed updating coins")
-                }
-            })
-            
-        default:
-            break
-        }
-    }
+//    func changeCoinsToSub(sender: UISegmentedControl) {
+//        switch sender.selectedSegmentIndex {
+//        case 0:
+//            print("1000")
+//            
+//            let parameters: [String: Any] = [
+//                "coinsToSubscribe" : "1000"
+//            ]
+//            
+//            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+//                if success == true {
+//                    print("successfully updated coins to sub")
+//                } else {
+//                    print("failed updating coins")
+//                }
+//            })
+//            
+//        case 1:
+//            print("2000")
+//            
+//            let parameters: [String: Any] = [
+//                "coinsToSubscribe" : "2000"
+//            ]
+//            
+//            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+//                if success == true {
+//                    print("successfully updated coins to sub")
+//                } else {
+//                    print("failed updating coins")
+//                }
+//            })
+//            
+//        case 2:
+//            print("3000")
+//            
+//            let parameters: [String: Any] = [
+//                "coinsToSubscribe" : "3000"
+//            ]
+//            
+//            TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+//                if success == true {
+//                    print("successfully updated coins to sub")
+//                } else {
+//                    print("failed updating coins")
+//                }
+//            })
+//            
+//        default:
+//            break
+//        }
+//    }
     
     // MARK: - Actions
     func tappedDismissButton() {

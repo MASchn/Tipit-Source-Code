@@ -18,6 +18,7 @@ class TIPFeedViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.emptyView)
+        self.view.addSubview(self.noInternetView)
         self.view.addSubview(self.feedCollectionView)
         self.view.addSubview(self.loadingView)
         
@@ -30,8 +31,6 @@ class TIPFeedViewController: UIViewController {
         
         
         self.setUpConstraints()
-        
-        
     }
     
     func getFeed() {
@@ -50,7 +49,9 @@ class TIPFeedViewController: UIViewController {
                     self.showEmptyView()
                 }
             } else {
-                self.showEmptyView()
+                self.showNoInternetView()
+                //NO INTERNET WARNING?
+                print("NO INTERNET")
             }
             
             self.refreshControl.endRefreshing()
@@ -60,6 +61,11 @@ class TIPFeedViewController: UIViewController {
     func showEmptyView() {
         self.feedCollectionView.isHidden = true
         self.emptyView.isHidden = false
+    }
+    
+    func showNoInternetView() {
+        self.feedCollectionView.isHidden = true
+        self.noInternetView.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +87,14 @@ class TIPFeedViewController: UIViewController {
     lazy var emptyView: TIPFeedEmptyView = {
         let view: TIPFeedEmptyView = TIPFeedEmptyView()
         view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+    
+    lazy var noInternetView: TIPNoInternetView = {
+        let view: TIPNoInternetView = TIPNoInternetView()
+        //view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         return view
@@ -120,6 +134,11 @@ class TIPFeedViewController: UIViewController {
         self.emptyView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.emptyView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.emptyView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.noInternetView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.noInternetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
