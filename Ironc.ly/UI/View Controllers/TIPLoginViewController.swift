@@ -193,7 +193,11 @@ class TIPLoginViewController: UIViewController {
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
                             TIPAPIClient.connectToSendBird()
-                            self.navigationController?.dismiss(animated: true, completion: { 
+                            if let tabControl = AppDelegate.shared.tabBarController as? TIPTabBarController {
+                                tabControl.splashView.isHidden = false
+                                tabControl.splashView.alpha = 1.0
+                            }
+                            self.navigationController?.dismiss(animated: true, completion: {
                                 
                             })
                             AppDelegate.shared.tabBarController?.selectedIndex = 0

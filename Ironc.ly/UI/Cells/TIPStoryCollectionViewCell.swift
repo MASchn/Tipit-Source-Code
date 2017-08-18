@@ -19,6 +19,9 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.profileButton)
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.profileImageView)
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tappedProfileButton(sender:)))
+//        self.profileImageView.addGestureRecognizer(tap)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -44,6 +44,11 @@ extension UIImage {
             return
         }
         
+        if urlString.contains(".mp4") {
+            completion(nil)
+            return
+        }
+        
         UIImage.download(urlString: urlString, placeHolder: placeHolder) { (image) in
             
             guard let url: URL = URL(string: urlString) else {
@@ -71,6 +76,11 @@ extension UIImageView {
         
         if let cachedImage = imageCache.object(forKey: NSUrlString)  {
             self.image = cachedImage
+            completion()
+            return
+        }
+        
+        if urlString.contains(".mp4") {
             completion()
             return
         }

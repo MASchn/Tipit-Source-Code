@@ -17,6 +17,7 @@ class TIPCamViewController: SwiftyCamViewController {
         
         self.cameraDelegate = self
         self.maximumVideoDuration = 11.0
+        self.videoQuality = .resolution1280x720
         
         self.captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 30.0, y: view.frame.height - 100.0, width: 60.0, height: 60.0))
         self.captureButton.delegate = self

@@ -19,6 +19,13 @@ class TIPTabBarController: UITabBarController {
         
     }
     
+    lazy var splashView: TIPLoadingView = {
+        let view: TIPLoadingView = TIPLoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = false
+        return view
+    }()
+    
     func addTopRoundedCornerToView(targetView:UIView?, desiredCurve:CGFloat?) {
         let offset:CGFloat =  targetView!.frame.width/desiredCurve!
         let bounds: CGRect = targetView!.bounds
@@ -56,10 +63,15 @@ class TIPTabBarController: UITabBarController {
         self.tabBarController?.view.backgroundColor = .clear
         self.tabBar.backgroundImage = UIImage(named: "nothing")
         
-
         self.addTopRoundedCornerToView(targetView: self.tabBar, desiredCurve: 1.5)
         
+        self.view.addSubview(self.splashView)
+        self.splashView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.splashView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.splashView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.splashView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
+        //self.splashView.isHidden = false
         
         let homeViewController: TIPFeedViewController = TIPFeedViewController()
         homeViewController.tabBarItem = UITabBarItem(title: nil, image: self.homeImage.withRenderingMode(.alwaysOriginal), selectedImage: self.homeImage)

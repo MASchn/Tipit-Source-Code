@@ -72,18 +72,28 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
 //        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: UIImage(named: "empty_profile")!, completion: )
     
-        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) {
-            
-            if (self.postImageView.image == nil) && (feedItem.storyImage.contains(".mp4")) {
-                let image = TIPAPIClient.imageFromVideo(urlString: feedItem.storyImage, at: 0)
-                self.postImageView.image = image
-            }
-            
-            UIView.animate(withDuration: 0.4, animations: {
-                self.postImageView.alpha = 1.0
-            })
-            
-            
+//        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: nil) {
+//            
+//            if (self.postImageView.image == nil) && (feedItem.storyImage.contains(".mp4")) {
+//                
+//                DispatchQueue.global(qos: .background).async {
+//                    let image = TIPAPIClient.testImageFromVideo(urlString: feedItem.storyImage, at: 0)
+//                    DispatchQueue.main.async {
+//                       self.postImageView.image = image
+//                    }
+//                }
+//                
+//            }
+//            
+//            UIView.animate(withDuration: 0.4, animations: {
+//                self.postImageView.alpha = 1.0
+//            })
+//            
+//            
+//        }
+        
+        if let actualImage = feedItem.actualStoryImage {
+            self.postImageView.image = actualImage
         }
     }
     
@@ -153,7 +163,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.profileButton.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
         self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.profileButton.rightAnchor.constraint(equalTo: self.usernameLabel.rightAnchor, constant: hMargin).isActive = true
+        self.profileButton.rightAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: hMargin).isActive = true
     }
     
     override func tappedProfileButton(sender: UIButton) {

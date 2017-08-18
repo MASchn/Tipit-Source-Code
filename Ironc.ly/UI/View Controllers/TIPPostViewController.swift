@@ -58,6 +58,10 @@ class TIPPostViewController: UIViewController {
                     self.view.backgroundColor = UIColor.gray
                     player = AVPlayer(url: url)
                     playerController = AVPlayerViewController()
+//                    let playerLayer = AVPlayerLayer(player: player)
+//                    
+//                    self.view.layer.addSublayer(playerLayer)
+//                    playerLayer.frame = view.frame
                     
                     guard player != nil && playerController != nil else {
                         return
@@ -139,6 +143,11 @@ class TIPPostViewController: UIViewController {
         player?.play()
         try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
 
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        player?.pause()
     }
     
     // MARK: - Lazy Initialization

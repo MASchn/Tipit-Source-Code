@@ -15,6 +15,7 @@ class TIPFeedItem: NSObject {
     var timeRemaining: String?
     var isPrivate: Bool
     var profileImage: UIImage?
+    var actualStoryImage: UIImage?
     var isSubscribed: Bool?
     var coinsToSub: Int?
     
