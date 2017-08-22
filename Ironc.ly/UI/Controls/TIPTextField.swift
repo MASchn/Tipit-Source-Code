@@ -8,6 +8,7 @@ import UIKit
 class TIPTextField: UITextField {
     
     let fontName: String = "HelveticaNeue-MediumItalic"
+    let handWrittenFontName: String = "handwriting"
     
     // MARK: - View Lifecycle
     convenience init(placeholder: String) {
