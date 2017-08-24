@@ -61,12 +61,14 @@ class TIPFeedViewController: UIViewController {
     func showEmptyView() {
         self.feedCollectionView.isHidden = true
         self.emptyView.isHidden = false
+        self.noInternetView.isHidden = true
         self.hideSplashView()
     }
     
     func showNoInternetView() {
         self.feedCollectionView.isHidden = true
         self.noInternetView.isHidden = false
+        self.emptyView.isHidden = true
         self.hideSplashView()
     }
     

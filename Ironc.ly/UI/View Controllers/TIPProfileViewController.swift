@@ -21,7 +21,8 @@ class TIPProfileViewController: UIViewController {
         self.init(nibName: nil, bundle: nil)
 
         self.userId = searchUser.userId
-        self.usernameLabel.text = searchUser.username
+        //self.usernameLabel.text = searchUser.username
+        self.actualNameLabel.text = searchUser.username
         self.username = searchUser.username
         self.coinsToSub = searchUser.coinsToSub
         
@@ -30,6 +31,7 @@ class TIPProfileViewController: UIViewController {
         self.subscribeButton.isHidden = false
         self.coinsLabel.isHidden = true
         self.coinsEarnedLabel.isHidden = true
+        self.pencilEditButton.isHidden = true
         
         if searchUser.following == false {
             self.showFollowButton()
@@ -39,6 +41,7 @@ class TIPProfileViewController: UIViewController {
         
         if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
             self.showUnsubscribeButton()
+            self.keySubButton.isHidden = true
         } else {
             self.showSubscribeButton()
         }
@@ -50,11 +53,13 @@ class TIPProfileViewController: UIViewController {
         
         if let profileURL = searchUser.profileImageURL {
             UIImage.loadImageUsingCache(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                self.profileImageButton.setImage(image, for: .normal)
+                //self.profileImageButton.setImage(image, for: .normal)
+                self.profilePicImageView.image = image
             })
         } else {
             UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                self.profileImageButton.setImage(image, for: .normal)
+                //self.profileImageButton.setImage(image, for: .normal)
+                self.profilePicImageView.image = image
             })
         }
         
@@ -73,7 +78,8 @@ class TIPProfileViewController: UIViewController {
         self.init(nibName: nil, bundle: nil)
 
         self.userId = feedItem.userId
-        self.usernameLabel.text = feedItem.username
+        //self.usernameLabel.text = feedItem.username
+        self.actualNameLabel.text = feedItem.username
         self.username = feedItem.username
         self.coinsToSub = feedItem.coinsToSub
         
@@ -82,11 +88,13 @@ class TIPProfileViewController: UIViewController {
         self.subscribeButton.isHidden = false
         self.coinsLabel.isHidden = true
         self.coinsEarnedLabel.isHidden = true
+        self.pencilEditButton.isHidden = true
         
         self.showUnfollowButton()
         
         if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
             self.showUnsubscribeButton()
+            self.keySubButton.isHidden = true
         } else {
             self.showSubscribeButton()
         }
@@ -96,11 +104,13 @@ class TIPProfileViewController: UIViewController {
         
         if let profileURL = feedItem.profileImageURL {
             UIImage.loadImageUsingCache(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                self.profileImageButton.setImage(image, for: .normal)
+                //self.profileImageButton.setImage(image, for: .normal)
+                self.profilePicImageView.image = image
             })
         } else {
             UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                self.profileImageButton.setImage(image, for: .normal)
+                //self.profileImageButton.setImage(image, for: .normal)
+                self.profilePicImageView.image = image
             })
         }
         
@@ -116,36 +126,59 @@ class TIPProfileViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
-                
-        self.view.addSubview(self.backgroundImageView)
-        self.backgroundImageView.addSubview(self.shadeView)
-        self.view.addSubview(self.profileImageButton)
-        // APPSTORE: REMOVING FOR V1
-//        self.view.addSubview(self.settingsButton)
-        self.view.addSubview(self.nameLabel)
-        self.view.addSubview(self.usernameLabel)
-        self.view.addSubview(self.coinsLabel)
-        self.view.addSubview(self.coinsEarnedLabel)
         
-        // APPSTORE: REMOVING FOR V1
-//        self.view.addSubview(self.followersButton)
-//        self.view.addSubview(self.followersCountLabel)
-//        self.view.addSubview(self.followersSubtitleLabel)
+        self.view.addSubview(self.profileScrollView)
+        self.profileScrollView.addSubview(self.contentView)
+        
+        //self.contentView.addSubview(self.backgroundImageView)
+        
+        self.contentView.addSubview(self.noTapeProfileFrameImageView)
+        self.contentView.addSubview(self.profileFrameImageView)
+        self.contentView.addSubview(self.pencilEditButton)
+        self.contentView.addSubview(self.keySubButton)
+        self.contentView.addSubview(self.drawnNameLabel)
+        self.contentView.addSubview(self.actualNameLabel)
+        self.contentView.addSubview(self.drawnSubsLabel)
+        self.contentView.addSubview(self.actualSubsLabel)
+        
+        //self.contentView.bringSubview(toFront: self.profileFrameImageView)
+        
+        self.profileFrameImageView.addSubview(self.profilePicImageView)
+        self.noTapeProfileFrameImageView.addSubview(self.storyPicImageView)
+        
+//        self.view.addSubview(self.backgroundImageView)
+//        self.backgroundImageView.addSubview(self.shadeView)
+//        self.view.addSubview(self.profileImageButton)
+//        // APPSTORE: REMOVING FOR V1
+////        self.view.addSubview(self.settingsButton)
+//        self.view.addSubview(self.nameLabel)
+//        self.view.addSubview(self.usernameLabel)
+//        self.view.addSubview(self.coinsLabel)
+//        self.view.addSubview(self.coinsEarnedLabel)
 //        
-//        self.view.addSubview(self.followingButton)
-//        self.view.addSubview(self.followingCountLabel)
-//        self.view.addSubview(self.followingSubtitleLabel)
+//        // APPSTORE: REMOVING FOR V1
+////        self.view.addSubview(self.followersButton)
+////        self.view.addSubview(self.followersCountLabel)
+////        self.view.addSubview(self.followersSubtitleLabel)
+////        
+////        self.view.addSubview(self.followingButton)
+////        self.view.addSubview(self.followingCountLabel)
+////        self.view.addSubview(self.followingSubtitleLabel)
+////        
+////        self.view.addSubview(self.coinsCountLabel)
+////        self.view.addSubview(self.coinsSubtitleLabel)
 //        
-//        self.view.addSubview(self.coinsCountLabel)
-//        self.view.addSubview(self.coinsSubtitleLabel)
+//        self.view.addSubview(self.editButton)
+//        self.view.addSubview(self.followButton)
+//        self.view.addSubview(self.subscribeButton)
+//        
+//        self.view.addSubview(self.storyPreviewButton)
         
-        self.view.addSubview(self.editButton)
-        self.view.addSubview(self.followButton)
-        self.view.addSubview(self.subscribeButton)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tappedStoryPreviewButton))
+        self.noTapeProfileFrameImageView.addGestureRecognizer(tap)
+        self.noTapeProfileFrameImageView.isUserInteractionEnabled = true
         
-        self.view.addSubview(self.storyPreviewButton)
-        
-        self.setUpConstraints()
+        self.setUpScrollConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,14 +207,16 @@ class TIPProfileViewController: UIViewController {
                             
                             let image = TIPAPIClient.imageFromVideo(urlString: firstPost.contentURL!, at: 0)
                             DispatchQueue.main.async {
-                                self.storyPreviewButton.setImage(image, for: .normal)
-                                self.storyPreviewButton.layer.borderWidth = 10.0
+                                //self.storyPreviewButton.setImage(image, for: .normal)
+                                //self.storyPreviewButton.layer.borderWidth = 10.0
+                                self.storyPicImageView.image = image
                             }
                         }
                         
                     } else {
-                        self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                        self.storyPreviewButton.layer.borderWidth = 10.0
+                        //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+                       // self.storyPreviewButton.layer.borderWidth = 10.0
+                        self.storyPicImageView.image = firstPost.contentImage
                     }
                 }
             }
@@ -220,7 +255,202 @@ class TIPProfileViewController: UIViewController {
         self.subscribeButton.layer.cornerRadius = self.subscribeButton.frame.size.height / 2.0
     }
     
+    func setUpScrollConstraints() {
+        
+        self.profileScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.profileScrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.profileScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.profileScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        self.contentView.topAnchor.constraint(equalTo: self.profileScrollView.topAnchor).isActive = true
+        self.contentView.leftAnchor.constraint(equalTo: self.profileScrollView.leftAnchor).isActive = true
+        self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
+        self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
+        self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: 1000).isActive = true
+        
+//        self.backgroundImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+//        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+//        self.backgroundImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+//        self.backgroundImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        
+        self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
+        self.profileFrameImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
+        self.profileFrameImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2).isActive = true
+        self.profileFrameImageView.heightAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor).isActive = true
+        
+        self.noTapeProfileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
+        self.noTapeProfileFrameImageView.centerXAnchor.constraint(equalTo: self.profileFrameImageView.rightAnchor).isActive = true
+        self.noTapeProfileFrameImageView.widthAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor).isActive = true
+        self.noTapeProfileFrameImageView.heightAnchor.constraint(equalTo: self.profileFrameImageView.heightAnchor).isActive = true
+        
+        self.pencilEditButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20).isActive = true
+        self.pencilEditButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20).isActive = true
+        self.pencilEditButton.widthAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor, multiplier: 0.3).isActive = true
+        self.pencilEditButton.heightAnchor.constraint(equalTo: self.pencilEditButton.widthAnchor).isActive = true
+        
+        self.keySubButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20).isActive = true
+        self.keySubButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20).isActive = true
+        self.keySubButton.widthAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor, multiplier: 0.4).isActive = true
+        self.keySubButton.heightAnchor.constraint(equalTo: self.keySubButton.widthAnchor, multiplier: 1.3).isActive = true
+        
+        self.drawnNameLabel.topAnchor.constraint(equalTo: self.profileFrameImageView.bottomAnchor, constant: 20).isActive = true
+        self.drawnNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10).isActive = true
+        
+        self.actualNameLabel.leftAnchor.constraint(equalTo: self.drawnNameLabel.rightAnchor, constant: 10).isActive = true
+        self.actualNameLabel.topAnchor.constraint(equalTo: self.profileFrameImageView.bottomAnchor, constant: 20).isActive = true
+        
+        self.drawnSubsLabel.topAnchor.constraint(equalTo: self.drawnNameLabel.bottomAnchor, constant: 20).isActive = true
+        self.drawnSubsLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10).isActive = true
+        
+        self.actualSubsLabel.leftAnchor.constraint(equalTo: self.drawnSubsLabel.rightAnchor, constant: 10).isActive = true
+        self.actualSubsLabel.topAnchor.constraint(equalTo: self.drawnNameLabel.bottomAnchor, constant: 20).isActive = true
+        
+        self.profilePicImageView.centerXAnchor.constraint(equalTo: self.profileFrameImageView.centerXAnchor, constant: 0).isActive = true
+        self.profilePicImageView.centerYAnchor.constraint(equalTo: self.profileFrameImageView.centerYAnchor, constant: -9).isActive = true
+        self.profilePicImageView.widthAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor, multiplier: 0.57).isActive = true
+        self.profilePicImageView.heightAnchor.constraint(equalTo: self.profileFrameImageView.heightAnchor, multiplier: 0.57).isActive = true
+        
+        self.storyPicImageView.centerXAnchor.constraint(equalTo: self.noTapeProfileFrameImageView.centerXAnchor, constant: 0).isActive = true
+        self.storyPicImageView.centerYAnchor.constraint(equalTo: self.noTapeProfileFrameImageView.centerYAnchor, constant: -9).isActive = true
+        self.storyPicImageView.widthAnchor.constraint(equalTo: self.profilePicImageView.widthAnchor).isActive = true
+        self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
+    }
+    
     // MARK: - Lazy Initialization
+    
+    lazy var profileScrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    lazy var contentView: UIView = {
+        let view: UIView = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    lazy var profileFrameImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
+        imageView.image = #imageLiteral(resourceName: "clear_polaroid")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var noTapeProfileFrameImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
+        imageView.image = #imageLiteral(resourceName: "no_tape_polaroid")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var pencilEditButton: UIButton = {
+        let button: UIButton = UIButton()
+        //button.backgroundColor = .lightGray
+        button.addTarget(self, action: #selector(self.tappedEditButton), for: .touchUpInside)
+        //button.imageView?.contentMode = .scaleAspectFill
+        //button.clipsToBounds = true
+        button.setImage(#imageLiteral(resourceName: "pencil"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var keySubButton: UIButton = {
+        let button: UIButton = UIButton()
+        //button.backgroundColor = .lightGray
+        button.addTarget(self, action: #selector(self.tappedSubscribeButton), for: .touchUpInside)
+        //button.imageView?.contentMode = .scaleAspectFill
+        //button.clipsToBounds = true
+        button.setImage(#imageLiteral(resourceName: "key"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var drawnNameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .black
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "USERNAME:"
+        return label
+    }()
+    
+    lazy var actualNameLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .black
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        //label.text = "NAME:"
+        return label
+    }()
+    
+    lazy var drawnSubsLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .black
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "SUBSCRIBERS:"
+        label.isHidden = true
+        return label
+    }()
+    
+    lazy var actualSubsLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .black
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+    
+    lazy var profilePicImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var storyPicImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var coinsLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .white
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.text = "Coins: 0"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var coinsEarnedLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .white
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.text = "Coins Earned: 0"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -305,25 +535,6 @@ class TIPProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var coinsLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.text = "Coins: 0"
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightRegular)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var coinsEarnedLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.text = "Coins Earned: 0"
-        label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightRegular)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
     // APPSTORE: REMOVING FOR V1
 //
@@ -394,6 +605,7 @@ class TIPProfileViewController: UIViewController {
     
     // MARK: - Autolayout
     func setUpConstraints() {
+        
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -479,6 +691,11 @@ class TIPProfileViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    func tappedPencilButton() {
+        print("PENCIL TAPPED")
+    }
+    
     func tappedStoryPreviewButton() {
         //let username: String = TIPUser.currentUser?.username ?? ""
         print("STORY: \(self.story)")
@@ -488,7 +705,7 @@ class TIPProfileViewController: UIViewController {
         }
         
         if let currentStory: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.usernameLabel.text, profileImage: self.profileImageButton.image(for: .normal), userID: self.userId!)
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!)
             self.present(storyViewController, animated: true, completion: nil)
         }
     }
@@ -537,13 +754,14 @@ class TIPProfileViewController: UIViewController {
     
     func tappedSubscribeButton() {
         if let userId: String = userId {
-            if subscribeButton.titleLabel?.text == "Subscribe" {
-
-                self.subscribe(userId: userId)
-            } else if subscribeButton.titleLabel?.text == "Unsubscribe" {
-                self.showSubscribeButton()
-                self.unsubscribe(userId: userId)
-            }
+            self.subscribe(userId: userId)
+//            if subscribeButton.titleLabel?.text == "Subscribe" {
+//
+//                self.subscribe(userId: userId)
+//            } else if subscribeButton.titleLabel?.text == "Unsubscribe" {
+//                self.showSubscribeButton()
+//                self.unsubscribe(userId: userId)
+//            }
         }
     }
     
@@ -639,7 +857,7 @@ class TIPProfileViewController: UIViewController {
         
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.usernameLabel.text!) for \(self.coinsToSub!) coins?",
+            message: "Subscribe to \(self.username) for \(self.coinsToSub!) coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in

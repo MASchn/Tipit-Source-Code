@@ -16,7 +16,6 @@ class TIPTabBarController: UITabBarController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        
     }
     
     lazy var splashView: TIPLoadingView = {
