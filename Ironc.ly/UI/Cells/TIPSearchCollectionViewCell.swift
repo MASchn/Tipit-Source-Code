@@ -50,8 +50,10 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         
         if searchUser.isPrivate == false || isSubbed == true {
             self.blurView.isHidden = true
+            self.lockImageView.isHidden = true
         } else {
             self.blurView.isHidden = false
+            self.lockImageView.isHidden = false
         }
         
         if let profileURL = searchUser.profileImageURL {

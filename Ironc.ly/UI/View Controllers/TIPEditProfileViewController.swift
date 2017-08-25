@@ -29,8 +29,10 @@ class TIPEditProfileViewController: UITableViewController {
         self.usernameCell.textField.text = TIPUser.currentUser?.username
         self.websiteCell.textField.text = TIPUser.currentUser?.website
         self.bioCell.textField.text = TIPUser.currentUser?.bio
-        self.editProfileHeaderView.profileImageView.image = TIPUser.currentUser?.profileImage
-        self.editProfileHeaderView.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
+//        self.editProfileHeaderView.profileImageView.image = TIPUser.currentUser?.profileImage
+//        self.editProfileHeaderView.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
+        self.editProfileHeaderView.profileImageView.loadImageUsingCacheFromUrlString(urlString: TIPUser.currentUser?.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) {}
+        self.editProfileHeaderView.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: TIPUser.currentUser?.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
         
         self.title = "Edit Profile"
         self.navigationController?.navigationBar.isTranslucent = false

@@ -74,6 +74,8 @@ class TIPPostViewController: UIViewController {
                     playerController!.view.frame = view.frame
                     NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
                     
+                    self.view.bringSubview(toFront: self.blurView)
+                    self.view.bringSubview(toFront: self.lockButton)
                     self.view.bringSubview(toFront: self.profileImageView)
                     self.view.bringSubview(toFront: self.usernameLabel)
                     self.view.bringSubview(toFront: self.settingsButton)
@@ -140,7 +142,11 @@ class TIPPostViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        player?.play()
+        
+        if self.post.isPrivate == false  || self.isSubscribed == true{
+            player?.play()
+        }
+        
         try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
 
     }
@@ -344,6 +350,11 @@ class TIPPostViewController: UIViewController {
     }
     
     func showLockedAlert() {
+        
+        if self.coinsToSub == 0 {
+            self.coinsToSub = 1000
+        }
+        
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
             message: "Subscribe to \(self.usernameLabel.text!) for \(self.coinsToSub) coins?",
@@ -383,6 +394,7 @@ class TIPPostViewController: UIViewController {
                                 }, completion: { (success) in
                                     self.blurView.isHidden = true
                                     self.lockButton.isHidden = true
+                                    self.player?.play()
                                 })
                                 
                             } else {

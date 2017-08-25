@@ -35,7 +35,12 @@ extension UIImage {
 
     }
     
-    class func loadImageUsingCache(urlString: String, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {
+    class func loadImageUsingCache(urlString: String?, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {
+        
+        guard let urlString: String = urlString else {
+            completion(placeHolder)
+            return
+        }
         
         let NSUrlString = urlString as NSString
         
@@ -70,7 +75,13 @@ extension UIImage {
 
 extension UIImageView {
     
-    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage?, completion: @escaping () -> Void) {
+    func loadImageUsingCacheFromUrlString(urlString: String?, placeHolder: UIImage?, completion: @escaping () -> Void) {
+        
+        guard let urlString: String = urlString else {
+            self.image = placeHolder
+            completion()
+            return
+        }
         
         let NSUrlString = urlString as NSString
         

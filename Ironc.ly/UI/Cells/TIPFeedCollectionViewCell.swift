@@ -47,8 +47,10 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         if feedItem.isPrivate == false || isSubbed == true {
             self.blurView.isHidden = true
+            self.lockImageView.isHidden = true
         } else {
             self.blurView.isHidden = false
+            self.lockImageView.isHidden = false
         }
         
 //        self.postImageView.alpha = 0.0

@@ -17,6 +17,10 @@ class TIPSearchUser: NSObject {
     var isSubscribed: Bool
     var coinsToSub: Int?
     var isPrivate: Bool
+    var followersList: [String]?
+    var followingList: [String]?
+    var subscribersList: [String]?
+    var subscribedToList: [String]?
     
     // MARK: - Initialization
     init?(JSON: [String : Any]) {
@@ -55,6 +59,10 @@ class TIPSearchUser: NSObject {
         self.name = JSON["name"] as? String
         self.following = JSON["following"] as? Bool ?? false
         self.coinsToSub = JSON["coinsToSubscribe"] as? Int
+        self.followersList = JSON["_followers"] as? [String]
+        self.followingList = JSON["_following"] as? [String]
+        self.subscribersList = JSON["_mysubscribers"] as? [String]
+        self.subscribedToList = JSON["_mysubscriptions"] as? [String]
     }
 
 }

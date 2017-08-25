@@ -15,6 +15,10 @@ class TIPProfileViewController: UIViewController {
     var username: String?
     var profilePic: UIImage?
     var coinsToSub: Int?
+    var followers: [String]?
+    var following: [String]?
+    var subscribers: [String]?
+    var fontSize: CGFloat = 18.0
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -25,6 +29,9 @@ class TIPProfileViewController: UIViewController {
         self.actualNameLabel.text = searchUser.username
         self.username = searchUser.username
         self.coinsToSub = searchUser.coinsToSub
+        self.followers = searchUser.followersList
+        self.following = searchUser.followingList
+        self.subscribers = searchUser.subscribersList
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
@@ -82,6 +89,9 @@ class TIPProfileViewController: UIViewController {
         self.actualNameLabel.text = feedItem.username
         self.username = feedItem.username
         self.coinsToSub = feedItem.coinsToSub
+        self.followers = feedItem.followersList
+        self.following = feedItem.followingList
+        self.subscribers = feedItem.subscribersList
         
         self.followButton.isHidden = false
         self.editButton.isHidden = true
@@ -132,6 +142,13 @@ class TIPProfileViewController: UIViewController {
         
         //self.contentView.addSubview(self.backgroundImageView)
         
+        let screen = UIScreen.main
+        self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
+        if (screen.bounds.size.height < 500) {
+            self.fontSize = screen.bounds.size.height * (18.0 / 480.0)
+        }
+        //label.font = label.font.withSize(newFontSize)
+        
         self.contentView.addSubview(self.noTapeProfileFrameImageView)
         self.contentView.addSubview(self.profileFrameImageView)
         self.contentView.addSubview(self.pencilEditButton)
@@ -140,6 +157,8 @@ class TIPProfileViewController: UIViewController {
         self.contentView.addSubview(self.actualNameLabel)
         self.contentView.addSubview(self.drawnSubsLabel)
         self.contentView.addSubview(self.actualSubsLabel)
+        self.contentView.addSubview(self.followersLabel)
+        self.contentView.addSubview(self.followingLabel)
         
         //self.contentView.bringSubview(toFront: self.profileFrameImageView)
         
@@ -190,6 +209,24 @@ class TIPProfileViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
         
+        if let followers = self.followers {
+            self.followersLabel.text = "Followers: \(followers.count)"
+        } else {
+            self.followersLabel.text = "Followers: 0"
+        }
+        
+        if let following = self.following {
+            self.followingLabel.text = "Following: \(following.count)"
+        } else {
+            self.followingLabel.text = "Following: 0"
+        }
+        
+        if let subs = self.subscribers {
+            self.actualSubsLabel.text = "\(subs.count)"
+        } else {
+            self.actualSubsLabel.text = "0"
+        }
+        
         if let userId: String = self.userId {
             self.getStory(userId: userId)
         }
@@ -200,6 +237,9 @@ class TIPProfileViewController: UIViewController {
             if let story: TIPStory = story {
                 self.story = story
                 if let firstPost: TIPPost = story.posts.last {
+                    
+                    self.storyPicImageView.isHidden = false
+                    self.noTapeProfileFrameImageView.isHidden = false
                     
                     if firstPost.type == .video {
                         
@@ -218,6 +258,9 @@ class TIPProfileViewController: UIViewController {
                        // self.storyPreviewButton.layer.borderWidth = 10.0
                         self.storyPicImageView.image = firstPost.contentImage
                     }
+                } else {
+                    self.storyPicImageView.isHidden = true
+                    self.noTapeProfileFrameImageView.isHidden = true
                 }
             }
         })
@@ -257,6 +300,8 @@ class TIPProfileViewController: UIViewController {
     
     func setUpScrollConstraints() {
         
+        let screenHeight = UIScreen.main.bounds.size.height
+        
         self.profileScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.profileScrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.profileScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -267,7 +312,7 @@ class TIPProfileViewController: UIViewController {
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
-        self.contentView.heightAnchor.constraint(equalToConstant: 1000).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 1.5).isActive = true
         
 //        self.backgroundImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
 //        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
@@ -306,15 +351,27 @@ class TIPProfileViewController: UIViewController {
         self.actualSubsLabel.leftAnchor.constraint(equalTo: self.drawnSubsLabel.rightAnchor, constant: 10).isActive = true
         self.actualSubsLabel.topAnchor.constraint(equalTo: self.drawnNameLabel.bottomAnchor, constant: 20).isActive = true
         
+        self.followersLabel.topAnchor.constraint(equalTo: self.drawnSubsLabel.bottomAnchor, constant: 20).isActive = true
+        self.followersLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10).isActive = true
+        
+        self.followingLabel.topAnchor.constraint(equalTo: self.followersLabel.bottomAnchor, constant: 20).isActive = true
+        self.followingLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10).isActive = true
+        
+        self.profileFrameImageView.layoutIfNeeded()
+        let picConstant = self.profileFrameImageView.bounds.width/19
+        print("PIC CONSTANT: \(picConstant)")
+        
         self.profilePicImageView.centerXAnchor.constraint(equalTo: self.profileFrameImageView.centerXAnchor, constant: 0).isActive = true
-        self.profilePicImageView.centerYAnchor.constraint(equalTo: self.profileFrameImageView.centerYAnchor, constant: -9).isActive = true
+        self.profilePicImageView.centerYAnchor.constraint(equalTo: self.profileFrameImageView.centerYAnchor, constant: -picConstant).isActive = true
         self.profilePicImageView.widthAnchor.constraint(equalTo: self.profileFrameImageView.widthAnchor, multiplier: 0.57).isActive = true
         self.profilePicImageView.heightAnchor.constraint(equalTo: self.profileFrameImageView.heightAnchor, multiplier: 0.57).isActive = true
+        self.profilePicImageView.transform = self.profilePicImageView.transform.rotated(by: CGFloat.pi/70)
         
         self.storyPicImageView.centerXAnchor.constraint(equalTo: self.noTapeProfileFrameImageView.centerXAnchor, constant: 0).isActive = true
-        self.storyPicImageView.centerYAnchor.constraint(equalTo: self.noTapeProfileFrameImageView.centerYAnchor, constant: -9).isActive = true
+        self.storyPicImageView.centerYAnchor.constraint(equalTo: self.noTapeProfileFrameImageView.centerYAnchor, constant: -picConstant).isActive = true
         self.storyPicImageView.widthAnchor.constraint(equalTo: self.profilePicImageView.widthAnchor).isActive = true
         self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
+        self.storyPicImageView.transform = self.storyPicImageView.transform.rotated(by: CGFloat.pi/70)
     }
     
     // MARK: - Lazy Initialization
@@ -377,7 +434,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "USERNAME:"
         return label
@@ -387,7 +444,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         //label.text = "NAME:"
         return label
@@ -397,10 +454,10 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "SUBSCRIBERS:"
-        label.isHidden = true
+        //label.isHidden = true
         return label
     }()
     
@@ -408,16 +465,16 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true
+        //label.isHidden = true
         return label
     }()
     
     lazy var profilePicImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         //imageView.contentMode = .scaleAspectFill
-        //imageView.clipsToBounds = true
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -434,7 +491,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.text = "Coins: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -444,8 +501,28 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
         label.text = "Coins Earned: 0"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var followersLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .white
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
+        label.text = "Followers: 0"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var followingLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.textAlignment = .center
+        //label.textColor = .white
+        label.font = UIFont(name: "handwriting", size: self.fontSize)
+        label.text = "Following: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -857,7 +934,7 @@ class TIPProfileViewController: UIViewController {
         
         let alert: UIAlertController = UIAlertController(
             title: "Subscribe",
-            message: "Subscribe to \(self.username) for \(self.coinsToSub!) coins?",
+            message: "Subscribe to \(self.username!) for \(self.coinsToSub!) coins?",
             preferredStyle: .alert
         )
         let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in

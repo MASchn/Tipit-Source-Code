@@ -7,9 +7,11 @@ import UIKit
 
 class TIPPersonalProfileViewController: TIPProfileViewController {
 
+    var buyCoinsTop: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.contentView.addSubview(self.myWalletImageView)
         self.contentView.addSubview(self.coinsImageView)
@@ -29,16 +31,33 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
             return
         }
         
+        self.followers = user.followersList
+        self.following = user.followingList
+        
         self.drawnSubsLabel.isHidden = false
         self.actualSubsLabel.isHidden = false
         self.coinsLabel.isHidden = false
         self.coinsEarnedLabel.isHidden = false
         self.keySubButton.isHidden = true
         
+        self.buyCoinsTop?.constant = 20
+        
         if let mySubs = user.subscribers {
             self.actualSubsLabel.text = "\(mySubs.count)"
         } else {
             self.actualSubsLabel.text = "0"
+        }
+        
+        if let myFollowers = self.followers {
+            self.followersLabel.text = "Followers: \(myFollowers.count)"
+        } else {
+            self.followersLabel.text = "Followers: 0"
+        }
+        
+        if let following = self.following {
+            self.followingLabel.text = "Following: \(following.count)"
+        } else {
+            self.followingLabel.text = "Following: 0"
         }
         
         self.nameLabel.text = user.fullName
@@ -52,17 +71,28 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         }
         
         
-        if(TIPUser.currentUser?.profileImage != nil){
-            //self.profileImageButton.setImage(TIPUser.currentUser?.profileImage, for: .normal)
-            self.profilePicImageView.image = TIPUser.currentUser?.profileImage
-        } else {
-            UIImage.download(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) { (image: UIImage?) in
-                self.profilePicImageView.image = image
-                //self.profileImageButton.setImage(image, for: .normal)
-                TIPUser.currentUser?.profileImage = image
-                TIPUser.currentUser?.save()
-            }
-        }
+//        if(TIPUser.currentUser?.profileImage != nil){
+//            //self.profileImageButton.setImage(TIPUser.currentUser?.profileImage, for: .normal)
+//            self.profilePicImageView.image = TIPUser.currentUser?.profileImage
+//        } else {
+//            UIImage.download(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) { (image: UIImage?) in
+//                self.profilePicImageView.image = image
+//                //self.profileImageButton.setImage(image, for: .normal)
+//                TIPUser.currentUser?.profileImage = image
+//                TIPUser.currentUser?.save()
+//            }
+//        }
+        
+        
+        
+        UIImage.loadImageUsingCache(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
+            //self.profileImageButton.setImage(image, for: .normal)
+            self.profilePicImageView.image = image
+        })
+        
+        
+        
+        
         
         if(TIPUser.currentUser?.backgroundImage != nil){
             self.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
@@ -98,7 +128,10 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     lazy var buyCoinsButton: UIButton = {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "buy_coins"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "pressed_buy_coins"), for: .highlighted)
         button.addTarget(self, action: #selector(self.buyCoinsTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.buyCoinsHeldDown), for: .touchDown)
+        button.addTarget(self, action: #selector(self.buyCoinsLetGo), for: .touchDragExit)
         //button.imageView?.contentMode = .scaleAspectFill
         //button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +140,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     
     func setUpPersonalConstraints() {
         
-        self.myWalletImageView.topAnchor.constraint(equalTo: self.drawnSubsLabel.bottomAnchor, constant: 50.0).isActive = true
+        self.myWalletImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 50.0).isActive = true
         self.myWalletImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.myWalletImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
         self.myWalletImageView.heightAnchor.constraint(equalTo: self.myWalletImageView.widthAnchor, multiplier: 0.2).isActive = true
@@ -124,7 +157,8 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.coinsEarnedLabel.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 20).isActive = true
         self.coinsEarnedLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.buyCoinsButton.topAnchor.constraint(equalTo: self.coinsEarnedLabel.bottomAnchor, constant: 20).isActive = true
+        buyCoinsTop = self.buyCoinsButton.topAnchor.constraint(equalTo: self.coinsEarnedLabel.bottomAnchor, constant: 20)
+        buyCoinsTop?.isActive = true
         self.buyCoinsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.buyCoinsButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.5).isActive  = true
         self.buyCoinsButton.heightAnchor.constraint(equalTo: self.buyCoinsButton.widthAnchor, constant: 0.7).isActive = true
@@ -153,6 +187,14 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         //buyCoinsViewController.delegate = self
         let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
         self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    func buyCoinsHeldDown() {
+        self.buyCoinsTop?.constant += 10
+    }
+    
+    func buyCoinsLetGo() {
+        self.buyCoinsTop?.constant = 20
     }
 
 }
