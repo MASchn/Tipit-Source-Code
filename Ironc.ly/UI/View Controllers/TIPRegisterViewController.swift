@@ -49,7 +49,7 @@ class TIPRegisterViewController: UIViewController {
     }()
     
     lazy var usernameTextField: TIPTextField = {
-        let textField: TIPTextField = TIPTextField(placeholder: "username")
+        let textField: TIPTextField = TIPTextField(placeholder: "username", fontSize: 18.0)
         textField.autocapitalizationType = .none
         textField.returnKeyType = .next
         textField.autocorrectionType = .no
@@ -59,7 +59,7 @@ class TIPRegisterViewController: UIViewController {
     }()
     
     lazy var emailTextField: TIPTextField = {
-        let textField: TIPTextField = TIPTextField(placeholder: "email")
+        let textField: TIPTextField = TIPTextField(placeholder: "email", fontSize: 18.0)
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next
@@ -70,7 +70,7 @@ class TIPRegisterViewController: UIViewController {
     }()
     
     lazy var passwordTextField: TIPTextField = {
-        let textField: TIPTextField = TIPTextField(placeholder: "password")
+        let textField: TIPTextField = TIPTextField(placeholder: "password", fontSize: 18.0)
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.isSecureTextEntry = true

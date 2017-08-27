@@ -54,7 +54,7 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         self.collectionView?.register(TIPChatCollectionViewCell.self, forCellWithReuseIdentifier: self.chatReuseId)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:Notification.Name.UIKeyboardWillShow, object: nil)
-       NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:Notification.Name.UIKeyboardWillHide, object: nil)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         tap.cancelsTouchesInView = false
