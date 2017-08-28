@@ -16,9 +16,13 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.blurView)
+        self.contentView.addSubview(self.lockImageView)
         self.contentView.addSubview(self.profileButton)
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.profileImageView)
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tappedProfileButton(sender:)))
+//        self.profileImageView.addGestureRecognizer(tap)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -58,6 +62,16 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    lazy var lockImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "lock")
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     lazy var usernameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .white
@@ -77,6 +91,11 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         self.blurView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         self.blurView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.blurView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        
+        self.lockImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        self.lockImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        self.lockImageView.widthAnchor.constraint(equalToConstant: self.contentView.bounds.size.width/3).isActive = true
+        self.lockImageView.heightAnchor.constraint(equalTo: self.lockImageView.widthAnchor).isActive = true
     }
     
     func tappedProfileButton(sender: UIButton) {

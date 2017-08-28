@@ -18,8 +18,10 @@ class TIPFeedViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.iroGray
         self.view.addSubview(self.emptyView)
+        self.view.addSubview(self.noInternetView)
         self.view.addSubview(self.feedCollectionView)
         self.view.addSubview(self.loadingView)
+        //self.view.addSubview(self.splashView)
         
         let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: self.tabBarController!.tabBar.frame.height, right: 0.0)
         
@@ -30,8 +32,6 @@ class TIPFeedViewController: UIViewController {
         
         
         self.setUpConstraints()
-        
-        
     }
     
     func getFeed() {
@@ -41,16 +41,17 @@ class TIPFeedViewController: UIViewController {
             
             if let feedItems: [TIPFeedItem] = feedItems {
                 self.feedItems = feedItems
-                self.feedCollectionView.reloadData()
+                //self.feedCollectionView.reloadData()
                 
                 if feedItems.count > 0 {
-                    self.feedCollectionView.isHidden = false
-                    self.emptyView.isHidden = true
+                    self.preLoadImages()
                 } else {
                     self.showEmptyView()
                 }
             } else {
-                self.showEmptyView()
+                self.showNoInternetView()
+                //NO INTERNET WARNING?
+                print("NO INTERNET")
             }
             
             self.refreshControl.endRefreshing()
@@ -60,6 +61,68 @@ class TIPFeedViewController: UIViewController {
     func showEmptyView() {
         self.feedCollectionView.isHidden = true
         self.emptyView.isHidden = false
+        self.noInternetView.isHidden = true
+        self.hideSplashView()
+    }
+    
+    func showNoInternetView() {
+        self.feedCollectionView.isHidden = true
+        self.noInternetView.isHidden = false
+        self.emptyView.isHidden = true
+        self.hideSplashView()
+    }
+    
+    func hideSplashView() {
+        if let tabControl = self.tabBarController as? TIPTabBarController {
+            UIView.animate(withDuration: 0.4, animations: {
+                tabControl.splashView.alpha = 0.1
+            }, completion: { (success) in
+                tabControl.splashView.isHidden = true
+            })
+        }
+    }
+    
+    func preLoadImages() {
+        var feedCount = 1
+        
+        for feedItem in self.feedItems {
+            
+            UIImage.loadImageUsingCache(urlString: feedItem.storyImage, placeHolder: nil, completion: { (image: UIImage?) in
+                
+                if (image == nil) && (feedItem.storyImage.contains(".mp4")) {
+                    
+                    let videoImage = TIPAPIClient.testImageFromVideo(urlString: feedItem.storyImage, at: 0)
+                    feedItem.actualStoryImage = videoImage
+                    
+                    if self.feedItems.count == feedCount {
+                        self.feedCollectionView.reloadData()
+                        self.feedCollectionView.isHidden = false
+                        self.emptyView.isHidden = true
+                        self.hideSplashView()
+                        
+                    } else {
+                        feedCount += 1
+                    }
+                }
+                
+                if let theImage: UIImage = image {
+                    
+                    feedItem.actualStoryImage = theImage
+                    
+                    if self.feedItems.count == feedCount {
+                        self.feedCollectionView.reloadData()
+                        self.feedCollectionView.isHidden = false
+                        self.emptyView.isHidden = true
+                        self.hideSplashView()
+                        
+                    } else {
+                        feedCount += 1
+                    }
+                }
+                
+            })
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +144,14 @@ class TIPFeedViewController: UIViewController {
     lazy var emptyView: TIPFeedEmptyView = {
         let view: TIPFeedEmptyView = TIPFeedEmptyView()
         view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+    
+    lazy var noInternetView: TIPNoInternetView = {
+        let view: TIPNoInternetView = TIPNoInternetView()
+        //view.actionButton.addTarget(self, action: #selector(tappedFollowButton), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         return view
@@ -114,12 +185,24 @@ class TIPFeedViewController: UIViewController {
         return control
     }()
     
+    lazy var splashView: TIPLoadingView = {
+        let view: TIPLoadingView = TIPLoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = false
+        return view
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
         self.emptyView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.emptyView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.emptyView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.emptyView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.noInternetView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.noInternetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -129,7 +212,18 @@ class TIPFeedViewController: UIViewController {
         self.loadingView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.loadingView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
+//        self.splashView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+//        self.splashView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+//        self.splashView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.splashView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
+//        if let tabBarController = self.tabBarController{
+//        
+//        self.splashView.topAnchor.constraint(equalTo: tabBarController.view.topAnchor).isActive = true
+//        self.splashView.bottomAnchor.constraint(equalTo: tabBarController.view.bottomAnchor).isActive = true
+//        self.splashView.leftAnchor.constraint(equalTo: tabBarController.view.leftAnchor).isActive = true
+//        self.splashView.rightAnchor.constraint(equalTo: tabBarController.view.rightAnchor).isActive = true
+//        }
     }
     
     func changeLayout() {

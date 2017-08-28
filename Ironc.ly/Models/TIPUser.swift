@@ -27,6 +27,8 @@ class TIPUser: NSObject {
     var subscribedTo: [String]?
     var coinsEarned: Int?
     var coinsToSubscribe: Int?
+    var followersList: [String]?
+    var followingList: [String]?
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
@@ -94,6 +96,8 @@ class TIPUser: NSObject {
         let subsTo: [String]? = JSON["_mysubscriptions"] as? [String]
         let earnedCoins: Int? = JSON["coinsEarned"] as? Int
         let coinsToSub: Int? = JSON["coinsToSubscribe"] as? Int
+        let followers = JSON["_followers"] as? [String]
+        let following = JSON["_following"] as? [String]
         
         if let user: TIPUser = TIPUser.currentUser {
             user.username = username
@@ -121,6 +125,8 @@ class TIPUser: NSObject {
             if let backgroundImageURL: String = backgroundImageURL {
                 user.backgroundImageURL = backgroundImageURL
             }
+            user.followersList = followers
+            user.followingList = following
             user.save()
             print("USER SAVED!\n\(user)")
             completionHandler(true)
@@ -144,7 +150,9 @@ class TIPUser: NSObject {
                 mySubs: mySubs,
                 subbedTo: subsTo,
                 coinsEarned: earnedCoins,
-                coinsToSub: coinsToSub
+                coinsToSub: coinsToSub,
+                followers: followers,
+                following: following
             )
             user.save()
             TIPUser.currentUser = user
@@ -174,7 +182,7 @@ class TIPUser: NSObject {
         self.allAccess = false
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImage: UIImage?, backgroundImage: UIImage?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?, followers: [String]?, following: [String]?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -190,9 +198,11 @@ class TIPUser: NSObject {
         self.subscribedTo = subbedTo
         self.coinsEarned = coinsEarned
         self.coinsToSubscribe = coinsToSub
+        self.followersList = followers
+        self.followingList = following
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?, followers: [String]?, following: [String]?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -208,6 +218,8 @@ class TIPUser: NSObject {
         self.subscribedTo = subbedTo
         self.coinsEarned = coinsEarned
         self.coinsToSubscribe = coinsToSub
+        self.followersList = followers
+        self.followingList = following
     }
     
     func save() {
@@ -216,16 +228,18 @@ class TIPUser: NSObject {
         self.defaults.set(self.email, forKey: "email")
         self.defaults.set(self.token, forKey: "token")
         self.defaults.set(self.fullName, forKey: "full_name")
-        if let profileImage: UIImage = self.profileImage {
-            if let profileData: Data = UIImageJPEGRepresentation(profileImage, 0.5) {
-                self.defaults.set(profileData, forKey: "image")
-            }
-        }
-        if let backgroundImage: UIImage = self.backgroundImage {
-            if let backgroundData: Data = UIImageJPEGRepresentation(backgroundImage, 0.5) {
-                defaults.set(backgroundData, forKey: "background")
-            }
-        }
+//        if let profileImage: UIImage = self.profileImage {
+//            if let profileData: Data = UIImageJPEGRepresentation(profileImage, 0.5) {
+//                self.defaults.set(profileData, forKey: "image")
+//            }
+//        }
+//        if let backgroundImage: UIImage = self.backgroundImage {
+//            if let backgroundData: Data = UIImageJPEGRepresentation(backgroundImage, 0.5) {
+//                defaults.set(backgroundData, forKey: "background")
+//            }
+//        }
+        self.defaults.set(self.profileImageURL, forKey: "profile_image")
+        self.defaults.set(self.backgroundImageURL, forKey: "background_image")
         self.defaults.set(self.website, forKey: "website")
         self.defaults.set(self.bio, forKey: "bio")
         self.defaults.set(self.coins, forKey: "coins")
@@ -234,6 +248,8 @@ class TIPUser: NSObject {
         self.defaults.set(self.subscribedTo, forKey: "subscribedTo")
         self.defaults.set(self.coinsEarned, forKey: "coinsEarned")
         self.defaults.set(self.coinsToSubscribe, forKey: "coinsToSubscribe")
+        self.defaults.set(self.followersList, forKey: "followers_list")
+        self.defaults.set(self.followingList, forKey: "following_list")
         self.defaults.synchronize()
     }
     
@@ -274,14 +290,16 @@ class TIPUser: NSObject {
             let username: String? = defaults.object(forKey: "username") as? String
             let email: String? = defaults.object(forKey: "email") as? String
             let fullName: String? = defaults.object(forKey: "full_name") as? String
-            var image: UIImage?
-            if let profileData: Data = defaults.object(forKey: "image") as? Data {
-                image = UIImage(data: profileData)
-            }
-            var background: UIImage?
-            if let backgroundData: Data = defaults.object(forKey: "background") as? Data {
-                background = UIImage(data: backgroundData)
-            }
+//            var image: UIImage?
+//            if let profileData: Data = defaults.object(forKey: "image") as? Data {
+//                image = UIImage(data: profileData)
+//            }
+//            var background: UIImage?
+//            if let backgroundData: Data = defaults.object(forKey: "background") as? Data {
+//                background = UIImage(data: backgroundData)
+//            }
+            let profileUrl: String? = defaults.object(forKey: "profile_image") as? String
+            let backgroundUrl: String? = defaults.object(forKey: "background_image") as? String
             let website: String? = defaults.object(forKey: "website") as? String
             let bio: String? = defaults.object(forKey: "bio") as? String
             let coins: Int = defaults.integer(forKey: "coins")
@@ -290,14 +308,17 @@ class TIPUser: NSObject {
             let subbedTo: [String]? = defaults.object(forKey: "subscribedTo") as? [String]
             let earnedCoins: Int? = defaults.integer(forKey: "coinsEarned")
             let coinsToSub: Int? = defaults.integer(forKey: "coinsToSubscribe")
+            let followers: [String]? = defaults.object(forKey: "followers_list") as? [String]
+            let following: [String]? = defaults.object(forKey: "following_list") as? [String]
+            
             return TIPUser(
                 userId: userId,
                 username: username,
                 email: email,
                 token: token,
                 fullName: fullName,
-                profileImage: image,
-                backgroundImage: background,
+                profileImageURL: profileUrl,
+                backgroundImageURL: backgroundUrl,
                 website: website,
                 bio: bio,
                 coins: coins,
@@ -305,7 +326,9 @@ class TIPUser: NSObject {
                 mySubs: mySubs,
                 subbedTo: subbedTo,
                 coinsEarned: earnedCoins,
-                coinsToSub: coinsToSub
+                coinsToSub: coinsToSub,
+                followers: followers,
+                following: following
             )
         }
         return nil

@@ -8,17 +8,23 @@ import UIKit
 class TIPTextField: UITextField {
     
     let fontName: String = "HelveticaNeue-MediumItalic"
+    let handWrittenFontName: String = "handwriting"
+    var fontSize: CGFloat?
     
     // MARK: - View Lifecycle
-    convenience init(placeholder: String) {
+    convenience init(placeholder: String, fontSize: CGFloat) {
         self.init(frame: .zero)
+        
+        self.fontSize = fontSize
+        
+        self.font = UIFont(name: self.handWrittenFontName, size: self.fontSize!)
         
         let placeholderString: NSAttributedString = NSAttributedString(
             string: placeholder,
             attributes:
             [
-                NSFontAttributeName : UIFont(name: self.fontName, size: 18.0)!,
-                NSForegroundColorAttributeName : UIColor.white
+                NSFontAttributeName : UIFont(name: self.handWrittenFontName, size: self.fontSize!)!,
+                NSForegroundColorAttributeName : UIColor.gray
             ]
         )
         self.attributedPlaceholder = placeholderString
@@ -27,8 +33,8 @@ class TIPTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.textColor = UIColor.white
-        self.font = UIFont(name: self.fontName, size: 18.0)
+        self.textColor = UIColor.black
+        //self.font = UIFont(name: self.handWrittenFontName, size: self.fontSize!)
         self.layer.masksToBounds = true
     }
     
@@ -40,8 +46,8 @@ class TIPTextField: UITextField {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let border: CALayer = self.createBorder()
-        self.layer.addSublayer(border)
+        //let border: CALayer = self.createBorder()
+        //self.layer.addSublayer(border)
     }
     
     func createBorder() -> CALayer {

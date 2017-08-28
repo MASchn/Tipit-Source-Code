@@ -7,6 +7,7 @@ import Foundation
 import Alamofire
 import SendBirdSDK
 import AVFoundation
+import MediaPlayer
 
 let baseURL: String = "https://powerful-reef-30384.herokuapp.com"
 
@@ -436,6 +437,8 @@ class TIPAPIClient: NSObject {
         let asset = AVURLAsset(url: url)
         
         let assetIG = AVAssetImageGenerator(asset: asset)
+        //assetIG.requestedTimeToleranceAfter = kCMTimeZero
+        //assetIG.requestedTimeToleranceBefore = kCMTimeZero
         assetIG.appliesPreferredTrackTransform = true
         assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
         
@@ -454,6 +457,45 @@ class TIPAPIClient: NSObject {
         
         return finalImage
     }
+    
+    class func testImageFromVideo(urlString: String, at time: TimeInterval) -> UIImage? {
+        
+        let NSUrlString = urlString as NSString
+        
+        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
+            return(cachedImage)
+        }
+        
+        guard let url = URL(string: urlString) else {
+            return(nil)
+        }
+                
+        let asset = AVURLAsset(url: url)
+        
+        let assetIG = AVAssetImageGenerator(asset: asset)
+        assetIG.appliesPreferredTrackTransform = true
+        
+        
+        var time = asset.duration
+        //If possible - take not the first frame (it could be completely black or white on camara's videos)
+        time.value = min(time.value, 2)
+        
+        let thumbnailImageRef: CGImage
+        do {
+            thumbnailImageRef = try assetIG.copyCGImage(at: time, actualTime: nil)
+        } catch let error {
+            print("Error: \(error)")
+            return nil
+        }
+        
+        let finalImage = UIImage(cgImage: thumbnailImageRef)
+        
+        imageCache.setObject(finalImage, forKey: NSUrlString)
+        
+        return finalImage
+    }
+    
+    
     
 }
 

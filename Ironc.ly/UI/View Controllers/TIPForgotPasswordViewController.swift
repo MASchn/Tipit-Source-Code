@@ -6,7 +6,7 @@
 import UIKit
 
 class TIPForgotPasswordViewController: UIViewController {
-
+    
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ class TIPForgotPasswordViewController: UIViewController {
     }()
     
     lazy var emailTextField: TIPTextField = {
-        let textField: TIPTextField = TIPTextField(placeholder: "email")
+        let textField: TIPTextField = TIPTextField(placeholder: "email", fontSize: 18.0)
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .done

@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        UIApplication.shared.statusBarStyle = .default
+        
         SBDMain.initWithApplicationId(sendBirdAppID)
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -58,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.tabBarController?.delegate = self
         self.window?.rootViewController = self.tabBarController
         self.window?.makeKeyAndVisible()
+        
         
         // Show log in scren if no current user
         if TIPUser.currentUser == nil {

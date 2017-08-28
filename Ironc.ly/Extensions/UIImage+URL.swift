@@ -35,12 +35,22 @@ extension UIImage {
 
     }
     
-    class func loadImageUsingCache(urlString: String, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {
+    class func loadImageUsingCache(urlString: String?, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {
+        
+        guard let urlString: String = urlString else {
+            completion(placeHolder)
+            return
+        }
         
         let NSUrlString = urlString as NSString
         
         if let cachedImage = imageCache.object(forKey: NSUrlString)  {
             completion(cachedImage)
+            return
+        }
+        
+        if urlString.contains(".mp4") {
+            completion(nil)
             return
         }
         
@@ -65,17 +75,23 @@ extension UIImage {
 
 extension UIImageView {
     
-    func loadImageUsingCacheFromUrlString(urlString: String, placeHolder: UIImage?, completion: @escaping () -> Void) {
+    func loadImageUsingCacheFromUrlString(urlString: String?, placeHolder: UIImage?, completion: @escaping () -> Void) {
         
-//        guard let string = urlString else {
-//            
-//            return
-//        }
+        guard let urlString: String = urlString else {
+            self.image = placeHolder
+            completion()
+            return
+        }
         
         let NSUrlString = urlString as NSString
         
         if let cachedImage = imageCache.object(forKey: NSUrlString)  {
             self.image = cachedImage
+            completion()
+            return
+        }
+        
+        if urlString.contains(".mp4") {
             completion()
             return
         }
