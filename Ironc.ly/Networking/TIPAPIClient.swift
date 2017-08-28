@@ -140,6 +140,7 @@ class TIPAPIClient: NSObject {
             .responseJSON { (response) in
             switch response.result {
             case .success(let JSONDictionary):
+                print("JSON DICTIONARY: \(JSONDictionary)")
                 if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                     TIPUser.parseUserJSON(JSON: JSON, completionHandler: completionHandler)
                 }
@@ -318,6 +319,9 @@ class TIPAPIClient: NSObject {
         { (response) in
                 switch response.result {
                 case .success(let JSONDictionary):
+                    
+                    print("JSON DICTIONARY: \(JSONDictionary)")
+                    
                     if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
                         if let feedItemsJSON: [[String : Any]] = JSON["feed_items"] as? [[String : Any]] {
                             print("JSON: \(feedItemsJSON)")

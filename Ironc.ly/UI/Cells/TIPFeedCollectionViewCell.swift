@@ -18,6 +18,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.setUpFeedConstraints()
         self.setUpConstraints()
         self.contentView.layoutIfNeeded()
     }
@@ -148,7 +149,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     
     // MARK: - Autolayout
     override func setUpConstraints() {
-        super.setUpConstraints()
+        //super.setUpConstraints()
         
         let hMargin: CGFloat = 15.0
         
@@ -166,6 +167,23 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
         self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.profileButton.rightAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: hMargin).isActive = true
+    }
+    
+    func setUpFeedConstraints() {
+        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        
+        self.blurView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        self.blurView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        self.blurView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.blurView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        
+        self.lockImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        self.lockImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        self.lockImageView.widthAnchor.constraint(equalToConstant: self.contentView.bounds.size.width/3).isActive = true
+        self.lockImageView.heightAnchor.constraint(equalTo: self.lockImageView.widthAnchor).isActive = true
     }
     
     override func tappedProfileButton(sender: UIButton) {

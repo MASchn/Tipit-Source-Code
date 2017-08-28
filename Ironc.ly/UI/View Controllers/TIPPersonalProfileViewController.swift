@@ -39,6 +39,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.coinsLabel.isHidden = false
         self.coinsEarnedLabel.isHidden = false
         self.keySubButton.isHidden = true
+        self.drawnFollowButton.isHidden = true
         
         self.buyCoinsTop?.constant = 20
         

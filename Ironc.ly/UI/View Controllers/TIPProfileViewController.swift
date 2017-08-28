@@ -9,6 +9,8 @@ import AVFoundation
 
 class TIPProfileViewController: UIViewController {
     
+    var followButtonTop: NSLayoutConstraint?
+    
     // MARK: - Properties
     var userId: String?
     var story: TIPStory?
@@ -41,9 +43,11 @@ class TIPProfileViewController: UIViewController {
         self.pencilEditButton.isHidden = true
         
         if searchUser.following == false {
-            self.showFollowButton()
+            //self.showFollowButton()
+            self.drawnFollowButton.isHidden = false
         } else {
-            self.showUnfollowButton()
+            //self.showUnfollowButton()
+            self.drawnFollowButton.isHidden = true
         }
         
         if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
@@ -99,6 +103,7 @@ class TIPProfileViewController: UIViewController {
         self.coinsLabel.isHidden = true
         self.coinsEarnedLabel.isHidden = true
         self.pencilEditButton.isHidden = true
+        self.drawnFollowButton.isHidden = true
         
         self.showUnfollowButton()
         
@@ -159,6 +164,7 @@ class TIPProfileViewController: UIViewController {
         self.contentView.addSubview(self.actualSubsLabel)
         self.contentView.addSubview(self.followersLabel)
         self.contentView.addSubview(self.followingLabel)
+        self.contentView.addSubview(self.drawnFollowButton)
         
         //self.contentView.bringSubview(toFront: self.profileFrameImageView)
         
@@ -372,6 +378,12 @@ class TIPProfileViewController: UIViewController {
         self.storyPicImageView.widthAnchor.constraint(equalTo: self.profilePicImageView.widthAnchor).isActive = true
         self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
         self.storyPicImageView.transform = self.storyPicImageView.transform.rotated(by: CGFloat.pi/70)
+        
+        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
+        followButtonTop?.isActive = true
+        self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
+        self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
     }
     
     // MARK: - Lazy Initialization
@@ -525,6 +537,19 @@ class TIPProfileViewController: UIViewController {
         label.text = "Following: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var drawnFollowButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "FollowUnpressedEdit"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "FollowEdited"), for: .highlighted)
+        button.addTarget(self, action: #selector(self.tappedFollowButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.buttonHeldDown), for: .touchDown)
+        button.addTarget(self, action: #selector(self.buttonLetGo), for: .touchDragExit)
+        //button.imageView?.contentMode = .scaleAspectFill
+        //button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
@@ -819,13 +844,14 @@ class TIPProfileViewController: UIViewController {
     
     func tappedFollowButton() {
         if let userId: String = userId {
-            if followButton.titleLabel?.text == "Follow" {
-                self.showUnfollowButton()
-                self.unfollow(userId: userId)
-            } else if followButton.titleLabel?.text == "Unfollow" {
-                self.showFollowButton()
-                self.follow(userId: userId)
-            }
+            self.follow(userId: userId)
+//            if followButton.titleLabel?.text == "Follow" {
+//                self.showUnfollowButton()
+//                self.follow(userId: userId)
+//            } else if followButton.titleLabel?.text == "Unfollow" {
+//                self.showFollowButton()
+//                self.unfollow(userId: userId)
+//            }
         }
     }
     
@@ -896,8 +922,8 @@ class TIPProfileViewController: UIViewController {
 
     }
     
-    func unfollow(userId: String) {
-        
+    func follow(userId: String) {
+        self.drawnFollowButton.isHidden = true
         TIPAPIClient.userAction(action: .follow, userId: userId, completionHandler: { (success: Bool) in
             //
         })
@@ -909,7 +935,7 @@ class TIPProfileViewController: UIViewController {
 
     }
     
-    func follow(userId: String) {
+    func unfollow(userId: String) {
         print("BRAD USER ID: \(userId)")
         TIPAPIClient.userAction(action: .unfollow, userId: userId, completionHandler: { (success: Bool) in
             //
@@ -924,6 +950,17 @@ class TIPProfileViewController: UIViewController {
     func tappedFollowingButton(sender: UIButton) {
         let followingViewController: TIPFollowingViewController = TIPFollowingViewController()
         self.navigationController?.pushViewController(followingViewController, animated: true)
+    }
+    
+    func buttonHeldDown(button: UIButton) {
+        self.followButtonTop?.constant += 5
+        
+    }
+    
+    func buttonLetGo(button: UIButton) {
+                                            //change to variable
+        self.followButtonTop?.constant = 30
+        
     }
     
     func showLockedAlert() {
