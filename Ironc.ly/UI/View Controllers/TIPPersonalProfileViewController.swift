@@ -190,7 +190,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     }
     
     func buyCoinsHeldDown() {
-        self.buyCoinsTop?.constant += 10
+        self.buyCoinsTop?.constant += 5
     }
     
     func buyCoinsLetGo() {

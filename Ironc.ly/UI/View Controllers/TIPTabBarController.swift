@@ -49,6 +49,8 @@ class TIPTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //UIApplication.shared.statusBarStyle = .default
+        
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.setHidesBackButton(true, animated: false)
         

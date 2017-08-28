@@ -25,6 +25,8 @@ class TIPLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //UIApplication.shared.statusBarStyle = .default
+        
         let screen = UIScreen.main
         self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
         if (screen.bounds.size.height < 500) {
@@ -70,6 +72,7 @@ class TIPLoginViewController: UIViewController {
     lazy var backgroundImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         //imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
