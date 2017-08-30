@@ -397,8 +397,9 @@ class TIPAPIClient: NSObject {
                         {
                             completionHandler(coins, dateString, nil)
                         }
+                    } else {
+                        completionHandler(nil, nil, nil)
                     }
-                    completionHandler(nil, nil, nil)
                 case .failure(let error):
                     completionHandler(nil, nil, error)
             }

@@ -7,6 +7,7 @@ import UIKit
 
 protocol TIPFeedCollectionViewCellDelegate: class {
     func feedCellDidSelectItem(feedItem: TIPFeedItem)
+    func feedCellDidTip(feedItem: TIPFeedItem, coins: Int)
 }
 
 class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
@@ -14,9 +15,28 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     var feedItem: TIPFeedItem?
     weak var delegate: TIPFeedCollectionViewCellDelegate?
     
+    var sliderXAnchor: NSLayoutConstraint?
+    var profileImageAnchor: NSLayoutConstraint?
+    var usernameAnchor: NSLayoutConstraint?
+    
+    var coinsToTip: Float = 0
+    
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.contentView.backgroundColor = .clear
+        self.contentView.addSubview(self.tipButton)
+        //self.contentView.addSubview(self.sliderBarImageView)
+        //self.contentView.addSubview(self.sliderImageView)
+        self.contentView.addSubview(self.sliderView)
+        self.contentView.addSubview(self.coinsLabel)
+        self.contentView.addSubview(self.triangleButton)
+        self.contentView.addSubview(self.followButton)
+        self.contentView.addSubview(self.subscribeButton)
+        self.contentView.bringSubview(toFront: self.profileImageView)
+        self.contentView.bringSubview(toFront: self.usernameLabel)
+        
         
         self.setUpFeedConstraints()
         self.setUpConstraints()
@@ -147,31 +167,133 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         return label
     }()
     
+    lazy var tipButton: UIButton = {
+        let button: UIButton = UIButton()
+        //button.setTitle("Sign up", for: .normal)
+        button.addTarget(self, action: #selector(self.tappedTipButton), for: .touchUpInside)
+        //button.clipsToBounds = true
+        button.setImage(#imageLiteral(resourceName: "tip_button"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "tip_button_pressed"), for: .highlighted)
+        //button.addTarget(self, action: #selector(self.buttonHeldDown), for: .touchDown)
+        //button.addTarget(self, action: #selector(self.buttonLetGo), for: .touchDragExit)
+        button.tag = 0
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var triangleButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "triangle_button"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "triangle_button_pressed"), for: .highlighted)
+        button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.buttonHeldDown), for: .touchDown)
+        button.addTarget(self, action: #selector(self.buttonLetGo), for: .touchDragExit)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var followButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "FollowUnpressedEdit"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "FollowEdited"), for: .highlighted)
+        //button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var subscribeButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "SubscribeUnpressed"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "Subscribe"), for: .highlighted)
+        //button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var sliderView: UISlider = {
+        let slider: UISlider = UISlider()
+        slider.setThumbImage(#imageLiteral(resourceName: "small_slider"), for: .normal)
+        slider.addTarget(self, action: #selector(self.sliderValueChanged), for: .valueChanged)
+        slider.minimumTrackTintColor = .black
+        slider.maximumTrackTintColor = .black
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        return slider
+    }()
+    
+    lazy var coinsLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.font = UIFont(name: "handwriting", size: 18.0)
+        label.text = "0 Coins"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     // MARK: - Autolayout
     override func setUpConstraints() {
         //super.setUpConstraints()
         
         let hMargin: CGFloat = 15.0
         
-        self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 18.0).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
-        self.usernameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-        self.usernameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
+//        self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 18.0).isActive = true
+//        self.usernameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
+//        self.usernameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+//        self.usernameLabel.heightAnchor.constraint(equalToConstant: 14.0).isActive = true
         
-        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 12.0).isActive = true
-        self.profileImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: hMargin).isActive = true
+        usernameAnchor = self.usernameLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+        usernameAnchor?.isActive = true
+        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
+        
+//        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 12.0).isActive = true
+//        self.profileImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: hMargin).isActive = true
+//        self.profileImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+//        self.profileImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        
+        profileImageAnchor = self.profileImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+        profileImageAnchor?.isActive = true
+        self.profileImageView.bottomAnchor.constraint(equalTo: self.usernameLabel.centerYAnchor, constant: -5).isActive = true
         self.profileImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.profileImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         
-        self.profileButton.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
-        self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.profileButton.rightAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: hMargin).isActive = true
+//        self.profileButton.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+//        self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
+//        self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+//        self.profileButton.rightAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: hMargin).isActive = true
+        
+        self.tipButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
+        self.tipButton.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 10).isActive = true
+        self.tipButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1.5).isActive = true
+        self.tipButton.widthAnchor.constraint(equalTo: self.tipButton.heightAnchor).isActive = true
+        
+        self.sliderView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
+        self.sliderView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
+        self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 0.5).isActive = true
+        self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
+        
+        self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 15).isActive = true
+        self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
+        
+        self.triangleButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 5).isActive = true
+        self.triangleButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -2).isActive = true
+        self.triangleButton.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
+        self.triangleButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
+        
+        self.followButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
+        self.followButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
+        self.followButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 0.8).isActive = true
+        self.followButton.widthAnchor.constraint(equalTo: self.followButton.heightAnchor, multiplier: 1.8).isActive = true
+        
+        self.subscribeButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/3).isActive = true
+        self.subscribeButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
+        self.subscribeButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 0.8).isActive = true
+        self.subscribeButton.widthAnchor.constraint(equalTo: self.subscribeButton.heightAnchor, multiplier: 2).isActive = true
+        
     }
     
     func setUpFeedConstraints() {
-        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+//        self.postImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 25).isActive = true
+//        self.postImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 25).isActive = true
+        self.postImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        self.postImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.6).isActive = true
         self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
@@ -186,9 +308,40 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.lockImageView.heightAnchor.constraint(equalTo: self.lockImageView.widthAnchor).isActive = true
     }
     
+    func buttonHeldDown() {
+        profileImageAnchor?.constant += 5
+        usernameAnchor?.constant += 5
+    }
+    
+    func buttonLetGo() {
+        profileImageAnchor?.constant = 0
+        usernameAnchor?.constant = 0
+    }
+    
+    func sliderValueChanged(slider: UISlider) {
+        
+        let value: Float = slider.value
+        let multiply: Float = 10000
+        
+        coinsToTip = value * multiply
+        self.coinsLabel.text = "\(Int(coinsToTip.rounded())) Coins"
+        let minToAdd = coinsToTip.rounded() / 16
+        print("MIN TO ADD: \(minToAdd)")
+    }
+    
     override func tappedProfileButton(sender: UIButton) {
+        
+        profileImageAnchor?.constant = 0
+        usernameAnchor?.constant = 0
+        
         if let feedItem: TIPFeedItem = self.feedItem {
             self.delegate?.feedCellDidSelectItem(feedItem: feedItem)
+        }
+    }
+    
+    func tappedTipButton() {
+        if let feedItem: TIPFeedItem = self.feedItem {
+            self.delegate?.feedCellDidTip(feedItem: feedItem, coins: Int(self.coinsToTip.rounded()))
         }
     }
     
