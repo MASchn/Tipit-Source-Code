@@ -249,7 +249,7 @@ class TIPLoginViewController: UIViewController {
     lazy var enterEmailLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "handwriting", size: self.fontSize)
+        label.font = UIFont(name: "font2", size: self.fontSize)
         label.textAlignment = .center
         label.text = "Enter your email address and\nwe will send you a link\nto reset your password"
         //label.backgroundColor = UIColor(white: 1, alpha: 0.5)

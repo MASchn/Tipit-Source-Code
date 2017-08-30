@@ -145,7 +145,7 @@ class PhotoViewController: TIPPreviewViewController {
     lazy var pullUpFiltersButton: UIButton = {
         let button: UIButton = UIButton()
         button.addTarget(self, action: #selector(self.pullUpCollectionView), for: .touchUpInside)
-        button.setImage(#imageLiteral(resourceName: "pencil"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "triangle_button-1"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -82,6 +82,7 @@
 		FA51A1761F45F4E000B43033 /* TIPLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A1751F45F4E000B43033 /* TIPLoadingView.swift */; };
 		FA56F9291F2A3BED00B0F292 /* TIPChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */; };
 		FA56F92B1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */; };
+		FAAAF8AC1F573D42000DB63B /* font2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAAF8AB1F573D42000DB63B /* font2.ttf */; };
 		FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */; };
 		FAB9F2501F3E5DCB00D025F0 /* kiss.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F24F1F3E5DCB00D025F0 /* kiss.json */; };
 		FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2511F3E5DD600D025F0 /* smile.json */; };
@@ -170,6 +171,7 @@
 		FA51A1751F45F4E000B43033 /* TIPLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPLoadingView.swift; path = UI/Views/TIPLoadingView.swift; sourceTree = "<group>"; };
 		FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatViewController.swift; path = "UI/View Controllers/TIPChatViewController.swift"; sourceTree = "<group>"; };
 		FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatCollectionViewCell.swift; path = UI/Cells/TIPChatCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAAAF8AB1F573D42000DB63B /* font2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = font2.ttf; sourceTree = "<group>"; };
 		FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchEmptyView.swift; path = UI/Views/TIPSearchEmptyView.swift; sourceTree = "<group>"; };
 		FAB9F24F1F3E5DCB00D025F0 /* kiss.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kiss.json; sourceTree = "<group>"; };
 		FAB9F2511F3E5DD600D025F0 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				37BA701B1E36E6070093EAE5 /* AppDelegate.swift */,
 				37BA70221E36E6070093EAE5 /* Assets.xcassets */,
 				FA4488781F4B9A2E00CE0F64 /* handwriting.ttf */,
+				FAAAF8AB1F573D42000DB63B /* font2.ttf */,
 				37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */,
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
@@ -445,7 +448,7 @@
 				TargetAttributes = {
 					37BA70171E36E6070093EAE5 = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 7D6DU65848;
+						DevelopmentTeam = R74782WUZX;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -489,6 +492,7 @@
 				FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */,
 				37079BA51F0191290022E014 /* star1.json in Resources */,
 				37079BA41F0191290022E014 /* smile1.json in Resources */,
+				FAAAF8AC1F573D42000DB63B /* font2.ttf in Resources */,
 				37079BA61F0191290022E014 /* sun.json in Resources */,
 				37BA70231E36E6070093EAE5 /* Assets.xcassets in Resources */,
 			);
@@ -731,7 +735,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7D6DU65848;
+				DEVELOPMENT_TEAM = R74782WUZX;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -747,7 +751,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7D6DU65848;
+				DEVELOPMENT_TEAM = R74782WUZX;
 				INFOPLIST_FILE = Ironc.ly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
