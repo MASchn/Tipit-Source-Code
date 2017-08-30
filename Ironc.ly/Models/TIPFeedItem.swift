@@ -9,6 +9,7 @@ class TIPFeedItem: NSObject {
     
     var userId: String
     var storyImage: String
+    var storyImageId: String
     var backgroundImageURL: String?
     var profileImageURL: String?
     var username: String?
@@ -26,9 +27,11 @@ class TIPFeedItem: NSObject {
     init?(JSON: [String : Any]) {
         guard let userId: String = JSON["user_id"] as? String else { return nil }
         guard let storyImage: String = JSON["story_image"] as? String else { return nil }
+        guard let storyId: String = JSON["story_image_id"] as? String else { return nil }
         
         self.userId = userId
         self.storyImage = storyImage
+        self.storyImageId = storyId
         self.backgroundImageURL = JSON["background_image"] as? String
         self.profileImageURL = JSON["profile_image"] as? String
         self.username = JSON["username"] as? String

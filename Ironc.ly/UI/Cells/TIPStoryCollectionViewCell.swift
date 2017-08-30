@@ -17,7 +17,7 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.blurView)
         self.contentView.addSubview(self.lockImageView)
-        self.contentView.addSubview(self.profileButton)
+        
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.profileImageView)
         
@@ -74,7 +74,7 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
     
     lazy var usernameLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.textColor = .white
+        label.textColor = .black
         label.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

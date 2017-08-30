@@ -16,7 +16,8 @@ class TIPFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.iroGray
+        //self.view.backgroundColor = UIColor.iroGray
+        self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.noInternetView)
         self.view.addSubview(self.feedCollectionView)
@@ -166,7 +167,7 @@ class TIPFeedViewController: UIViewController {
     lazy var feedCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.iroGray
+        collectionView.backgroundColor = UIColor.clear
         collectionView.register(TIPFeedCollectionViewCell.self, forCellWithReuseIdentifier: self.feedReuseId)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -192,12 +193,24 @@ class TIPFeedViewController: UIViewController {
         return view
     }()
     
+    lazy var backgroundImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "crumpled")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
         self.emptyView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.emptyView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.emptyView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.emptyView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.noInternetView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.noInternetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -265,7 +278,7 @@ extension TIPFeedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size: CGFloat = collectionView.bounds.width / CGFloat(self.columns)
-        return CGSize(width: size, height: size)
+        return CGSize(width: size, height: size + size/2)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -301,6 +314,49 @@ extension TIPFeedViewController: TIPFeedCollectionViewCellDelegate {
         let profileViewController: TIPProfileViewController = TIPProfileViewController(feedItem: feedItem)
         profileViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "back"), style: .plain, target: profileViewController, action: #selector(profileViewController.tappedBackButton))
         self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+    
+    func feedCellDidTip(feedItem: TIPFeedItem, coins: Int) {
+        
+            guard let user: TIPUser = TIPUser.currentUser else { return }
+        
+            let minutesToAdd = coins / 16
+            let coinsToAdd = coins
+        
+            let milliseconds: Int = minutesToAdd * 60 * 1000
+        
+        
+        let alert: UIAlertController = UIAlertController(
+            title: "Subscribe",
+            message: "Add \(minutesToAdd) minutes for \(coinsToAdd) coins?",
+            preferredStyle: .alert
+        )
+        let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+            
+            if user.coins > coinsToAdd {
+                TIPAPIClient.tip(contentId: feedItem.storyImageId, coins: coinsToAdd, milliseconds: milliseconds) { (coins: Int?, dateString: String?, error: Error?) in
+                    if
+                        let coins: Int = coins,
+                        let dateString: String = dateString
+                    {
+                        user.updateCoins(newValue: coins)
+                        print("successfully tipped")
+                    } else {
+                        print("Error tipping")
+                    }
+                }
+            } else {
+                print("Not Enough Coins")
+            }
+        }
+        
+        let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            //
+        }
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
 }

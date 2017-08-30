@@ -45,6 +45,7 @@ class TIPProfileViewController: UIViewController {
         if searchUser.following == false {
             //self.showFollowButton()
             self.drawnFollowButton.isHidden = false
+            
         } else {
             //self.showUnfollowButton()
             self.drawnFollowButton.isHidden = true

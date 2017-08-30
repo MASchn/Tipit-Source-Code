@@ -17,7 +17,9 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
     // MARK: - View Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
+        self.contentView.addSubview(self.profileButton)
+        
         self.setUpConstraints()
         self.contentView.layoutIfNeeded()
     }

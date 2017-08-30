@@ -26,7 +26,7 @@ class PhotoViewController: TIPPreviewViewController {
     
     private var backgroundImage: UIImage
     
-    let filter = CIFilter(name: "CIPhotoEffectNoir")
+    let filter = CIFilter(name: "CISepiaTone")
     let context = CIContext(options: nil)
     var extent: CGRect?
     var scaleFactor: CGFloat?
@@ -74,9 +74,9 @@ class PhotoViewController: TIPPreviewViewController {
         self.publicButton.addTarget(self, action: #selector(self.tappedPublicButton), for: .touchUpInside)
         self.privateButton.addTarget(self, action: #selector(self.tappedPrivateButton), for: .touchUpInside)
         
-//        scaleFactor = UIScreen.main.scale
-//        extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: scaleFactor!, y: scaleFactor!))
-//        
+        scaleFactor = UIScreen.main.scale
+        extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: scaleFactor!, y: scaleFactor!))
+        
 //        let imgOrientation = self.backgroundImage.imageOrientation
 //        let imgScale = self.backgroundImage.scale
 //        
@@ -84,13 +84,13 @@ class PhotoViewController: TIPPreviewViewController {
 //        
 //        filter?.setDefaults()
 //        filter?.setValue(ciImage, forKey: kCIInputImageKey)
-        //filter?.setValue(25, forKey: kCIInputWidthKey)
-        
+//        //filter?.setValue(25, forKey: kCIInputWidthKey)
+//        
 //        let filteredImageData = filter!.value(forKey: kCIOutputImageKey) as! CIImage
 //        let filteredImageRef = context.createCGImage(filteredImageData, from: filteredImageData.extent)
 //        let finishedImage = UIImage(cgImage:filteredImageRef!, scale:imgScale, orientation:imgOrientation)
-        //finishedImage.draw(in: backgroundImageView.frame)
-        //backgroundImageView.image = finishedImage
+//        //finishedImage.draw(in: backgroundImageView.frame)
+//        backgroundImageView.image = finishedImage
     }
     
     func cancel() {
