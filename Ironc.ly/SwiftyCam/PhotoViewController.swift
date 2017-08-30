@@ -30,6 +30,7 @@ class PhotoViewController: TIPPreviewViewController {
     var imageWithFilter: UIImage
     let filterReUseID = "filter"
     let filters = [CIFilter(name:""), CIFilter(name: "CIPhotoEffectNoir"), CIFilter(name:"CIPixellate"), CIFilter(name: "CISepiaTone"), CIFilter(name:"CIPhotoEffectFade"), CIFilter(name:"CIPhotoEffectInstant")]
+    var finishedImages = [UIImage?]()
     let context = CIContext(options: nil)
     var extent: CGRect?
     var scaleFactor: CGFloat?
@@ -80,23 +81,42 @@ class PhotoViewController: TIPPreviewViewController {
         
             setUpFilterConstraints()
         
-//        scaleFactor = UIScreen.main.scale
-//        extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: scaleFactor!, y: scaleFactor!))
-//        
-//        let imgOrientation = self.backgroundImage.imageOrientation
-//        let imgScale = self.backgroundImage.scale
-//        
-//        let ciImage = CIImage(image: self.backgroundImage)
-//        
-//        filter?.setDefaults()
-//        filter?.setValue(ciImage, forKey: kCIInputImageKey)
-        //filter?.setValue(25, forKey: kCIInputWidthKey)
+        self.scaleFactor = UIScreen.main.scale
+        self.extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: self.scaleFactor!, y: self.scaleFactor!))
+        let imgOrientation = self.backgroundImage.imageOrientation
+        let imgScale = self.backgroundImage.scale
         
-//        let filteredImageData = filter!.value(forKey: kCIOutputImageKey) as! CIImage
-//        let filteredImageRef = context.createCGImage(filteredImageData, from: filteredImageData.extent)
-//        let finishedImage = UIImage(cgImage:filteredImageRef!, scale:imgScale, orientation:imgOrientation)
-        //finishedImage.draw(in: backgroundImageView.frame)
-        //backgroundImageView.image = finishedImage
+        let ciImage = CIImage(image: self.backgroundImage)
+        
+        var i = 0
+        
+        for filter in self.filters {
+            
+            self.finishedImages.append(self.backgroundImage)
+            
+            if self.filters[0] == filter {
+                //self.finishedImages.append(self.backgroundImage)
+                
+            } else {
+            
+            //DispatchQueue.global().async {
+             
+                filter?.setDefaults()
+                filter?.setValue(ciImage, forKey: kCIInputImageKey)
+                
+                
+                let filteredImageData = filter!.value(forKey: kCIOutputImageKey) as! CIImage
+                let filteredImageRef = self.context.createCGImage(filteredImageData, from: filteredImageData.extent)
+                let finishedImage = UIImage(cgImage:filteredImageRef!, scale:imgScale, orientation:imgOrientation)
+                
+                self.finishedImages[i] = finishedImage
+                
+                
+            //}
+                
+            }
+            i = i + 1
+        }
         
         
     }
@@ -214,39 +234,57 @@ extension PhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TIPFilterCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.filterReUseID, for: indexPath) as! TIPFilterCollectionViewCell
-        let filterItem = self.filters[indexPath.item]
+        //let filterItem = self.filters[indexPath.item]
         
-        if indexPath.item == 0 {
-            cell.filterImageView.image = self.backgroundImage
-            cell.finishedImage = self.backgroundImage
-            return cell
-        }
+//        if indexPath.item == 0 {
+//            cell.filterImageView.image = self.backgroundImage
+//            //cell.finishedImage = self.backgroundImage
+//            return cell
+//        }
         
-        if cell.finishedImage == nil {
-            self.scaleFactor = UIScreen.main.scale
-            self.extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: scaleFactor!, y: scaleFactor!))
-            let imgOrientation = self.backgroundImage.imageOrientation
-            let imgScale = self.backgroundImage.scale
+        cell.filterImageView.image = self.finishedImages[indexPath.item]
+       //cell.filterImageView.image = self.backgroundImage
+        
+        //background queue
+        
+//            let data = try? Data(contentsOf: backgroundImage.downloadURL)
+            //cell.filterImageView.image = self.backgroundImage
+        
+                
+//                currentPhoto.actualImage = UIImage(data: data!)
+//                if cell.finishedImage == nil {
+//                    DispatchQueue.global().async {
+//                    self.scaleFactor = UIScreen.main.scale
+//                    self.extent = UIScreen.main.bounds.applying(CGAffineTransform(scaleX: self.scaleFactor!, y: self.scaleFactor!))
+//                    let imgOrientation = self.backgroundImage.imageOrientation
+//                    let imgScale = self.backgroundImage.scale
+//                    
+//                    let ciImage = CIImage(image: self.backgroundImage)
+//                    
+//                    
+//                    filterItem?.setDefaults()
+//                    filterItem?.setValue(ciImage, forKey: kCIInputImageKey)
+//                    //                filterItem?.setValue(25, forKey: kCIInputWidthKey)
+//                    
+//                    
+//                    
+//                    let filteredImageData = filterItem!.value(forKey: kCIOutputImageKey) as! CIImage
+//                    let filteredImageRef = self.context.createCGImage(filteredImageData, from: filteredImageData.extent)
+//                    let finishedImage = UIImage(cgImage:filteredImageRef!, scale:imgScale, orientation:imgOrientation)
+//                    
+//                    DispatchQueue.main.async {
+//                    cell.filterImageView.image = finishedImage
+//                    cell.finishedImage = finishedImage
+//                        }
+//                    }
+//                } else {
+//                    cell.filterImageView.image = cell.finishedImage
+//                }
+
             
-            let ciImage = CIImage(image: self.backgroundImage)
-            
-            
-            filterItem?.setDefaults()
-            filterItem?.setValue(ciImage, forKey: kCIInputImageKey)
-            //                filterItem?.setValue(25, forKey: kCIInputWidthKey)
-            
-            
-            
-            let filteredImageData = filterItem!.value(forKey: kCIOutputImageKey) as! CIImage
-            let filteredImageRef = context.createCGImage(filteredImageData, from: filteredImageData.extent)
-            let finishedImage = UIImage(cgImage:filteredImageRef!, scale:imgScale, orientation:imgOrientation)
-            
-            
-            cell.filterImageView.image = finishedImage
-            cell.finishedImage = finishedImage
-        } else {
-            cell.filterImageView.image = cell.finishedImage
-        }
+
+        
+        
         
             return cell
         
@@ -254,10 +292,10 @@ extension PhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let cell = collectionView.cellForItem(at: indexPath) as! TIPFilterCollectionViewCell
+//        let cell = collectionView.cellForItem(at: indexPath) as! TIPFilterCollectionViewCell
         
-        self.backgroundImageView.image = cell.finishedImage
-        self.imageWithFilter = cell.finishedImage!
+        self.backgroundImageView.image = self.finishedImages[indexPath.item]
+        self.imageWithFilter = self.finishedImages[indexPath.item]!
         
         
     }
