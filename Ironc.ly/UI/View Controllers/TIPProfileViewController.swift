@@ -53,12 +53,12 @@ class TIPProfileViewController: UIViewController {
             self.drawnUnFollowButton.isHidden = false
         }
         
-        if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
-            self.showUnsubscribeButton()
-            self.keySubButton.isHidden = true
-        } else {
-            self.showSubscribeButton()
-        }
+//        if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
+//            //self.showUnsubscribeButton()
+//            self.keySubButton.isHidden = true
+//        } else {
+//            //self.showSubscribeButton()
+//        }
         
 //        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
 //            self.profileImageButton.setImage(image, for: .normal)
@@ -110,12 +110,12 @@ class TIPProfileViewController: UIViewController {
         
         self.showUnfollowButton()
         
-        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
-            self.showUnsubscribeButton()
-            self.keySubButton.isHidden = true
-        } else {
-            self.showSubscribeButton()
-        }
+//        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
+//            //self.showUnsubscribeButton()
+//            self.keySubButton.isHidden = true
+//        } else {
+//            //self.showSubscribeButton()
+//        }
 //        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
 //            self.profileImageButton.setImage(image, for: .normal)
 //        })
@@ -145,10 +145,11 @@ class TIPProfileViewController: UIViewController {
         
         self.view.backgroundColor = .white
         
+        self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.profileScrollView)
         self.profileScrollView.addSubview(self.contentView)
         
-        //self.contentView.addSubview(self.backgroundImageView)
+        
         
         let screen = UIScreen.main
         self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
@@ -218,6 +219,8 @@ class TIPProfileViewController: UIViewController {
         self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
+        
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         
         if let followers = self.followers {
             self.followersLabel.text = "Followers: \(followers.count)"
@@ -312,6 +315,11 @@ class TIPProfileViewController: UIViewController {
         
         let screenHeight = UIScreen.main.bounds.size.height
         
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
         self.profileScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.profileScrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.profileScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -323,11 +331,6 @@ class TIPProfileViewController: UIViewController {
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
         self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 1.5).isActive = true
-        
-//        self.backgroundImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-//        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-//        self.backgroundImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-//        self.backgroundImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
         self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
         self.profileFrameImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
@@ -401,15 +404,15 @@ class TIPProfileViewController: UIViewController {
     
     lazy var profileScrollView: UIScrollView = {
         let scrollView: UIScrollView = UIScrollView()
-        scrollView.backgroundColor = .white
+        scrollView.backgroundColor = .clear
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
     lazy var contentView: UIView = {
-        let view: UIView = UIView()
+        let view: UIView = UIView() 
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -584,6 +587,7 @@ class TIPProfileViewController: UIViewController {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = #imageLiteral(resourceName: "crumpled")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -895,16 +899,18 @@ class TIPProfileViewController: UIViewController {
 }
     
     func tappedSubscribeButton() {
-        if let userId: String = userId {
-            self.subscribe(userId: userId)
+        if let userId: String = self.userId {
+            
 
-//            if subscribeButton.titleLabel?.text == "Subscribe" {
-//
-//                self.subscribe(userId: userId)
-//            } else if subscribeButton.titleLabel?.text == "Unsubscribe" {
-//                self.showSubscribeButton()
-//                self.unsubscribe(userId: userId)
-//            }
+            if TIPUser.currentUser?.subscribedTo?.contains(userId) == true {
+                self.unsubscribe(userId: userId)
+                self.showAlert(title: "Unsubbed", message: nil, completion: { 
+                    //
+                })
+            } else {
+                self.subscribe(userId: userId)
+            }
+            
         }
     }
     
@@ -1038,6 +1044,9 @@ class TIPProfileViewController: UIViewController {
             
             if (TIPUser.currentUser?.coins)! < self.coinsToSub! {
                 print("not enough coins")
+                self.showAlert(title: "Oops!", message: "Not Enough Coins", completion: {
+                    //
+                })
                 return
             }
             
@@ -1061,7 +1070,9 @@ class TIPProfileViewController: UIViewController {
                                     //TIPUser.currentUser?.coins -= 1000
                                     TIPUser.currentUser?.subscribedTo?.append(self.userId!)
                                     TIPUser.currentUser?.save()
-                                    self.showUnsubscribeButton()
+                                    self.showAlert(title: "Thanks!", message: "You are now subbed!", completion: {
+                                        //
+                                    })
                                 } else {
                                     print("ERROR SUBSCRIBING")
                                 }

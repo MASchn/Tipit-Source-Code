@@ -99,6 +99,7 @@ class TIPFeedViewController: UIViewController {
                         self.feedCollectionView.reloadData()
                         self.feedCollectionView.isHidden = false
                         self.emptyView.isHidden = true
+                        self.noInternetView.isHidden = true
                         self.hideSplashView()
                         
                     } else {
@@ -137,6 +138,7 @@ class TIPFeedViewController: UIViewController {
         self.getFeed()
         self.configureTIPNavBar()
         self.navigationItem.title = "tipit"
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
@@ -256,6 +258,21 @@ class TIPFeedViewController: UIViewController {
         self.tabBarController?.selectedIndex = 1
     }
     
+//    func showAlert(message: String) {
+//        let alert: UIAlertController = UIAlertController(
+//            title: message,
+//            message: nil,
+//            preferredStyle: .alert
+//        )
+//        
+//        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) in
+//            //
+//        }
+//        
+//        alert.addAction(ok)
+//        self.present(alert, animated: true, completion: nil)
+//    }
+    
 }
 
 extension TIPFeedViewController: UICollectionViewDataSource {
@@ -320,7 +337,7 @@ extension TIPFeedViewController: TIPFeedCollectionViewCellDelegate {
         
             guard let user: TIPUser = TIPUser.currentUser else { return }
         
-            let minutesToAdd = coins / 16
+            let minutesToAdd = coins / 10
             let coinsToAdd = coins
         
             let milliseconds: Int = minutesToAdd * 60 * 1000
@@ -357,6 +374,83 @@ extension TIPFeedViewController: TIPFeedCollectionViewCellDelegate {
         alert.addAction(noAction)
         self.present(alert, animated: true, completion: nil)
         
+    }
+    
+    func feedCellDidTapSubscribe(feedItem: TIPFeedItem, cell: TIPFeedCollectionViewCell) {
+        
+            var coinsToSub = 1000
+            
+            if feedItem.coinsToSub != nil {
+                coinsToSub = feedItem.coinsToSub!
+            }
+            
+            let alert: UIAlertController = UIAlertController(
+                title: "Subscribe",
+                message: "Subscribe to \(feedItem.username!) for \(coinsToSub) coins?",
+                preferredStyle: .alert
+            )
+            let yesAction: UIAlertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+                
+                
+                
+                if (TIPUser.currentUser?.coins)! < coinsToSub {
+                    print("not enough coins")
+                    self.showAlert(title: "Oops!", message: "Not Enough Coins", completion: { 
+                        //
+                    })
+                    return
+                }
+                
+                TIPAPIClient.updateUserCoins(coinsToAdd: coinsToSub, userID: feedItem.userId, completionHandler: { (success: Bool) in
+                    
+                    if success == true {
+                        
+                        let parameters: [String: Any] = [
+                            "coins" : ((TIPUser.currentUser?.coins)! - coinsToSub)
+                        ]
+                        
+                        TIPAPIClient.updateUser(parameters: parameters, completionHandler: { (success: Bool) in
+                            
+                            if success == true {
+                                
+                                TIPAPIClient.userAction(action: .subscribe, userId: feedItem.userId, completionHandler: { (success: Bool) in
+                                    if success == true {
+                                        print("SUCCESS")
+                                        
+                                        TIPUser.currentUser?.subscribedTo?.append(feedItem.userId)
+                                        TIPUser.currentUser?.save()
+        
+                                        cell.subscribeButton.isHidden = true
+                                        cell.lockImageView.isHidden = true
+                                        cell.blurView.isHidden = true
+                                        self.showAlert(title: "Thanks!", message: "You are now subbed!", completion: {
+                                            //
+                                        })
+                                    } else {
+                                        print("ERROR SUBSCRIBING")
+                                    }
+                                    
+                                })
+                                
+                            }
+                            
+                        })
+                        
+                    } else {
+                        print("ERROR ADDING COINS")
+                    }
+                    
+                })
+                
+                
+            }
+            
+            let noAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                //
+            }
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            self.present(alert, animated: true, completion: nil)
     }
     
 }

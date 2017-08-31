@@ -96,15 +96,15 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         
         
         
-        if(TIPUser.currentUser?.backgroundImage != nil){
-            self.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
-        } else {
-            UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) { (image: UIImage?) in
-                self.backgroundImageView.image = image
-                TIPUser.currentUser?.backgroundImage = image
-                TIPUser.currentUser?.save()
-            }
-        }
+//        if(TIPUser.currentUser?.backgroundImage != nil){
+//            self.backgroundImageView.image = TIPUser.currentUser?.backgroundImage
+//        } else {
+//            UIImage.download(urlString: user.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) { (image: UIImage?) in
+//                self.backgroundImageView.image = image
+//                TIPUser.currentUser?.backgroundImage = image
+//                TIPUser.currentUser?.save()
+//            }
+//        }
         
         self.getPersonalStory()
     }

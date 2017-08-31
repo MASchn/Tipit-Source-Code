@@ -29,6 +29,7 @@ class TIPUser: NSObject {
     var coinsToSubscribe: Int?
     var followersList: [String]?
     var followingList: [String]?
+    var backgroundPicSelection: Int = 0
     
     static var currentUser: TIPUser?
     let defaults = UserDefaults.standard
@@ -152,7 +153,8 @@ class TIPUser: NSObject {
                 coinsEarned: earnedCoins,
                 coinsToSub: coinsToSub,
                 followers: followers,
-                following: following
+                following: following,
+                backgroundSelection: 0
             )
             user.save()
             TIPUser.currentUser = user
@@ -202,7 +204,7 @@ class TIPUser: NSObject {
         self.followingList = following
     }
     
-    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?, followers: [String]?, following: [String]?) {
+    init(userId: String?, username: String?, email: String?, token: String, fullName: String?, profileImageURL: String?, backgroundImageURL: String?, website: String?, bio: String?, coins: Int, allAccess: Bool, mySubs: [String]?, subbedTo: [String]?, coinsEarned: Int?, coinsToSub: Int?, followers: [String]?, following: [String]?, backgroundSelection: Int?) {
         self.userId = userId
         self.username = username
         self.email = email
@@ -220,6 +222,7 @@ class TIPUser: NSObject {
         self.coinsToSubscribe = coinsToSub
         self.followersList = followers
         self.followingList = following
+        self.backgroundPicSelection = backgroundSelection ?? 0
     }
     
     func save() {
@@ -250,6 +253,7 @@ class TIPUser: NSObject {
         self.defaults.set(self.coinsToSubscribe, forKey: "coinsToSubscribe")
         self.defaults.set(self.followersList, forKey: "followers_list")
         self.defaults.set(self.followingList, forKey: "following_list")
+        self.defaults.set(self.backgroundPicSelection, forKey: "background_selection")
         self.defaults.synchronize()
     }
     
@@ -310,6 +314,7 @@ class TIPUser: NSObject {
             let coinsToSub: Int? = defaults.integer(forKey: "coinsToSubscribe")
             let followers: [String]? = defaults.object(forKey: "followers_list") as? [String]
             let following: [String]? = defaults.object(forKey: "following_list") as? [String]
+            let backSelection: Int? = defaults.integer(forKey: "background_selection")
             
             return TIPUser(
                 userId: userId,
@@ -328,7 +333,8 @@ class TIPUser: NSObject {
                 coinsEarned: earnedCoins,
                 coinsToSub: coinsToSub,
                 followers: followers,
-                following: following
+                following: following,
+                backgroundSelection: backSelection
             )
         }
         return nil
