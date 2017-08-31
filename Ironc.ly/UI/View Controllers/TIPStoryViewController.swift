@@ -104,8 +104,9 @@ class TIPStoryViewController: UIPageViewController {
         self.pageControl.numberOfPages = self.story.posts.count
         self.pageControl.updateCurrentPageDisplay()
         
-        let firstPost: TIPPost = self.story.posts.last!
-        let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
+        let postToView: TIPPost = self.story.posts[self.currentIndex]
+        self.pageControl.currentPage = self.currentIndex
+        let postViewController: TIPPostViewController = TIPPostViewController(post: postToView, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
         postViewController.delegate = self
         
         self.pageControl.currentPage = 2
