@@ -7,6 +7,8 @@ import UIKit
 import FBSDKLoginKit
 import SendBirdSDK
 
+
+
 class TIPLoginViewController: UIViewController {
 
     var signInTop: NSLayoutConstraint?
@@ -18,7 +20,7 @@ class TIPLoginViewController: UIViewController {
     
     var fontSize: CGFloat = 18.0
     
-    let backgroundPicArray = [#imageLiteral(resourceName: "crumpled"), #imageLiteral(resourceName: "tipitbackground2_7"), #imageLiteral(resourceName: "tipitbackground3_7"), #imageLiteral(resourceName: "tipitbackground4_7"), #imageLiteral(resourceName: "tipitbackground5_7"), #imageLiteral(resourceName: "graph_paper")]
+    static let backgroundPicArray = [#imageLiteral(resourceName: "crumpled"), #imageLiteral(resourceName: "tipitbackground2_7"), #imageLiteral(resourceName: "tipitbackground3_7"), #imageLiteral(resourceName: "tipitbackground4_7"), #imageLiteral(resourceName: "tipitbackground5_7"), #imageLiteral(resourceName: "graph_paper")]
     var backgoundPicSelection: Int = 0
     
     // MARK: - View Lifecycle
@@ -33,7 +35,7 @@ class TIPLoginViewController: UIViewController {
             self.fontSize = screen.bounds.size.height * (18.0 / 480.0)
         }
         
-        self.backgroundImageView.image = self.backgroundPicArray[backgoundPicSelection]
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[self.backgoundPicSelection]
         
         self.view.backgroundColor = .white
 
@@ -398,6 +400,8 @@ class TIPLoginViewController: UIViewController {
                             self.emailTextField.text = ""
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
+                            TIPUser.currentUser?.backgroundPicSelection = self.backgoundPicSelection
+                            TIPUser.currentUser?.save()
                             TIPAPIClient.connectToSendBird()
                             if let tabControl = AppDelegate.shared.tabBarController as? TIPTabBarController {
                                 tabControl.splashView.isHidden = false
@@ -500,7 +504,7 @@ class TIPLoginViewController: UIViewController {
             self.backgoundPicSelection = self.backgoundPicSelection + 1
         }
         
-        self.backgroundImageView.image = self.backgroundPicArray[backgoundPicSelection]
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[self.backgoundPicSelection]
     }
     
     func tappedFacebookButton() {
@@ -606,8 +610,8 @@ class TIPLoginViewController: UIViewController {
         self.logoButton.isHidden = false
         self.transparentView.isHidden = true
         
-        self.backgoundPicSelection = 0
-        self.backgroundImageView.image = self.backgroundPicArray[backgoundPicSelection]
+        //self.backgoundPicSelection = 0
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[self.backgoundPicSelection]
     }
     
     func keyboardWillShow(sender: Notification) {

@@ -100,10 +100,12 @@ class VideoViewController: TIPPreviewViewController {
     // MARK: - Actions
     func tappedPublicButton(sender: UIButton) {
         self.postContent(isPrivate: false)
+        self.player?.pause()
     }
     
     func tappedPrivateButton(sender: UIButton) {
         self.postContent(isPrivate: true)
+        self.player?.pause()
     }
     
     func postContent(isPrivate: Bool) {

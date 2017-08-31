@@ -99,6 +99,7 @@ class TIPFeedViewController: UIViewController {
                         self.feedCollectionView.reloadData()
                         self.feedCollectionView.isHidden = false
                         self.emptyView.isHidden = true
+                        self.noInternetView.isHidden = true
                         self.hideSplashView()
                         
                     } else {
@@ -137,6 +138,7 @@ class TIPFeedViewController: UIViewController {
         self.getFeed()
         self.configureTIPNavBar()
         self.navigationItem.title = "tipit"
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
