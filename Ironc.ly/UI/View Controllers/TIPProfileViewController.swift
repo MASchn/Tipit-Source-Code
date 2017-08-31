@@ -53,12 +53,12 @@ class TIPProfileViewController: UIViewController {
             self.drawnUnFollowButton.isHidden = false
         }
         
-        if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
-            self.showUnsubscribeButton()
-            self.keySubButton.isHidden = true
-        } else {
-            self.showSubscribeButton()
-        }
+//        if TIPUser.currentUser?.subscribedTo?.contains(searchUser.userId) == true {
+//            //self.showUnsubscribeButton()
+//            self.keySubButton.isHidden = true
+//        } else {
+//            //self.showSubscribeButton()
+//        }
         
 //        UIImage.download(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
 //            self.profileImageButton.setImage(image, for: .normal)
@@ -110,12 +110,12 @@ class TIPProfileViewController: UIViewController {
         
         self.showUnfollowButton()
         
-        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
-            self.showUnsubscribeButton()
-            self.keySubButton.isHidden = true
-        } else {
-            self.showSubscribeButton()
-        }
+//        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
+//            //self.showUnsubscribeButton()
+//            self.keySubButton.isHidden = true
+//        } else {
+//            //self.showSubscribeButton()
+//        }
 //        UIImage.download(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { [unowned self] (image: UIImage?) in
 //            self.profileImageButton.setImage(image, for: .normal)
 //        })
@@ -895,16 +895,18 @@ class TIPProfileViewController: UIViewController {
 }
     
     func tappedSubscribeButton() {
-        if let userId: String = userId {
-            self.subscribe(userId: userId)
+        if let userId: String = self.userId {
+            
 
-//            if subscribeButton.titleLabel?.text == "Subscribe" {
-//
-//                self.subscribe(userId: userId)
-//            } else if subscribeButton.titleLabel?.text == "Unsubscribe" {
-//                self.showSubscribeButton()
-//                self.unsubscribe(userId: userId)
-//            }
+            if TIPUser.currentUser?.subscribedTo?.contains(userId) == true {
+                self.unsubscribe(userId: userId)
+                self.showAlert(title: "Unsubbed", message: nil, completion: { 
+                    //
+                })
+            } else {
+                self.subscribe(userId: userId)
+            }
+            
         }
     }
     
@@ -1038,6 +1040,9 @@ class TIPProfileViewController: UIViewController {
             
             if (TIPUser.currentUser?.coins)! < self.coinsToSub! {
                 print("not enough coins")
+                self.showAlert(title: "Oops!", message: "Not Enough Coins", completion: {
+                    //
+                })
                 return
             }
             
@@ -1061,7 +1066,9 @@ class TIPProfileViewController: UIViewController {
                                     //TIPUser.currentUser?.coins -= 1000
                                     TIPUser.currentUser?.subscribedTo?.append(self.userId!)
                                     TIPUser.currentUser?.save()
-                                    self.showUnsubscribeButton()
+                                    self.showAlert(title: "Thanks!", message: "You are now subbed!", completion: {
+                                        //
+                                    })
                                 } else {
                                     print("ERROR SUBSCRIBING")
                                 }

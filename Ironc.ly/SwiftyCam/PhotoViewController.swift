@@ -127,6 +127,9 @@ class PhotoViewController: TIPPreviewViewController {
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.iroGray
+        collectionView.alwaysBounceVertical = false
+        collectionView.bounces = false
+        collectionView.alwaysBounceHorizontal = true
         collectionView.register(TIPFilterCollectionViewCell.self, forCellWithReuseIdentifier: self.filterReUseID)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -163,9 +166,9 @@ class PhotoViewController: TIPPreviewViewController {
         backgroundImageViewBottom = self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         backgroundImageViewBottom?.isActive = true
         
-        self.pullUpFiltersButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
-        self.pullUpFiltersButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 5).isActive = true
-        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1).isActive = true
+        self.pullUpFiltersButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
+        self.pullUpFiltersButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -15).isActive = true
+        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.07).isActive = true
         self.pullUpFiltersButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.heightAnchor).isActive = true
         
     }

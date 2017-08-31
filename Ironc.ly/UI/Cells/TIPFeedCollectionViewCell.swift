@@ -8,6 +8,7 @@ import UIKit
 protocol TIPFeedCollectionViewCellDelegate: class {
     func feedCellDidSelectItem(feedItem: TIPFeedItem)
     func feedCellDidTip(feedItem: TIPFeedItem, coins: Int)
+    func feedCellDidTapSubscribe(feedItem: TIPFeedItem, cell: TIPFeedCollectionViewCell)
 }
 
 class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
@@ -64,6 +65,12 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
                     isSubbed = true
                 }
             }
+        }
+        
+        if isSubbed == true {
+            self.subscribeButton.isHidden = true
+        } else {
+            self.subscribeButton.isHidden = false
         }
         
         if feedItem.isPrivate == false || isSubbed == true {
@@ -198,6 +205,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         button.setImage(#imageLiteral(resourceName: "FollowEdited"), for: .highlighted)
         //button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
     
@@ -205,8 +213,9 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "SubscribeUnpressed"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "Subscribe"), for: .highlighted)
-        //button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.tappedSubButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        //button.isHidden = true
         return button
     }()
     
@@ -269,7 +278,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 0.5).isActive = true
         self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
         
-        self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 15).isActive = true
+        self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 0).isActive = true
         self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
         
         self.triangleButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 5).isActive = true
@@ -285,7 +294,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.subscribeButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/3).isActive = true
         self.subscribeButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
         self.subscribeButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 0.8).isActive = true
-        self.subscribeButton.widthAnchor.constraint(equalTo: self.subscribeButton.heightAnchor, multiplier: 2).isActive = true
+        self.subscribeButton.widthAnchor.constraint(equalTo: self.subscribeButton.heightAnchor, multiplier: 2.3).isActive = true
         
     }
     
@@ -297,10 +306,10 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.postImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         
-        self.blurView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.blurView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.blurView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.blurView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        self.blurView.topAnchor.constraint(equalTo: self.postImageView.topAnchor).isActive = true
+        self.blurView.bottomAnchor.constraint(equalTo: self.postImageView.bottomAnchor).isActive = true
+        self.blurView.leftAnchor.constraint(equalTo: self.postImageView.leftAnchor).isActive = true
+        self.blurView.rightAnchor.constraint(equalTo: self.postImageView.rightAnchor).isActive = true
         
         self.lockImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         self.lockImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
@@ -324,13 +333,15 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         let multiply: Float = 10000
         
         coinsToTip = value * multiply
+        coinsToTip = 500.0 * floor((coinsToTip/500.0)+0.5)
         self.coinsLabel.text = "\(Int(coinsToTip.rounded())) Coins"
-        let minToAdd = coinsToTip.rounded() / 16
-        print("MIN TO ADD: \(minToAdd)")
+        
+        let minToAdd = coinsToTip.rounded() / 10
+        //print("MIN TO ADD: \(minToAdd)")
     }
     
     override func tappedProfileButton(sender: UIButton) {
-        
+    
         profileImageAnchor?.constant = 0
         usernameAnchor?.constant = 0
         
@@ -342,6 +353,15 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     func tappedTipButton() {
         if let feedItem: TIPFeedItem = self.feedItem {
             self.delegate?.feedCellDidTip(feedItem: feedItem, coins: Int(self.coinsToTip.rounded()))
+        }
+    }
+    
+    func tappedSubButton(sender: UIButton) {
+        
+        let theCell = self as? TIPFeedCollectionViewCell
+        
+        if let feedItem: TIPFeedItem = self.feedItem {
+            self.delegate?.feedCellDidTapSubscribe(feedItem: feedItem, cell: theCell!)
         }
     }
     

@@ -94,10 +94,11 @@ class TIPStoryViewController: UIPageViewController {
 
         self.pageControl.numberOfPages = self.story.posts.count
         
-        let firstPost: TIPPost = self.story.posts.first!
+        let firstPost: TIPPost = self.story.posts.last!
         let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
         postViewController.delegate = self
         
+        self.pageControl.currentPage = 2
 
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         self.currentViewController = postViewController
