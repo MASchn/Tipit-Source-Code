@@ -22,6 +22,9 @@ class TIPProfileViewController: UIViewController {
     var following: [String]?
     var subscribers: [String]?
     var fontSize: CGFloat = 18.0
+    let profileReuseID = "profile"
+    var storyURLArray: [TIPPost]?
+    var imageURLData: Data?
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -170,6 +173,11 @@ class TIPProfileViewController: UIViewController {
         self.contentView.addSubview(self.followingLabel)
         self.contentView.addSubview(self.drawnFollowButton)
         self.contentView.addSubview(self.drawnUnFollowButton)
+        self.contentView.addSubview(self.storyLabelImageView)
+        self.contentView.addSubview(self.storyCollectionView)
+        
+        
+        storyCollectionView.register(TIPProfileStoryCollectionViewCell.self, forCellWithReuseIdentifier: profileReuseID)
         
         //self.contentView.bringSubview(toFront: self.profileFrameImageView)
         
@@ -249,10 +257,15 @@ class TIPProfileViewController: UIViewController {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
             if let story: TIPStory = story {
                 self.story = story
+                
+                self.storyURLArray = story.posts
+                
+                self.storyCollectionView.reloadData()
+                
                 if let firstPost: TIPPost = story.posts.last {
-                    
-                    self.storyPicImageView.isHidden = false
-                    self.noTapeProfileFrameImageView.isHidden = false
+                    //self.storyURLArray?.append(firstPost.contentURL!)
+                    self.storyPicImageView.isHidden = true
+                    self.noTapeProfileFrameImageView.isHidden = true
                     
                     if firstPost.type == .video {
                         
@@ -263,6 +276,10 @@ class TIPProfileViewController: UIViewController {
                                 //self.storyPreviewButton.setImage(image, for: .normal)
                                 //self.storyPreviewButton.layer.borderWidth = 10.0
                                 self.storyPicImageView.image = image
+                                
+                                self.storyCollectionView.reloadData()
+                                //need to cache the imageFromVideo to store here needs a URL
+//                                self.Array?.append(firstPost.contentURL!)
                             }
                         }
                         
@@ -270,6 +287,7 @@ class TIPProfileViewController: UIViewController {
                         //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
                        // self.storyPreviewButton.layer.borderWidth = 10.0
                         self.storyPicImageView.image = firstPost.contentImage
+//                        self.storyURLArray?.append(firstPost.contentURL!)
                     }
                 } else {
                     self.storyPicImageView.isHidden = true
@@ -311,6 +329,7 @@ class TIPProfileViewController: UIViewController {
         self.subscribeButton.layer.cornerRadius = self.subscribeButton.frame.size.height / 2.0
     }
     
+    // MARK: - Autolayout
     func setUpScrollConstraints() {
         
         let screenHeight = UIScreen.main.bounds.size.height
@@ -330,7 +349,7 @@ class TIPProfileViewController: UIViewController {
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
-        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 1.5).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2).isActive = true
         
         self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
         self.profileFrameImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
@@ -386,18 +405,30 @@ class TIPProfileViewController: UIViewController {
         self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
         self.storyPicImageView.transform = self.storyPicImageView.transform.rotated(by: CGFloat.pi/70)
         
-        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
+//        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
+        self.drawnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         followButtonTop?.isActive = true
         self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
         self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
         
-        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
+//        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
+        self.drawnUnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         unFollowButtonTop?.isActive = true
         self.drawnUnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
         self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
+        
+        self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 20).isActive = true
+        //        self.storyImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.storyLabelImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.storyLabelImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
+        self.storyLabelImageView.heightAnchor.constraint(equalTo: self.storyLabelImageView.widthAnchor, multiplier: 0.7).isActive = true
 
+        self.storyCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
+        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
     }
     
     // MARK: - Lazy Initialization
@@ -580,7 +611,7 @@ class TIPProfileViewController: UIViewController {
         button.tag = 1
         return button
     }()
-
+    
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
@@ -668,6 +699,26 @@ class TIPProfileViewController: UIViewController {
         return button
     }()
     
+    lazy var storyLabelImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "login_pressed")  //DUMMY LABEL REPLACE LATER
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    lazy var storyCollectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.white
+//        collectionView.register(TIPFilterCollectionViewCell.self, forCellWithReuseIdentifier: self.filterReUseID)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     
     // APPSTORE: REMOVING FOR V1
 //
@@ -736,92 +787,95 @@ class TIPProfileViewController: UIViewController {
         return label
     }()
     
-    // MARK: - Autolayout
-    func setUpConstraints() {
-        
-        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        
-        self.shadeView.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor).isActive = true
-        self.shadeView.bottomAnchor.constraint(equalTo: self.backgroundImageView.bottomAnchor).isActive = true
-        self.shadeView.leftAnchor.constraint(equalTo: self.backgroundImageView.leftAnchor).isActive = true
-        self.shadeView.rightAnchor.constraint(equalTo: self.backgroundImageView.rightAnchor).isActive = true
-        
-        self.profileImageButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20.0).isActive = true
-        self.profileImageButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
-        self.profileImageButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        self.profileImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        // APPSTORE: REMOVING FOR V1
-        
-//        self.settingsButton.centerYAnchor.constraint(equalTo: self.profileImageButton.centerYAnchor).isActive = true
-//        self.settingsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
-//        self.settingsButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
-//        self.settingsButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        
-        self.nameLabel.topAnchor.constraint(equalTo: self.profileImageButton.bottomAnchor, constant: 10.0).isActive = true
-        self.nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
-        self.usernameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     
-        self.editButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
-        self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
-        self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-
-        self.followButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
-        self.followButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
-        self.followButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        self.followButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.subscribeButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 30).isActive = true
-        self.subscribeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.subscribeButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
-        self.subscribeButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        
-        self.coinsLabel.topAnchor.constraint(equalTo: self.subscribeButton.bottomAnchor, constant: 10.0).isActive = true
-        self.coinsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        self.coinsEarnedLabel.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 10.0).isActive = true
-        self.coinsEarnedLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        // APPSTORE: REMOVING FOR V1
+//    func setUpConstraints() {
+//        
+//        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+//        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+//        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+//        
+//        self.shadeView.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor).isActive = true
+//        self.shadeView.bottomAnchor.constraint(equalTo: self.backgroundImageView.bottomAnchor).isActive = true
+//        self.shadeView.leftAnchor.constraint(equalTo: self.backgroundImageView.leftAnchor).isActive = true
+//        self.shadeView.rightAnchor.constraint(equalTo: self.backgroundImageView.rightAnchor).isActive = true
+//        
+//        self.profileImageButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20.0).isActive = true
+//        self.profileImageButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+//        self.profileImageButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+//        self.profileImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        
+//        // APPSTORE: REMOVING FOR V1
+//        
+////        self.settingsButton.centerYAnchor.constraint(equalTo: self.profileImageButton.centerYAnchor).isActive = true
+////        self.settingsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10.0).isActive = true
+////        self.settingsButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+////        self.settingsButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+//        
+//        self.nameLabel.topAnchor.constraint(equalTo: self.profileImageButton.bottomAnchor, constant: 10.0).isActive = true
+//        self.nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        
+//        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10.0).isActive = true
+//        self.usernameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//    
+//        self.editButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
+//        self.editButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+//        self.editButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+//        self.editButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 //
-//        self.followersButton.topAnchor.constraint(equalTo: self.followersCountLabel.topAnchor).isActive = true
-//        self.followersButton.bottomAnchor.constraint(equalTo: self.followersSubtitleLabel.bottomAnchor).isActive = true
-//        self.followersButton.leftAnchor.constraint(equalTo: self.followersSubtitleLabel.leftAnchor).isActive = true
-//        self.followersButton.rightAnchor.constraint(equalTo: self.followersSubtitleLabel.rightAnchor).isActive = true
+//        self.followButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 15.0).isActive = true
+//        self.followButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+//        self.followButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+//        self.followButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 //        
-//        self.followingButton.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
-//        self.followingButton.bottomAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor).isActive = true
-//        self.followingButton.leftAnchor.constraint(equalTo: self.followingSubtitleLabel.leftAnchor).isActive = true
-//        self.followingButton.rightAnchor.constraint(equalTo: self.followingSubtitleLabel.rightAnchor).isActive = true
+//        self.subscribeButton.topAnchor.constraint(equalTo: self.storyPreviewButton.bottomAnchor, constant: 30).isActive = true
+//        self.subscribeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.subscribeButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+//        self.subscribeButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
 //        
-//        self.followingCountLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 20.0).isActive = true
-//        self.followingCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.coinsLabel.topAnchor.constraint(equalTo: self.subscribeButton.bottomAnchor, constant: 10.0).isActive = true
+//        self.coinsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 //        
-//        self.followersCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
-//        self.followersCountLabel.rightAnchor.constraint(equalTo: self.followingCountLabel.leftAnchor, constant: -60.0).isActive = true
+//        self.coinsEarnedLabel.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 10.0).isActive = true
+//        self.coinsEarnedLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        // APPSTORE: REMOVING FOR V1
+////
+////        self.followersButton.topAnchor.constraint(equalTo: self.followersCountLabel.topAnchor).isActive = true
+////        self.followersButton.bottomAnchor.constraint(equalTo: self.followersSubtitleLabel.bottomAnchor).isActive = true
+////        self.followersButton.leftAnchor.constraint(equalTo: self.followersSubtitleLabel.leftAnchor).isActive = true
+////        self.followersButton.rightAnchor.constraint(equalTo: self.followersSubtitleLabel.rightAnchor).isActive = true
+////        
+////        self.followingButton.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+////        self.followingButton.bottomAnchor.constraint(equalTo: self.followingSubtitleLabel.bottomAnchor).isActive = true
+////        self.followingButton.leftAnchor.constraint(equalTo: self.followingSubtitleLabel.leftAnchor).isActive = true
+////        self.followingButton.rightAnchor.constraint(equalTo: self.followingSubtitleLabel.rightAnchor).isActive = true
+////        
+////        self.followingCountLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 20.0).isActive = true
+////        self.followingCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+////        
+////        self.followersCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+////        self.followersCountLabel.rightAnchor.constraint(equalTo: self.followingCountLabel.leftAnchor, constant: -60.0).isActive = true
+////        
+////        self.coinsCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
+////        self.coinsCountLabel.leftAnchor.constraint(equalTo: self.followingCountLabel.rightAnchor, constant: 60.0).isActive = true
+////        
+////        self.followersSubtitleLabel.topAnchor.constraint(equalTo: self.followersCountLabel.bottomAnchor).isActive = true
+////        self.followersSubtitleLabel.centerXAnchor.constraint(equalTo: self.followersCountLabel.centerXAnchor).isActive = true
+////        
+////        self.followingSubtitleLabel.topAnchor.constraint(equalTo: self.followingCountLabel.bottomAnchor).isActive = true
+////        self.followingSubtitleLabel.centerXAnchor.constraint(equalTo: self.followingCountLabel.centerXAnchor).isActive = true
+////        
+////        self.coinsSubtitleLabel.topAnchor.constraint(equalTo: self.coinsCountLabel.bottomAnchor).isActive = true
+////        self.coinsSubtitleLabel.centerXAnchor.constraint(equalTo: self.coinsCountLabel.centerXAnchor).isActive = true
 //        
-//        self.coinsCountLabel.topAnchor.constraint(equalTo: self.followingCountLabel.topAnchor).isActive = true
-//        self.coinsCountLabel.leftAnchor.constraint(equalTo: self.followingCountLabel.rightAnchor, constant: 60.0).isActive = true
+//        self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+//        self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+//        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
 //        
-//        self.followersSubtitleLabel.topAnchor.constraint(equalTo: self.followersCountLabel.bottomAnchor).isActive = true
-//        self.followersSubtitleLabel.centerXAnchor.constraint(equalTo: self.followersCountLabel.centerXAnchor).isActive = true
 //        
-//        self.followingSubtitleLabel.topAnchor.constraint(equalTo: self.followingCountLabel.bottomAnchor).isActive = true
-//        self.followingSubtitleLabel.centerXAnchor.constraint(equalTo: self.followingCountLabel.centerXAnchor).isActive = true
-//        
-//        self.coinsSubtitleLabel.topAnchor.constraint(equalTo: self.coinsCountLabel.bottomAnchor).isActive = true
-//        self.coinsSubtitleLabel.centerXAnchor.constraint(equalTo: self.coinsCountLabel.centerXAnchor).isActive = true
-        
-        self.storyPreviewButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.storyPreviewButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.storyPreviewButton.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
-        self.storyPreviewButton.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
-    }
+////        self.storyImageView.heightAnchor.constraint(equalTo: self.myWalletImageView.widthAnchor, multiplier: 0.2).isActive = true
+//    }
     
     // MARK: - Actions
     
@@ -838,8 +892,9 @@ class TIPProfileViewController: UIViewController {
         }
         
         if let currentStory: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!)
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: 0)
             self.present(storyViewController, animated: true, completion: nil)
+            
         }
     }
     
@@ -1100,38 +1155,108 @@ class TIPProfileViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-//    func imageFromVideo(urlString: String, at time: TimeInterval) -> UIImage? {
-//        
-//        let NSUrlString = urlString as NSString
-//        
-//        if let cachedImage = imageCache.object(forKey: NSUrlString)  {
-//            return(cachedImage)
-//        }
-//        
-//        guard let url = URL(string: urlString) else {
-//            return(nil)
-//        }
-//        
-//        let asset = AVURLAsset(url: url)
-//        
-//        let assetIG = AVAssetImageGenerator(asset: asset)
-//        assetIG.appliesPreferredTrackTransform = true
-//        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
-//        
-//        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
-//        let thumbnailImageRef: CGImage
-//        do {
-//            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
-//        } catch let error {
-//            print("Error: \(error)")
-//            return nil
-//        }
-//        
-//        let finalImage = UIImage(cgImage: thumbnailImageRef)
-//        
-//        imageCache.setObject(finalImage, forKey: NSUrlString)
-//        
-//        return finalImage
-//    }
+
 
 }
+
+
+
+//extension TIPProfileViewController: UICollectionViewDelegate{
+//  }
+
+
+extension TIPProfileViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return filters.count
+        if nil == self.storyURLArray?.count{
+            return 3
+        } else {
+            return self.storyURLArray!.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+      
+        let cell: TIPProfileStoryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.profileReuseID, for: indexPath) as! TIPProfileStoryCollectionViewCell
+
+        let currentPost = self.storyURLArray?[indexPath.item]
+        
+        if self.storyURLArray == nil {
+            cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
+        } else {
+            
+            cell.storyImage.image = #imageLiteral(resourceName: "red_crumpled")
+            
+                if currentPost?.type == .video && currentPost?.contentImage == nil {
+                    
+                    DispatchQueue.global(qos: .background).async {
+                        let img = TIPAPIClient.imageFromVideo(urlString: (self.storyURLArray?[indexPath.item].contentURL)!, at: 0)
+                        DispatchQueue.main.async {
+                            cell.storyImage.image = img
+                        }
+                    }
+                    
+                } else {
+                    
+                    cell.storyImage.image = self.storyURLArray?[indexPath.item].contentImage
+                }
+            
+        }
+        
+       return cell
+    }
+        
+        //DUMMY DATA DELETE AFTER SHOWING OFF
+//        let imageURL = URL(string: (self.storyURLArray?[indexPath.row])!)
+//        do{
+//        self.imageURLData = try Data.init(contentsOf: imageURL!)
+//        }
+//        catch let Error
+//        {print (Error)
+//        cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
+//        }
+//        
+//        
+//        cell.storyImage.image = UIImage.init(data: self.imageURLData!)
+        
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+//            let cell: TIPProfileStoryCollectionViewCell = self.storyCollectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
+        
+            if let currentStory: TIPStory = self.story {
+                let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.row)
+//                storyViewController.currentIndex = indexPath.row
+//                storyViewController.pageControl.currentPage = indexPath.row
+//                storyViewController.pageControl.updateCurrentPageDisplay()
+                self.present(storyViewController, animated: true, completion: nil)
+                
+            }
+            
+        }
+
+        
+    }
+
+
+
+
+extension TIPProfileViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.height - 10, height: collectionView.bounds.height - 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+}
+

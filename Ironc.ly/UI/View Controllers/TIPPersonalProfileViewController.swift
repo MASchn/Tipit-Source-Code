@@ -142,7 +142,8 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     
     func setUpPersonalConstraints() {
         
-        self.myWalletImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 50.0).isActive = true
+//        self.myWalletImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 50.0).isActive = true
+        self.myWalletImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         self.myWalletImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.myWalletImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
         self.myWalletImageView.heightAnchor.constraint(equalTo: self.myWalletImageView.widthAnchor, multiplier: 0.2).isActive = true

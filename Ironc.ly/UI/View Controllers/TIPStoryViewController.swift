@@ -16,12 +16,12 @@ class TIPStoryViewController: UIPageViewController {
     let searchUser: TIPSearchUser?
     var coinsToSub: Int
     
-    var currentIndex: Int = 0
+    var currentIndex: Int
     var isProfile: Bool = false
     var currentViewController: TIPPostViewController?
         
     // MARK: - View Lifecycle
-    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String) {
+    init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, postIndex: Int) {
         self.story = story
         self.username = username
         self.profileImage = profileImage
@@ -29,11 +29,18 @@ class TIPStoryViewController: UIPageViewController {
         self.feedItem = nil
         self.searchUser = nil
         self.coinsToSub = 0
+        self.currentIndex = postIndex
+        
+        
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [:])
         
         self.dataSource = self
         self.delegate = self
+        
+
+        
+        
     }
     
     init(story: TIPStory, username: String?, profileImage: UIImage?, userID: String, feedItem: TIPFeedItem) {
@@ -43,6 +50,7 @@ class TIPStoryViewController: UIPageViewController {
         self.userID = userID
         self.feedItem = feedItem
         self.searchUser = nil
+        self.currentIndex = story.posts.count - 1
         
         if let coins = feedItem.coinsToSub {
             self.coinsToSub = coins
@@ -63,6 +71,7 @@ class TIPStoryViewController: UIPageViewController {
         self.userID = userID
         self.feedItem = nil
         self.searchUser = searchUser
+        self.currentIndex = story.posts.count - 1
         
         if let coins = searchUser.coinsToSub {
             self.coinsToSub = coins
@@ -93,6 +102,7 @@ class TIPStoryViewController: UIPageViewController {
         self.view.addSubview(self.pageControl)
 
         self.pageControl.numberOfPages = self.story.posts.count
+        self.pageControl.updateCurrentPageDisplay()
         
         let firstPost: TIPPost = self.story.posts.last!
         let postViewController: TIPPostViewController = TIPPostViewController(post: firstPost, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
