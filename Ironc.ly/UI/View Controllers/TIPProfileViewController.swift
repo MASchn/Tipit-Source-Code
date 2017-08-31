@@ -23,6 +23,8 @@ class TIPProfileViewController: UIViewController {
     var subscribers: [String]?
     var fontSize: CGFloat = 18.0
     let profileReuseID = "profile"
+    var storyURLArray: [TIPPost]?
+    var imageURLData: Data?
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -252,10 +254,15 @@ class TIPProfileViewController: UIViewController {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
             if let story: TIPStory = story {
                 self.story = story
+                
+                self.storyURLArray = story.posts
+                
+                self.storyCollectionView.reloadData()
+                
                 if let firstPost: TIPPost = story.posts.last {
-                    
-                    self.storyPicImageView.isHidden = false
-                    self.noTapeProfileFrameImageView.isHidden = false
+                    //self.storyURLArray?.append(firstPost.contentURL!)
+                    self.storyPicImageView.isHidden = true
+                    self.noTapeProfileFrameImageView.isHidden = true
                     
                     if firstPost.type == .video {
                         
@@ -266,6 +273,10 @@ class TIPProfileViewController: UIViewController {
                                 //self.storyPreviewButton.setImage(image, for: .normal)
                                 //self.storyPreviewButton.layer.borderWidth = 10.0
                                 self.storyPicImageView.image = image
+                                
+                                self.storyCollectionView.reloadData()
+                                //need to cache the imageFromVideo to store here needs a URL
+//                                self.Array?.append(firstPost.contentURL!)
                             }
                         }
                         
@@ -273,6 +284,7 @@ class TIPProfileViewController: UIViewController {
                         //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
                        // self.storyPreviewButton.layer.borderWidth = 10.0
                         self.storyPicImageView.image = firstPost.contentImage
+//                        self.storyURLArray?.append(firstPost.contentURL!)
                     }
                 } else {
                     self.storyPicImageView.isHidden = true
@@ -596,7 +608,7 @@ class TIPProfileViewController: UIViewController {
         button.tag = 1
         return button
     }()
-
+    
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
@@ -876,8 +888,9 @@ class TIPProfileViewController: UIViewController {
         }
         
         if let currentStory: TIPStory = self.story {
-            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!)
+            let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: 0)
             self.present(storyViewController, animated: true, completion: nil)
+            
         }
     }
     
@@ -1135,31 +1148,88 @@ class TIPProfileViewController: UIViewController {
 
 }
 
+
+
+//extension TIPProfileViewController: UICollectionViewDelegate{
+//  }
+
+
 extension TIPProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filters.count
-        return 3
+        if nil == self.storyURLArray?.count{
+            return 3
+        } else {
+            return self.storyURLArray!.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       
         let cell: TIPProfileStoryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.profileReuseID, for: indexPath) as! TIPProfileStoryCollectionViewCell
 
+        let currentPost = self.storyURLArray?[indexPath.item]
+        
+        if self.storyURLArray == nil {
+            cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
+        } else {
+            
+            cell.storyImage.image = #imageLiteral(resourceName: "red_crumpled")
+            
+                if currentPost?.type == .video && currentPost?.contentImage == nil {
+                    
+                    DispatchQueue.global(qos: .background).async {
+                        let img = TIPAPIClient.imageFromVideo(urlString: (self.storyURLArray?[indexPath.item].contentURL)!, at: 0)
+                        DispatchQueue.main.async {
+                            cell.storyImage.image = img
+                        }
+                    }
+                    
+                } else {
+                    
+                    cell.storyImage.image = self.storyURLArray?[indexPath.item].contentImage
+                }
+            
+        }
+        
+       return cell
+    }
         
         //DUMMY DATA DELETE AFTER SHOWING OFF
-        cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
+//        let imageURL = URL(string: (self.storyURLArray?[indexPath.row])!)
+//        do{
+//        self.imageURLData = try Data.init(contentsOf: imageURL!)
+//        }
+//        catch let Error
+//        {print (Error)
+//        cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
+//        }
+//        
+//        
+//        cell.storyImage.image = UIImage.init(data: self.imageURLData!)
         
-        return cell
-        
-    }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+//            let cell: TIPProfileStoryCollectionViewCell = self.storyCollectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
         
+            if let currentStory: TIPStory = self.story {
+                let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.row)
+//                storyViewController.currentIndex = indexPath.row
+//                storyViewController.pageControl.currentPage = indexPath.row
+//                storyViewController.pageControl.updateCurrentPageDisplay()
+                self.present(storyViewController, animated: true, completion: nil)
+                
+            }
+            
+        }
+
         
     }
-}
+
 
 
 
