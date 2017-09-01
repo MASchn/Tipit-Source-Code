@@ -235,6 +235,7 @@ class TIPAPIClient: NSObject {
             "x-auth" : user.token
         ]
         Alamofire.upload(content, to: baseURL + "/media_items?file_type=\(type.rawValue)&private=\(isPrivate)", method: .post, headers: headers).responseJSON { (response) in
+            
             completionHandler(true)
         }
     }

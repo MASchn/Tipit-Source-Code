@@ -214,7 +214,7 @@ class PhotoViewController: TIPPreviewViewController {
         guard let user: TIPUser = TIPUser.currentUser else { return }
 
         self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
-            if let data: Data = UIImageJPEGRepresentation(self.imageWithFilter, 0.5) {
+            if let data: Data = UIImageJPEGRepresentation(self.imageWithFilter, 0.0) {
                 TIPAPIClient.postContent(
                     user: user,
                     content: data,

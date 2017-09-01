@@ -67,6 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let navController: UINavigationController = self.initializeSignInController()
             self.tabBarController?.present(navController, animated: false, completion: nil)
         } else {
+            let navController: UINavigationController = self.initializeMainViewController()
+            self.tabBarController?.present(navController, animated: false, completion: nil)
             TIPAPIClient.connectToSendBird()
         }
     }
@@ -84,14 +86,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func initializeMainViewController() -> UINavigationController {
-        let registerViewController: TIPLoginViewController = TIPLoginViewController()
-        let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
-        navController.isNavigationBarHidden = false
-        navController.navigationBar.isTranslucent = true
-        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navController.navigationBar.shadowImage = UIImage()
-        navController.navigationBar.tintColor = .white
-        navController.navigationBar.barStyle = .black
+        let mainViewController: TIPMainPageViewController = TIPMainPageViewController()
+        let navController: UINavigationController = UINavigationController(rootViewController: mainViewController)
+        navController.isNavigationBarHidden = true
+        //navController.navigationBar.isTranslucent = true
+        //navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        //navController.navigationBar.shadowImage = UIImage()
+        //navController.navigationBar.tintColor = .white
+        //navController.navigationBar.barStyle = .black
         return navController
     }
     

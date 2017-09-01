@@ -108,24 +108,55 @@ class VideoViewController: TIPPreviewViewController {
         self.player?.pause()
     }
     
+    func compressVideo(inputURL: URL, outputURL: URL,  handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
+        let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else {
+            handler(nil)
+            return
+        }
+        
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = AVFileTypeMPEG4 //AVFileTypeQuickTimeMovie (m4v)
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
+        }
+    }
+    
     func postContent(isPrivate: Bool) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
-
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
-            do {
-                let data: Data = try Data(contentsOf: self.videoURL)
-                TIPAPIClient.postContent(
-                    user: user,
-                    content: data,
-                    type: .video,
-                    isPrivate: isPrivate,
-                    completionHandler: {
-                        (success: Bool) in
-                        //
-                })
-            } catch let error {
-                print(error)
+        
+        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
+        
+        compressVideo(inputURL: videoURL, outputURL: compressedURL, handler:  { (_ exportSession: AVAssetExportSession?) -> Void in
+            
+            if exportSession!.status == .completed {
+                
+                    do {
+                        let data: Data = try Data(contentsOf: exportSession!.outputURL!)
+                        TIPAPIClient.postContent(
+                            user: user,
+                            content: data,
+                            type: .video,
+                            isPrivate: isPrivate,
+                            completionHandler: {
+                                (success: Bool) in
+                                
+                                DispatchQueue.main.async {
+                                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
+                                        //
+                                    })
+                                }
+                        })
+                    } catch let error {
+                        print(error)
+                    }
+                
             }
+            
         })
+        
     }
 }
+
+

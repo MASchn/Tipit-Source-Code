@@ -142,7 +142,7 @@ class TIPEditProfileViewController: UITableViewController {
             TIPUser.currentUser?.profileImage = image
             TIPUser.currentUser?.save()
             self.editProfileHeaderView.profileImageView.image = image
-            if let data: Data = UIImageJPEGRepresentation(image, 0.5) {
+            if let data: Data = UIImageJPEGRepresentation(image, 0.0) {
                 TIPAPIClient.updateUserImage(data: data, type: .profile) { (success: Bool) in
                     //
                 }
