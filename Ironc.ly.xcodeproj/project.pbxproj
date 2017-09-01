@@ -89,6 +89,7 @@
 		FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2511F3E5DD600D025F0 /* smile.json */; };
 		FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2531F3E5DDC00D025F0 /* star.json */; };
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
+		FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -179,6 +180,7 @@
 		FAB9F2511F3E5DD600D025F0 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
 		FAB9F2531F3E5DDC00D025F0 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = star.json; sourceTree = "<group>"; };
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
+		FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMainPageViewController.swift; path = "UI/View Controllers/TIPMainPageViewController.swift"; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -365,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */,
+				FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */,
 				37079BB61F01914F0022E014 /* TIPCamViewController.swift */,
 				37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */,
 				37079BBE1F01914F0022E014 /* TIPPagingTabViewController.swift */,
@@ -604,6 +607,7 @@
 				37079BB01F0191340022E014 /* TIPShapeCollectionViewCell.swift in Sources */,
 				FA56F92B1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift in Sources */,
 				37079B971F01900B0022E014 /* UIColor+PremiumSnap.swift in Sources */,
+				FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */,
 				37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */,
 				37079BD81F01914F0022E014 /* TIPSearchViewController.swift in Sources */,
 				37079BDC1F01914F0022E014 /* TIPUserTableViewController.swift in Sources */,
