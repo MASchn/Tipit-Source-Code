@@ -83,6 +83,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return navController
     }
     
+    func initializeMainViewController() -> UINavigationController {
+        let registerViewController: TIPLoginViewController = TIPLoginViewController()
+        let navController: UINavigationController = UINavigationController(rootViewController: registerViewController)
+        navController.isNavigationBarHidden = false
+        navController.navigationBar.isTranslucent = true
+        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navController.navigationBar.shadowImage = UIImage()
+        navController.navigationBar.tintColor = .white
+        navController.navigationBar.barStyle = .black
+        return navController
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])

@@ -423,7 +423,7 @@ class TIPProfileViewController: UIViewController {
         //        self.storyImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         self.storyLabelImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.storyLabelImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
-        self.storyLabelImageView.heightAnchor.constraint(equalTo: self.storyLabelImageView.widthAnchor, multiplier: 0.7).isActive = true
+        self.storyLabelImageView.heightAnchor.constraint(equalTo: self.storyLabelImageView.widthAnchor, multiplier: 0.2).isActive = true
 
         self.storyCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -443,7 +443,7 @@ class TIPProfileViewController: UIViewController {
     lazy var contentView: UIView = {
         let view: UIView = UIView() 
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         return view
     }()
     
@@ -462,6 +462,7 @@ class TIPProfileViewController: UIViewController {
         //imageView.clipsToBounds = true
         imageView.image = #imageLiteral(resourceName: "no_tape_polaroid")
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
         return imageView
     }()
     
@@ -701,7 +702,7 @@ class TIPProfileViewController: UIViewController {
     
     lazy var storyLabelImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "login_pressed")  //DUMMY LABEL REPLACE LATER
+        imageView.image = #imageLiteral(resourceName: "my_story")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
