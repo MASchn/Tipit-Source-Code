@@ -404,12 +404,15 @@ class TIPLoginViewController: UIViewController {
                             TIPUser.currentUser?.save()
                             TIPAPIClient.connectToSendBird()
                             if let tabControl = AppDelegate.shared.tabBarController as? TIPTabBarController {
-                                tabControl.splashView.isHidden = false
-                                tabControl.splashView.alpha = 1.0
-                            }
+                                //tabControl.splashView.isHidden = false
+                                //tabControl.splashView.alpha = 1.0
+                            
                             self.navigationController?.dismiss(animated: true, completion: {
-                                
+                                let navController: UINavigationController = AppDelegate.shared.initializeMainViewController()
+                                tabControl.present(navController, animated: false, completion: nil)
                             })
+                                
+                            }
                             AppDelegate.shared.tabBarController?.selectedIndex = 0
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)

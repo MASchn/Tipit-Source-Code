@@ -21,7 +21,7 @@ class TIPTabBarController: UITabBarController {
     lazy var splashView: TIPLoadingView = {
         let view: TIPLoadingView = TIPLoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = false
+        view.isHidden = true
         return view
     }()
     

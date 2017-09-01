@@ -242,14 +242,16 @@ class TIPFeedViewController: UIViewController {
     }
     
     func changeLayout() {
-        if self.columns == 1 {
-            self.columns = 2
-            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "list").withRenderingMode(.alwaysOriginal)
-        } else {
-            self.columns = 1
-            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal)
-        }
-        self.feedCollectionView.reloadData()
+//        if self.columns == 1 {
+//            self.columns = 2
+//            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "list").withRenderingMode(.alwaysOriginal)
+//        } else {
+//            self.columns = 1
+//            self.tabBarController?.navigationItem.rightBarButtonItem?.image = #imageLiteral(resourceName: "grid").withRenderingMode(.alwaysOriginal)
+//        }
+//        self.feedCollectionView.reloadData()
+        let navController: UINavigationController = AppDelegate.shared.initializeMainViewController()
+        self.tabBarController?.present(navController, animated: true, completion: nil)
     }
     
     // MARK: - Actions
