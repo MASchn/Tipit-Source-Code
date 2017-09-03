@@ -16,7 +16,22 @@ class TIPFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        private let fixedImage : UIImage = UIImage(named: "your-header-logo.png")!
+//        private let imageView : UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 37.5))
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            super.init(coder: aDecoder)
+//            let tView = imageView
+//            tView.contentMode = .scaleAspectFit
+//            tView.image = fixedImage
+//            self.titleView = tView
+//            
+//        }
+        
         //self.view.backgroundColor = UIColor.iroGray
+        
+        
+        
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.emptyView)
         self.view.addSubview(self.noInternetView)
@@ -33,6 +48,11 @@ class TIPFeedViewController: UIViewController {
         
         
         self.setUpConstraints()
+    
+        let navImageView = UIImageView(frame: (self.navigationController?.navigationBar.frame)!)
+        navImageView.image = #imageLiteral(resourceName: "register_button")
+        //self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
+        self.navigationController?.navigationItem.titleView = navImageView
     }
     
     func getFeed() {
@@ -137,10 +157,10 @@ class TIPFeedViewController: UIViewController {
 //        }
         self.getFeed()
         self.configureTIPNavBar()
-        self.navigationItem.title = "tipit"
+        //self.navigationItem.title = "tipit"
         self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
+        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.changeLayout))
     }
         
     // MARK: - Lazy Initialization

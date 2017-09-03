@@ -250,18 +250,18 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         usernameAnchor = self.usernameLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         usernameAnchor?.isActive = true
-        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
+        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -10).isActive = true
         
 //        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 12.0).isActive = true
 //        self.profileImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: hMargin).isActive = true
 //        self.profileImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
 //        self.profileImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         
-        profileImageAnchor = self.profileImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+        profileImageAnchor = self.profileImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0)
         profileImageAnchor?.isActive = true
-        self.profileImageView.bottomAnchor.constraint(equalTo: self.usernameLabel.centerYAnchor, constant: -5).isActive = true
-        self.profileImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        self.profileImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        self.profileImageView.centerYAnchor.constraint(equalTo: self.triangleButton.centerYAnchor, constant: -2).isActive = true
+        self.profileImageView.heightAnchor.constraint(equalToConstant: 43.0).isActive = true
+        self.profileImageView.widthAnchor.constraint(equalToConstant: 43.0).isActive = true
         
 //        self.profileButton.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
 //        self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true

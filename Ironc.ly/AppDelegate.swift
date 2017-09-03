@@ -52,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.initializeFeed()
         
+        UINavigationBar.appearance().setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
+        
         return true
     }
     
@@ -95,6 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //navController.navigationBar.tintColor = .white
         //navController.navigationBar.barStyle = .black
         return navController
+    }
+    
+    func pullUpCamera() {
+        let cameraViewController: TIPCamViewController = TIPCamViewController()
+        self.tabBarController?.present(cameraViewController, animated: true, completion: nil)
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {

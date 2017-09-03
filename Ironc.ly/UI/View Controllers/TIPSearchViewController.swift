@@ -16,8 +16,9 @@ class TIPSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .iroGray
+        //self.view.backgroundColor = .iroGray
         
+        self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.noResultsView)
         self.view.addSubview(self.noInternetView)
         self.view.addSubview(self.searchBar)
@@ -38,7 +39,7 @@ class TIPSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationItem.title = "Search"
+        //self.navigationItem.title = "Search"
         self.configureTIPNavBar()
         
         // Searching with black query requests all users
@@ -123,9 +124,24 @@ class TIPSearchViewController: UIViewController {
         return control
     }()
     
+    lazy var backgroundImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        
+        imageView.image = #imageLiteral(resourceName: "crumpled")
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
-        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.5).isActive = true
         self.searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.searchBar.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
@@ -144,6 +160,8 @@ class TIPSearchViewController: UIViewController {
         self.noInternetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        //self.navigationController?.navigationBar.frame.size.height += 50
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -10,6 +10,8 @@ import UIKit
 
 class TIPMainPageViewController: UIViewController {
     
+    var iconTop: NSLayoutConstraint?
+    
     let iconImageArray = [#imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "search_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "profile_icon")]
     var iconSelection = 0
     
@@ -17,8 +19,8 @@ class TIPMainPageViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.addSubview(self.backgroundImageView)
+        self.view.addSubview(self.iconImageView)
         self.view.addSubview(self.cutOutImageView)
-        self.cutOutImageView.addSubview(self.iconImageView)
         self.view.addSubview(self.switchImageView)
         self.view.addSubview(self.swipeImageView)
         
@@ -88,7 +90,8 @@ class TIPMainPageViewController: UIViewController {
         self.cutOutImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.35).isActive = true
         self.cutOutImageView.widthAnchor.constraint(equalTo: self.cutOutImageView.heightAnchor).isActive = true
         
-        self.iconImageView.centerXAnchor.constraint(equalTo: self.cutOutImageView.centerXAnchor).isActive = true
+        iconTop = self.iconImageView.centerXAnchor.constraint(equalTo: self.cutOutImageView.centerXAnchor)
+        iconTop?.isActive = true
         self.iconImageView.centerYAnchor.constraint(equalTo: self.cutOutImageView.centerYAnchor).isActive = true
         self.iconImageView.heightAnchor.constraint(equalTo: self.cutOutImageView.heightAnchor, multiplier: 0.4).isActive = true
         self.iconImageView.widthAnchor.constraint(equalTo: self.iconImageView.heightAnchor).isActive = true
@@ -105,11 +108,28 @@ class TIPMainPageViewController: UIViewController {
     }
     
     func tappedIcon(sender: UITapGestureRecognizer) {
-        AppDelegate.shared.tabBarController?.selectedIndex = self.iconSelection
         
-        self.navigationController?.dismiss(animated: true, completion: { 
-            //
-        })
+        if self.iconSelection != 2 {
+            AppDelegate.shared.tabBarController?.selectedIndex = self.iconSelection
+        }
+        
+        if self.iconSelection == 2 {
+            let cameraViewController: TIPCamViewController = TIPCamViewController()
+            self.present(cameraViewController, animated: true, completion: nil)
+            //AppDelegate.shared.pullUpCamera()
+        } else {
+            self.navigationController?.dismiss(animated: true, completion: {
+                
+                
+            })
+        }
+        
+        
+        
+//        if AppDelegate.shared.tabBarController?.selectedIndex == 2 {
+//            let cameraViewController: TIPCamViewController = TIPCamViewController()
+//            self.tabBarController?.present(cameraViewController, animated: true, completion: nil)
+//        }
     }
     
     func switchTapped(sender: UITapGestureRecognizer) {
@@ -130,13 +150,29 @@ class TIPMainPageViewController: UIViewController {
     
     func swipedLeft(sender: UISwipeGestureRecognizer) {
         
-            if self.iconSelection == 4 {
-                self.iconSelection = 0
-            } else {
-                self.iconSelection += 1
-            }
+        if self.iconSelection == 4 {
+            self.iconSelection = 0
+        } else {
+            self.iconSelection += 1
+        }
         
-        self.iconImageView.image = self.iconImageArray[self.iconSelection]
+        self.iconTop?.constant += 55
+        
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }) { (completed: Bool) in
+            self.iconImageView.image = self.iconImageArray[self.iconSelection]
+            self.iconTop?.constant -= 110
+            self.view.layoutIfNeeded()
+            self.iconTop?.constant += 55
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                self?.view.layoutIfNeeded()
+            }) { (completed: Bool) in
+                //
+            }
+        }
+        
+        
         
     }
     
@@ -148,7 +184,21 @@ class TIPMainPageViewController: UIViewController {
             self.iconSelection -= 1
         }
         
-        self.iconImageView.image = self.iconImageArray[self.iconSelection]
+        self.iconTop?.constant -= 55
+        
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }) { (completed: Bool) in
+            self.iconImageView.image = self.iconImageArray[self.iconSelection]
+            self.iconTop?.constant += 110
+            self.view.layoutIfNeeded()
+            self.iconTop?.constant -= 55
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                self?.view.layoutIfNeeded()
+            }) { (completed: Bool) in
+                //
+            }
+        }
         
     }
     
