@@ -492,7 +492,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "USERNAME:"
         return label
@@ -502,7 +502,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         //label.text = "NAME:"
         return label
@@ -512,7 +512,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "SUBSCRIBERS:"
         //label.isHidden = true
@@ -523,7 +523,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .black
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         //label.isHidden = true
         return label
@@ -549,7 +549,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.text = "Coins: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -559,7 +559,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.text = "Coins Earned: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -569,7 +569,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.text = "Followers: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -579,7 +579,7 @@ class TIPProfileViewController: UIViewController {
         let label: UILabel = UILabel()
         label.textAlignment = .center
         //label.textColor = .white
-        label.font = UIFont(name: "font2", size: self.fontSize)
+        label.font = UIFont(name: "freehand", size: self.fontSize)
         label.text = "Following: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

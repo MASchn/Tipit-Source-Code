@@ -92,6 +92,7 @@
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
 		FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
+		FAFEB18D1F5DB9CC00FFC17E /* freehand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +185,7 @@
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
 		FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMainPageViewController.swift; path = "UI/View Controllers/TIPMainPageViewController.swift"; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freehand.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +362,7 @@
 				37BA70221E36E6070093EAE5 /* Assets.xcassets */,
 				FA4488781F4B9A2E00CE0F64 /* handwriting.ttf */,
 				FAAAF8AB1F573D42000DB63B /* font2.ttf */,
+				FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */,
 				37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */,
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
@@ -493,6 +496,7 @@
 				37BA70261E36E6070093EAE5 /* LaunchScreen.storyboard in Resources */,
 				FAB9F2501F3E5DCB00D025F0 /* kiss.json in Resources */,
 				FA0490151F27BD170093E3EE /* diamond.json in Resources */,
+				FAFEB18D1F5DB9CC00FFC17E /* freehand.ttf in Resources */,
 				FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */,
 				37079BA31F0191290022E014 /* kiss1.json in Resources */,
 				37079BA11F0191290022E014 /* diamond1.json in Resources */,
