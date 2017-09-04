@@ -64,8 +64,8 @@ class TIPTabBarController: UITabBarController {
         self.tabBarController?.view.backgroundColor = .clear
         self.tabBar.backgroundImage = UIImage(named: "nothing")
         
-        self.tabBar.isTranslucent = true
-        self.tabBar.isHidden = true
+        //self.tabBar.isTranslucent = true
+        //self.tabBar.isHidden = true
         
         self.addTopRoundedCornerToView(targetView: self.tabBar, desiredCurve: 1.5)
         

@@ -239,7 +239,7 @@ class TIPFeedViewController: UIViewController {
         self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.5).isActive = true
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true

@@ -13,7 +13,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.tintColor = .clear
         self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "newNavBar").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "squareNavBar").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "grid"), style: .plain, target: self, action: #selector(self.pullUpMainMenu))
     }
