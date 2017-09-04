@@ -83,6 +83,7 @@
 		FA51A1761F45F4E000B43033 /* TIPLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A1751F45F4E000B43033 /* TIPLoadingView.swift */; };
 		FA56F9291F2A3BED00B0F292 /* TIPChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */; };
 		FA56F92B1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */; };
+		FAA587BE1F5CA81D0053216C /* InfiniteCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA587BD1F5CA81D0053216C /* InfiniteCollectionView.swift */; };
 		FAAAF8AC1F573D42000DB63B /* font2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAAF8AB1F573D42000DB63B /* font2.ttf */; };
 		FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */; };
 		FAB9F2501F3E5DCB00D025F0 /* kiss.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F24F1F3E5DCB00D025F0 /* kiss.json */; };
@@ -174,6 +175,7 @@
 		FA51A1751F45F4E000B43033 /* TIPLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPLoadingView.swift; path = UI/Views/TIPLoadingView.swift; sourceTree = "<group>"; };
 		FA56F9281F2A3BED00B0F292 /* TIPChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatViewController.swift; path = "UI/View Controllers/TIPChatViewController.swift"; sourceTree = "<group>"; };
 		FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPChatCollectionViewCell.swift; path = UI/Cells/TIPChatCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAA587BD1F5CA81D0053216C /* InfiniteCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteCollectionView.swift; sourceTree = "<group>"; };
 		FAAAF8AB1F573D42000DB63B /* font2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = font2.ttf; sourceTree = "<group>"; };
 		FAB9F24D1F3E147B00D025F0 /* TIPSearchEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPSearchEmptyView.swift; path = UI/Views/TIPSearchEmptyView.swift; sourceTree = "<group>"; };
 		FAB9F24F1F3E5DCB00D025F0 /* kiss.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kiss.json; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				37079B8F1F018F790022E014 /* UIViewContr+Style.swift */,
 				37079B991F0191100022E014 /* UIViewController+Alert.swift */,
 				37D1D7A81F23E879002246FB /* Date+Tipit.swift */,
+				FAA587BD1F5CA81D0053216C /* InfiniteCollectionView.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 				37079BF11F0191A40022E014 /* SwiftyRecordButton.swift in Sources */,
 				37079B981F01900B0022E014 /* UIImage+URL.swift in Sources */,
 				37079BE01F01915D0022E014 /* TIPTipView.swift in Sources */,
+				FAA587BE1F5CA81D0053216C /* InfiniteCollectionView.swift in Sources */,
 				37079BE41F01918E0022E014 /* TIPStory.swift in Sources */,
 				37079BCC1F01914F0022E014 /* TIPFeedViewController.swift in Sources */,
 				37079BEE1F0191A40022E014 /* SwiftyCamButton.swift in Sources */,

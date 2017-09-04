@@ -24,7 +24,9 @@ class TIPMessagesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationController?.isNavigationBarHidden = true
+        self.configureTIPNavBar()
+        
+        //self.tabBarController?.navigationController?.isNavigationBarHidden = true
         self.getSubs()
     }
     

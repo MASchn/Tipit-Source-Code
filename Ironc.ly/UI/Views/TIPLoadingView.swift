@@ -29,14 +29,14 @@ class TIPLoadingView: UIView {
     // MARK: - Lazy Initialization
     lazy var iconImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "Login logo")
+        imageView.image = #imageLiteral(resourceName: "clearLoadingIcon")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     lazy var backgroundView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "crumpled")
+        imageView.image = #imageLiteral(resourceName: "blackLoading")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

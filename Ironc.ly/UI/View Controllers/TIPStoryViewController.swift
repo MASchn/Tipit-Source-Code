@@ -108,8 +108,6 @@ class TIPStoryViewController: UIPageViewController {
         self.pageControl.currentPage = self.currentIndex
         let postViewController: TIPPostViewController = TIPPostViewController(post: postToView, username: self.username, profileImage: self.profileImage, userID: self.userID, coinsToSub: self.coinsToSub)
         postViewController.delegate = self
-        
-        self.pageControl.currentPage = 2
 
         self.setViewControllers([postViewController], direction: .forward, animated: false, completion: nil)
         self.currentViewController = postViewController

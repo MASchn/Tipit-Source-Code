@@ -224,7 +224,7 @@ class TIPProfileViewController: UIViewController {
         
         print("TOKEN: \(TIPUser.currentUser?.token)")
         
-        self.navigationItem.title = "Profile"
+        //self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         self.configureTIPNavBar()
         
@@ -344,7 +344,7 @@ class TIPProfileViewController: UIViewController {
         self.profileScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.profileScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        self.contentView.topAnchor.constraint(equalTo: self.profileScrollView.topAnchor).isActive = true
+        self.contentView.topAnchor.constraint(equalTo: self.profileScrollView.topAnchor, constant: (self.navigationController?.navigationBar.bounds.size.height)!).isActive = true
         self.contentView.leftAnchor.constraint(equalTo: self.profileScrollView.leftAnchor).isActive = true
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
@@ -443,7 +443,7 @@ class TIPProfileViewController: UIViewController {
     lazy var contentView: UIView = {
         let view: UIView = UIView() 
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -712,10 +712,11 @@ class TIPProfileViewController: UIViewController {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = .clear
 //        collectionView.register(TIPFilterCollectionViewCell.self, forCellWithReuseIdentifier: self.filterReUseID)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -1229,7 +1230,7 @@ extension TIPProfileViewController: UICollectionViewDataSource {
 //            let cell: TIPProfileStoryCollectionViewCell = self.storyCollectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
         
             if let currentStory: TIPStory = self.story {
-                let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.row)
+                let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.item)
 //                storyViewController.currentIndex = indexPath.row
 //                storyViewController.pageControl.currentPage = indexPath.row
 //                storyViewController.pageControl.updateCurrentPageDisplay()
