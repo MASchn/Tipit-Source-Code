@@ -405,19 +405,21 @@ class TIPProfileViewController: UIViewController {
         self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
         self.storyPicImageView.transform = self.storyPicImageView.transform.rotated(by: CGFloat.pi/70)
         
-//        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
-        self.drawnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
+        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.keySubButton.bottomAnchor, constant: 10)
+//        self.drawnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         followButtonTop?.isActive = true
-        self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
-        self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
+//        self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive  = true
+        self.drawnFollowButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.3).isActive = true
         
-//        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
-        self.drawnUnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
+        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.keySubButton.bottomAnchor, constant: 10)
+//        self.drawnUnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         unFollowButtonTop?.isActive = true
-        self.drawnUnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
-        self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
+//        self.drawnUnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.drawnUnFollowButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive  = true
+        self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.3).isActive = true
         
         self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 20).isActive = true
         //        self.storyImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
@@ -428,7 +430,7 @@ class TIPProfileViewController: UIViewController {
         self.storyCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
-        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
+        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
     }
     
     // MARK: - Lazy Initialization
@@ -1169,6 +1171,8 @@ class TIPProfileViewController: UIViewController {
 
 extension TIPProfileViewController: UICollectionViewDataSource {
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filters.count
         if nil == self.storyURLArray?.count{
@@ -1209,31 +1213,16 @@ extension TIPProfileViewController: UICollectionViewDataSource {
        return cell
     }
         
-        //DUMMY DATA DELETE AFTER SHOWING OFF
-//        let imageURL = URL(string: (self.storyURLArray?[indexPath.row])!)
-//        do{
-//        self.imageURLData = try Data.init(contentsOf: imageURL!)
-//        }
-//        catch let Error
-//        {print (Error)
-//        cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
-//        }
-//        
-//        
-//        cell.storyImage.image = UIImage.init(data: self.imageURLData!)
-        
+
     
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//            let cell: TIPProfileStoryCollectionViewCell = self.storyCollectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
+
         
             if let currentStory: TIPStory = self.story {
                 let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.item)
-//                storyViewController.currentIndex = indexPath.row
-//                storyViewController.pageControl.currentPage = indexPath.row
-//                storyViewController.pageControl.updateCurrentPageDisplay()
                 self.present(storyViewController, animated: true, completion: nil)
                 
             }
@@ -1249,11 +1238,12 @@ extension TIPProfileViewController: UICollectionViewDataSource {
 extension TIPProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.height - 10, height: collectionView.bounds.height - 10)
+      let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.1 , height: (collectionView.bounds.height)/3.1)
+        return size
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
