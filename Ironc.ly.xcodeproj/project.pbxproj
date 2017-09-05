@@ -93,6 +93,9 @@
 		FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 		FAFEB18D1F5DB9CC00FFC17E /* freehand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */; };
+		FAFEB18F1F5DCCFC00FFC17E /* TIPPullDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEB18E1F5DCCFC00FFC17E /* TIPPullDownMenu.swift */; };
+		FAFEB1911F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEB1901F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift */; };
+		FAFEB1931F5DFDD100FFC17E /* TIPViewControllerWIthPullDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEB1921F5DFDD100FFC17E /* TIPViewControllerWIthPullDown.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +189,9 @@
 		FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMainPageViewController.swift; path = "UI/View Controllers/TIPMainPageViewController.swift"; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freehand.ttf; sourceTree = "<group>"; };
+		FAFEB18E1F5DCCFC00FFC17E /* TIPPullDownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPullDownMenu.swift; path = UI/Views/TIPPullDownMenu.swift; sourceTree = "<group>"; };
+		FAFEB1901F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPullDownCollectionViewCell.swift; path = UI/Cells/TIPPullDownCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAFEB1921F5DFDD100FFC17E /* TIPViewControllerWIthPullDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPViewControllerWIthPullDown.swift; path = "UI/View Controllers/TIPViewControllerWIthPullDown.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +269,7 @@
 		373238DF1E4E29A800E787C9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FAFEB18E1F5DCCFC00FFC17E /* TIPPullDownMenu.swift */,
 				37079BDD1F01915D0022E014 /* TIPEditProfileHeaderView.swift */,
 				37079BDE1F01915D0022E014 /* TIPTipView.swift */,
 				37DD13A71F08110700237CF8 /* TIPFeedEmptyView.swift */,
@@ -373,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				37079BB51F01914F0022E014 /* TIPBuyCoinsViewController.swift */,
+				FAFEB1921F5DFDD100FFC17E /* TIPViewControllerWIthPullDown.swift */,
 				FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */,
 				37079BB61F01914F0022E014 /* TIPCamViewController.swift */,
 				37079BB71F01914F0022E014 /* TIPEditProfileViewController.swift */,
@@ -412,6 +420,7 @@
 				FA56F92A1F2A6E6A00B0F292 /* TIPChatCollectionViewCell.swift */,
 				840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */,
 				8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */,
+				FAFEB1901F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -594,17 +603,20 @@
 				374E5B361EE77FC800A0CD75 /* TIPShape.swift in Sources */,
 				FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */,
 				37BA701C1E36E6070093EAE5 /* AppDelegate.swift in Sources */,
+				FAFEB1911F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift in Sources */,
 				37079BDA1F01914F0022E014 /* TIPStoryViewController.swift in Sources */,
 				37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */,
 				37079BCD1F01914F0022E014 /* TIPFollowersViewController.swift in Sources */,
 				37079BD31F01914F0022E014 /* TIPPlaceholderViewController.swift in Sources */,
 				37079BAE1F0191340022E014 /* TIPFeedCollectionViewCell.swift in Sources */,
 				37079BD01F01914F0022E014 /* TIPLoginViewController.swift in Sources */,
+				FAFEB1931F5DFDD100FFC17E /* TIPViewControllerWIthPullDown.swift in Sources */,
 				FAB9F24E1F3E147B00D025F0 /* TIPSearchEmptyView.swift in Sources */,
 				37079BD91F01914F0022E014 /* TIPSettingsViewController.swift in Sources */,
 				37DD13A61F0598D400237CF8 /* TIPPersonalProfileViewController.swift in Sources */,
 				37079BB41F0191410022E014 /* TIPTextField.swift in Sources */,
 				37079BB31F0191410022E014 /* TIPButton.swift in Sources */,
+				FAFEB18F1F5DCCFC00FFC17E /* TIPPullDownMenu.swift in Sources */,
 				37079BD41F01914F0022E014 /* TIPPostViewController.swift in Sources */,
 				37079BD11F01914F0022E014 /* TIPMessagesViewController.swift in Sources */,
 				37079B9A1F0191100022E014 /* UIViewController+Alert.swift in Sources */,

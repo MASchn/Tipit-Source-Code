@@ -393,6 +393,7 @@ class TIPLoginViewController: UIViewController {
             let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
             
             TIPAPIClient.logInUser(email: trimmedEmail, password: password, completionHandler: { (success: Bool) in
+                
                 if success == true {
                     
                     TIPAPIClient.getCurrentUserInfo(completionHandler: { (success: Bool) in

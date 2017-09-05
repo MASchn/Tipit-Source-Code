@@ -6,7 +6,7 @@
 import UIKit
 import SendBirdSDK
 
-class TIPMessagesViewController: UIViewController {
+class TIPMessagesViewController: TIPViewControllerWIthPullDown {
     
     var subbedToUsers: [TIPSearchUser] = [TIPSearchUser]()
     let messageListReuseId: String = "iro.reuseId.messageList"
@@ -25,6 +25,7 @@ class TIPMessagesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.configureTIPNavBar()
+        self.addPullDownMenu()
         
         //self.tabBarController?.navigationController?.isNavigationBarHidden = true
         self.getSubs()

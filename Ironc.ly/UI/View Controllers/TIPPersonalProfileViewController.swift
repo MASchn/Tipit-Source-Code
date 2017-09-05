@@ -19,6 +19,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.contentView.addSubview(self.coinsEarnedLabel)
         self.contentView.addSubview(self.buyCoinsButton)
         self.setUpPersonalConstraints()
+        //self.contentView.bringSubview(toFront: self.pullDownView)
     }
     
     override func viewWillAppear(_ animated: Bool) {

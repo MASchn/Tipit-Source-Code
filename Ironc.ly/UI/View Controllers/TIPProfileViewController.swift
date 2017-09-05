@@ -7,10 +7,11 @@ import UIKit
 import Alamofire
 import AVFoundation
 
-class TIPProfileViewController: UIViewController {
+class TIPProfileViewController: TIPViewControllerWIthPullDown {
     
     var followButtonTop: NSLayoutConstraint?
     var unFollowButtonTop: NSLayoutConstraint?
+    //var pullDownMenuBottom: NSLayoutConstraint?
     
     // MARK: - Properties
     var userId: String?
@@ -29,7 +30,7 @@ class TIPProfileViewController: UIViewController {
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
         self.init(nibName: nil, bundle: nil)
-
+        
         self.userId = searchUser.userId
         //self.usernameLabel.text = searchUser.username
         self.actualNameLabel.text = searchUser.username
@@ -153,7 +154,6 @@ class TIPProfileViewController: UIViewController {
         self.profileScrollView.addSubview(self.contentView)
         
         
-        
         let screen = UIScreen.main
         self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
         if (screen.bounds.size.height < 500) {
@@ -175,6 +175,8 @@ class TIPProfileViewController: UIViewController {
         self.contentView.addSubview(self.drawnUnFollowButton)
         self.contentView.addSubview(self.storyLabelImageView)
         self.contentView.addSubview(self.storyCollectionView)
+//        self.view.addSubview(self.pullDownView)
+//        self.view.bringSubview(toFront: self.pullDownView)
         
         
         storyCollectionView.register(TIPProfileStoryCollectionViewCell.self, forCellWithReuseIdentifier: profileReuseID)
@@ -216,6 +218,14 @@ class TIPProfileViewController: UIViewController {
         self.noTapeProfileFrameImageView.addGestureRecognizer(tap)
         self.noTapeProfileFrameImageView.isUserInteractionEnabled = true
         
+//        let navTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
+//        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+//        self.navigationController?.navigationBar.addGestureRecognizer(navTap)
+//        
+//        let pullDownMenuTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
+//        self.pullDownView.isUserInteractionEnabled = true
+//        self.pullDownView.addGestureRecognizer(pullDownMenuTap)
+        
         self.setUpScrollConstraints()
     }
     
@@ -226,7 +236,11 @@ class TIPProfileViewController: UIViewController {
         
         //self.navigationItem.title = "Profile"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
+        
         self.configureTIPNavBar()
+        self.addPullDownMenu()
+        
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.pullDownPressed))
         
         self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         
@@ -429,6 +443,12 @@ class TIPProfileViewController: UIViewController {
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
         self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
+        
+//        self.pullDownView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.8).isActive = true
+//        self.pullDownView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
+//        self.pullDownView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        pullDownMenuBottom = self.pullDownView.bottomAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.25)
+//        pullDownMenuBottom?.isActive = true
     }
     
     // MARK: - Lazy Initialization
@@ -613,6 +633,11 @@ class TIPProfileViewController: UIViewController {
         return button
     }()
     
+//    lazy var pullDownView: TIPPullDownMenu = {
+//        let menu: TIPPullDownMenu = TIPPullDownMenu()
+//        menu.translatesAutoresizingMaskIntoConstraints = false
+//        return menu
+//    }()
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
@@ -1054,6 +1079,21 @@ class TIPProfileViewController: UIViewController {
         let followingViewController: TIPFollowingViewController = TIPFollowingViewController()
         self.navigationController?.pushViewController(followingViewController, animated: true)
     }
+    
+//    func pullDownPressed() {
+//        
+//        if self.pullDownMenuBottom?.constant == (self.navigationController?.navigationBar.frame.size.height)! * 1.25 {
+//            self.pullDownMenuBottom?.constant += (self.pullDownView.bounds.size.height - (self.navigationController?.navigationBar.frame.size.height)! * 1.25)
+//        } else {
+//            self.pullDownMenuBottom?.constant = (self.navigationController?.navigationBar.frame.size.height)! * 1.25
+//        }
+//        
+//        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+//            self?.view.layoutIfNeeded()
+//        }) { (completed: Bool) in
+//            
+//        }
+//    }
     
     func buttonHeldDown(button: UIButton) {
         

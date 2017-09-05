@@ -327,6 +327,10 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
         } else if cell.storyImage.image == #imageLiteral(resourceName: "profile_icon") {
             AppDelegate.shared.tabBarController?.selectedIndex = 4
             self.navigationController?.dismiss(animated: true, completion: {})
+        } else if cell.storyImage.image == #imageLiteral(resourceName: "settings_icon") {
+            let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
+            let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
+            self.present(settingsNavController, animated: true, completion: nil)
         }
     
     }

@@ -5,12 +5,13 @@
 
 import UIKit
 
-class TIPFeedViewController: UIViewController {
+class TIPFeedViewController: TIPViewControllerWIthPullDown {
     
     // MARK: - Properties
     var feedItems: [TIPFeedItem] = [TIPFeedItem]()
     var columns: Int = 1
     let feedReuseId: String = "iro.reuseId.feed"
+    var firstRun = true
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -49,10 +50,10 @@ class TIPFeedViewController: UIViewController {
         
         self.setUpConstraints()
     
-        let navImageView = UIImageView(frame: (self.navigationController?.navigationBar.frame)!)
-        navImageView.image = #imageLiteral(resourceName: "register_button")
-        //self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
-        self.navigationController?.navigationItem.titleView = navImageView
+//        let navImageView = UIImageView(frame: (self.navigationController?.navigationBar.frame)!)
+//        navImageView.image = #imageLiteral(resourceName: "register_button")
+//        //self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
+//        self.navigationController?.navigationItem.titleView = navImageView
     }
     
     func getFeed() {
@@ -157,6 +158,13 @@ class TIPFeedViewController: UIViewController {
 //        }
         self.getFeed()
         self.configureTIPNavBar()
+        
+        if self.firstRun == true {
+            self.firstRun = false
+        } else {
+            self.addPullDownMenu()
+        }
+        
         //self.navigationItem.title = "tipit"
         self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         

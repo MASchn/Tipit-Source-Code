@@ -5,7 +5,7 @@
 
 import UIKit
 
-class TIPSearchViewController: UIViewController {
+class TIPSearchViewController: TIPViewControllerWIthPullDown {
     
     let searchReuseId: String = "iro.reuseId.search"
     var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
@@ -41,6 +41,7 @@ class TIPSearchViewController: UIViewController {
 
         //self.navigationItem.title = "Search"
         self.configureTIPNavBar()
+        self.addPullDownMenu()
         
         // Searching with black query requests all users
         //self.search()
