@@ -32,6 +32,7 @@ class TIPUser: NSObject {
     var backgroundPicSelection: Int = 0
     
     static var currentUser: TIPUser?
+    
     let defaults = UserDefaults.standard
     
     // Log
@@ -280,10 +281,18 @@ class TIPUser: NSObject {
             print("DISCONNECTED FROM SENDBIRD")
         }
         
-        self.defaults.removeObject(forKey: "email")
-        self.defaults.removeObject(forKey: "token")
-        self.defaults.removeObject(forKey: "image")
-        self.defaults.removeObject(forKey: "background")
+//        self.defaults.removeObject(forKey: "email")
+//        self.defaults.removeObject(forKey: "token")
+//        self.defaults.removeObject(forKey: "image")
+//        self.defaults.removeObject(forKey: "background")
+        
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
+        }
+        defaults.synchronize()
+        
         TIPUser.currentUser = nil
     }
     

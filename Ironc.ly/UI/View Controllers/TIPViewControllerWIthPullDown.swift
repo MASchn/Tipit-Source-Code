@@ -19,9 +19,17 @@ class TIPViewControllerWIthPullDown: UIViewController {
         
         navBarHeight = CGFloat(((self.navigationController?.navigationBar.frame.size.height)! * 1.2))
         
-        let navTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
+//        let navTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
+//        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+//        self.navigationController?.navigationBar.addGestureRecognizer(navTap)
+        
+        let pullDownPan = UIPanGestureRecognizer(target: self, action: #selector(self.panDownMenu))
         self.navigationController?.navigationBar.isUserInteractionEnabled = true
-        self.navigationController?.navigationBar.addGestureRecognizer(navTap)
+        self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
+        
+        let pullUpPan = UIPanGestureRecognizer(target: self, action: #selector(self.panUpMenu))
+        self.pullDownView.pullUpView.isUserInteractionEnabled = true
+        self.pullDownView.pullUpView.addGestureRecognizer(pullUpPan)
         
         self.setUpMenu()
     }
@@ -55,6 +63,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
         
         if self.pullDownMenuBottom?.constant == navBarHeight {
             self.pullDownMenuBottom?.constant += (self.pullDownView.bounds.size.height - navBarHeight)
+            
         } else {
             self.pullDownMenuBottom?.constant = navBarHeight
         }
@@ -64,6 +73,78 @@ class TIPViewControllerWIthPullDown: UIViewController {
         }) { (completed: Bool) in
             
         }
+    }
+    
+    func panUpMenu(sender: UIPanGestureRecognizer) {
+        
+        if sender.state == .began || sender.state == .changed {
+            let translation = sender.translation(in: self.view)
+            
+            if ((self.pullDownMenuBottom?.constant)! <= (self.pullDownView.bounds.size.height))
+                && ((self.pullDownMenuBottom?.constant)! >= navBarHeight)  {
+                
+                self.pullDownMenuBottom?.constant += translation.y
+            }
+            
+            sender.setTranslation(CGPoint.zero, in: self.view)
+            
+        } else if sender.state == .ended {
+            
+            if (self.pullDownMenuBottom?.constant)! < (self.pullDownView.bounds.size.height)/1.2 {
+                
+                self.pullDownMenuBottom?.constant = navBarHeight
+                
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    self?.view.layoutIfNeeded()
+                })
+                
+            } else {
+                self.pullDownMenuBottom?.constant = self.pullDownView.bounds.size.height
+                
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    self?.view.layoutIfNeeded()
+                })
+            }
+            
+        }
+        
+        
+    }
+    
+    func panDownMenu(sender: UIPanGestureRecognizer) {
+        
+        if sender.state == .began || sender.state == .changed {
+            let translation = sender.translation(in: self.view)
+            
+            if ((self.pullDownMenuBottom?.constant)! <= (self.pullDownView.bounds.size.height))
+                && ((self.pullDownMenuBottom?.constant)! >= navBarHeight)  {
+                
+                self.pullDownMenuBottom?.constant += translation.y
+            }
+            
+            sender.setTranslation(CGPoint.zero, in: self.view)
+            
+        } else if sender.state == .ended {
+            
+            if (self.pullDownMenuBottom?.constant)! < (self.pullDownView.bounds.size.height)/3 {
+                
+                self.pullDownMenuBottom?.constant = navBarHeight
+                
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    self?.view.layoutIfNeeded()
+                })
+                
+            } else {
+                self.pullDownMenuBottom?.constant = self.pullDownView.bounds.size.height
+                
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    self?.view.layoutIfNeeded()
+                })
+            }
+            
+        }
+        
+        
     }
     
     

@@ -251,7 +251,7 @@ class TIPLoginViewController: UIViewController {
     lazy var enterEmailLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "freehand", size: self.fontSize)
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: self.fontSize)
         label.textAlignment = .center
         label.text = "Enter your email address and\nwe will send you a link\nto reset your password"
         //label.backgroundColor = UIColor(white: 1, alpha: 0.5)
@@ -398,6 +398,9 @@ class TIPLoginViewController: UIViewController {
                     
                     TIPAPIClient.getCurrentUserInfo(completionHandler: { (success: Bool) in
                         if success == true {
+                            
+                            DispatchQueue.main.async {
+                            
                             self.emailTextField.text = ""
                             self.passwordTextField.text = ""
                             self.view.endEditing(true)
@@ -415,6 +418,7 @@ class TIPLoginViewController: UIViewController {
                                 
                             }
                             AppDelegate.shared.tabBarController?.selectedIndex = 0
+                            }
                         } else {
                             self.showAlert(title: "Could not pull rest of user info", message: "An error occurred", completion: nil)
                         }

@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tabBarController: UITabBarController?
     let sendBirdAppID = "EB96DFC6-5314-4901-9CDF-5791FDEE157A"
     
+    let fontName = "scratchy"
+    
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -52,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.initializeFeed()
         
-        UINavigationBar.appearance().setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
+        //UINavigationBar.appearance().setBackgroundImage(#imageLiteral(resourceName: "register_button"), for: .default)
         
         return true
     }

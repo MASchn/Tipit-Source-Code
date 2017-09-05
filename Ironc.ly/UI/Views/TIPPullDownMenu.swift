@@ -31,10 +31,10 @@ class TIPPullDownMenu: UIView {
         self.addSubview(self.menuCollectionView)
         self.addSubview(self.pullUpView)
         
-        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipedMenu))
-        swipe.direction = .up
-        self.pullUpView.isUserInteractionEnabled = true
-        self.pullUpView.addGestureRecognizer(swipe)
+//        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipedMenu))
+//        swipe.direction = .up
+//        self.pullUpView.isUserInteractionEnabled = true
+//        self.pullUpView.addGestureRecognizer(swipe)
         
         self.setUpConstraints()
         
@@ -68,6 +68,8 @@ class TIPPullDownMenu: UIView {
     
     lazy var pullUpView: UIImageView = {
         let imageView: UIImageView = UIImageView()
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
         imageView.image = UIImage()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -87,8 +89,8 @@ class TIPPullDownMenu: UIView {
         
         self.pullUpView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         self.pullUpView.topAnchor.constraint(equalTo: self.menuCollectionView.bottomAnchor, constant: 5).isActive = true
-        self.pullUpView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.1).isActive = true
-        self.pullUpView.widthAnchor.constraint(equalTo: self.pullUpView.heightAnchor).isActive = true
+        self.pullUpView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3).isActive = true
+        self.pullUpView.widthAnchor.constraint(equalTo: self.pullUpView.heightAnchor, multiplier: 2.5).isActive = true
         
     }
     

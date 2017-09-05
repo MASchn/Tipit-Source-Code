@@ -90,6 +90,7 @@
 		FAB9F2521F3E5DD600D025F0 /* smile.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2511F3E5DD600D025F0 /* smile.json */; };
 		FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB9F2531F3E5DDC00D025F0 /* star.json */; };
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
+		FABC3BD31F5F1E8B0018FFFE /* scratchy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FABC3BD21F5F1E8B0018FFFE /* scratchy.ttf */; };
 		FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 		FAFEB18D1F5DB9CC00FFC17E /* freehand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */; };
@@ -186,6 +187,7 @@
 		FAB9F2511F3E5DD600D025F0 /* smile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = smile.json; sourceTree = "<group>"; };
 		FAB9F2531F3E5DDC00D025F0 /* star.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = star.json; sourceTree = "<group>"; };
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
+		FABC3BD21F5F1E8B0018FFFE /* scratchy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scratchy.ttf; sourceTree = "<group>"; };
 		FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMainPageViewController.swift; path = "UI/View Controllers/TIPMainPageViewController.swift"; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freehand.ttf; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				FA4488781F4B9A2E00CE0F64 /* handwriting.ttf */,
 				FAAAF8AB1F573D42000DB63B /* font2.ttf */,
 				FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */,
+				FABC3BD21F5F1E8B0018FFFE /* scratchy.ttf */,
 				37BA70241E36E6070093EAE5 /* LaunchScreen.storyboard */,
 				37BA70271E36E6070093EAE5 /* Info.plist */,
 			);
@@ -511,6 +514,7 @@
 				37079BA11F0191290022E014 /* diamond1.json in Resources */,
 				37079BA21F0191290022E014 /* heart.json in Resources */,
 				FA4488791F4B9A2E00CE0F64 /* handwriting.ttf in Resources */,
+				FABC3BD31F5F1E8B0018FFFE /* scratchy.ttf in Resources */,
 				FAB9F2541F3E5DDC00D025F0 /* star.json in Resources */,
 				37079BA51F0191290022E014 /* star1.json in Resources */,
 				37079BA41F0191290022E014 /* smile1.json in Resources */,

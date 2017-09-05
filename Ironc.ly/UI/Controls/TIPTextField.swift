@@ -8,7 +8,7 @@ import UIKit
 class TIPTextField: UITextField {
     
     let fontName: String = "HelveticaNeue-MediumItalic"
-    let handWrittenFontName: String = "freehand"
+    //let handWrittenFontName: String = "freehand"
     var fontSize: CGFloat?
     
     // MARK: - View Lifecycle
@@ -17,13 +17,13 @@ class TIPTextField: UITextField {
         
         self.fontSize = fontSize
         
-        self.font = UIFont(name: self.handWrittenFontName, size: self.fontSize!)
+        self.font = UIFont(name: AppDelegate.shared.fontName, size: self.fontSize!)
         
         let placeholderString: NSAttributedString = NSAttributedString(
             string: placeholder,
             attributes:
             [
-                NSFontAttributeName : UIFont(name: self.handWrittenFontName, size: self.fontSize!)!,
+                NSFontAttributeName : UIFont(name: AppDelegate.shared.fontName, size: self.fontSize!)!,
                 NSForegroundColorAttributeName : UIColor.gray
             ]
         )

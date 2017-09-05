@@ -56,6 +56,7 @@ class TIPMainPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
         //self.iconCollectionView.scrollToItem(at: IndexPath(item: 2, section: 0), at: .centeredHorizontally, animated: true)
     }
     
@@ -275,6 +276,7 @@ extension TIPMainPageViewController: UICollectionViewDataSource {
         let cell: TIPProfileStoryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.iconReuseId, for: indexPath) as! TIPProfileStoryCollectionViewCell
         //cell.delegate = self
         cell.storyImage.image = self.iconImageArray[indexPath.item]
+        cell.tag = indexPath.item
         return cell
     }
 }

@@ -231,7 +231,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     
     lazy var coinsLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.font = UIFont(name: "freehand", size: 18.0)
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 18.0)
         label.text = "0 Coins"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
