@@ -143,25 +143,25 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     
     func setUpPersonalConstraints() {
         
-//        self.myWalletImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 50.0).isActive = true
-        self.myWalletImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 100).isActive = true
+        self.myWalletImageView.topAnchor.constraint(equalTo: self.storyCollectionView.bottomAnchor, constant: 100).isActive = true
+//        self.myWalletImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 100).isActive = true
         self.myWalletImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.myWalletImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
         self.myWalletImageView.heightAnchor.constraint(equalTo: self.myWalletImageView.widthAnchor, multiplier: 0.2).isActive = true
         
-        self.coinsImageView.topAnchor.constraint(equalTo: self.myWalletImageView.bottomAnchor, constant: 20).isActive = true
+        self.coinsImageView.topAnchor.constraint(equalTo: self.myWalletImageView.bottomAnchor, constant: 15).isActive = true
         self.coinsImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.coinsImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3.5).isActive = true
         //self.coinsImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
         self.coinsImageView.heightAnchor.constraint(equalTo: self.coinsImageView.widthAnchor, constant: 1.5).isActive = true
         
-        self.coinsLabel.topAnchor.constraint(equalTo: self.coinsImageView.bottomAnchor, constant: 20).isActive = true
+        self.coinsLabel.topAnchor.constraint(equalTo: self.coinsImageView.bottomAnchor, constant: 15).isActive = true
         self.coinsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.coinsEarnedLabel.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 20).isActive = true
+        self.coinsEarnedLabel.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 15).isActive = true
         self.coinsEarnedLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        buyCoinsTop = self.buyCoinsButton.topAnchor.constraint(equalTo: self.coinsEarnedLabel.bottomAnchor, constant: 20)
+        buyCoinsTop = self.buyCoinsButton.topAnchor.constraint(equalTo: self.coinsEarnedLabel.bottomAnchor, constant: 15)
         buyCoinsTop?.isActive = true
         self.buyCoinsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.buyCoinsButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.5).isActive  = true

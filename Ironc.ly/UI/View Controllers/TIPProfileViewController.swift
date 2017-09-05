@@ -264,8 +264,27 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         
         if let userId: String = self.userId {
             self.getStory(userId: userId)
+            
         }
-    }
+       
+        
+//        switch storyCollectionView.isDragging {
+//        
+//        case false:
+//            self.drawnSwipeForMoreButton.isHidden = false
+//
+//            break
+//            
+//        case true:
+//            self.drawnSwipeForMoreButton.isHidden = true
+//            break
+//            
+//        default:
+////            self.drawnSwipeForMoreButton.isHidden = true
+//            break
+//        }
+        
+            }
     
     func getStory(userId: String) {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
@@ -292,6 +311,13 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                                 self.storyPicImageView.image = image
                                 
                                 self.storyCollectionView.reloadData()
+                                
+                                if (self.storyURLArray?.count)! > 9 {
+                                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
+                                    self.drawnSwipeForMoreButton.isHidden = false
+                                }
+                                
+                                
                                 //need to cache the imageFromVideo to store here needs a URL
 //                                self.Array?.append(firstPost.contentURL!)
                             }
@@ -419,19 +445,21 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.storyPicImageView.heightAnchor.constraint(equalTo: self.profilePicImageView.heightAnchor).isActive = true
         self.storyPicImageView.transform = self.storyPicImageView.transform.rotated(by: CGFloat.pi/70)
         
-//        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
-        self.drawnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
+        followButtonTop = self.drawnFollowButton.topAnchor.constraint(equalTo: self.keySubButton.bottomAnchor, constant: 10)
+//        self.drawnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         followButtonTop?.isActive = true
-        self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
-        self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
+//        self.drawnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.drawnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive  = true
+        self.drawnFollowButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.drawnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.3).isActive = true
         
-//        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 30)
-        self.drawnUnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
+        unFollowButtonTop = self.drawnUnFollowButton.topAnchor.constraint(equalTo: self.keySubButton.bottomAnchor, constant: 10)
+//        self.drawnUnFollowButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 225).isActive = true
         unFollowButtonTop?.isActive = true
-        self.drawnUnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/2.3).isActive  = true
-        self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.5).isActive = true
+//        self.drawnUnFollowButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.drawnUnFollowButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive  = true
+        self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.3).isActive = true
         
         self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 20).isActive = true
         //        self.storyImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
@@ -450,6 +478,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
 //        pullDownMenuBottom = self.pullDownView.bottomAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.25)
 //        pullDownMenuBottom?.isActive = true
     }
+    
     
     // MARK: - Lazy Initialization
     
@@ -738,11 +767,14 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-//        collectionView.register(TIPFilterCollectionViewCell.self, forCellWithReuseIdentifier: self.filterReUseID)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+       
+
+
         return collectionView
     }()
     
@@ -1209,6 +1241,8 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
 
 extension TIPProfileViewController: UICollectionViewDataSource {
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filters.count
         if nil == self.storyURLArray?.count{
@@ -1249,31 +1283,16 @@ extension TIPProfileViewController: UICollectionViewDataSource {
        return cell
     }
         
-        //DUMMY DATA DELETE AFTER SHOWING OFF
-//        let imageURL = URL(string: (self.storyURLArray?[indexPath.row])!)
-//        do{
-//        self.imageURLData = try Data.init(contentsOf: imageURL!)
-//        }
-//        catch let Error
-//        {print (Error)
-//        cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")
-//        }
-//        
-//        
-//        cell.storyImage.image = UIImage.init(data: self.imageURLData!)
-        
+
     
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//            let cell: TIPProfileStoryCollectionViewCell = self.storyCollectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
+
         
             if let currentStory: TIPStory = self.story {
                 let storyViewController: TIPStoryViewController = TIPStoryViewController(story: currentStory, username: self.actualNameLabel.text, profileImage: self.profilePicImageView.image, userID: self.userId!, postIndex: indexPath.item)
-//                storyViewController.currentIndex = indexPath.row
-//                storyViewController.pageControl.currentPage = indexPath.row
-//                storyViewController.pageControl.updateCurrentPageDisplay()
                 self.present(storyViewController, animated: true, completion: nil)
                 
             }
@@ -1289,15 +1308,16 @@ extension TIPProfileViewController: UICollectionViewDataSource {
 extension TIPProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.height - 10, height: collectionView.bounds.height - 10)
+      let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.13 , height: (collectionView.bounds.height)/3.035)
+        return size
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 2
     }
     
 }
