@@ -175,7 +175,7 @@ class TIPProfileViewController: UIViewController {
         self.contentView.addSubview(self.drawnUnFollowButton)
         self.contentView.addSubview(self.storyLabelImageView)
         self.contentView.addSubview(self.storyCollectionView)
-        
+        self.contentView.addSubview(self.drawnSwipeForMoreButton)
         
         storyCollectionView.register(TIPProfileStoryCollectionViewCell.self, forCellWithReuseIdentifier: profileReuseID)
         
@@ -250,8 +250,27 @@ class TIPProfileViewController: UIViewController {
         
         if let userId: String = self.userId {
             self.getStory(userId: userId)
+            
         }
-    }
+       
+        
+//        switch storyCollectionView.isDragging {
+//        
+//        case false:
+//            self.drawnSwipeForMoreButton.isHidden = false
+//
+//            break
+//            
+//        case true:
+//            self.drawnSwipeForMoreButton.isHidden = true
+//            break
+//            
+//        default:
+////            self.drawnSwipeForMoreButton.isHidden = true
+//            break
+//        }
+        
+            }
     
     func getStory(userId: String) {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in
@@ -278,6 +297,13 @@ class TIPProfileViewController: UIViewController {
                                 self.storyPicImageView.image = image
                                 
                                 self.storyCollectionView.reloadData()
+                                
+                                if (self.storyURLArray?.count)! > 9 {
+                                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
+                                    self.drawnSwipeForMoreButton.isHidden = false
+                                }
+                                
+                                
                                 //need to cache the imageFromVideo to store here needs a URL
 //                                self.Array?.append(firstPost.contentURL!)
                             }
@@ -431,7 +457,15 @@ class TIPProfileViewController: UIViewController {
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
         self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
+        
+        
+        self.drawnSwipeForMoreButton.topAnchor.constraint(equalTo: self.storyCollectionView.bottomAnchor, constant: 15).isActive = true
+        self.drawnSwipeForMoreButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
+        self.drawnSwipeForMoreButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
+        self.drawnSwipeForMoreButton.heightAnchor.constraint(equalTo: self.drawnSwipeForMoreButton.widthAnchor, multiplier: 0.5).isActive = true
+        
     }
+    
     
     // MARK: - Lazy Initialization
     
@@ -615,6 +649,14 @@ class TIPProfileViewController: UIViewController {
         return button
     }()
     
+    lazy var drawnSwipeForMoreButton: UIImageView = {
+        let thisImageView: UIImageView = UIImageView()
+        thisImageView.image = #imageLiteral(resourceName: "swipeRightForMore")
+        thisImageView.translatesAutoresizingMaskIntoConstraints = false
+//        thisImageView.isHidden = true
+        return thisImageView
+    }()
+    
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
@@ -715,11 +757,14 @@ class TIPProfileViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-//        collectionView.register(TIPFilterCollectionViewCell.self, forCellWithReuseIdentifier: self.filterReUseID)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+       
+
+
         return collectionView
     }()
     
@@ -1238,16 +1283,16 @@ extension TIPProfileViewController: UICollectionViewDataSource {
 extension TIPProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.1 , height: (collectionView.bounds.height)/3.1)
+      let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.13 , height: (collectionView.bounds.height)/3.035)
         return size
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 2
     }
     
 }
