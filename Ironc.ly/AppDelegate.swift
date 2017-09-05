@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var tabBarController: UITabBarController?
     let sendBirdAppID = "EB96DFC6-5314-4901-9CDF-5791FDEE157A"
+    var fontSize: CGFloat = 18.0
     
     let fontName = "scratchy"
     
@@ -30,6 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         //self.window?.backgroundColor = .clear
+        
+        let screen = UIScreen.main
+        self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
+        if (screen.bounds.size.height < 500) {
+            self.fontSize = screen.bounds.size.height * (18.0 / 480.0)
+        }
         
         // Get current user
         if let user: TIPUser = TIPUser.fetchUserFromDefaults() {

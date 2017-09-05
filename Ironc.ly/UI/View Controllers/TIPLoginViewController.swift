@@ -123,7 +123,7 @@ class TIPLoginViewController: UIViewController {
     }()
     
     lazy var emailTextField: TIPTextField = {
-        let textField: TIPTextField = TIPTextField(placeholder: "EMAIL", fontSize: self.fontSize)
+        let textField: TIPTextField = TIPTextField(placeholder: "EMAIL", fontSize: AppDelegate.shared.fontSize)
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .next

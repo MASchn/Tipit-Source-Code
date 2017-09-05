@@ -201,8 +201,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     
     lazy var followButton: UIButton = {
         let button: UIButton = UIButton()
-        button.setImage(#imageLiteral(resourceName: "FollowUnpressedEdit"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "FollowEdited"), for: .highlighted)
+        button.setImage(#imageLiteral(resourceName: "followPress"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "followDepress"), for: .highlighted)
         //button.addTarget(self, action: #selector(self.tappedProfileButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isHidden = true
@@ -211,8 +211,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     
     lazy var subscribeButton: UIButton = {
         let button: UIButton = UIButton()
-        button.setImage(#imageLiteral(resourceName: "SubscribeUnpressed"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "Subscribe"), for: .highlighted)
+        button.setImage(#imageLiteral(resourceName: "subscribeDepress"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "subscribePress"), for: .highlighted)
         button.addTarget(self, action: #selector(self.tappedSubButton(sender:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         //button.isHidden = true
@@ -241,7 +241,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     override func setUpConstraints() {
         //super.setUpConstraints()
         
-        let hMargin: CGFloat = 15.0
+        
+//        let hMargin: CGFloat = 15.0
         
 //        self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 18.0).isActive = true
 //        self.usernameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15.0).isActive = true
@@ -250,7 +251,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         usernameAnchor = self.usernameLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         usernameAnchor?.isActive = true
-        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -10).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.profileImageView.bottomAnchor, constant: -2).isActive = true
+//        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -10).isActive = true
         
 //        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 12.0).isActive = true
 //        self.profileImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: hMargin).isActive = true
@@ -259,14 +261,15 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         profileImageAnchor = self.profileImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0)
         profileImageAnchor?.isActive = true
-        self.profileImageView.centerYAnchor.constraint(equalTo: self.triangleButton.centerYAnchor, constant: -2).isActive = true
-        self.profileImageView.heightAnchor.constraint(equalToConstant: 43.0).isActive = true
-        self.profileImageView.widthAnchor.constraint(equalToConstant: 43.0).isActive = true
+        self.profileImageView.centerYAnchor.constraint(equalTo: self.triangleButton.centerYAnchor, constant: 5).isActive = true
+        self.profileImageView.heightAnchor.constraint(equalTo: self.triangleButton.heightAnchor, multiplier: 0.45).isActive = true
+        self.profileImageView.widthAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1).isActive = true
         
 //        self.profileButton.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
 //        self.profileButton.bottomAnchor.constraint(equalTo: self.profileImageView.bottomAnchor).isActive = true
 //        self.profileButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
 //        self.profileButton.rightAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: hMargin).isActive = true
+
         
         self.tipButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
         self.tipButton.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 10).isActive = true
@@ -275,16 +278,17 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         self.sliderView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
         self.sliderView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
-        self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 0.5).isActive = true
+        self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1).isActive = true
         self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
+        self.sliderView.currentThumbImage?.size
         
         self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 0).isActive = true
         self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
         
         self.triangleButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 5).isActive = true
         self.triangleButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -2).isActive = true
-        self.triangleButton.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
-        self.triangleButton.widthAnchor.constraint(equalToConstant: 120.0).isActive = true
+        self.triangleButton.heightAnchor.constraint(equalTo: self.postImageView.heightAnchor, multiplier: 0.3).isActive = true
+        self.triangleButton.widthAnchor.constraint(equalTo: self.triangleButton.heightAnchor, multiplier: 1.25).isActive = true
         
         self.followButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
         self.followButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -8).isActive = true
