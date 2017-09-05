@@ -175,9 +175,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.contentView.addSubview(self.drawnUnFollowButton)
         self.contentView.addSubview(self.storyLabelImageView)
         self.contentView.addSubview(self.storyCollectionView)
-//        self.view.addSubview(self.pullDownView)
-//        self.view.bringSubview(toFront: self.pullDownView)
-        
+        self.contentView.addSubview(self.drawnSwipeForMoreButton)
         
         storyCollectionView.register(TIPProfileStoryCollectionViewCell.self, forCellWithReuseIdentifier: profileReuseID)
         
@@ -470,13 +468,14 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.storyCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
-        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
+        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
         
-//        self.pullDownView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.8).isActive = true
-//        self.pullDownView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
-//        self.pullDownView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-//        pullDownMenuBottom = self.pullDownView.bottomAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.25)
-//        pullDownMenuBottom?.isActive = true
+        
+        self.drawnSwipeForMoreButton.topAnchor.constraint(equalTo: self.storyCollectionView.bottomAnchor, constant: 15).isActive = true
+        self.drawnSwipeForMoreButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
+        self.drawnSwipeForMoreButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
+        self.drawnSwipeForMoreButton.heightAnchor.constraint(equalTo: self.drawnSwipeForMoreButton.widthAnchor, multiplier: 0.5).isActive = true
+        
     }
     
     
@@ -662,11 +661,14 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         return button
     }()
     
-//    lazy var pullDownView: TIPPullDownMenu = {
-//        let menu: TIPPullDownMenu = TIPPullDownMenu()
-//        menu.translatesAutoresizingMaskIntoConstraints = false
-//        return menu
-//    }()
+    lazy var drawnSwipeForMoreButton: UIImageView = {
+        let thisImageView: UIImageView = UIImageView()
+        thisImageView.image = #imageLiteral(resourceName: "swipeRightForMore")
+        thisImageView.translatesAutoresizingMaskIntoConstraints = false
+//        thisImageView.isHidden = true
+        return thisImageView
+    }()
+    
     
     /////////////////////////// OLD PROFILE STUFF ////////////////////////////////////////////////////////////////
     lazy var backgroundImageView: UIImageView = {
