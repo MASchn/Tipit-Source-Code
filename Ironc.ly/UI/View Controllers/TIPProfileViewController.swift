@@ -154,6 +154,10 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.profileScrollView.addSubview(self.contentView)
         
         
+//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: selector(self.DidScroll(collectionView:self.storyCollectionView)))
+//        swipeLeft.direction = .left
+        
+        
         let screen = UIScreen.main
         self.fontSize = screen.bounds.size.height * (18.0 / 568.0)
         if (screen.bounds.size.height < 500) {
@@ -768,6 +772,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+//        collectionView.addTarget(self, action: #selector(self.isDragging), for: .valueChanged)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -939,6 +944,14 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
 //    }
     
     // MARK: - Actions
+    
+    func DidScroll(collectionView: UICollectionView)
+    {
+        if (collectionView.isDragging == true)
+        {
+            self.drawnSwipeForMoreButton.isHidden = true
+        }
+    }
     
     func tappedPencilButton() {
         print("PENCIL TAPPED")
@@ -1237,8 +1250,29 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
 
 
 
-//extension TIPProfileViewController: UICollectionViewDelegate{
-//  }
+extension TIPProfileViewController: UICollectionViewDelegate{
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+//        let scrollWidth = scrollView.frame.size.width
+        
+        
+        
+//        let scrollOffset = scrollView.contentOffset.y;
+        
+        
+//        if scrollOffset <  10 || (self.storyURLArray?.count)! > 9 {
+        
+//            self.drawnSwipeForMoreButton.isHidden = false
+
+            
+//        }else{
+        
+        self.drawnSwipeForMoreButton.isHidden = true
+//        }
+    }
+    
+  }
 
 
 extension TIPProfileViewController: UICollectionViewDataSource {
@@ -1286,7 +1320,7 @@ extension TIPProfileViewController: UICollectionViewDataSource {
     }
         
 
-    
+//    func collectionView
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
