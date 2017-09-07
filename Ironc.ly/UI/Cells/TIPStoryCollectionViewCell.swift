@@ -75,7 +75,7 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
     lazy var usernameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: AppDelegate.shared.fontSize, weight: UIFontWeightHeavy)
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: AppDelegate.shared.fontSize/2)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

@@ -11,7 +11,6 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
     var feedItems: [TIPFeedItem] = [TIPFeedItem]()
     var columns: Int = 1
     let feedReuseId: String = "iro.reuseId.feed"
-    var firstRun = true
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -49,7 +48,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
         
         
         self.setUpConstraints()
-        self.configureTIPNavBar()
+        
     
 //        let navImageView = UIImageView(frame: (self.navigationController?.navigationBar.frame)!)
 //        navImageView.image = #imageLiteral(resourceName: "register_button")
@@ -169,13 +168,10 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
 //            self.getFeed()
 //        }
         self.getFeed()
+        self.configureTIPNavBar()
         
+        self.addPullDownMenu()
         
-        if self.firstRun == true {
-            self.firstRun = false
-        } else {
-            self.addPullDownMenu()
-        }
         
         //self.navigationItem.title = "tipit"
         self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]

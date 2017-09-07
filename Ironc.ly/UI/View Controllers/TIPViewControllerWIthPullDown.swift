@@ -23,12 +23,6 @@ class TIPViewControllerWIthPullDown: UIViewController {
 //        self.navigationController?.navigationBar.isUserInteractionEnabled = true
 //        self.navigationController?.navigationBar.addGestureRecognizer(navTap)
         
-        if (self.navigationController?.navigationBar.gestureRecognizers?.count)! < 3 {
-            let pullDownPan = UIPanGestureRecognizer(target: self, action: #selector(self.panDownMenu))
-            self.navigationController?.navigationBar.isUserInteractionEnabled = true
-            self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
-        }
-        
         let pullUpPan = UIPanGestureRecognizer(target: self, action: #selector(self.panUpMenu))
         self.pullDownView.pullUpView.isUserInteractionEnabled = true
         self.pullDownView.pullUpView.addGestureRecognizer(pullUpPan)
@@ -39,13 +33,11 @@ class TIPViewControllerWIthPullDown: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        if self.navigationController?.navigationBar.gestureRecognizers == nil {
-//            
-//        }
+        self.navigationController?.navigationBar.gestureRecognizers?.removeAll()
         
-//        let pullDownPan = UIPanGestureRecognizer(target: self, action: #selector(self.panDownMenu))
-//        self.navigationController?.navigationBar.isUserInteractionEnabled = true
-//        self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
+        let pullDownPan = UIPanGestureRecognizer(target: self, action: #selector(self.panDownMenu))
+        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+        self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
         
     }
     

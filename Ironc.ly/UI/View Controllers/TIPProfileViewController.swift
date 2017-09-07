@@ -240,7 +240,11 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.tappedSettingsButton))
         
         self.configureTIPNavBar()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "navBarWithBackButton").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        
         self.addPullDownMenu()
+        
         
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.pullDownPressed))
         
@@ -297,44 +301,49 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                 
                 self.storyCollectionView.reloadData()
                 
-                if let firstPost: TIPPost = story.posts.last {
-                    //self.storyURLArray?.append(firstPost.contentURL!)
-                    self.storyPicImageView.isHidden = true
-                    self.noTapeProfileFrameImageView.isHidden = true
-                    
-                    if firstPost.type == .video {
-                        
-                        DispatchQueue.global(qos: .background).async {
-                            
-                            let image = TIPAPIClient.imageFromVideo(urlString: firstPost.contentURL!, at: 0)
-                            DispatchQueue.main.async {
-                                //self.storyPreviewButton.setImage(image, for: .normal)
-                                //self.storyPreviewButton.layer.borderWidth = 10.0
-                                self.storyPicImageView.image = image
-                                
-                                self.storyCollectionView.reloadData()
-                                
-                                if (self.storyURLArray?.count)! > 9 {
-                                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
-                                    self.drawnSwipeForMoreButton.isHidden = false
-                                }
-                                
-                                
-                                //need to cache the imageFromVideo to store here needs a URL
-//                                self.Array?.append(firstPost.contentURL!)
-                            }
-                        }
-                        
-                    } else {
-                        //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
-                       // self.storyPreviewButton.layer.borderWidth = 10.0
-                        self.storyPicImageView.image = firstPost.contentImage
-//                        self.storyURLArray?.append(firstPost.contentURL!)
-                    }
-                } else {
-                    self.storyPicImageView.isHidden = true
-                    self.noTapeProfileFrameImageView.isHidden = true
+                if (self.storyURLArray?.count)! > 9 {
+                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
+                    self.drawnSwipeForMoreButton.isHidden = false
                 }
+                
+//                if let firstPost: TIPPost = story.posts.last {
+//                    //self.storyURLArray?.append(firstPost.contentURL!)
+//                    self.storyPicImageView.isHidden = true
+//                    self.noTapeProfileFrameImageView.isHidden = true
+//                    
+//                    if firstPost.type == .video {
+//                        
+//                        DispatchQueue.global(qos: .background).async {
+//                            
+//                            let image = TIPAPIClient.imageFromVideo(urlString: firstPost.contentURL!, at: 0)
+//                            DispatchQueue.main.async {
+//                                //self.storyPreviewButton.setImage(image, for: .normal)
+//                                //self.storyPreviewButton.layer.borderWidth = 10.0
+//                                self.storyPicImageView.image = image
+//                                
+//                                self.storyCollectionView.reloadData()
+//                                
+//                                if (self.storyURLArray?.count)! > 9 {
+//                                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
+//                                    self.drawnSwipeForMoreButton.isHidden = false
+//                                }
+//                                
+//                                
+//                                //need to cache the imageFromVideo to store here needs a URL
+////                                self.Array?.append(firstPost.contentURL!)
+//                            }
+//                        }
+//                        
+//                    } else {
+//                        //self.storyPreviewButton.setImage(firstPost.contentImage, for: .normal)
+//                       // self.storyPreviewButton.layer.borderWidth = 10.0
+//                        self.storyPicImageView.image = firstPost.contentImage
+////                        self.storyURLArray?.append(firstPost.contentURL!)
+//                    }
+//                } else {
+//                    self.storyPicImageView.isHidden = true
+//                    self.noTapeProfileFrameImageView.isHidden = true
+//                }
             }
         })
     }
@@ -391,7 +400,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
-        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2.5).isActive = true
         
         self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
         self.profileFrameImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
@@ -669,7 +678,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         let thisImageView: UIImageView = UIImageView()
         thisImageView.image = #imageLiteral(resourceName: "swipeRightForMore")
         thisImageView.translatesAutoresizingMaskIntoConstraints = false
-//        thisImageView.isHidden = true
+        thisImageView.isHidden = true
         return thisImageView
     }()
     

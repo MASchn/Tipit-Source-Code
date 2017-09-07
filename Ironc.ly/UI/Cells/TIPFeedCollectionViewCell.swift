@@ -94,11 +94,11 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
 //        })
         
         
-        if let profileURL = feedItem.profileImageURL {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
-        } else {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
-        }
+//        if let profileURL = feedItem.profileImageURL {
+//            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
+//        } else {
+//            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+//        }
         
 //        self.postImageView.loadImageUsingCacheFromUrlString(urlString: feedItem.storyImage, placeHolder: UIImage(named: "empty_profile")!, completion: )
     
@@ -124,6 +124,10 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         if let actualImage = feedItem.actualStoryImage {
             self.postImageView.image = actualImage
+        }
+        
+        if let actualProfileImage = feedItem.profileImage {
+            self.profileImageView.image = actualProfileImage
         }
     }
     
@@ -251,7 +255,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         usernameAnchor = self.usernameLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         usernameAnchor?.isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.profileImageView.bottomAnchor, constant: -2).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.profileImageView.bottomAnchor, constant: 2).isActive = true
 //        self.usernameLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -10).isActive = true
         
 //        self.profileImageView.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: 12.0).isActive = true
@@ -261,7 +265,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         
         profileImageAnchor = self.profileImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0)
         profileImageAnchor?.isActive = true
-        self.profileImageView.centerYAnchor.constraint(equalTo: self.triangleButton.centerYAnchor, constant: 5).isActive = true
+        self.profileImageView.centerYAnchor.constraint(equalTo: self.triangleButton.centerYAnchor, constant: 0).isActive = true
         self.profileImageView.heightAnchor.constraint(equalTo: self.triangleButton.heightAnchor, multiplier: 0.45).isActive = true
         self.profileImageView.widthAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1).isActive = true
         
@@ -280,7 +284,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.sliderView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
         self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1).isActive = true
         self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
-        self.sliderView.currentThumbImage?.size
+        //self.sliderView.currentThumbImage?.size
         
         self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 0).isActive = true
         self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true

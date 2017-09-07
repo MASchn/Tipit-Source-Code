@@ -29,7 +29,10 @@ extension UIViewController {
 extension UINavigationBar {
     
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
+        
+        let screenHeight = UIScreen.main.bounds.size.width
+        
+        return CGSize(width: UIScreen.main.bounds.size.width, height: screenHeight/6)
     }
     
 }

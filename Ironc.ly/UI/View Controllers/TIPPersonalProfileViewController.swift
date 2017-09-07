@@ -86,7 +86,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
 //            }
 //        }
         
-        
+        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "navBarWithRoom").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         
         UIImage.loadImageUsingCache(urlString: user.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
             //self.profileImageButton.setImage(image, for: .normal)

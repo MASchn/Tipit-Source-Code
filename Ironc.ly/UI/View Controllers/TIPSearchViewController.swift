@@ -10,7 +10,8 @@ class TIPSearchViewController: TIPViewControllerWIthPullDown {
     let searchReuseId: String = "iro.reuseId.search"
     var searchUsers: [TIPSearchUser] = [TIPSearchUser]()
     var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "tipitbackground5_7"), #imageLiteral(resourceName: "tipitbackground4_7"),#imageLiteral(resourceName: "tipitbackground3_7"), #imageLiteral(resourceName: "tipitbackground1_7"), #imageLiteral(resourceName: "tipitbackground2_7")]
-//    var emptyStateImages: [UIImage] = [#imageLiteral(resourceName: "forgot_password_background"), #imageLiteral(resourceName: "register_background"), #imageLiteral(resourceName: "login_background"), #imageLiteral(resourceName: "feed_image_1"), #imageLiteral(resourceName: "feed_image_2")]
+
+    var searchText = ""
 
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -45,12 +46,15 @@ class TIPSearchViewController: TIPViewControllerWIthPullDown {
         
         // Searching with black query requests all users
         //self.search()
-        self.search()
+        
+        self.searchBar.text = self.searchText
+        
+        self.search(query: self.searchText)
     }
     
     // MARK: - Networking
-    func search() {
-        if let query: String = self.searchBar.text?.lowercased() {
+    func search(query: String) {
+        //if let query: String = self.searchBar.text?.lowercased() {
             TIPAPIClient.searchUsers(query: query) { (users: [TIPSearchUser]?, error: Error?) in
                 if let users: [TIPSearchUser] = users {
                     self.searchUsers = users
@@ -70,9 +74,9 @@ class TIPSearchViewController: TIPViewControllerWIthPullDown {
                     self.noInternetView.isHidden = false
                     self.noResultsView.isHidden = true
                 }
-                self.refreshControl.endRefreshing()
+                //self.refreshControl.endRefreshing()
             }
-        }
+        
     }
 
     // MARK: - Lazy Initialization
@@ -97,7 +101,7 @@ class TIPSearchViewController: TIPViewControllerWIthPullDown {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
-        collectionView.addSubview(self.refreshControl)
+        //collectionView.addSubview(self.refreshControl)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -263,12 +267,12 @@ extension TIPSearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.search()
+        self.search(query: (self.searchBar.text?.lowercased())!)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        self.search()
+        self.search(query: (self.searchBar.text?.lowercased())!)
     }
     
 }

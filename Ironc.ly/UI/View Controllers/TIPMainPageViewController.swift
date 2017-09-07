@@ -28,7 +28,7 @@ class TIPMainPageViewController: UIViewController {
         self.view.addSubview(self.backgroundImageView)
         //self.view.addSubview(self.iconImageView)
         self.view.addSubview(self.searchIconImageView)
-        self.view.addSubview(self.selectionImageView)
+        self.view.addSubview(self.searchTextField)
         self.view.addSubview(self.iconCollectionView)
         //self.view.addSubview(self.cutOutImageView)
         self.view.addSubview(self.switchImageView)
@@ -109,18 +109,26 @@ class TIPMainPageViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var selectionImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "Text Field")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    lazy var searchTextField: TIPTextField = {
+        let textField: TIPTextField = TIPTextField(placeholder: "SEARCH", fontSize: AppDelegate.shared.fontSize)
+        textField.autocapitalizationType = .none
+        textField.keyboardType = .default
+        textField.returnKeyType = .search
+        textField.autocorrectionType = .no
+        textField.borderStyle = .none
+        textField.background = #imageLiteral(resourceName: "Text Field")
+        textField.delegate = self
+        textField.textAlignment = .center
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
     
-    lazy var searchIconImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "searchIcon")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    lazy var searchIconImageView: UIButton = {
+        let button: UIButton = UIButton()
+        button.addTarget(self, action: #selector(self.searchPressed), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "searchIcon"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     func setUpConstraints() {
@@ -153,10 +161,10 @@ class TIPMainPageViewController: UIViewController {
         
         //self.searchIconImageView.layoutIfNeeded()
         
-        self.selectionImageView.leftAnchor.constraint(equalTo: self.searchIconImageView.rightAnchor, constant: 10).isActive = true
-        self.selectionImageView.centerYAnchor.constraint(equalTo: self.searchIconImageView.centerYAnchor).isActive = true
-        self.selectionImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -self.view.frame.size.width/2).isActive = true
-        self.selectionImageView.heightAnchor.constraint(equalTo: self.searchIconImageView.heightAnchor, multiplier: 1).isActive = true
+        self.searchTextField.leftAnchor.constraint(equalTo: self.searchIconImageView.rightAnchor, constant: 10).isActive = true
+        self.searchTextField.centerYAnchor.constraint(equalTo: self.searchIconImageView.centerYAnchor).isActive = true
+        self.searchTextField.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -self.view.frame.size.width/2).isActive = true
+        self.searchTextField.heightAnchor.constraint(equalTo: self.searchIconImageView.heightAnchor, multiplier: 1).isActive = true
         
         self.switchImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 4).isActive = true
         self.switchImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/4.5).isActive = true
@@ -167,6 +175,35 @@ class TIPMainPageViewController: UIViewController {
 //        self.swipeImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 //        self.swipeImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 //        self.swipeImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.25).isActive = true
+    }
+    
+    func searchPressed() {
+        
+        self.searchTextField.resignFirstResponder()
+        
+        let nav = AppDelegate.shared.tabBarController?.viewControllers?[1] as? UINavigationController
+        
+        let searchVC = nav?.viewControllers[0] as? TIPSearchViewController
+        
+        if let text = self.searchTextField.text {
+            searchVC?.searchText = text
+        } else {
+            searchVC?.searchText = ""
+        }
+        
+        AppDelegate.shared.tabBarController?.selectedIndex = 1
+        
+        self.navigationController?.dismiss(animated: true, completion: { 
+            //
+        })
+        
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        self.view.endEditing(true)
     }
     
     func tappedIcon(sender: UITapGestureRecognizer) {
@@ -264,6 +301,14 @@ class TIPMainPageViewController: UIViewController {
     
 }
 
+extension TIPMainPageViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.searchPressed()
+        return false
+    }
+}
+
 extension TIPMainPageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -294,23 +339,7 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
-    
-//        let iconNumber = self.iconImageArray.index(of: self.iconImageArray[indexPath.item])! - 1
-//        
-//        if iconNumber != 2 {
-//            AppDelegate.shared.tabBarController?.selectedIndex = iconNumber
-//        }
-//        
-//        if iconNumber == 2 {
-//            let cameraViewController: TIPCamViewController = TIPCamViewController()
-//            self.present(cameraViewController, animated: true, completion: nil)
-//            //AppDelegate.shared.pullUpCamera()
-//        } else {
-//            self.navigationController?.dismiss(animated: true, completion: {
-//                
-//                
-//            })
-//        }
+
         
         if cell.storyImage.image == #imageLiteral(resourceName: "feed_icon") {
             AppDelegate.shared.tabBarController?.selectedIndex = 0
