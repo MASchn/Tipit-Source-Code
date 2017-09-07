@@ -49,6 +49,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
         
         
         self.setUpConstraints()
+        self.configureTIPNavBar()
     
 //        let navImageView = UIImageView(frame: (self.navigationController?.navigationBar.frame)!)
 //        navImageView.image = #imageLiteral(resourceName: "register_button")
@@ -157,7 +158,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
 //            self.getFeed()
 //        }
         self.getFeed()
-        self.configureTIPNavBar()
+        
         
         if self.firstRun == true {
             self.firstRun = false
@@ -210,7 +211,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
     
     lazy var refreshControl: UIRefreshControl = {
         let control: UIRefreshControl = UIRefreshControl()
-        control.backgroundColor = .iroBlue
+        control.backgroundColor = .clear
         control.tintColor = .white
         control.addTarget(self, action: #selector(self.getFeed), for: .valueChanged)
         return control
@@ -247,7 +248,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
         self.noInternetView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.noInternetView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.size.height)! * 1.5).isActive = true
+        self.feedCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: navBarHeight).isActive = true
         self.feedCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.feedCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.feedCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true

@@ -234,8 +234,6 @@ class TIPMainPageViewController: UIViewController {
             }
         }
         
-        
-        
     }
     
     func swipedRight(sender: UISwipeGestureRecognizer) {

@@ -59,9 +59,7 @@ class TIPSearchCollectionViewCell: TIPStoryCollectionViewCell {
         }
         
         if let profileURL = searchUser.profileImageURL {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
-        } else {
-            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+            self.profileImageView.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile")) {}
         }
         
 //        UIImage.download(urlString: searchUser.mediaItemURL, completion: { [unowned self] (image: UIImage?) in
