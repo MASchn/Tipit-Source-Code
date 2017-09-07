@@ -122,7 +122,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
                         self.feedCollectionView.isHidden = false
                         self.emptyView.isHidden = true
                         self.noInternetView.isHidden = true
-                        self.hideSplashView()
+//                        self.hideSplashView()
                         
                     } else {
                         feedCount += 1
@@ -137,7 +137,7 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
                         self.feedCollectionView.reloadData()
                         self.feedCollectionView.isHidden = false
                         self.emptyView.isHidden = true
-                        self.hideSplashView()
+//                        self.hideSplashView()
                         
                     } else {
                         feedCount += 1
@@ -146,8 +146,19 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
                 
             })
             
+            UIImage.loadImageUsingCache(urlString: feedItem.profileImageURL, placeHolder: nil, completion: { (image: UIImage?) in
+            
+                            if let thisProfileImage: UIImage = image {
+            
+                                feedItem.profileImage = thisProfileImage
+            
+                                self.feedCollectionView.reloadData()
+                            }
+                        })
         }
     }
+    
+  
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
