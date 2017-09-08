@@ -81,11 +81,11 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
             })
         }
         
-        if let backgroundURL = searchUser.backgroundImageURL {
-            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
-        } else {
-            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
-        }
+//        if let backgroundURL = searchUser.backgroundImageURL {
+//            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+//        } else {
+//            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+//        }
         
 //        UIImage.download(urlString: searchUser.backgroundImageURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7"), completion: { [unowned self] (image: UIImage?) in
 //            self.backgroundImageView.image = image
@@ -136,11 +136,11 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
             })
         }
         
-        if let backgroundURL = feedItem.backgroundImageURL {
-            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
-        } else {
-            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
-        }
+//        if let backgroundURL = feedItem.backgroundImageURL {
+//            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: backgroundURL, placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+//        } else {
+//            self.backgroundImageView.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: #imageLiteral(resourceName: "tipitbackground3_7")) {}
+//        }
     }
     
     // MARK: - View Lifecycle
@@ -384,6 +384,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     func setUpScrollConstraints() {
         
         let screenHeight = UIScreen.main.bounds.size.height
+        let collectionSize = self.storyCollectionView.contentSize
         
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -593,6 +594,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     lazy var profilePicImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         //imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

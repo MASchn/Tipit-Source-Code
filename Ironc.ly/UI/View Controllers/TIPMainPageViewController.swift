@@ -19,6 +19,8 @@ class TIPMainPageViewController: UIViewController {
     
     var onceOnly = false
     
+    var publicModeOn = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -236,12 +238,14 @@ class TIPMainPageViewController: UIViewController {
         let tapLocation = sender.location(in: self.switchImageView)
         
         if tapLocation.y > self.switchImageView.bounds.height/2 {
-            if self.switchImageView.image == #imageLiteral(resourceName: "public_switch_on") {
+            if self.publicModeOn == true {
                 self.switchImageView.image = #imageLiteral(resourceName: "private_switch_on")
+                self.publicModeOn = false
             }
         } else {
-            if self.switchImageView.image == #imageLiteral(resourceName: "private_switch_on") {
+            if self.publicModeOn == false {
                 self.switchImageView.image = #imageLiteral(resourceName: "public_switch_on")
+                self.publicModeOn = true
             }
         }
         
@@ -340,27 +344,49 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
         
         let cell = collectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
 
+//        var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "settings_icon"), UIImage()]
         
-        if cell.storyImage.image == #imageLiteral(resourceName: "feed_icon") {
-            AppDelegate.shared.tabBarController?.selectedIndex = 0
-            self.navigationController?.dismiss(animated: true, completion: {})
-        } else if cell.storyImage.image == #imageLiteral(resourceName: "search_icon"){
-            AppDelegate.shared.tabBarController?.selectedIndex = 1
-            self.navigationController?.dismiss(animated: true, completion: {})
-        } else if cell.storyImage.image == #imageLiteral(resourceName: "camera_icon"){
+        switch cell.tag {
+        case 4:
             let cameraViewController: TIPCamViewController = TIPCamViewController()
             self.present(cameraViewController, animated: true, completion: nil)
-        } else if cell.storyImage.image == #imageLiteral(resourceName: "messaging_icon") {
+        case 5:
             AppDelegate.shared.tabBarController?.selectedIndex = 3
             self.navigationController?.dismiss(animated: true, completion: {})
-        } else if cell.storyImage.image == #imageLiteral(resourceName: "profile_icon") {
+        case 6:
+            AppDelegate.shared.tabBarController?.selectedIndex = 0
+            self.navigationController?.dismiss(animated: true, completion: {})
+        case 7:
             AppDelegate.shared.tabBarController?.selectedIndex = 4
             self.navigationController?.dismiss(animated: true, completion: {})
-        } else if cell.storyImage.image == #imageLiteral(resourceName: "settings_icon") {
+        case 8:
             let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
             let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
             self.present(settingsNavController, animated: true, completion: nil)
+        default:
+            break
         }
+        
+//        if cell.storyImage.image == #imageLiteral(resourceName: "feed_icon") {
+//            AppDelegate.shared.tabBarController?.selectedIndex = 0
+//            self.navigationController?.dismiss(animated: true, completion: {})
+//        } else if cell.storyImage.image == #imageLiteral(resourceName: "search_icon"){
+//            AppDelegate.shared.tabBarController?.selectedIndex = 1
+//            self.navigationController?.dismiss(animated: true, completion: {})
+//        } else if cell.storyImage.image == #imageLiteral(resourceName: "camera_icon"){
+//            let cameraViewController: TIPCamViewController = TIPCamViewController()
+//            self.present(cameraViewController, animated: true, completion: nil)
+//        } else if cell.storyImage.image == #imageLiteral(resourceName: "messaging_icon") {
+//            AppDelegate.shared.tabBarController?.selectedIndex = 3
+//            self.navigationController?.dismiss(animated: true, completion: {})
+//        } else if cell.storyImage.image == #imageLiteral(resourceName: "profile_icon") {
+//            AppDelegate.shared.tabBarController?.selectedIndex = 4
+//            self.navigationController?.dismiss(animated: true, completion: {})
+//        } else if cell.storyImage.image == #imageLiteral(resourceName: "settings_icon") {
+//            let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
+//            let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
+//            self.present(settingsNavController, animated: true, completion: nil)
+//        }
     
     }
 }
