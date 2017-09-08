@@ -11,6 +11,8 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     
     var followButtonTop: NSLayoutConstraint?
     var unFollowButtonTop: NSLayoutConstraint?
+    var myStoryTop: NSLayoutConstraint?
+    
     //var pullDownMenuBottom: NSLayoutConstraint?
     
     // MARK: - Properties
@@ -26,6 +28,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     let profileReuseID = "profile"
     var storyURLArray: [TIPPost]?
     var imageURLData: Data?
+    var contentViewHeight: NSLayoutConstraint?
     
     // MARK: - View Lifecycle
     convenience init(searchUser: TIPSearchUser) {
@@ -152,6 +155,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.profileScrollView)
         self.profileScrollView.addSubview(self.contentView)
+//        self.storyCollectionView.frame.size.height = storyCollectionView.contentSize.height
         
         
 //        let swipeLeft = UISwipeGestureRecognizer(target: self, action: selector(self.DidScroll(collectionView:self.storyCollectionView)))
@@ -345,6 +349,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
 //                    self.noTapeProfileFrameImageView.isHidden = true
 //                }
             }
+            
         })
     }
     
@@ -473,8 +478,12 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.drawnUnFollowButton.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive  = true
         self.drawnUnFollowButton.heightAnchor.constraint(equalTo: self.drawnFollowButton.widthAnchor, multiplier: 0.3).isActive = true
         
-        self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 20).isActive = true
+//        self.myStoryTop = self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 0)
+//        self.myStoryTop?.isActive = true
+        //storyLabelImageViewTop? = self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 20)
+        //storyLabelImageViewTop?.isActive = true
         //        self.storyImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.storyLabelImageView.topAnchor.constraint(equalTo: self.followingLabel.bottomAnchor, constant: 25).isActive = true
         self.storyLabelImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.storyLabelImageView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/1.5).isActive = true
         self.storyLabelImageView.heightAnchor.constraint(equalTo: self.storyLabelImageView.widthAnchor, multiplier: 0.2).isActive = true
@@ -482,15 +491,18 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.storyCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.storyCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.storyCollectionView.topAnchor.constraint(equalTo: self.storyLabelImageView.bottomAnchor, constant: 20).isActive = true
-        self.storyCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
+        self.storyCollectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        //self.storyCollectionView.heightAnchor.constraint(equalToConstant: self.storyCollectionView.contentSize.height).isActive = true
+//        self.storyCollectionView.heightAnchor.constraint(equalTo: self.storyCollectionView.contentSize.height, multiplier: 1).isActive = true
         
         
-        self.drawnSwipeForMoreButton.topAnchor.constraint(equalTo: self.storyCollectionView.bottomAnchor, constant: 15).isActive = true
-        self.drawnSwipeForMoreButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
-        self.drawnSwipeForMoreButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
-        self.drawnSwipeForMoreButton.heightAnchor.constraint(equalTo: self.drawnSwipeForMoreButton.widthAnchor, multiplier: 0.5).isActive = true
+//        self.drawnSwipeForMoreButton.topAnchor.constraint(equalTo: self.storyCollectionView.bottomAnchor, constant: 15).isActive = true
+//        self.drawnSwipeForMoreButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
+//        self.drawnSwipeForMoreButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
+//        self.drawnSwipeForMoreButton.heightAnchor.constraint(equalTo: self.drawnSwipeForMoreButton.widthAnchor, multiplier: 0.5).isActive = true
         
     }
+    
     
     
     // MARK: - Lazy Initialization
@@ -623,7 +635,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         label.textAlignment = .center
         //label.textColor = .white
         label.font = UIFont(name: AppDelegate.shared.fontName, size: self.fontSize)
-        label.text = "Coins Earned: 0"
+        label.text = "Earned: 0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -771,7 +783,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         return button
     }()
     
-    lazy var storyLabelImageView: UIImageView = {
+    lazy var storyLabelImageView : UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "my_story")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -781,9 +793,11 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     
     lazy var storyCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+//        layout.scrollDirection = .vertical
+        
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
 //        collectionView.addTarget(self, action: #selector(self.isDragging), for: .valueChanged)
+        collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -1355,7 +1369,9 @@ extension TIPProfileViewController: UICollectionViewDataSource {
 extension TIPProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.13 , height: (collectionView.bounds.height)/3.035)
+        
+      //let size =  CGSize(width: (collectionView.bounds.height - 10) / 3.13 , height: (collectionView.bounds.height)/3.035)
+        let size =  CGSize(width: (collectionView.bounds.width - 10) / 2.95 , height: (collectionView.bounds.width - 10) / 3)
         return size
     }
     
