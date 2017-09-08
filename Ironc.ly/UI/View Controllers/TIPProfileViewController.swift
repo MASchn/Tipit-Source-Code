@@ -305,10 +305,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                 
                 self.storyCollectionView.reloadData()
                 
-                if (self.storyURLArray?.count)! > 9 {
-                    //MAKE SHIT TO MAKE THIS DISAPPEAR LATER
-                    self.drawnSwipeForMoreButton.isHidden = false
-                }
+                self.contentViewHeight?.constant = self.storyCollectionView.collectionViewLayout.collectionViewContentSize.height + UIScreen.main.bounds.size.height/1.3
                 
 //                if let firstPost: TIPPost = story.posts.last {
 //                    //self.storyURLArray?.append(firstPost.contentURL!)
@@ -388,8 +385,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
     // MARK: - Autolayout
     func setUpScrollConstraints() {
         
-        let screenHeight = UIScreen.main.bounds.size.height
-        let collectionSize = self.storyCollectionView.contentSize
+        let screenHeight: CGFloat = UIScreen.main.bounds.size.height
         
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -406,7 +402,8 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
-        self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2.5).isActive = true
+        contentViewHeight = self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2.5)
+        contentViewHeight?.isActive = true
         
         self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
         self.profileFrameImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
