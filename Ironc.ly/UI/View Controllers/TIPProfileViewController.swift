@@ -295,7 +295,11 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                 
                 self.storyCollectionView.reloadData()
                 
-                self.contentViewHeight?.constant = self.storyCollectionView.collectionViewLayout.collectionViewContentSize.height + UIScreen.main.bounds.size.height/1.3
+                if self.storyURLArray?.isEmpty == true {
+                    self.contentViewHeight?.constant =  UIScreen.main.bounds.size.height
+                } else {
+                    self.contentViewHeight?.constant = self.storyCollectionView.collectionViewLayout.collectionViewContentSize.height + UIScreen.main.bounds.size.height/1.3
+                }
                 
 //                if let firstPost: TIPPost = story.posts.last {
 //                    //self.storyURLArray?.append(firstPost.contentURL!)

@@ -21,6 +21,8 @@ class TIPMainPageViewController: UIViewController {
     
     var publicModeOn = true
     
+    let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,9 +100,8 @@ class TIPMainPageViewController: UIViewController {
     }()
     
     lazy var iconCollectionView: UICollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        self.flowLayout.scrollDirection = .horizontal
+        let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
         collectionView.backgroundColor = .clear
         collectionView.register(TIPProfileStoryCollectionViewCell.self, forCellWithReuseIdentifier: self.iconReuseId)
         collectionView.dataSource = self
@@ -413,6 +414,7 @@ extension TIPMainPageViewController: UICollectionViewDelegateFlowLayout, UIScrol
             self.iconCollectionView.scrollToItem(at: IndexPath(row: closestCellIndex, section: 0), at: .centeredHorizontally, animated: true)
         }
     }
+    
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         scrollToNearestVisibleCollectionViewCell()

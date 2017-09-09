@@ -148,6 +148,9 @@ extension TIPPullDownMenu: UICollectionViewDelegate {
         case 5:
             self.delegate?.hidePullDownMenuFast()
             AppDelegate.shared.tabBarController?.selectedIndex = 0
+            AppDelegate.shared.tabBarController?.navigationController?.dismiss(animated: false, completion: {
+                //
+            })
         case 6:
             self.delegate?.hidePullDownMenuFast()
             AppDelegate.shared.tabBarController?.selectedIndex = 4

@@ -128,10 +128,12 @@ class VideoViewController: TIPPreviewViewController {
         
         let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
         
-        compressVideo(inputURL: videoURL, outputURL: compressedURL, handler:  { (_ exportSession: AVAssetExportSession?) -> Void in
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
             
-            if exportSession!.status == .completed {
+            self.compressVideo(inputURL: self.videoURL, outputURL: compressedURL, handler:  { (_ exportSession: AVAssetExportSession?) -> Void in
                 
+                if exportSession!.status == .completed {
+                    
                     do {
                         let data: Data = try Data(contentsOf: exportSession!.outputURL!)
                         TIPAPIClient.postContent(
@@ -142,17 +144,19 @@ class VideoViewController: TIPPreviewViewController {
                             completionHandler: {
                                 (success: Bool) in
                                 
-                                DispatchQueue.main.async {
-                                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
-                                        //
-                                    })
-                                }
+                                //                                DispatchQueue.main.async {
+                                //                                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
+                                //                                        //
+                                //                                    })
+                                //                                }
                         })
                     } catch let error {
                         print(error)
                     }
+                    
+                }
                 
-            }
+            })
             
         })
         
