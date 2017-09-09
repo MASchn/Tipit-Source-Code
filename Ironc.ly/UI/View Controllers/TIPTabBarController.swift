@@ -106,6 +106,12 @@ class TIPTabBarController: UITabBarController {
         profileViewController.tabBarItem.tag = 3
         let profileNavController: UINavigationController = UINavigationController(rootViewController: profileViewController)
         
+        let walletViewController: TIPWalletViewController = TIPWalletViewController()
+        walletViewController.tabBarItem = UITabBarItem(title: nil, image: self.profileImage.withRenderingMode(.alwaysOriginal), selectedImage: self.profileImage)
+        walletViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+        walletViewController.tabBarItem.tag = 4
+        let walletNavController: UINavigationController = UINavigationController(rootViewController: walletViewController)
+        
         self.viewControllers = [homeNavController, searchNavController, cameraViewController, messagesNavController ,profileNavController]
     }
 

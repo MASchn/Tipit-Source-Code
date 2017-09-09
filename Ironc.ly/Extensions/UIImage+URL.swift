@@ -32,7 +32,7 @@ extension UIImage {
             }
 
         }.resume()
-
+        
     }
     
     class func loadImageUsingCache(urlString: String?, placeHolder: UIImage?, completion: @escaping (UIImage?) -> Void) {

@@ -276,18 +276,18 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
 
         
         self.tipButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
-        self.tipButton.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 10).isActive = true
-        self.tipButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1.5).isActive = true
+        self.tipButton.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
+        self.tipButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1.7).isActive = true
         self.tipButton.widthAnchor.constraint(equalTo: self.tipButton.heightAnchor).isActive = true
         
+        self.coinsLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
+        self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
+        
         self.sliderView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
-        self.sliderView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
+        self.sliderView.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 0).isActive = true
         self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1).isActive = true
         self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
         //self.sliderView.currentThumbImage?.size
-        
-        self.coinsLabel.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor, constant: 0).isActive = true
-        self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
         
         self.triangleButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 5).isActive = true
         self.triangleButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -2).isActive = true

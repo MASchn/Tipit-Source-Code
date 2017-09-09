@@ -50,21 +50,7 @@ struct TIPStory {
                     firstGroup.leave()
                 })
                 
-//                UIImage.download(urlString: item.url, completion: { (image) in
-//                    if let image: UIImage = image {
-//                        let post: TIPPost = TIPPost(
-//                            contentId: item.contentId,
-//                            username: item.username,
-//                            contentURL: item.url,
-//                            contentImage: image,
-//                            index: index,
-//                            isPrivate: item.isPrivate,
-//                            timeRemaining: item.timeRemaining
-//                        )
-//                        posts.append(post)
-//                    }
-//                    firstGroup.leave()
-//                })
+
             } else {
                 var post: TIPPost = TIPPost(
                     contentId: item.contentId,

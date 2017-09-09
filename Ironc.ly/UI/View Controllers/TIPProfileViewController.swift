@@ -77,11 +77,6 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                 //self.profileImageButton.setImage(image, for: .normal)
                 self.profilePicImageView.image = image
             })
-        } else {
-            UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                //self.profileImageButton.setImage(image, for: .normal)
-                self.profilePicImageView.image = image
-            })
         }
         
 //        if let backgroundURL = searchUser.backgroundImageURL {
@@ -115,7 +110,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.pencilEditButton.isHidden = true
         self.drawnFollowButton.isHidden = true
         
-        self.showUnfollowButton()
+        //self.showUnfollowButton()
         
 //        if TIPUser.currentUser?.subscribedTo?.contains(feedItem.userId) == true {
 //            //self.showUnsubscribeButton()
@@ -129,11 +124,6 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         
         if let profileURL = feedItem.profileImageURL {
             UIImage.loadImageUsingCache(urlString: profileURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
-                //self.profileImageButton.setImage(image, for: .normal)
-                self.profilePicImageView.image = image
-            })
-        } else {
-            UIImage.loadImageUsingCache(urlString: "no image", placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image) in
                 //self.profileImageButton.setImage(image, for: .normal)
                 self.profilePicImageView.image = image
             })
@@ -402,7 +392,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
         self.contentView.rightAnchor.constraint(equalTo: self.profileScrollView.rightAnchor).isActive = true
         self.contentView.bottomAnchor.constraint(equalTo: self.profileScrollView.bottomAnchor).isActive = true
         self.contentView.widthAnchor.constraint(equalTo: self.profileScrollView.widthAnchor).isActive = true
-        contentViewHeight = self.contentView.heightAnchor.constraint(equalToConstant: screenHeight * 2.5)
+        contentViewHeight = self.contentView.heightAnchor.constraint(equalToConstant: screenHeight)
         contentViewHeight?.isActive = true
         
         self.profileFrameImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
@@ -1236,6 +1226,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
                                     //TIPUser.currentUser?.coins -= 1000
                                     TIPUser.currentUser?.subscribedTo?.append(self.userId!)
                                     TIPUser.currentUser?.save()
+                                    self.storyCollectionView.reloadData()
                                     self.showAlert(title: "Thanks!", message: "You are now subbed!", completion: {
                                         //
                                     })
@@ -1299,12 +1290,10 @@ extension TIPProfileViewController: UICollectionViewDelegate{
 
 extension TIPProfileViewController: UICollectionViewDataSource {
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filters.count
         if nil == self.storyURLArray?.count{
-            return 3
+            return 0
         } else {
             return self.storyURLArray!.count
         }
@@ -1315,6 +1304,24 @@ extension TIPProfileViewController: UICollectionViewDataSource {
         let cell: TIPProfileStoryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.profileReuseID, for: indexPath) as! TIPProfileStoryCollectionViewCell
 
         let currentPost = self.storyURLArray?[indexPath.item]
+        
+        var isSubbed: Bool = false
+        
+        if let subbedTo = TIPUser.currentUser?.subscribedTo {
+            for sub in subbedTo{
+                if sub == self.userId {
+                    isSubbed = true
+                }
+            }
+        }
+        
+        if isSubbed == true || currentPost?.isPrivate == false || self.userId == TIPUser.currentUser?.userId {
+            cell.blurView.isHidden = true
+            cell.lockImageView.isHidden = true
+        } else {
+            cell.blurView.isHidden = false
+            cell.lockImageView.isHidden = false
+        }
         
         if self.storyURLArray == nil {
             cell.storyImage.image = #imageLiteral(resourceName: "blue_crumpled")

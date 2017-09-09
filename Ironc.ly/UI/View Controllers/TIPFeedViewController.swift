@@ -57,22 +57,21 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
     }
     
     func getFeed() {
-        self.loadingView.startAnimating()
+        //self.loadingView.startAnimating()
         TIPAPIClient.getFeed { (feedItems: [TIPFeedItem]?) in
-            self.loadingView.stopAnimating()
+            //self.loadingView.stopAnimating()
             
             if let feedItems: [TIPFeedItem] = feedItems {
                 self.feedItems = feedItems
                 //self.feedCollectionView.reloadData()
                 
                 if feedItems.count > 0 {
-                    self.preLoadImages()
+                    self.optimpizedPreLoadImages()
                 } else {
                     self.showEmptyView()
                 }
             } else {
                 self.showNoInternetView()
-                //NO INTERNET WARNING?
                 print("NO INTERNET")
             }
             
@@ -84,14 +83,14 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
         self.feedCollectionView.isHidden = true
         self.emptyView.isHidden = false
         self.noInternetView.isHidden = true
-        self.hideSplashView()
+        //self.hideSplashView()
     }
     
     func showNoInternetView() {
         self.feedCollectionView.isHidden = true
         self.noInternetView.isHidden = false
         self.emptyView.isHidden = true
-        self.hideSplashView()
+        //self.hideSplashView()
     }
     
     func hideSplashView() {
@@ -104,10 +103,70 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
         }
     }
     
-    func preLoadImages() {
-        var feedCount = 1
+//    func preLoadImages() {
+//        var feedCount = 1
+//        
+//        for feedItem in self.feedItems {
+//            
+//            UIImage.loadImageUsingCache(urlString: feedItem.storyImage, placeHolder: nil, completion: { (image: UIImage?) in
+//                
+//                if (image == nil) && (feedItem.storyImage.contains(".mp4")) {
+//                    
+//                    let videoImage = TIPAPIClient.testImageFromVideo(urlString: feedItem.storyImage, at: 0)
+//                    feedItem.actualStoryImage = videoImage
+//                    
+//                    if self.feedItems.count == feedCount {
+//                        self.feedCollectionView.reloadData()
+//                        self.feedCollectionView.isHidden = false
+//                        self.emptyView.isHidden = true
+//                        self.noInternetView.isHidden = true
+////                        self.hideSplashView()
+//                        
+//                    } else {
+//                        feedCount += 1
+//                    }
+//                }
+//                
+//                if let theImage: UIImage = image {
+//                    
+//                    feedItem.actualStoryImage = theImage
+//                    
+//                    if self.feedItems.count == feedCount {
+//                        self.feedCollectionView.reloadData()
+//                        self.feedCollectionView.isHidden = false
+//                        self.emptyView.isHidden = true
+//                        self.noInternetView.isHidden = true
+//                        
+//                    } else {
+//                        feedCount += 1
+//                    }
+//                }
+//                
+//            })
+//            
+//            UIImage.loadImageUsingCache(urlString: feedItem.profileImageURL, placeHolder: nil, completion: { (image: UIImage?) in
+//            
+//                if let thisProfileImage: UIImage = image {
+//            
+//                    feedItem.profileImage = thisProfileImage
+//            
+//                    //TESTING THIS OUT
+//                    if feedItem == self.feedItems.last {
+//                        self.feedCollectionView.reloadData()
+//                    }
+//                                
+//                }
+//            })
+//        }
+//    }
+    
+    func optimpizedPreLoadImages() {
+        
+        let firstGroup = DispatchGroup()
         
         for feedItem in self.feedItems {
+            
+            firstGroup.enter()
             
             UIImage.loadImageUsingCache(urlString: feedItem.storyImage, placeHolder: nil, completion: { (image: UIImage?) in
                 
@@ -115,49 +174,34 @@ class TIPFeedViewController: TIPViewControllerWIthPullDown {
                     
                     let videoImage = TIPAPIClient.testImageFromVideo(urlString: feedItem.storyImage, at: 0)
                     feedItem.actualStoryImage = videoImage
-                    
-                    if self.feedItems.count == feedCount {
-                        self.feedCollectionView.reloadData()
-                        self.feedCollectionView.isHidden = false
-                        self.emptyView.isHidden = true
-                        self.noInternetView.isHidden = true
-//                        self.hideSplashView()
-                        
-                    } else {
-                        feedCount += 1
-                    }
+                
                 }
                 
                 if let theImage: UIImage = image {
                     
                     feedItem.actualStoryImage = theImage
-                    
-                    if self.feedItems.count == feedCount {
-                        self.feedCollectionView.reloadData()
-                        self.feedCollectionView.isHidden = false
-                        self.emptyView.isHidden = true
-//                        self.hideSplashView()
-                        
-                    } else {
-                        feedCount += 1
-                    }
+                
                 }
                 
+                UIImage.loadImageUsingCache(urlString: feedItem.profileImageURL, placeHolder: #imageLiteral(resourceName: "empty_profile"), completion: { (image: UIImage?) in
+                    
+                    if let thisProfileImage: UIImage = image {
+                        feedItem.profileImage = thisProfileImage
+                        firstGroup.leave()
+                    }
+                })
+                
             })
-            
-            UIImage.loadImageUsingCache(urlString: feedItem.profileImageURL, placeHolder: nil, completion: { (image: UIImage?) in
-            
-                            if let thisProfileImage: UIImage = image {
-            
-                                feedItem.profileImage = thisProfileImage
-            
-                                self.feedCollectionView.reloadData()
-                            }
-                        })
+        
+        }
+        
+        firstGroup.notify(queue: DispatchQueue.main) {
+            self.feedCollectionView.reloadData()
+            self.feedCollectionView.isHidden = false
+            self.emptyView.isHidden = true
+            self.noInternetView.isHidden = true
         }
     }
-    
-  
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
