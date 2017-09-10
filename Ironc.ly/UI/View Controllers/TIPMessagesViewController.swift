@@ -14,7 +14,8 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .iroGray
+        //self.view.backgroundColor = .iroGray
+        self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(messageListCollectionView)
         
         self.setUpConstraints()
@@ -83,22 +84,35 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
     }
 
     // MARK: - Lazy Initialization
+    
+    lazy var backgroundImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "crumpled")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     lazy var messageListCollectionView: UITableView = {
         //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let tableView: UITableView = UITableView(frame: self.view.frame)
-        tableView.backgroundColor = UIColor.iroGray
+        tableView.backgroundColor = UIColor.clear
         tableView.register(TIPMessageListTableViewCell.self, forCellReuseIdentifier: self.messageListReuseId)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.alwaysBounceVertical = true
-        //collectionView.addSubview(self.refreshControl)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         //collectionView.isHidden = true
         return tableView
     }()
     
     func setUpConstraints() {
-        self.messageListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        self.messageListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: navBarHeight).isActive = true
         self.messageListCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.messageListCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.messageListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
