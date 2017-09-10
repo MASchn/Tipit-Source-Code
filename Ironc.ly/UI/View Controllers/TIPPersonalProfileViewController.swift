@@ -24,13 +24,20 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        
         self.userId = TIPUser.currentUser?.userId
         
         super.viewWillAppear(animated)
         
+        
+        
         guard let user: TIPUser = TIPUser.currentUser else {
             return
         }
+      
+        
+        
+
         
         self.followers = user.followersList
         self.following = user.followingList
@@ -114,6 +121,18 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.coinsLabel.isHidden = true
         self.coinsEarnedLabel.isHidden = true
         
+//        let walletButton = UIBarButtonItem.init(
+//            title: "Wallet",
+//            style: .plain,
+//            target: self,
+//            action: #selector(self.moveToWalletView))
+//        
+//        self.navigationController?.navigationItem.setLeftBarButton(walletButton, animated: true)
+        
+        
+
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Wallet", style: .plain, target: self, action: #selector(self.moveToWalletView))
+
         
         self.getPersonalStory()
     }
@@ -148,6 +167,11 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    func moveToWalletView(){
+        let walletview = TIPWalletViewController()
+        self.present(walletview, animated: true, completion: nil)
+    }
     
     func setUpPersonalConstraints() {
         

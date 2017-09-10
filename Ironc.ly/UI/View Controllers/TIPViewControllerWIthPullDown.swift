@@ -17,7 +17,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
         super.viewDidLoad()
         self.view.addSubview(self.pullDownView)
         
-        navBarHeight = CGFloat(((self.navigationController?.navigationBar.frame.size.height)! * 1.2))
+//        navBarHeight = CGFloat(((self.navigationController?.navigationBar.frame.size.height)! * 1.2))
         
 //        let navTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
 //        self.navigationController?.navigationBar.isUserInteractionEnabled = true
