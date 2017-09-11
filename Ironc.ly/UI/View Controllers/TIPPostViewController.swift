@@ -159,7 +159,7 @@ class TIPPostViewController: UIViewController {
     // MARK: - Lazy Initialization
     lazy var postImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

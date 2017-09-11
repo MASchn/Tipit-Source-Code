@@ -267,24 +267,7 @@ class TIPProfileViewController: TIPViewControllerWIthPullDown {
             
         }
        
-        
-//        switch storyCollectionView.isDragging {
-//        
-//        case false:
-//            self.drawnSwipeForMoreButton.isHidden = false
-//
-//            break
-//            
-//        case true:
-//            self.drawnSwipeForMoreButton.isHidden = true
-//            break
-//            
-//        default:
-////            self.drawnSwipeForMoreButton.isHidden = true
-//            break
-//        }
-        
-            }
+    }
     
     func getStory(userId: String) {
         TIPAPIClient.getStory(userId: userId, completionHandler: { (story: TIPStory?) in

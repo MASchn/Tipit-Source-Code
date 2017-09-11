@@ -22,15 +22,12 @@ class PhotoViewController: TIPPreviewViewController {
     
     var backgroundImageViewBottom: NSLayoutConstraint?
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
     var backgroundImage: UIImage
     var imageWithFilter: UIImage
     let filterReUseID = "filter"
     let filters = [CIFilter(name:""), CIFilter(name: "CIPhotoEffectNoir"), CIFilter(name:"CIPixellate"), CIFilter(name: "CISepiaTone"), CIFilter(name:"CIPhotoEffectFade"), CIFilter(name:"CIPhotoEffectInstant")]
     var finishedImages = [UIImage?]()
+    var filterSelection = 0
     let context = CIContext(options: nil)
     var extent: CGRect?
     var scaleFactor: CGFloat?
@@ -48,29 +45,28 @@ class PhotoViewController: TIPPreviewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.gray
+        //self.view.backgroundColor = UIColor.gray
         
         self.imageWithFilter = self.backgroundImage
         
         self.view.addSubview(self.backgroundImageView)
-        self.backgroundImageView.image = backgroundImage
         
-        self.backgroundImageView.isUserInteractionEnabled = true
+        self.view.addSubview(self.photoImageView)
+        self.photoImageView.image = backgroundImage
+        
+        self.photoImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.hideCollectionView))
-        self.backgroundImageView.addGestureRecognizer(tap)
+        self.photoImageView.addGestureRecognizer(tap)
         
-        let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 44.0, height: 44.0))
-        let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
-        cancelButton.setImage(image, for: UIControlState())
-        cancelButton.tintColor = UIColor.white
-        cancelButton.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
-        view.addSubview(cancelButton)
+        
+        //self.view.addSubview(self.cancelButton)
         
         
         self.view.addSubview(self.filterCollectionView)
         self.view.addSubview(self.pullUpFiltersButton)
         
         self.view.bringSubview(toFront: self.publicButton)
+        self.view.bringSubview(toFront: self.pullUpFiltersButton)
         self.view.bringSubview(toFront: self.privateButton)
         self.view.bringSubview(toFront: self.sendToFriendButton)
         
@@ -89,6 +85,15 @@ class PhotoViewController: TIPPreviewViewController {
         let ciImage = CIImage(image: self.backgroundImage)
         
         var i = 0
+        
+        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "navBarWithBackButton").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "rsz_backtomenuedited"), style: .plain, target: self, action: #selector(self.dismissCamera))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "rsz_backtomenuedited"), style: .plain, target: self, action: #selector(self.backButtonPressed))
+        
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
+        
+        self.view.bringSubview(toFront: self.pullDownView)
+        self.pullDownView.isHidden = true
         
         for filter in self.filters {
             
@@ -138,7 +143,7 @@ class PhotoViewController: TIPPreviewViewController {
         return collectionView
     }()
 
-    lazy var backgroundImageView: UIImageView = {
+    lazy var photoImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -146,30 +151,86 @@ class PhotoViewController: TIPPreviewViewController {
     
     lazy var pullUpFiltersButton: UIButton = {
         let button: UIButton = UIButton()
-        button.addTarget(self, action: #selector(self.pullUpCollectionView), for: .touchUpInside)
-        button.setImage(#imageLiteral(resourceName: "triangle_button-1"), for: .normal)
+        button.addTarget(self, action: #selector(self.changeFilter), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "wandButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "wandButtonPressed"), for: .highlighted)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var backgroundImageView: UIImageView = {
+        let view: UIImageView = UIImageView()
+        view.image = #imageLiteral(resourceName: "crumpled")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var cancelButton: UIButton = {
+        let button: UIButton = UIButton()
+        let image: UIImage = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: UIControlState())
+        button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     func setUpFilterConstraints(){
         
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
         self.filterCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.filterCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.filterCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.filterCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.2).isActive = true
         
-        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        backgroundImageViewBottom = self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        backgroundImageViewBottom?.isActive = true
+//        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+//        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+//        backgroundImageViewBottom = self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+//        backgroundImageViewBottom?.isActive = true
         
-        self.pullUpFiltersButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        self.pullUpFiltersButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -15).isActive = true
-        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.07).isActive = true
-        self.pullUpFiltersButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.heightAnchor).isActive = true
+        self.photoImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.photoImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.photoImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.photoImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
+        self.pullUpFiltersButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        self.pullUpFiltersButton.bottomAnchor.constraint(equalTo: self.photoImageView.bottomAnchor, constant: -35).isActive = true
+        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05).isActive = true
+        self.pullUpFiltersButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.heightAnchor, multiplier: 0.8).isActive = true
+        
+//        self.cancelButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -50).isActive = true
+//        self.cancelButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -50).isActive = true
+//        self.cancelButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.widthAnchor).isActive = true
+//        self.cancelButton.heightAnchor.constraint(equalTo: self.cancelButton.widthAnchor).isActive = true
+        
+    }
+    
+    func dismissCamera() {
+        self.navigationController?.dismiss(animated: true, completion: {
+            //
+        })
+    }
+    
+    func backButtonPressed() {
+        _ = self.navigationController?.popViewController(animated: false)
+    }
+    
+    func changeFilter() {
+        
+        if self.filterSelection < self.filters.count - 1 {
+            self.filterSelection += 1
+            
+        } else if self.filterSelection == self.filters.count - 1{
+            self.filterSelection = 0
+        }
+        
+        self.photoImageView.image = self.finishedImages[self.filterSelection]
+        self.imageWithFilter = self.finishedImages[self.filterSelection]!
     }
     
     func pullUpCollectionView() {
@@ -178,7 +239,7 @@ class PhotoViewController: TIPPreviewViewController {
         self.publicButton.isHidden = true
         self.sendToFriendButton.isHidden = true
         self.pullUpFiltersButton.isHidden = true
-        backgroundImageViewBottom?.constant = -self.filterCollectionView.bounds.height
+        //backgroundImageViewBottom?.constant = -self.filterCollectionView.bounds.height
     }
     
     func hideCollectionView() {
@@ -187,7 +248,7 @@ class PhotoViewController: TIPPreviewViewController {
         self.publicButton.isHidden = false
         self.sendToFriendButton.isHidden = false
         self.pullUpFiltersButton.isHidden = false
-        backgroundImageViewBottom?.constant = 0
+        //backgroundImageViewBottom?.constant = 0
     }
     
     func cancel() {
@@ -213,7 +274,7 @@ class PhotoViewController: TIPPreviewViewController {
     func postContent(isPrivate: Bool) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
 
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
+        self.navigationController?.dismiss(animated: true, completion: {
             if let data: Data = UIImageJPEGRepresentation(self.imageWithFilter, 0.0) {
                 TIPAPIClient.postContent(
                     user: user,
@@ -296,7 +357,7 @@ extension PhotoViewController: UICollectionViewDataSource {
         
 //        let cell = collectionView.cellForItem(at: indexPath) as! TIPFilterCollectionViewCell
         
-        self.backgroundImageView.image = self.finishedImages[indexPath.item]
+        self.photoImageView.image = self.finishedImages[indexPath.item]
         self.imageWithFilter = self.finishedImages[indexPath.item]!
         
         
