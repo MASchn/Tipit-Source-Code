@@ -37,6 +37,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.contentView.addSubview(self.subscribeButton)
         self.contentView.bringSubview(toFront: self.profileImageView)
         self.contentView.bringSubview(toFront: self.usernameLabel)
+        //self.contentView.addSubview(self.topImageView)
+        self.contentView.addSubview(self.bottomImageView)
         
         
         self.setUpFeedConstraints()
@@ -140,9 +142,9 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.gradient.frame = self.bounds
-        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.width / 2.0
-        self.postImageView.layer.insertSublayer(self.gradient, at: 0)
+//        self.gradient.frame = self.bounds
+//        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.width / 2.0
+//        self.postImageView.layer.insertSublayer(self.gradient, at: 0)
     }
     
     // MARK: - Lazy Initialization
@@ -183,8 +185,8 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         //button.setTitle("Sign up", for: .normal)
         button.addTarget(self, action: #selector(self.tappedTipButton), for: .touchUpInside)
         //button.clipsToBounds = true
-        button.setImage(#imageLiteral(resourceName: "tip_button"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "tip_button_pressed"), for: .highlighted)
+        button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
         //button.addTarget(self, action: #selector(self.buttonHeldDown), for: .touchDown)
         //button.addTarget(self, action: #selector(self.buttonLetGo), for: .touchDragExit)
         button.tag = 0
@@ -239,6 +241,20 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         label.text = "0 Coins"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var topImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "topOfFeedCell")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var bottomImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "bottomOfFeedCell")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     // MARK: - Autolayout
@@ -304,6 +320,17 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.subscribeButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 0.8).isActive = true
         self.subscribeButton.widthAnchor.constraint(equalTo: self.subscribeButton.heightAnchor, multiplier: 2.3).isActive = true
         
+//        self.topImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+//        self.topImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+//        self.topImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+//        //self.topImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.1).isActive = true
+//        self.topImageView.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor).isActive = true
+        
+        self.bottomImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 25).isActive = true
+        self.bottomImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.bottomImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        //self.topImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.1).isActive = true
+        self.bottomImageView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor).isActive = true
     }
     
     func setUpFeedConstraints() {

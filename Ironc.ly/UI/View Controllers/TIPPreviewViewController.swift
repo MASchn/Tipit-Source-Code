@@ -28,6 +28,7 @@ class TIPPreviewViewController: TIPViewControllerWIthPullDown {
 
         //self.view.addSubview(self.privateButton)
         self.view.addSubview(self.publicButton)
+        self.view.addSubview(self.backButton)
         //self.view.addSubview(self.sendToFriendButton)
         
         self.setUpConstraints()
@@ -68,6 +69,16 @@ class TIPPreviewViewController: TIPViewControllerWIthPullDown {
         return button
     }()
     
+    lazy var backButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button_pressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.dismissPhoto), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
         
@@ -78,13 +89,22 @@ class TIPPreviewViewController: TIPViewControllerWIthPullDown {
         
         self.publicButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         self.publicButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/2.6).isActive = true
-        self.publicButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.17).isActive = true
-        self.publicButton.widthAnchor.constraint(equalTo: self.publicButton.heightAnchor, multiplier: 2.3).isActive = true
+        self.publicButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15).isActive = true
+        self.publicButton.widthAnchor.constraint(equalTo: self.publicButton.heightAnchor, multiplier: 3).isActive = true
+        
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
+        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -12).isActive = true
+        self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.3).isActive = true
+        self.backButton.heightAnchor.constraint(equalTo: self.backButton.widthAnchor, multiplier: 1).isActive = true
         
 //        self.privateButton.bottomAnchor.constraint(equalTo: self.publicButton.topAnchor, constant: -vMargin).isActive = true
 //        self.privateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
 //        self.privateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
 //        self.privateButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func dismissPhoto() {
+        _ = self.navigationController?.popViewController(animated: false)
     }
     
 }

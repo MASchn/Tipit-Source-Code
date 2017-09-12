@@ -69,6 +69,7 @@ class PhotoViewController: TIPPreviewViewController {
         self.view.bringSubview(toFront: self.pullUpFiltersButton)
         self.view.bringSubview(toFront: self.privateButton)
         self.view.bringSubview(toFront: self.sendToFriendButton)
+        self.view.bringSubview(toFront: self.backButton)
         
         self.sendToFriendButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
         
@@ -126,6 +127,10 @@ class PhotoViewController: TIPPreviewViewController {
         
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     //MARK: -Lazy Initializers
     lazy var filterCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -152,8 +157,8 @@ class PhotoViewController: TIPPreviewViewController {
     lazy var pullUpFiltersButton: UIButton = {
         let button: UIButton = UIButton()
         button.addTarget(self, action: #selector(self.changeFilter), for: .touchUpInside)
-        button.setImage(#imageLiteral(resourceName: "wandButton"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "wandButtonPressed"), for: .highlighted)
+        button.setImage(#imageLiteral(resourceName: "newWandButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "newWandButtonPressed"), for: .highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -198,10 +203,10 @@ class PhotoViewController: TIPPreviewViewController {
         self.photoImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.photoImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        self.pullUpFiltersButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
-        self.pullUpFiltersButton.bottomAnchor.constraint(equalTo: self.photoImageView.bottomAnchor, constant: -35).isActive = true
-        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05).isActive = true
-        self.pullUpFiltersButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.heightAnchor, multiplier: 0.8).isActive = true
+        self.pullUpFiltersButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        self.pullUpFiltersButton.topAnchor.constraint(equalTo: self.photoImageView.topAnchor, constant: 10).isActive = true
+        self.pullUpFiltersButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1).isActive = true
+        self.pullUpFiltersButton.widthAnchor.constraint(equalTo: self.pullUpFiltersButton.heightAnchor, multiplier: 0.9).isActive = true
         
 //        self.cancelButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -50).isActive = true
 //        self.cancelButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -50).isActive = true

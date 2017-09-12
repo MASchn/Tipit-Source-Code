@@ -54,8 +54,8 @@ class TIPStoryCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    lazy var profileImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
+    lazy var profileImageView: TriangleView = {
+        let imageView: TriangleView = TriangleView(frame: CGRect.zero)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false

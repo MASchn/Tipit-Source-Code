@@ -19,7 +19,7 @@ class TIPCamViewController: SwiftyCamViewController {
         
         self.cameraDelegate = self
         self.maximumVideoDuration = 11.0
-        self.videoQuality = .resolution1280x720
+        self.videoQuality = .high
         //self.videoQuality = .resolution352x288
         
         //self.captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 30.0, y: view.frame.height - 100.0, width: 60.0, height: 60.0))
@@ -35,6 +35,7 @@ class TIPCamViewController: SwiftyCamViewController {
         self.view.addSubview(self.photoLibraryButton)
         self.view.bringSubview(toFront: self.cancelButton)
         self.view.addSubview(self.pullDownView)
+        self.view.addSubview(self.backButton)
         
         //navBarHeight = CGFloat(((self.navigationController?.navigationBar.frame.size.height)! * 1.2))
         
@@ -73,11 +74,14 @@ class TIPCamViewController: SwiftyCamViewController {
         self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
         
         self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "transparentNavBar").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "rsz_backtomenuedited"), style: .plain, target: self, action: #selector(self.dismissCamera))
+        self.navigationController?.navigationBar.isHidden = true
+        
     }
     
-//    override var prefersStatusBarHidden: Bool {
-//        return true
-//    }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     // MARK: - Lazy Initialization
     
@@ -111,8 +115,8 @@ class TIPCamViewController: SwiftyCamViewController {
     
     lazy var switchCameraButton: UIButton = {
         let button: UIButton = UIButton()
-        button.setImage(#imageLiteral(resourceName: "newSwitchCamera"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "newSwitchCameraPressed"), for: .highlighted)
+        button.setImage(#imageLiteral(resourceName: "superNewSwitchCamera"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "superNewSwitchCameraPressed"), for: .highlighted)
         //button.tintColor = UIColor.black
         button.addTarget(self, action: #selector(self.tappedSwitchCameraButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -140,12 +144,23 @@ class TIPCamViewController: SwiftyCamViewController {
         return button
     }()
     
-    lazy var captureButton: UIButton = {
+    lazy var coolButton: UIButton = {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
         //button.tintColor = UIColor.white
         button.addTarget(self, action: #selector(self.takePicturePressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var captureButton: SwiftyCamButton = {
+        let button: SwiftyCamButton = SwiftyCamButton()
+        button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        button.delegate = self
+        //button.addTarget(self, action: #selector(self.takePicturePressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -157,6 +172,16 @@ class TIPCamViewController: SwiftyCamViewController {
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    lazy var backButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button_pressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.dismissCamera), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     // MARK: - Autolayout
@@ -173,13 +198,15 @@ class TIPCamViewController: SwiftyCamViewController {
         self.bottomImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.bottomImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
         
-        self.switchCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
-        self.switchCameraButton.topAnchor.constraint(equalTo: self.bottomImageView.topAnchor, constant: 20).isActive = true
-        self.switchCameraButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.08).isActive = true
-        self.switchCameraButton.widthAnchor.constraint(equalTo: self.switchCameraButton.heightAnchor, multiplier: 1.4).isActive = true
+        self.switchCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+        //self.flashButton.topAnchor.constraint(equalTo: self.bottomImageView.topAnchor, constant: 10).isActive = true
+        self.switchCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 8).isActive = true
+        self.switchCameraButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1).isActive = true
+        self.switchCameraButton.widthAnchor.constraint(equalTo: self.switchCameraButton.heightAnchor, multiplier: 1.65).isActive = true
         
-        self.flashButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
-        self.flashButton.topAnchor.constraint(equalTo: self.bottomImageView.topAnchor, constant: 10).isActive = true
+        self.flashButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        //self.switchCameraButton.topAnchor.constraint(equalTo: self.bottomImageView.topAnchor, constant: 20).isActive = true
+        self.flashButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5).isActive = true
         self.flashButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         self.flashButton.heightAnchor.constraint(equalTo: self.flashButton.widthAnchor, multiplier: 1.3).isActive = true
         
@@ -188,15 +215,21 @@ class TIPCamViewController: SwiftyCamViewController {
         self.timerLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.timerLabel.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         
-        self.photoLibraryButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20.0).isActive = true
-        self.photoLibraryButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20.0).isActive = true
-        self.photoLibraryButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        self.photoLibraryButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5.0).isActive = true
+        //self.photoLibraryButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20.0).isActive = true
+        self.photoLibraryButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5).isActive = true
+        self.photoLibraryButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
         self.photoLibraryButton.widthAnchor.constraint(equalTo: self.photoLibraryButton.heightAnchor, multiplier: 1.4).isActive = true
         
-        self.captureButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/2.7).isActive = true
+        self.captureButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/3.5).isActive = true
         self.captureButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.captureButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.3).isActive = true
+        self.captureButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.45).isActive = true
         self.captureButton.heightAnchor.constraint(equalTo: self.captureButton.widthAnchor, multiplier: 1).isActive = true
+        
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
+        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -12).isActive = true
+        self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.3).isActive = true
+        self.backButton.heightAnchor.constraint(equalTo: self.backButton.widthAnchor, multiplier: 1).isActive = true
     }
     
     override func setUpCameraConstraints() {
@@ -397,7 +430,7 @@ extension TIPCamViewController: SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         let newVC = VideoViewController(videoURL: url)
-        self.present(newVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(newVC, animated: false)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {}
