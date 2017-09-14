@@ -55,8 +55,17 @@ class TIPWalletViewController: TIPViewControllerWIthPullDown {
         self.addPullDownMenu()
         self.setUpWalletConstraints()
 
+        self.populateLabels()
         
         
+    }
+    
+    func populateLabels(){
+        
+        self.coinsLabel.text = "-COINS- \n \(TIPUser.currentUser?.coins ?? 0)"
+        self.coinsEarnedLabel.text = "-TOTAL EARNED- \n \(TIPUser.currentUser?.coinsEarned ?? 0)"
+        self.coinsSpentLabel.text = "-TOTAL SPENT- \n 0"
+        self.availableBalanceLabel.text = "-AVAILABLE BALANCE- \n 0"
         
     }
 
@@ -122,6 +131,7 @@ class TIPWalletViewController: TIPViewControllerWIthPullDown {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "GetMoreCoinsDepressed"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "GetMoreCoinsPressed"), for: .highlighted)
+        button.addTarget(self, action: #selector(self.buyCoinsTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

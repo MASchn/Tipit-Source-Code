@@ -159,7 +159,6 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "buy_coins"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "pressed_buy_coins"), for: .highlighted)
-        button.addTarget(self, action: #selector(self.buyCoinsTapped), for: .touchUpInside)
         button.addTarget(self, action: #selector(self.buyCoinsHeldDown), for: .touchDown)
         button.addTarget(self, action: #selector(self.buyCoinsLetGo), for: .touchDragExit)
         //button.imageView?.contentMode = .scaleAspectFill
@@ -226,12 +225,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         }
     }
     
-    func buyCoinsTapped() {
-        let buyCoinsViewController: TIPBuyCoinsViewController = TIPBuyCoinsViewController(style: .grouped)
-        //buyCoinsViewController.delegate = self
-        let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
-        self.present(navigationController, animated: true, completion: nil)
-    }
+
     
     func buyCoinsHeldDown() {
         self.buyCoinsTop?.constant += 5
