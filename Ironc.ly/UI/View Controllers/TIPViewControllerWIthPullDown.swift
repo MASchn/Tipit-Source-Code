@@ -12,6 +12,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
     
     var pullDownMenuBottom: NSLayoutConstraint?
     var navBarHeight: CGFloat = 0
+    static var pullMenuIsOut: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,12 @@ class TIPViewControllerWIthPullDown: UIViewController {
         self.navigationController?.navigationBar.isUserInteractionEnabled = true
         self.navigationController?.navigationBar.addGestureRecognizer(pullDownPan)
         
+//        if TIPViewControllerWIthPullDown.pullMenuIsOut == true {
+//            self.pullDownMenuBottom?.constant = self.pullDownView.bounds.size.height
+//        } else {
+//            self.pullDownMenuBottom?.constant = navBarHeight
+//        }
+        self.pullDownMenuBottom?.constant = navBarHeight
     }
     
     lazy var pullDownView: TIPPullDownMenu = {
@@ -100,6 +107,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
             if (self.pullDownMenuBottom?.constant)! < (self.pullDownView.bounds.size.height)/1.2 {
                 
                 self.pullDownMenuBottom?.constant = navBarHeight
+                TIPViewControllerWIthPullDown.pullMenuIsOut = false
                 
                 UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.view.layoutIfNeeded()
@@ -107,6 +115,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
                 
             } else {
                 self.pullDownMenuBottom?.constant = self.pullDownView.bounds.size.height
+                TIPViewControllerWIthPullDown.pullMenuIsOut = true
                 
                 UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.view.layoutIfNeeded()
@@ -136,6 +145,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
             if (self.pullDownMenuBottom?.constant)! < (self.pullDownView.bounds.size.height)/3 {
                 
                 self.pullDownMenuBottom?.constant = navBarHeight
+                TIPViewControllerWIthPullDown.pullMenuIsOut = false
                 
                 UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.view.layoutIfNeeded()
@@ -143,6 +153,7 @@ class TIPViewControllerWIthPullDown: UIViewController {
                 
             } else {
                 self.pullDownMenuBottom?.constant = self.pullDownView.bounds.size.height
+                TIPViewControllerWIthPullDown.pullMenuIsOut = true
                 
                 UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.view.layoutIfNeeded()
@@ -159,11 +170,15 @@ class TIPViewControllerWIthPullDown: UIViewController {
 
 extension TIPViewControllerWIthPullDown: pullDownMenuDelegate {
     
+    func dismissView() {
+        //
+    }
+    
     func hideMenuBringUpNewView(view: UIViewController) {
         
         self.hidePullDownMenuFast()
         
-        self.present(view, animated: true) { 
+        self.present(view, animated: false) {
             //
         }
         

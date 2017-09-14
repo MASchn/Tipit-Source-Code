@@ -196,7 +196,7 @@ open class SwiftyCamViewController: UIViewController {
     
     /// PreviewView for the capture session
     
-    fileprivate var previewLayer                 : PreviewView!
+    var previewLayer                 : PreviewView!
     
     /// UIView for front facing flash
     
@@ -212,17 +212,42 @@ open class SwiftyCamViewController: UIViewController {
     // MARK: ViewDidLoad
     
     /// ViewDidLoad Implementation
-
+    
+    lazy var backgroundImageView: UIImageView = {
+        let view: UIImageView = UIImageView()
+        view.image = #imageLiteral(resourceName: "crumpled")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var cameraSessionView: UIView = {
+        let view: UIView = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var navBarHeight: CGFloat = 0
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
-        previewLayer = PreviewView(frame: self.view.frame)
-
-        // Add Gesture Recognizers
         
+        self.view.addSubview(self.backgroundImageView)
+        //self.view.addSubview(self.cameraSessionView)
+        navBarHeight = CGFloat(((self.navigationController?.navigationBar.frame.size.height)! * 1.2))
+        
+        self.setUpCameraConstraints()
+        //let theFrame = CGRect(x: <#T##CGFloat#>, y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+        
+        //previewLayer = PreviewView(frame: self.view.frame)
+        
+        previewLayer = PreviewView(frame: self.view.frame)
+        // Add Gesture Recognizers
+    
         addGestureRecognizersTo(view: previewLayer)
         
         self.view.addSubview(previewLayer)
         previewLayer.session = session
+        //previewLayer.contentMode = .scaleAspectFill
         
         // Test authorization status for Camera and Micophone
         
@@ -249,6 +274,27 @@ open class SwiftyCamViewController: UIViewController {
             sessionQueue.async { [unowned self] in
                 self.configureSession()
         }
+    }
+    
+//    override open func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        previewLayer = PreviewView(frame: self.cameraSessionView.frame)
+//        
+//    }
+    
+    func setUpCameraConstraints() {
+        
+        self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backgroundImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backgroundImageView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+//        self.cameraSessionView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        self.cameraSessionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.cameraSessionView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -30).isActive = true
+//        self.cameraSessionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
+        
+        self.view.layoutIfNeeded()
     }
     
     // MARK: ViewDidAppear
@@ -521,12 +567,12 @@ open class SwiftyCamViewController: UIViewController {
     fileprivate func configureVideoPreset() {
         
         if currentCamera == .front {
-            session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+            session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
         } else {
             if session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)) {
                 session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
             } else {
-                session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+                session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
             }
         }
     }

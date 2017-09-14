@@ -30,6 +30,7 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         
         //self.tabBarController?.navigationController?.isNavigationBarHidden = true
         self.getSubs()
+        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
     }
     
     func getFeed() {
@@ -55,29 +56,60 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         }
     }
     
+//    func getSubs() {
+//        
+//        self.subbedToUsers.removeAll()
+//        
+//        guard let subbedTo = TIPUser.currentUser?.subscribedTo else {
+//            return
+//        }
+//        
+//        guard let subbing = TIPUser.currentUser?.subscribers else {
+//            return
+//        }
+//        
+//        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
+//            
+//            if let users: [TIPSearchUser] = SearchUsers {
+//                for user: TIPSearchUser in users {
+//                    
+//                    if subbedTo.contains(user.userId) || subbing.contains(user.userId) {
+//                        self.subbedToUsers.append(user)
+//                    }
+//                }
+//            }
+//            
+//            self.messageListCollectionView.reloadData()
+//        }
+//        
+//    }
+    
     func getSubs() {
-        
         self.subbedToUsers.removeAll()
         
         guard let subbedTo = TIPUser.currentUser?.subscribedTo else {
             return
         }
-        
+
         guard let subbing = TIPUser.currentUser?.subscribers else {
             return
         }
         
-        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
+        let firstGroup = DispatchGroup()
+        
+        for sub in subbedTo {
             
-            if let users: [TIPSearchUser] = SearchUsers {
-                for user: TIPSearchUser in users {
-                    
-                    if subbedTo.contains(user.userId) || subbing.contains(user.userId) {
-                        self.subbedToUsers.append(user)
-                    }
+            firstGroup.enter()
+            
+            TIPAPIClient.pullSpecificUserInfo(userID: sub, completionHandler: { (searchUser, error) in
+                if let user: TIPSearchUser = searchUser {
+                    self.subbedToUsers.append(user)
+                    firstGroup.leave()
                 }
-            }
-            
+            })
+        }
+        
+        firstGroup.notify(queue: DispatchQueue.main) {
             self.messageListCollectionView.reloadData()
         }
         
@@ -132,9 +164,12 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
                 return
             }
             
+            DispatchQueue.main.async {
             let chatVC: TIPChatViewController = TIPChatViewController(feedItem: user, channel: channel!)
-            let chatNavController: UINavigationController = UINavigationController(rootViewController: chatVC)
-            self.present(chatNavController, animated: true, completion: nil)
+            //let chatNavController: UINavigationController = UINavigationController(rootViewController: chatVC)
+            //self.present(chatNavController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(chatVC, animated: true)
+            }
         }
         
     }

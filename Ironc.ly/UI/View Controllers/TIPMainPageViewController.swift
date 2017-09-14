@@ -350,7 +350,8 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
         switch cell.tag {
         case 4:
             let cameraViewController: TIPCamViewController = TIPCamViewController()
-            self.present(cameraViewController, animated: true, completion: nil)
+            let cameraNavController = UINavigationController(rootViewController: cameraViewController)
+            self.present(cameraNavController, animated: true, completion: nil)
         case 5:
             AppDelegate.shared.tabBarController?.selectedIndex = 3
             self.navigationController?.dismiss(animated: true, completion: {})

@@ -11,7 +11,7 @@ enum TIPContentType: String {
     case video = "video"
 }
 
-class TIPPreviewViewController: UIViewController {
+class TIPPreviewViewController: TIPViewControllerWIthPullDown {
     
     var contentType: TIPContentType = .photo
     
@@ -26,11 +26,15 @@ class TIPPreviewViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.white
 
-        self.view.addSubview(self.privateButton)
+        //self.view.addSubview(self.privateButton)
         self.view.addSubview(self.publicButton)
-        self.view.addSubview(self.sendToFriendButton)
+        self.view.addSubview(self.backButton)
+        //self.view.addSubview(self.sendToFriendButton)
         
         self.setUpConstraints()
+        
+        self.configureTIPNavBar()
+        self.addPullDownMenu()
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,10 +53,10 @@ class TIPPreviewViewController: UIViewController {
         return button
     }()
     
-    lazy var publicButton: TIPButton = {
-        let button: TIPButton = TIPButton(style: .green)
-        button.setTitle("Public", for: .normal)
-        button.clipsToBounds = true
+    lazy var publicButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "newSendButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "newSendButtonPressed"), for: .highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -65,26 +69,42 @@ class TIPPreviewViewController: UIViewController {
         return button
     }()
     
+    lazy var backButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "realistic_back_button_pressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(self.dismissPhoto), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // MARK: - Autolayout
     func setUpConstraints() {
-        let hMargin: CGFloat = 40.0
-        let vMargin: CGFloat = 20.0
-        let height: CGFloat = 50.0
         
-        self.sendToFriendButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -hMargin).isActive = true
-        self.sendToFriendButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
-        self.sendToFriendButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
-        self.sendToFriendButton.heightAnchor.constraint(equalToConstant: vMargin).isActive = true
+//        self.sendToFriendButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -hMargin).isActive = true
+//        self.sendToFriendButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+//        self.sendToFriendButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+//        self.sendToFriendButton.heightAnchor.constraint(equalToConstant: vMargin).isActive = true
         
-        self.publicButton.bottomAnchor.constraint(equalTo: self.sendToFriendButton.topAnchor, constant: -vMargin).isActive = true
-        self.publicButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
-        self.publicButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
-        self.publicButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.publicButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        self.publicButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/2.6).isActive = true
+        self.publicButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15).isActive = true
+        self.publicButton.widthAnchor.constraint(equalTo: self.publicButton.heightAnchor, multiplier: 3).isActive = true
         
-        self.privateButton.bottomAnchor.constraint(equalTo: self.publicButton.topAnchor, constant: -vMargin).isActive = true
-        self.privateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
-        self.privateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
-        self.privateButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
+        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -12).isActive = true
+        self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.3).isActive = true
+        self.backButton.heightAnchor.constraint(equalTo: self.backButton.widthAnchor, multiplier: 1).isActive = true
+        
+//        self.privateButton.bottomAnchor.constraint(equalTo: self.publicButton.topAnchor, constant: -vMargin).isActive = true
+//        self.privateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: hMargin).isActive = true
+//        self.privateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -hMargin).isActive = true
+//        self.privateButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func dismissPhoto() {
+        _ = self.navigationController?.popViewController(animated: false)
     }
     
 }

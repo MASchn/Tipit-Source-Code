@@ -201,6 +201,27 @@ class TIPAPIClient: NSObject {
         }
     }
     
+    class func pullSpecificUserInfo(userID: String, completionHandler: @escaping (TIPSearchUser?, Error?) -> Void) {
+        
+        Alamofire.request(baseURL + "/users/\(userID)", headers: self.authHeaders)
+            .debugLog()
+            .responseJSON
+            { (response) in
+                switch response.result {
+                case .success(let JSONDictionary):
+                    if let JSON: [String : Any] = JSONDictionary as? [String : Any] {
+                        print("CURRENT USER JSON: \(JSON)")
+                        
+                        let searchUser = TIPSearchUser(JSON: JSON)
+                        completionHandler(searchUser, nil)
+                    }
+                case .failure(let error):
+                    completionHandler(nil, error)
+                    print("Update user request failed with error \(error)")
+                }
+        }
+    }
+    
     class func updateUserImage(data: Data, type: TIPUserImageType, completionHandler: @escaping (Bool) -> Void) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         

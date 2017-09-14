@@ -12,6 +12,7 @@ protocol pullDownMenuDelegate: class {
     func hideMenuBringUpNewView(view: UIViewController)
     func hidePullDownMenuFast()
     func animateMenu()
+    func dismissView()
 }
 
 class TIPPullDownMenu: UIView {
@@ -60,6 +61,7 @@ class TIPPullDownMenu: UIView {
         let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(TIPPullDownCollectionViewCell.self, forCellWithReuseIdentifier: self.pullDownReuseId)
         collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -138,21 +140,24 @@ extension TIPPullDownMenu: UICollectionViewDelegate {
     
 //        var iconImageArray = [#imageLiteral(resourceName: "miniDrawIcon"), #imageLiteral(resourceName: "miniTypeIcon"), #imageLiteral(resourceName: "miniVideoIcon"), #imageLiteral(resourceName: "miniCameraIcon"), #imageLiteral(resourceName: "miniMessagingIcon"), #imageLiteral(resourceName: "miniFeedIcon"), #imageLiteral(resourceName: "miniProfileIcon"), #imageLiteral(resourceName: "miniSettingsIcon")]
         
+        self.delegate?.dismissView()
+        
         switch cell.tag {
         case 3:
             let cameraViewController: TIPCamViewController = TIPCamViewController()
-            self.delegate?.hideMenuBringUpNewView(view: cameraViewController)
+            let cameraNavVC = UINavigationController(rootViewController: cameraViewController)
+            self.delegate?.hideMenuBringUpNewView(view: cameraNavVC)
         case 4:
-            self.delegate?.hidePullDownMenuFast()
+            //self.delegate?.hidePullDownMenuFast()
             AppDelegate.shared.tabBarController?.selectedIndex = 3
         case 5:
-            self.delegate?.hidePullDownMenuFast()
+            //self.delegate?.hidePullDownMenuFast()
             AppDelegate.shared.tabBarController?.selectedIndex = 0
             AppDelegate.shared.tabBarController?.navigationController?.dismiss(animated: false, completion: {
                 //
             })
         case 6:
-            self.delegate?.hidePullDownMenuFast()
+            //self.delegate?.hidePullDownMenuFast()
             AppDelegate.shared.tabBarController?.selectedIndex = 4
         case 7:
             let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()

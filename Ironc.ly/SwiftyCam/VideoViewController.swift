@@ -128,7 +128,7 @@ class VideoViewController: TIPPreviewViewController {
         
         let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
         
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
+        self.navigationController?.dismiss(animated: true, completion: {
             
             self.compressVideo(inputURL: self.videoURL, outputURL: compressedURL, handler:  { (_ exportSession: AVAssetExportSession?) -> Void in
                 
