@@ -43,15 +43,18 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         
         //self.view.backgroundColor = .white
         self.title = self.username
-        self.collectionView?.backgroundColor = .white
+        //self.collectionView?.backgroundColor = .clear
+        //self.collectionView?.backgroundView = UIImageView(image: #imageLiteral(resourceName: "crumpled"))
+        let backgroundImage = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
+        self.collectionView?.backgroundView = UIImageView(image: backgroundImage)
         self.collectionView?.bounces = true
         self.collectionView?.alwaysBounceVertical = true
         self.collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.tintColor = .black
+        //self.navigationController?.navigationBar.tintColor = .black
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedDismissButton))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.tappedBackButton))
-        self.navigationController?.navigationBar.titleTextAttributes = TIPStyle.navBarTitleAttributes
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.tappedBackButton))
+        //self.navigationController?.navigationBar.titleTextAttributes = TIPStyle.navBarTitleAttributes
         
         self.collectionView?.register(TIPChatCollectionViewCell.self, forCellWithReuseIdentifier: self.chatReuseId)
         
@@ -116,7 +119,8 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.configureTIPNavBar()
+        self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "navBarWithBackButton").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -263,15 +267,15 @@ class TIPChatViewController: UICollectionViewController, UICollectionViewDelegat
         let message = messages[indexPath.item]
         
         if message.sender?.userId == TIPUser.currentUser?.userId {
-            cell.bubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
-            cell.textView.textColor = .white
+            //cell.bubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+            //cell.textView.textColor = .white
             cell.profileImageView.isHidden = true
             
             cell.bubbleRightAnchor?.isActive = true
             cell.bubbleLeftAnchor?.isActive = false
         } else {
-            cell.bubbleView.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
-            cell.textView.textColor = .black
+            //cell.bubbleView.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
+            //cell.textView.textColor = .black
             //cell.profileImageView.image = chatUser.profileImage
             cell.profileImageView.isHidden = false
             

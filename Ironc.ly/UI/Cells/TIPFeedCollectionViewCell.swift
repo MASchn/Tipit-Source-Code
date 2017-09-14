@@ -142,9 +142,9 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-//        self.gradient.frame = self.bounds
-//        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.width / 2.0
-//        self.postImageView.layer.insertSublayer(self.gradient, at: 0)
+        self.gradient.frame = self.bounds
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.width / 2.0
+        self.postImageView.layer.insertSublayer(self.gradient, at: 0)
     }
     
     // MARK: - Lazy Initialization
@@ -326,7 +326,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
 //        //self.topImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.1).isActive = true
 //        self.topImageView.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor).isActive = true
         
-        self.bottomImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 25).isActive = true
+        self.bottomImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 50).isActive = true
         self.bottomImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.bottomImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         //self.topImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.1).isActive = true

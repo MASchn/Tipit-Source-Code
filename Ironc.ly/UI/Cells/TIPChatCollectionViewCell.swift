@@ -48,7 +48,10 @@ class TIPChatCollectionViewCell: UICollectionViewCell {
     // MARK: - Lazy Initialization
     lazy var bubbleView: UIView = {
         let view: UIView = UIView()
-        view.backgroundColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+        view.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        //view.backgroundColor = .clear
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
@@ -57,9 +60,10 @@ class TIPChatCollectionViewCell: UICollectionViewCell {
     
     lazy var textView: UITextView = {
         let tv: UITextView = UITextView()
-        tv.textColor = .white
+        tv.textColor = .black
         //tv.font = .systemFont(ofSize: 12.0, weight: UIFontWeightHeavy)
-        tv.font = UIFont.systemFont(ofSize: 16)
+        //tv.font = UIFont.systemFont(ofSize: 16)
+        tv.font = UIFont(name: AppDelegate.shared.fontName, size: 16)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .clear
         tv.isUserInteractionEnabled = false
