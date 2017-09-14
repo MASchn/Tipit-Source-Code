@@ -73,8 +73,8 @@ class TIPSubscribersCollectionViewCell: UICollectionViewCell {
         subsBackground.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: 0).isActive = true
         subsBackground.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0).isActive = true
         
-        self.subsImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -32).isActive = true
-        self.subsImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0).isActive = true
+        self.subsImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -self.contentView.frame.size.height/5.3).isActive = true
+        self.subsImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 1).isActive = true
         self.subsImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.68).isActive = true
         self.subsImage.heightAnchor.constraint(equalTo: self.subsImage.widthAnchor, multiplier: 1).isActive = true
         

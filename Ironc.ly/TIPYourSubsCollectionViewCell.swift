@@ -44,6 +44,7 @@ class TIPYourSubsCollectionViewCell: UICollectionViewCell {
     lazy var subsImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage()
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -72,8 +73,8 @@ class TIPYourSubsCollectionViewCell: UICollectionViewCell {
 //        subsBackground.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: 0).isActive = true
 //        subsBackground.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0).isActive = true
         
-        self.subsImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 25).isActive = true
-        self.subsImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 1).isActive = true
+        self.subsImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: self.contentView.frame.size.height/6).isActive = true
+        self.subsImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0.5).isActive = true
         self.subsImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5).isActive = true
         self.subsImage.heightAnchor.constraint(equalTo: self.subsImage.widthAnchor, multiplier: 1).isActive = true
     
