@@ -10,7 +10,8 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
     let yourSubsReuse = "yourSubsNShit"
     let subscribersReuse = "SubsNShit"
     
-    var subbedToUsers: [TIPSearchUser] = [TIPSearchUser]()
+    var subbedToUsers: [AnyObject] = [AnyObject]()
+    var subscribedUsers: [AnyObject] = [AnyObject]()
     let messageListReuseId: String = "iro.reuseId.messageList"
     
     override func viewDidLoad() {
@@ -19,26 +20,36 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         //self.view.backgroundColor = .iroGray
         self.view.addSubview(self.backgroundImageView)
 //        self.view.addSubview(messageListCollectionView)
-        self.view.addSubview(yourSubsCollectionView)
-        yourSubsCollectionView.register(TIPYourSubsCollectionViewCell.self, forCellWithReuseIdentifier: yourSubsReuse)
-        self.view.addSubview(upperWhiteSpace)
-        self.view.addSubview(subscribersCollectionView)
-        subscribersCollectionView.register(TIPSubscribersCollectionViewCell.self, forCellWithReuseIdentifier: subscribersReuse)
-        self.view.addSubview(lowerWhiteSpace)
-
-        self.setUpConstraints()
+      
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+//        TIPUser.currentUser?.subscribedTo
         self.configureTIPNavBar()
         self.addPullDownMenu()
         
+        self.view.addSubview(self.yourSubsCollectionView)
+        self.yourSubsCollectionView.register(TIPYourSubsCollectionViewCell.self, forCellWithReuseIdentifier: self.yourSubsReuse)
+        self.view.addSubview(self.upperWhiteSpace)
+        self.view.addSubview(self.subscribersCollectionView)
+        self.subscribersCollectionView.register(TIPSubscribersCollectionViewCell.self, forCellWithReuseIdentifier: self.subscribersReuse)
+        self.view.addSubview(self.lowerWhiteSpace)
+        self.view.addSubview(followersLabel)
+        self.view.addSubview(fanRankForSubscriptionLabel)
+        self.view.addSubview(subscribersLabel)
+        self.view.addSubview(followingSinceLabel)
+        self.view.addSubview(subscribersFanRanking)
+        self.view.addSubview(totalGivenToYou)
+        
+        self.setUpConstraints()
+
+        
         //self.tabBarController?.navigationController?.isNavigationBarHidden = true
         self.getSubs()
+        self.addPullDownMenu()
     }
     
     func getFeed() {
@@ -67,6 +78,7 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
     func getSubs() {
         
         self.subbedToUsers.removeAll()
+        self.subscribedUsers.removeAll()
         
         guard let subbedTo = TIPUser.currentUser?.subscribedTo else {
             return
@@ -76,20 +88,34 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
             return
         }
         
+        self.subbedToUsers.append(UIImage())
+        self.subscribedUsers.append(UIImage())
+        
         TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
             
             if let users: [TIPSearchUser] = SearchUsers {
                 for user: TIPSearchUser in users {
                     
-                    if subbedTo.contains(user.userId) || subbing.contains(user.userId) {
+                    if subbedTo.contains(user.userId)   {
                         self.subbedToUsers.append(user)
+                        print ("Subscribed to this many fuckers:", self.subbedToUsers.count)
+                    }
+                    if subbing.contains(user.userId){
+                        self.subscribedUsers.append(user)
+                        print ("This many fuckers are subscribed to you:", self.subscribedUsers.count)
                     }
                 }
             }
             
+            self.subbedToUsers.append(UIImage())
+            self.subscribedUsers.append(UIImage())
+            self.subscribersCollectionView.reloadData()
+            self.yourSubsCollectionView.reloadData()
 //            self.messageListCollectionView.reloadData()
+            
         }
-        
+  
+
     }
 
     // MARK: - Lazy Initialization
@@ -145,7 +171,70 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    lazy var followersLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "-Followers- \n \n 718 "
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var fanRankForSubscriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "Username \n \n Your Fan Rank: #1"
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var subscribersLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "-Subscribers- \n \n 47"
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
+    lazy var followingSinceLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "-Following Since- \n \n 9/11/01"
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    lazy var subscribersFanRanking: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "Username \n \n Fan Rank: #69"
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    
+    lazy var totalGivenToYou: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.text = "-Total Given- \n \n 219,450"
+        label.font = UIFont(name: AppDelegate.shared.fontName, size: 15)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    
+    
     
 //    lazy var messageListCollectionView: UITableView = {
 //        //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -177,6 +266,15 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         self.upperWhiteSpace.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.upperWhiteSpace.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.12).isActive = true
         
+        self.followersLabel.topAnchor.constraint(equalTo: yourSubsCollectionView.bottomAnchor, constant: 25).isActive = true
+        self.followersLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
+        
+        self.fanRankForSubscriptionLabel.topAnchor.constraint(equalTo: self.followersLabel.topAnchor).isActive = true
+        self.fanRankForSubscriptionLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.subscribersLabel.topAnchor.constraint(equalTo: self.fanRankForSubscriptionLabel.topAnchor).isActive = true
+        self.subscribersLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
+        
         self.subscribersCollectionView.topAnchor.constraint(equalTo: self.upperWhiteSpace.bottomAnchor, constant: 30).isActive = true
         self.subscribersCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.subscribersCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
@@ -187,7 +285,14 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         self.lowerWhiteSpace.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.lowerWhiteSpace.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.12).isActive = true
         
+        self.followingSinceLabel.topAnchor.constraint(equalTo: lowerWhiteSpace.topAnchor, constant: 15).isActive = true
+        self.followingSinceLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
         
+        self.subscribersFanRanking.topAnchor.constraint(equalTo: followingSinceLabel.topAnchor).isActive = true
+        self.subscribersFanRanking.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.totalGivenToYou.topAnchor.constraint(equalTo: subscribersFanRanking.topAnchor).isActive = true
+        self.totalGivenToYou.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
         
         
         
@@ -197,7 +302,7 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
 //        self.messageListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
     
-    func goToChat(user: TIPSearchUser, for cell: TIPMessageListTableViewCell){
+    func goToChat(user: TIPSearchUser){
         
         guard let myUserId = TIPUser.currentUser?.userId else {
             print("NO CURRENT USER ID!!!")
@@ -229,21 +334,72 @@ extension TIPMessagesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 5
+        
+        if collectionView == yourSubsCollectionView{
+          return self.subbedToUsers.count
+        }else{
+            return self.subscribedUsers.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == yourSubsCollectionView{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.yourSubsReuse, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.yourSubsReuse, for: indexPath) as! TIPYourSubsCollectionViewCell
+            
+            if let searchUser = self.subbedToUsers[indexPath.item] as? TIPSearchUser {
+                cell.subsImage.loadImageUsingCacheFromUrlString(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "coin_stack"), completion: {})
+                cell.searchUser = searchUser
+                cell.subsBackground.isHidden = false
+            } else {
+                cell.subsBackground.isHidden = true
+            }
+            
+            
+
+//            self.subbedToUsers[indexPath.row].profileImageURL
+            
+//            if let profileURL = self.subbedToUsers[indexPath.row].profileImageURL {
+//                cell.subsImage.loadImageUsingCacheFromUrlString(urlString: profileURL, placeHolder: UIImage(named: "empty_profile")!) {}
+//            } else {
+//                cell.subsImage.loadImageUsingCacheFromUrlString(urlString: "no image", placeHolder: UIImage(named: "empty_profile")!) {}
+//            }
+
             return cell
 
-        }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.subscribersReuse, for: indexPath)
+        } else {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.subscribersReuse, for: indexPath) as! TIPSubscribersCollectionViewCell
+            
+            if let searchUser = self.subscribedUsers[indexPath.item] as? TIPSearchUser {
+                cell.subsImage.loadImageUsingCacheFromUrlString(urlString: searchUser.profileImageURL, placeHolder: #imageLiteral(resourceName: "coin_stack"), completion: {})
+                cell.searchUser = searchUser
+                cell.subsBackground.isHidden = false
+            } else {
+                cell.subsBackground.isHidden = true
+            }
+            
+            
+            
+
             return cell
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if collectionView == yourSubsCollectionView {
+            let cell: TIPYourSubsCollectionViewCell = self.yourSubsCollectionView.cellForItem(at: indexPath) as! TIPYourSubsCollectionViewCell
+            
+            if let searchUser = cell.searchUser {
+                self.goToChat(user: searchUser)
+            }
+            
+        }
+        
+    }
+    
 }
 
 
@@ -255,7 +411,8 @@ extension TIPMessagesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView == yourSubsCollectionView{
-        let size = CGSize(width: (collectionView.bounds.width) / 2, height: collectionView.bounds.height)
+        //let size = CGSize(width: (collectionView.bounds.width) / 2, height: collectionView.bounds.height)
+            let size = CGSize(width: collectionView.bounds.height - 10, height: collectionView.bounds.height - 10)
         return size
         }else{
             let size = CGSize(width: (collectionView.bounds.width) / 3.3, height: collectionView.bounds.height)
@@ -332,7 +489,7 @@ extension TIPMessagesViewController: UICollectionViewDelegateFlowLayout {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == yourSubsCollectionView {
-        scrollToNearestVisibleCollectionViewCellTop()
+            scrollToNearestVisibleCollectionViewCellTop()
         }else{
             scrollToNearestVisibleCollectionViewCellBottom()
         }
