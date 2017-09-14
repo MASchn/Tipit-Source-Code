@@ -12,7 +12,7 @@ class TIPMainPageViewController: UIViewController {
     
     var iconTop: NSLayoutConstraint?
     
-    var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "settings_icon"), UIImage()]
+    var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "coin_stack"),#imageLiteral(resourceName: "settings_icon"), UIImage()]
     var iconSelection = 0
     
     let iconReuseId = "iro.reuseId.main"
@@ -361,10 +361,11 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
         case 7:
             AppDelegate.shared.tabBarController?.selectedIndex = 4
             self.navigationController?.dismiss(animated: true, completion: {})
-        case 8:
+        case 9:
             let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
             let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)
             self.present(settingsNavController, animated: true, completion: nil)
+
         default:
             break
         }

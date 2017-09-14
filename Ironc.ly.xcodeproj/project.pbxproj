@@ -76,6 +76,7 @@
 		37DD13AA1F08111900237CF8 /* TIPNoConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A91F08111900237CF8 /* TIPNoConnectionView.swift */; };
 		37DD13AC1F08113300237CF8 /* TIPEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */; };
 		840C62611F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */; };
+		841230501F63126E00BDE8BA /* TIPWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8412304F1F63126E00BDE8BA /* TIPWalletViewController.swift */; };
 		843247DC1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843247DB1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift */; };
 		843247DE1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843247DD1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift */; };
 		8432BA641F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */; };
@@ -94,7 +95,6 @@
 		FABBD3611F2948920061567F /* TIPMessageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */; };
 		FABC3BD31F5F1E8B0018FFFE /* scratchy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FABC3BD21F5F1E8B0018FFFE /* scratchy.ttf */; };
 		FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */; };
-		FAD67B0B1F632A03006C30BA /* TIPWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD67B0A1F632A03006C30BA /* TIPWalletViewController.swift */; };
 		FAEA2DC71F23F097004B116C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEA2DC61F23F097004B116C /* StoreKit.framework */; };
 		FAFEB18D1F5DB9CC00FFC17E /* freehand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */; };
 		FAFEB18F1F5DCCFC00FFC17E /* TIPPullDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEB18E1F5DCCFC00FFC17E /* TIPPullDownMenu.swift */; };
@@ -176,6 +176,7 @@
 		37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEmptyStateView.swift; path = UI/Views/TIPEmptyStateView.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFilterCollectionViewCell.swift; path = UI/Cells/TIPFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		8412304F1F63126E00BDE8BA /* TIPWalletViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPWalletViewController.swift; sourceTree = "<group>"; };
 		843247DB1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPYourSubsCollectionViewCell.swift; sourceTree = "<group>"; };
 		843247DD1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPSubscribersCollectionViewCell.swift; sourceTree = "<group>"; };
 		8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPProfileStoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -194,7 +195,6 @@
 		FABBD3601F2948920061567F /* TIPMessageListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMessageListTableViewCell.swift; path = UI/Cells/TIPMessageListTableViewCell.swift; sourceTree = "<group>"; };
 		FABC3BD21F5F1E8B0018FFFE /* scratchy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scratchy.ttf; sourceTree = "<group>"; };
 		FAC8B71E1F59B27000CF009C /* TIPMainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPMainPageViewController.swift; path = "UI/View Controllers/TIPMainPageViewController.swift"; sourceTree = "<group>"; };
-		FAD67B0A1F632A03006C30BA /* TIPWalletViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPWalletViewController.swift; path = "UI/View Controllers/TIPWalletViewController.swift"; sourceTree = "<group>"; };
 		FAEA2DC61F23F097004B116C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FAFEB18C1F5DB9CC00FFC17E /* freehand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freehand.ttf; sourceTree = "<group>"; };
 		FAFEB18E1F5DCCFC00FFC17E /* TIPPullDownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPPullDownMenu.swift; path = UI/Views/TIPPullDownMenu.swift; sourceTree = "<group>"; };
@@ -405,7 +405,6 @@
 				37079BC01F01914F0022E014 /* TIPPostViewController.swift */,
 				37079BC11F01914F0022E014 /* TIPPreviewViewController.swift */,
 				37079BC21F01914F0022E014 /* TIPProfileViewController.swift */,
-				FAD67B0A1F632A03006C30BA /* TIPWalletViewController.swift */,
 				37079BC31F01914F0022E014 /* TIPRegisterViewController.swift */,
 				37079BC41F01914F0022E014 /* TIPSearchViewController.swift */,
 				37079BC51F01914F0022E014 /* TIPSettingsViewController.swift */,
@@ -413,6 +412,7 @@
 				37079BC71F01914F0022E014 /* TIPTabBarController.swift */,
 				37079BC81F01914F0022E014 /* TIPUserTableViewController.swift */,
 				37DD13A51F0598D400237CF8 /* TIPPersonalProfileViewController.swift */,
+				8412304F1F63126E00BDE8BA /* TIPWalletViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -644,7 +644,7 @@
 				FAC8B71F1F59B27000CF009C /* TIPMainPageViewController.swift in Sources */,
 				37079BAC1F0191340022E014 /* TIPCoinTableViewCell.swift in Sources */,
 				37079BD81F01914F0022E014 /* TIPSearchViewController.swift in Sources */,
-				FAD67B0B1F632A03006C30BA /* TIPWalletViewController.swift in Sources */,
+				841230501F63126E00BDE8BA /* TIPWalletViewController.swift in Sources */,
 				37079BDC1F01914F0022E014 /* TIPUserTableViewController.swift in Sources */,
 				370E36681E43B24500F8FF9E /* TIPUser.swift in Sources */,
 				37079BD21F01914F0022E014 /* TIPPagingTabViewController.swift in Sources */,

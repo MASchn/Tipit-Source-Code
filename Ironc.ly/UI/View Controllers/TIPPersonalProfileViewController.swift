@@ -24,13 +24,20 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        
         self.userId = TIPUser.currentUser?.userId
         
         super.viewWillAppear(animated)
         
+        
+        
         guard let user: TIPUser = TIPUser.currentUser else {
             return
         }
+      
+        
+        
+
         
         self.followers = user.followersList
         self.following = user.followingList
@@ -114,6 +121,18 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         self.coinsLabel.isHidden = true
         self.coinsEarnedLabel.isHidden = true
         
+//        let walletButton = UIBarButtonItem.init(
+//            title: "Wallet",
+//            style: .plain,
+//            target: self,
+//            action: #selector(self.moveToWalletView))
+//        
+//        self.navigationController?.navigationItem.setLeftBarButton(walletButton, animated: true)
+        
+        
+
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Wallet", style: .plain, target: self, action: #selector(self.moveToWalletView))
+
         
         self.getPersonalStory()
     }
@@ -140,7 +159,6 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         let button: UIButton = UIButton()
         button.setImage(#imageLiteral(resourceName: "buy_coins"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "pressed_buy_coins"), for: .highlighted)
-        button.addTarget(self, action: #selector(self.buyCoinsTapped), for: .touchUpInside)
         button.addTarget(self, action: #selector(self.buyCoinsHeldDown), for: .touchDown)
         button.addTarget(self, action: #selector(self.buyCoinsLetGo), for: .touchDragExit)
         //button.imageView?.contentMode = .scaleAspectFill
@@ -148,6 +166,11 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    func moveToWalletView(){
+        let walletview = TIPWalletViewController()
+        self.navigationController?.pushViewController(walletview, animated: true)
+    }
     
     func setUpPersonalConstraints() {
         
@@ -202,12 +225,7 @@ class TIPPersonalProfileViewController: TIPProfileViewController {
         }
     }
     
-    func buyCoinsTapped() {
-        let buyCoinsViewController: TIPBuyCoinsViewController = TIPBuyCoinsViewController(style: .grouped)
-        //buyCoinsViewController.delegate = self
-        let navigationController: UINavigationController = UINavigationController(rootViewController: buyCoinsViewController)
-        self.present(navigationController, animated: true, completion: nil)
-    }
+
     
     func buyCoinsHeldDown() {
         self.buyCoinsTop?.constant += 5
