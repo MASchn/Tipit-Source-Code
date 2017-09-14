@@ -118,32 +118,76 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         self.subbedToUsers.append(UIImage())
         self.subscribedUsers.append(UIImage())
         
-        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
+        let firstGroup = DispatchGroup()
+        let secondGroup = DispatchGroup()
+        
+        for sub in subbedTo{
             
-            if let users: [TIPSearchUser] = SearchUsers {
-                for user: TIPSearchUser in users {
-                    
-                    if subbedTo.contains(user.userId)   {
-                        self.subbedToUsers.append(user)
-                        print ("Subscribed to this many fuckers:", self.subbedToUsers.count)
-                    }
-                    if subbing.contains(user.userId){
-                        self.subscribedUsers.append(user)
-                        print ("This many fuckers are subscribed to you:", self.subscribedUsers.count)
-                    }
+            firstGroup.enter()
+            
+            TIPAPIClient.pullSpecificUserInfo(userID: sub, completionHandler: { (searchUser, error) in
+                
+                if let user = searchUser{
+                    self.subbedToUsers.append(user)
                 }
-            }
+                
+                firstGroup.leave()
+            })
+        }
+        
+        for sub in subbing{
             
+            secondGroup.enter()
+            
+            TIPAPIClient.pullSpecificUserInfo(userID: sub, completionHandler: { (searchUser, error) in
+                
+                if let user = searchUser{
+                    self.subscribedUsers.append(user)
+                }
+                
+                secondGroup.leave()
+            })
+        }
+        
+        firstGroup.notify(queue: DispatchQueue.main) {
             self.subbedToUsers.append(UIImage())
+            self.yourSubsCollectionView.reloadData()
+        }
+        
+        secondGroup.notify(queue: DispatchQueue.main) {
             self.subscribedUsers.append(UIImage())
             self.subscribersCollectionView.reloadData()
-            self.yourSubsCollectionView.reloadData()
+        }
+        
+    }
+    
+//        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
+    
+        
+//            if let users: [TIPSearchUser] = SearchUsers {
+//                for user: TIPSearchUser in users {
+//                    
+//                    if subbedTo.contains(user.userId)   {
+//                        self.subbedToUsers.append(user)
+//                        print ("Subscribed to this many fuckers:", self.subbedToUsers.count)
+//                    }
+//                    if subbing.contains(user.userId){
+//                        self.subscribedUsers.append(user)
+//                        print ("This many fuckers are subscribed to you:", self.subscribedUsers.count)
+//                    }
+//                }
+//            }
+//            
+//            self.subbedToUsers.append(UIImage())
+//            self.subscribedUsers.append(UIImage())
+//            self.subscribersCollectionView.reloadData()
+//            self.yourSubsCollectionView.reloadData()
 //            self.messageListCollectionView.reloadData()
             
-        }
+        
   
 
-    }
+    
 
     // MARK: - Lazy Initialization
     
