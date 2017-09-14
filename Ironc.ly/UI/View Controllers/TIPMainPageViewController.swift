@@ -26,8 +26,8 @@ class TIPMainPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scrollView = self.iconCollectionView;
-        scrollView.delegate = self;
+        let scrollView = self.iconCollectionView
+        scrollView.delegate = self
         
         self.view.addSubview(self.backgroundImageView)
         //self.view.addSubview(self.iconImageView)

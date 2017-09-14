@@ -76,6 +76,8 @@
 		37DD13AA1F08111900237CF8 /* TIPNoConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13A91F08111900237CF8 /* TIPNoConnectionView.swift */; };
 		37DD13AC1F08113300237CF8 /* TIPEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */; };
 		840C62611F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */; };
+		843247DC1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843247DB1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift */; };
+		843247DE1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843247DD1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift */; };
 		8432BA641F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */; };
 		DA72DF1118F5082A15C3EEA9 /* Pods_Ironc_ly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */; };
 		FA0490151F27BD170093E3EE /* diamond.json in Resources */ = {isa = PBXBuildFile; fileRef = FA0490141F27BD170093E3EE /* diamond.json */; };
@@ -174,6 +176,8 @@
 		37DD13AB1F08113300237CF8 /* TIPEmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPEmptyStateView.swift; path = UI/Views/TIPEmptyStateView.swift; sourceTree = "<group>"; };
 		61A49348F6339EFD26163BCA /* Pods-Ironc.ly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ironc.ly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ironc.ly/Pods-Ironc.ly.debug.xcconfig"; sourceTree = "<group>"; };
 		840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TIPFilterCollectionViewCell.swift; path = UI/Cells/TIPFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		843247DB1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPYourSubsCollectionViewCell.swift; sourceTree = "<group>"; };
+		843247DD1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPSubscribersCollectionViewCell.swift; sourceTree = "<group>"; };
 		8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TIPProfileStoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		E54470B742B7828ED5B2D012 /* Pods_Ironc_ly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ironc_ly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0490141F27BD170093E3EE /* diamond.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = diamond.json; sourceTree = "<group>"; };
@@ -427,6 +431,8 @@
 				840C62601F55DAAA00B5A083 /* TIPFilterCollectionViewCell.swift */,
 				8432BA631F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift */,
 				FAFEB1901F5DECC200FFC17E /* TIPPullDownCollectionViewCell.swift */,
+				843247DB1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift */,
+				843247DD1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -603,6 +609,7 @@
 				370E36661E43B22900F8FF9E /* TIPPost.swift in Sources */,
 				37079BD51F01914F0022E014 /* TIPPreviewViewController.swift in Sources */,
 				8432BA641F5769FC003F694F /* TIPProfileStoryCollectionViewCell.swift in Sources */,
+				843247DE1F65D63A00598AB9 /* TIPSubscribersCollectionViewCell.swift in Sources */,
 				37079BEC1F0191A40022E014 /* PhotoViewController.swift in Sources */,
 				37079BDB1F01914F0022E014 /* TIPTabBarController.swift in Sources */,
 				37079BF21F0191A40022E014 /* VideoViewController.swift in Sources */,
@@ -614,6 +621,7 @@
 				37079BDA1F01914F0022E014 /* TIPStoryViewController.swift in Sources */,
 				37417E041E8EB6A200E1AF62 /* TIPValidator.swift in Sources */,
 				37079BCD1F01914F0022E014 /* TIPFollowersViewController.swift in Sources */,
+				843247DC1F65B3EB00598AB9 /* TIPYourSubsCollectionViewCell.swift in Sources */,
 				37079BD31F01914F0022E014 /* TIPPlaceholderViewController.swift in Sources */,
 				37079BAE1F0191340022E014 /* TIPFeedCollectionViewCell.swift in Sources */,
 				37079BD01F01914F0022E014 /* TIPLoginViewController.swift in Sources */,
@@ -793,6 +801,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tipitinc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

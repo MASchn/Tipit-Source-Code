@@ -41,8 +41,6 @@ class TIPProfileStoryCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-//        self.storyImage.image = nil
-        
     }
     
     
