@@ -49,7 +49,7 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
         
         //self.tabBarController?.navigationController?.isNavigationBarHidden = true
         self.getSubs()
-        self.backgroundImageView.image = TIPLoginViewController.backgroundPicArray[TIPUser.currentUser?.backgroundPicSelection ?? 0]
+        self.addPullDownMenu()
     }
     
     func getFeed() {
@@ -115,22 +115,31 @@ class TIPMessagesViewController: TIPViewControllerWIthPullDown {
             return
         }
         
-        let firstGroup = DispatchGroup()
+        self.subbedToUsers.append(UIImage())
+        self.subscribedUsers.append(UIImage())
         
-        for sub in subbedTo {
+        TIPAPIClient.searchUsers(query: "") { (SearchUsers: [TIPSearchUser]?, error: Error?) in
             
-            firstGroup.enter()
-            
-            TIPAPIClient.pullSpecificUserInfo(userID: sub, completionHandler: { (searchUser, error) in
-                if let user: TIPSearchUser = searchUser {
-                    self.subbedToUsers.append(user)
-                    firstGroup.leave()
+            if let users: [TIPSearchUser] = SearchUsers {
+                for user: TIPSearchUser in users {
+                    
+                    if subbedTo.contains(user.userId)   {
+                        self.subbedToUsers.append(user)
+                        print ("Subscribed to this many fuckers:", self.subbedToUsers.count)
+                    }
+                    if subbing.contains(user.userId){
+                        self.subscribedUsers.append(user)
+                        print ("This many fuckers are subscribed to you:", self.subscribedUsers.count)
+                    }
                 }
-            })
-        }
-        
-        firstGroup.notify(queue: DispatchQueue.main) {
-            self.messageListCollectionView.reloadData()
+            }
+            
+            self.subbedToUsers.append(UIImage())
+            self.subscribedUsers.append(UIImage())
+            self.subscribersCollectionView.reloadData()
+            self.yourSubsCollectionView.reloadData()
+//            self.messageListCollectionView.reloadData()
+            
         }
   
 
