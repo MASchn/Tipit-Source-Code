@@ -53,6 +53,7 @@ class TIPWalletViewController: TIPViewControllerWIthPullDown {
         self.configureTIPNavBar()
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "cancel"), style: .plain, target: self, action: #selector(self.tappedBackButton))
         self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "navBarWithBackButton").resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "rsz_backtomenuedited"), style: .plain, target: self, action: #selector(self.pullUpMainMenu))
         self.addPullDownMenu()
         self.setUpWalletConstraints()
 
@@ -60,7 +61,11 @@ class TIPWalletViewController: TIPViewControllerWIthPullDown {
         
         
     }
-    
+    func goToMainMenu() {
+        self.navigationController?.dismiss(animated: true, completion: { 
+            
+        })
+    }
     func populateLabels(){
         
         self.coinsLabel.text = "-COINS- \n \(TIPUser.currentUser?.coins ?? 0)"
@@ -277,5 +282,52 @@ class TIPWalletViewController: TIPViewControllerWIthPullDown {
         
     }
     
+    
+}
+
+//pull down menu delegate overrides
+
+extension TIPWalletViewController {
+    
+    override func dismissView() {
+        
+        let mainVC = self.presentingViewController
+        
+        self.navigationController?.dismiss(animated: false, completion: {
+            mainVC?.dismiss(animated: false, completion: {
+                //
+            })
+        })
+    }
+    
+    override func hideMenuBringUpNewView(view: UIViewController) {
+        
+        self.hidePullDownMenuFast()
+        
+        self.present(view, animated: true) {
+            //
+        }
+        
+    }
+    
+    override func hidePullDownMenuFast() {
+        
+        self.pullDownMenuBottom?.constant = navBarHeight
+        self.view.layoutIfNeeded()
+    }
+    
+    override func animateMenu() {
+        if self.pullDownMenuBottom?.constant == navBarHeight {
+            self.pullDownMenuBottom?.constant += (self.pullDownView.bounds.size.height - navBarHeight)
+        } else {
+            self.pullDownMenuBottom?.constant = navBarHeight
+        }
+        
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }) { (completed: Bool) in
+            
+        }
+    }
     
 }

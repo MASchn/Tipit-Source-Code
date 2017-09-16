@@ -13,6 +13,7 @@ class TIPCamViewController: SwiftyCamViewController {
     var videoTimerSeconds: Int = 0
     //var navBarHeight: CGFloat = 0
     var pullDownMenuBottom: NSLayoutConstraint?
+    var isVideoCameraMode: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,7 @@ class TIPCamViewController: SwiftyCamViewController {
         //self.view.bringSubview(toFront: self.prev)
         self.view.addSubview(self.bottomImageView)
         self.view.addSubview(self.captureButton)
+        self.view.addSubview(self.videoCaptureButton)
         //self.view.addSubview(self.cancelButton)
         self.view.addSubview(self.switchCameraButton)
         self.view.addSubview(self.flashButton)
@@ -42,6 +44,14 @@ class TIPCamViewController: SwiftyCamViewController {
         //        let navTap = UITapGestureRecognizer(target: self, action: #selector(self.pullDownPressed))
         //        self.navigationController?.navigationBar.isUserInteractionEnabled = true
         //        self.navigationController?.navigationBar.addGestureRecognizer(navTap)
+        
+        if self.isVideoCameraMode == true {
+            self.captureButton.isHidden = true
+            self.videoCaptureButton.isHidden = false
+        } else {
+            self.captureButton.isHidden = false
+            self.videoCaptureButton.isHidden = true
+        }
         
         self.view.addSubview(self.pullDownView)
         let pullUpPan = UIPanGestureRecognizer(target: self, action: #selector(self.panUpMenu))
@@ -144,17 +154,7 @@ class TIPCamViewController: SwiftyCamViewController {
         return button
     }()
     
-    lazy var coolButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
-        //button.tintColor = UIColor.white
-        button.addTarget(self, action: #selector(self.takePicturePressed), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var captureButton: SwiftyCamButton = {
+    lazy var swiftCaptureButton: SwiftyCamButton = {
         let button: SwiftyCamButton = SwiftyCamButton()
         button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
@@ -162,6 +162,29 @@ class TIPCamViewController: SwiftyCamViewController {
         button.delegate = self
         //button.addTarget(self, action: #selector(self.takePicturePressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var captureButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        //button.delegate = self
+        button.addTarget(self, action: #selector(self.takePicturePressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    lazy var videoCaptureButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.setImage(#imageLiteral(resourceName: "arcadeButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arcadeButtonPressed"), for: .highlighted)
+        //button.tintColor = UIColor.white
+        //button.delegate = self
+        button.addTarget(self, action: #selector(self.startVideoPressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
     
@@ -225,6 +248,11 @@ class TIPCamViewController: SwiftyCamViewController {
         self.captureButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.captureButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.45).isActive = true
         self.captureButton.heightAnchor.constraint(equalTo: self.captureButton.widthAnchor, multiplier: 1).isActive = true
+        
+        self.videoCaptureButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: self.view.frame.size.height/3.5).isActive = true
+        self.videoCaptureButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.videoCaptureButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.45).isActive = true
+        self.videoCaptureButton.heightAnchor.constraint(equalTo: self.captureButton.widthAnchor, multiplier: 1).isActive = true
         
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
         self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -12).isActive = true
@@ -348,6 +376,15 @@ class TIPCamViewController: SwiftyCamViewController {
         self.takePhoto()
     }
     
+    func startVideoPressed() {
+        
+        if self.isVideoRecording == false {
+            self.startVideoRecording()
+        } else {
+            self.stopVideoRecording()
+        }
+    }
+    
     @objc private func tappedSwitchCameraButton() {
         self.switchCamera()
     }
@@ -408,6 +445,8 @@ extension TIPCamViewController: SwiftyCamViewControllerDelegate {
             self.cancelButton.alpha = 0.0
             self.flashButton.alpha = 0.0
             self.switchCameraButton.alpha = 0.0
+            self.backButton.alpha = 0.0
+            self.photoLibraryButton.alpha = 0.0
             self.timerLabel.alpha = 1.0
         })
     }
@@ -424,6 +463,8 @@ extension TIPCamViewController: SwiftyCamViewControllerDelegate {
             self.cancelButton.alpha = 1.0
             self.flashButton.alpha = 1.0
             self.switchCameraButton.alpha = 1.0
+            self.backButton.alpha = 1.0
+            self.photoLibraryButton.alpha = 1.0
             self.timerLabel.alpha = 0.0
         })
     }

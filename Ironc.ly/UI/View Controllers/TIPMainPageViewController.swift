@@ -344,10 +344,15 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as! TIPProfileStoryCollectionViewCell
-
+        
 //        var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "settings_icon"), UIImage()]
         
         switch cell.tag {
+        case 3:
+            let cameraViewController: TIPCamViewController = TIPCamViewController()
+            cameraViewController.isVideoCameraMode = true
+            let cameraNavController = UINavigationController(rootViewController: cameraViewController)
+            self.present(cameraNavController, animated: true, completion: nil)
         case 4:
             let cameraViewController: TIPCamViewController = TIPCamViewController()
             let cameraNavController = UINavigationController(rootViewController: cameraViewController)
@@ -361,6 +366,10 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
         case 7:
             AppDelegate.shared.tabBarController?.selectedIndex = 4
             self.navigationController?.dismiss(animated: true, completion: {})
+        case 8:
+            let walletview = TIPWalletViewController()
+            let walletNavController = UINavigationController(rootViewController: walletview)
+            self.present(walletNavController, animated: true, completion: nil)
         case 9:
             let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
             let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)

@@ -371,7 +371,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         coinsToTip = 500.0 * floor((coinsToTip/500.0)+0.5)
         self.coinsLabel.text = "\(Int(coinsToTip.rounded())) Coins"
         
-        let minToAdd = coinsToTip.rounded() / 10
+        //let minToAdd = coinsToTip.rounded() / 10
         //print("MIN TO ADD: \(minToAdd)")
     }
     
@@ -393,10 +393,10 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     
     func tappedSubButton(sender: UIButton) {
         
-        let theCell = self as? TIPFeedCollectionViewCell
+        let theCell = self
         
         if let feedItem: TIPFeedItem = self.feedItem {
-            self.delegate?.feedCellDidTapSubscribe(feedItem: feedItem, cell: theCell!)
+            self.delegate?.feedCellDidTapSubscribe(feedItem: feedItem, cell: theCell)
         }
     }
     
