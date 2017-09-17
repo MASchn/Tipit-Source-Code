@@ -12,7 +12,7 @@ class TIPMainPageViewController: UIViewController {
     
     var iconTop: NSLayoutConstraint?
     
-    var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "coin_stack"),#imageLiteral(resourceName: "settings_icon"), UIImage()]
+    var iconImageArray = [UIImage(), #imageLiteral(resourceName: "draw_icon"), #imageLiteral(resourceName: "type_icon"), #imageLiteral(resourceName: "video_icon"), #imageLiteral(resourceName: "camera_icon"), #imageLiteral(resourceName: "messaging_icon"), #imageLiteral(resourceName: "feed_icon"), #imageLiteral(resourceName: "profile_icon"), #imageLiteral(resourceName: "walletIcon"), #imageLiteral(resourceName: "settings_icon"), UIImage()]
     var iconSelection = 0
     
     let iconReuseId = "iro.reuseId.main"
@@ -365,11 +365,20 @@ extension TIPMainPageViewController: UICollectionViewDelegate {
             self.navigationController?.dismiss(animated: true, completion: {})
         case 7:
             AppDelegate.shared.tabBarController?.selectedIndex = 4
-            self.navigationController?.dismiss(animated: true, completion: {})
+            let profileNavVC = AppDelegate.shared.tabBarController?.viewControllers?[4] as? UINavigationController
+            self.navigationController?.dismiss(animated: true, completion: {
+                _ = profileNavVC?.popToRootViewController(animated: false)
+            })
         case 8:
-            let walletview = TIPWalletViewController()
-            let walletNavController = UINavigationController(rootViewController: walletview)
-            self.present(walletNavController, animated: true, completion: nil)
+            AppDelegate.shared.tabBarController?.selectedIndex = 4
+            let profileNavVC = AppDelegate.shared.tabBarController?.viewControllers?[4] as? UINavigationController
+            let walletView: TIPWalletViewController = TIPWalletViewController()
+            self.navigationController?.dismiss(animated: false, completion: { 
+                profileNavVC?.pushViewController(walletView, animated: false)
+            })
+            
+//            let walletNavController = UINavigationController(rootViewController: walletview)
+//            self.present(walletNavController, animated: true, completion: nil)
         case 9:
             let settingsViewController: TIPSettingsViewController = TIPSettingsViewController()
             let settingsNavController: UINavigationController = UINavigationController(rootViewController: settingsViewController)

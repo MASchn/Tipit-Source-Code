@@ -123,6 +123,19 @@ class VideoViewController: TIPPreviewViewController {
         }
     }
     
+    func clearTempFolder() {
+        let fileManager = FileManager.default
+        let tempFolderPath = NSTemporaryDirectory()
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: tempFolderPath)
+            for filePath in filePaths {
+                try fileManager.removeItem(atPath: tempFolderPath + filePath)
+            }
+        } catch {
+            print("Could not clear temp folder: \(error)")
+        }
+    }
+    
     func postContent(isPrivate: Bool) {
         guard let user: TIPUser = TIPUser.currentUser else { return }
         
@@ -144,11 +157,7 @@ class VideoViewController: TIPPreviewViewController {
                             completionHandler: {
                                 (success: Bool) in
                                 
-                                //                                DispatchQueue.main.async {
-                                //                                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
-                                //                                        //
-                                //                                    })
-                                //                                }
+                                self.clearTempFolder()
                         })
                     } catch let error {
                         print(error)

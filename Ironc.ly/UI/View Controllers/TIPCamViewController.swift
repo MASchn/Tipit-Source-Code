@@ -19,7 +19,7 @@ class TIPCamViewController: SwiftyCamViewController {
         super.viewDidLoad()
         
         self.cameraDelegate = self
-        self.maximumVideoDuration = 11.0
+        self.maximumVideoDuration = 60.0
         self.videoQuality = .high
         //self.videoQuality = .resolution352x288
         

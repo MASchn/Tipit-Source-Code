@@ -470,6 +470,12 @@ extension TIPMessagesViewController: UICollectionViewDataSource {
                 self.goToChat(user: searchUser)
             }
             
+        } else {
+            let cell: TIPSubscribersCollectionViewCell = self.subscribersCollectionView.cellForItem(at: indexPath) as! TIPSubscribersCollectionViewCell
+            
+            if let searchUser = cell.searchUser {
+                self.goToChat(user: searchUser)
+            }
         }
         
     }

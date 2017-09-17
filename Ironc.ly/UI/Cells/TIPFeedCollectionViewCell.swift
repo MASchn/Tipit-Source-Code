@@ -39,7 +39,9 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.contentView.bringSubview(toFront: self.usernameLabel)
         //self.contentView.addSubview(self.topImageView)
         self.contentView.addSubview(self.bottomImageView)
-        
+        //self.contentView.addSubview(self.tipPickerView)
+        //self.contentView.addSubview(self.pickerImageView)
+        //self.contentView.addSubview(self.progressBarImageView)
         
         self.setUpFeedConstraints()
         self.setUpConstraints()
@@ -232,6 +234,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         slider.minimumTrackTintColor = .black
         slider.maximumTrackTintColor = .black
         slider.translatesAutoresizingMaskIntoConstraints = false
+        //slider.isHidden = true
         return slider
     }()
     
@@ -240,6 +243,7 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         label.font = UIFont(name: AppDelegate.shared.fontName, size: AppDelegate.shared.fontSize)
         label.text = "0 Coins"
         label.translatesAutoresizingMaskIntoConstraints = false
+        //label.isHidden = true
         return label
     }()
     
@@ -253,6 +257,29 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
     lazy var bottomImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "bottomOfFeedCell")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var tipPickerView: UIPickerView = {
+        let pickerView: UIPickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        //pickerView.isHidden = true
+        return pickerView
+    }()
+    
+    lazy var progressBarImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "progressBar")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var pickerImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "pickerViewDrawn")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -292,9 +319,20 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
 
         
         self.tipButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -self.contentView.frame.size.width/3).isActive = true
+        //self.tipButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 0).isActive = true
         self.tipButton.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
-        self.tipButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 1.7).isActive = true
+        self.tipButton.heightAnchor.constraint(equalTo: self.profileImageView.heightAnchor, multiplier: 2).isActive = true
         self.tipButton.widthAnchor.constraint(equalTo: self.tipButton.heightAnchor).isActive = true
+        
+//        self.progressBarImageView.leftAnchor.constraint(equalTo: self.tipButton.rightAnchor, constant: 5).isActive = true
+//        self.progressBarImageView.centerYAnchor.constraint(equalTo: self.tipButton.centerYAnchor, constant: 0).isActive = true
+//        self.progressBarImageView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 0.7).isActive = true
+//        self.progressBarImageView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.3).isActive = true
+//        
+//        self.pickerImageView.rightAnchor.constraint(equalTo: self.tipButton.leftAnchor, constant: -5).isActive = true
+//        self.pickerImageView.centerYAnchor.constraint(equalTo: self.tipButton.centerYAnchor, constant: 0).isActive = true
+//        self.pickerImageView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1).isActive = true
+//        self.pickerImageView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.3).isActive = true
         
         self.coinsLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 15).isActive = true
         self.coinsLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
@@ -303,7 +341,11 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         self.sliderView.topAnchor.constraint(equalTo: self.coinsLabel.bottomAnchor, constant: 0).isActive = true
         self.sliderView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1).isActive = true
         self.sliderView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
-        //self.sliderView.currentThumbImage?.size
+        
+//        self.tipPickerView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: self.contentView.frame.size.width/6).isActive = true
+//        self.tipPickerView.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 10).isActive = true
+//        self.tipPickerView.heightAnchor.constraint(equalTo: self.tipButton.heightAnchor, multiplier: 1.5).isActive = true
+//        self.tipPickerView.widthAnchor.constraint(equalTo: self.postImageView.widthAnchor, multiplier: 0.5).isActive = true
         
         self.triangleButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 5).isActive = true
         self.triangleButton.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -2).isActive = true
@@ -398,6 +440,22 @@ class TIPFeedCollectionViewCell: TIPStoryCollectionViewCell {
         if let feedItem: TIPFeedItem = self.feedItem {
             self.delegate?.feedCellDidTapSubscribe(feedItem: feedItem, cell: theCell)
         }
+    }
+    
+}
+
+extension TIPFeedCollectionViewCell: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 4
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 10
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row)"
     }
     
 }
